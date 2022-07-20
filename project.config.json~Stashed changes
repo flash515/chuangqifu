@@ -40,7 +40,7 @@
   "compileType": "miniprogram",
   "libVersion": "2.17.3",
   "appid": "wx810b87f0575b9a47",
-  "projectname": "小税宝",
+  "projectname": "创企服",
   "cloudfunctionRoot": "cloundfunctions/",
   "cloudfunctionTemplateRoot": "cloudfunctionTemplate",
   "watchOptions": {
@@ -209,12 +209,6 @@
         {
           "name": "pages/tools/test",
           "pathName": "pages/tools/test",
-          "query": "",
-          "scene": null
-        },
-        {
-          "name": "pages/index/aboutus",
-          "pathName": "pages/index/aboutus",
           "query": "",
           "scene": null
         },

@@ -1,0 +1,126 @@
+<view>
+  <swiper class="swiper" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" circular="{{circular}}"
+    vertical="{{vertical}}" interval="{{interval}}" duration="{{duration}}" previous-margin="{{previousMargin}}px"
+    next-margin="{{nextMargin}}px">
+    <block wx:for="{{image}}" wx:for-index="index" wx:key="key">
+      <swiper-item>
+        <image src="{{item}}" class="swiper image" mode="scaleToFill" />
+        <!-- <view class="swiper-item {{item.url}}"></view> -->
+      </swiper-item>
+    </block>
+  </swiper>
+</view>
+<view class="mainframe">
+  <l-tabs equal-width="{{false}}" scrollable="{{true}}">
+    <l-tabpanel tab="银行开户" key="one" slot="one">
+      <view wx:for="{{DKarray}}" wx:key="key">
+        <view class="title1">
+          {{item.ProductName}}{{item.ProductId}}
+        </view>
+        <label class="title1">概述：</label>
+        <view>
+          {{item.Outline}}
+        </view>
+        <label class="title1">办理费用：</label>
+        <view wx:if="{{avatarUrl=='' || nickName==''}}">
+          <button class="userinfo-nickname" bindtap='getUserProfile'>微信登录</button>
+        </view>
+        <view wx:else>
+          <view wx:if="{{usertype == 'admin'||usertype == 'provider'||discountlevel == 'DL1'}}"> {{item.Price1}}
+          </view>
+          <view wx:if="{{usertype == 'admin'||usertype == 'provider'||discountlevel == 'DL2'}}"> {{item.Price2}}
+          </view>
+          <view wx:if="{{usertype == 'admin'||usertype == 'provider'||discountlevel == 'DL3'}}">会员价：{{item.Price3}}
+          </view>
+          <view wx:if="{{usertype == 'admin'||usertype == 'provider'||discountlevel == 'DL4'}}">普客价：{{item.Price4}}
+          </view>
+        </view>
+        <label class="title1">推荐程度：</label>
+        <l-rate active-color="red" inActive-color="grey" score="{{item.Score}}" count="10" />
+        <view style="display:flex; flex-direction:row; " >
+          <l-button data-id="_id={{item._id}}" bind:lintap="bvProductDetail" plain="{{true}}" shape="semicircle"
+            icon="more" icon-color="blue">详细介绍</l-button>
+          <view><text decode="{{true}}">&emsp;</text></view>
+          <l-button icon="order" icon-color="white"
+            data-id="productid={{item.ProductId}}&productname={{item.ProductName}}&issuedplace={{item.IssuedPlace}}"
+            bind:lintap="bvNewOrder" shape="semicircle">我要办理</l-button>
+        </view>
+        <text>\n</text>
+      </view>
+    </l-tabpanel>
+    <l-tabpanel tab="调整额度" key="two" slot="two">
+      <view wx:for="{{GTarray}}" wx:key="key">
+        <view class="title1">
+          {{item.ProductName}}{{item.ProductId}}
+        </view>
+        <label class="title1">概述：</label>
+        <view>
+          {{item.Outline}}
+        </view>
+        <label class="title1">办理费用：</label>
+        <view wx:if="{{avatarUrl=='' || nickName==''}}">
+          <button class="userinfo-nickname" bindtap='getUserProfile'>微信登录</button>
+        </view>
+        <view wx:else>
+          <view wx:if="{{usertype == 'admin'||usertype == 'provider'||discountlevel == 'DL1'}}"> {{item.Price1}}
+          </view>
+          <view wx:if="{{usertype == 'admin'||usertype == 'provider'||discountlevel == 'DL2'}}"> {{item.Price2}}
+          </view>
+          <view wx:if="{{usertype == 'admin'||usertype == 'provider'||discountlevel == 'DL3'}}">会员价：{{item.Price3}}
+          </view>
+          <view wx:if="{{usertype == 'admin'||usertype == 'provider'||discountlevel == 'DL4'}}">普客价：{{item.Price4}}
+          </view>
+        </view>
+
+        <label class="title1">推荐程度：</label>
+        <l-rate active-color="red" inActive-color="grey" score="{{item.Score}}" count="10" />
+        <view style="display:flex; flex-direction:row;" >
+          <l-button data-id="_id={{item._id}}" bind:lintap="bvProductDetail" plain="{{true}}" shape="semicircle"
+            icon="more" icon-color="blue">详细介绍</l-button>
+          <view><text decode="{{true}}">&emsp;</text></view>
+          <l-button icon="order" icon-color="white"
+            data-id="productid={{item.ProductId}}&productname={{item.ProductName}}&issuedplace={{item.IssuedPlace}}"
+            bind:lintap="bvNewOrder" shape="semicircle">我要办理</l-button>
+        </view>
+        <text>\n</text>
+      </view>
+    </l-tabpanel>
+    <l-tabpanel tab="银行销户" key="three" slot="three">
+      <view wx:for="{{GDarray}}" wx:key="key">
+        <view class="title1">
+          {{item.ProductName}}{{item.ProductId}}
+        </view>
+        <label class="title1">概述：</label>
+        <view>
+          {{item.Outline}}
+        </view>
+        <label class="title1">办理费用：</label>
+        <view wx:if="{{avatarUrl=='' || nickName==''}}">
+          <button class="userinfo-nickname" bindtap='getUserProfile'>微信登录</button>
+        </view>
+        <view wx:else>
+          <view wx:if="{{usertype == 'admin'||usertype == 'provider'||discountlevel == 'DL1'}}"> {{item.Price1}}
+          </view>
+          <view wx:if="{{usertype == 'admin'||usertype == 'provider'||discountlevel == 'DL2'}}"> {{item.Price2}}
+          </view>
+          <view wx:if="{{usertype == 'admin'||usertype == 'provider'||discountlevel == 'DL3'}}">会员价：{{item.Price3}}
+          </view>
+          <view wx:if="{{usertype == 'admin'||usertype == 'provider'||discountlevel == 'DL4'}}">普客价：{{item.Price4}}
+          </view>
+        </view>
+        <label class="title1">推荐程度：</label>
+        <l-rate active-color="red" inActive-color="grey" score=" {{item.Score}} " count="10" />
+        <view style="display:flex; flex-direction:row;" >
+          <l-button data-id="_id={{item._id}}" bind:lintap="bvProductDetail" plain="{{true}}" shape="semicircle"
+            icon="more" icon-color="blue">详细介绍
+          </l-button>
+          <view><text decode="{{true}}">&emsp;</text></view>
+          <l-button icon="order" icon-color="white"
+            data-id="productid={{item.ProductId}}&productname={{item.ProductName}}&issuedplace={{item.IssuedPlace}}"
+            bind:lintap="bvNewOrder" shape="semicircle">我要办理</l-button>
+        </view>
+        <text>\n</text>
+      </view>
+    </l-tabpanel>
+  </l-tabs>
+</view>

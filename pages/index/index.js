@@ -26,18 +26,21 @@ Page({
         this.data.inviterid = scene.split('&')[0]
         console.log("扫码参数:", this.data.inviterid);
       } else {
-        // 两种都不带参数，则是搜索小程序进入，推荐人指定
-        this.data.inviterid = "omLS75T9_sWFA7pBwdg0uL6AUtcI"
+        // 两种都不带参数，则是搜索小程序进入，推荐人指定为开发人
+        this.data.inviterid = "oa1De5G404TbDrFGtCingTlGFQVQ"
         // this.data.inviterid = "omLS75Xib_obyxkVAahnBffPytcA"
         console.log("搜索进入参数:", this.data.inviterid);
       }
     }
     //获取小程序全局设置
     const db = wx.cloud.database()
-    db.collection('setting').where({
+    db.collection('setting')
+    .where({
       currentstatus: "effect"
-    }).get({
+    })
+    .get({
       success: res => {
+        console.log("轮播图：", res);
         wx.setStorageSync('LSetting', res.data[0]);
         //异步获取图片生成轮播图地址
         for (let i = 0; i < res.data[0].swiper.length; i++) {
@@ -125,7 +128,7 @@ Page({
                       openid: that.data.inviterid,
                       date1: new Date().toLocaleString(),
                       phrase2: "新用户",
-                      thing3: "有新的用户通过您的分享开启小税宝"
+                      thing3: "有新的用户通过您的分享开启创企服"
                     }
                   }).then(res => {
                     console.log("推送消息成功", res)
@@ -135,10 +138,10 @@ Page({
                   wx.cloud.callFunction({
                     name: 'SendNewUser',
                     data: {
-                      openid: "omLS75Xib_obyxkVAahnBffPytcA",
+                      openid: "oa1De5G404TbDrFGtCingTlGFQVQ",
                       date1: new Date().toLocaleString(),
                       phrase2: "新用户",
-                      thing3: "有新的用户开启小税宝"
+                      thing3: "有新的用户开启创企服"
                     }
                   }).then(res => {
                     console.log("推送消息成功", res)

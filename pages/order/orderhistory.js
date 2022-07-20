@@ -6,8 +6,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    dkorderhistory: [],
-    zcorderhistory:[],
+    orderhistory:[],
     discounthistory:[],
     promoterhistory:[],
     // 轮播参数
@@ -22,16 +21,10 @@ Page({
     nextMargin: 0
   },
   // 转到订单详情
-  bvDKOrdertDetail(e) {
+  bvOrdertDetail(e) {
     console.log(e.currentTarget.dataset.id)
     wx.navigateTo({
-      url: '../order/dkorderdetail?_id=' + e.currentTarget.dataset.id
-    })
-  },
-  bvZCOrdertDetail(e) {
-    console.log(e.currentTarget.dataset.id)
-    wx.navigateTo({
-      url: '../order/zcorderdetail?_id=' + e.currentTarget.dataset.id
+      url: '../order/orderdetail?_id=' + e.currentTarget.dataset.id
     })
   },
   bvRefresh(e){
@@ -45,14 +38,9 @@ Page({
         }]
       },
       success: res => {
-        if(e.currentTarget.dataset.name=="DKORDER"){
+if(e.currentTarget.dataset.name=="ORDER"){
           this.setData({
-            dkorderhistory: res.result.data
-          })
-        }
-        else if(e.currentTarget.dataset.name=="ZCORDER"){
-          this.setData({
-            zcorderhistory: res.result.data
+            orderhistory: res.result.data
           })
         }
         else if(e.currentTarget.dataset.name=="DISCOUNTORDER"){
@@ -76,21 +64,6 @@ Page({
     wx.cloud.callFunction({
       name: "NormalQuery",
       data: {
-        collectionName: "DKORDER",
-        command: "and",
-        where: [{
-          _openid: app.globalData.Gopenid
-        }]
-      },
-      success: res => {
-        this.setData({
-          dkorderhistory: res.result.data
-        })
-      }
-    })
-    wx.cloud.callFunction({
-      name: "NormalQuery",
-      data: {
         collectionName: "DISCOUNTORDER",
         command: "and",
         where: [{
@@ -106,7 +79,7 @@ Page({
     wx.cloud.callFunction({
       name: "NormalQuery",
       data: {
-        collectionName: "ZCORDER",
+        collectionName: "ORDER",
         command: "and",
         where: [{
           _openid: app.globalData.Gopenid
@@ -114,7 +87,7 @@ Page({
       },
       success: res => {
         this.setData({
-          zcorderhistory: res.result.data
+          orderhistory: res.result.data
         })
       }
     })

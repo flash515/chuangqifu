@@ -1,0 +1,69 @@
+<!-- <text>订单页面</text> -->
+<view>
+  <swiper class="swiper" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" circular="{{circular}}"
+    vertical="{{vertical}}" interval="{{interval}}" duration="{{duration}}" previous-margin="{{previousMargin}}px"
+    next-margin="{{nextMargin}}px">
+    <block wx:for="{{image}}" wx:for-index="index" wx:key="key">
+      <swiper-item>
+        <image src="{{item}}" class="swiper image" mode="scaleToFill" />
+        <!-- <view class="swiper-item {{item.url}}"></view> -->
+      </swiper-item>
+    </block>
+  </swiper>
+</view>
+<view class="mainframe">
+  <!-- 传入的产品信息 -->
+<l-tabs bind:linchange="changeTabs" equal-width="{{false}}" scrollable="{{true}}">
+  <l-tabpanel tab="订单信息" key="one" slot="one" >
+      <l-input label="产品编号：" type="text" label-layout="left" label-width="270"
+        placeholder="{{productid}}" disabled="{{true}}" />
+      <l-input label="产品名称：" type="text" label-layout="left" label-width="270"
+        placeholder="{{productname}}" disabled="{{true}}" />
+      <l-input label="办理地点：" type="text" label-layout="left" label-width="270"
+        placeholder="{{issuedplace}}" disabled="{{true}}" />
+        <view wx:if="{{avatarUrl=='' || nickName==''}}">
+          <label class="text">办理费用：</label>
+        <button class="userinfo-nickname" bindtap='getUserProfile'>微信登录</button>
+      </view>
+      <view wx:else>
+      <l-input label="办理费率：" type="text" label-layout="left" label-width="270"
+        placeholder="{{orderprice}}" disabled="{{true}}" />
+  </view>
+  <view>
+    <l-input label="办理数量：" label-layout="left" label-width="270" disabled="{{true}}" />
+    <l-counter count="1" min="1" bind:linchange="bvCount"/>
+  </view>
+<view>
+  <l-input label="办理费用（元）：" placeholder="{{totalfee}}" type="number" label-layout="left"
+          label-width="270" disabled="{{true}}" />
+</view>
+  <text>\n</text>
+  <view hidden="{{discounthidden}}">
+  <l-card type="primary" plaintext="{{true}}" >
+    <text>价格优惠类型：{{discountname}}</text>
+    <text>购买日期：{{adddate}}</text>
+    <text>生效日期：{{dlstartdate}}</text>
+    <text>失效日期：{{dlenddate}}</text>
+  </l-card>
+</view>
+  </l-tabpanel>
+</l-tabs>
+  <!-- 以下管理员显示内容 -->
+  <view wx:if="{{usertype == 'admin'}}">
+    <l-input name="fee" label="净服务费（元）：" type="number" label-layout="left" label-width="270" placeholder="{{fee}}"
+      disabled="{{true}}" />
+    <l-input name="charge1" label="直接推荐奖励（元）：" type="number" label-layout="left" label-width="270"
+      placeholder="{{charge1}}" disabled="{{true}}" />
+    <l-input name="charge2" label="间接推荐奖励（元）" type="number" label-layout="left" label-width="270"
+      placeholder="{{charge2}}" disabled="{{true}}" />
+  </view>
+  <text>\n</text>
+
+    <view wx:if="{{!submitted}}">
+    <l-button type="default" bind:lintap="addData" icon="to-top" icon-color="white" shape="semicircle">提交</l-button>
+    <view><text space="emsp" decode="{{true}}">&emsp;</text></view>
+  </view>
+<view wx:else>
+  <l-button type="default" bindtap="bvPay" icon="cart" icon-color="white" shape="semicircle">支付费用</l-button>
+</view>
+</view>

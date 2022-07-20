@@ -17,6 +17,9 @@
    </l-list>
 </view>
 <view>
+  <l-input type="number" label="产品推荐程度:" value="{{score}}" bind:lininput="bvChangeScore"></l-input>
+</view>
+<view>
   <l-input type="text" value="{{productid}}" label="产品编号:" bind:lininput="bvProductId"></l-input>
 </view>
 <view>
@@ -72,6 +75,7 @@
 <view>
   <l-input type="digit" label="服务商计算费率:" value="{{providercountprice}}" bind:lininput="bvProviderCountPrice"></l-input>
 </view>
+
 <view>
   <l-input type="text" label="PL1特惠价格:" value="{{price1}}" bind:lininput="bvPrice1"></l-input>
 </view>
@@ -98,8 +102,29 @@
   <l-input type="digit" label="PL4普客价计算费率:" value="{{price4count}}" bind:lininput="bvPrice4Count"></l-input>
 </view>
 <view>
-  <l-input type="text" label="推荐程度:" value="{{score}}" bind:lininput="bvChangeScore"></l-input>
+
+<view class="page-section-title">代理积分奖励模式</view>
+<label class="radio">
+  <radio value="r1" checked="true"/>固定数值积分奖励
+</label>
+<label class="radio">
+  <radio value="r2" />按零售价的固定比例积分奖励
+</label>
 </view>
+<view>
+  <l-input type="text" label="直接推荐人奖励金额：" value="{{commission1}}" bind:lininput="bvCommission1"></l-input>
+</view>
+<view>
+  <l-input type="digit" label="直接推荐人奖励金额计算值:" value="{{commission1count}}" bind:lininput="bvCommission1Count"></l-input>
+</view>
+<view>
+  <l-input type="text" label="间接推荐人奖励金额：" value="{{commission2}}" bind:lininput="bvCommission2"></l-input>
+</view>
+<view>
+  <l-input type="digit" label="间接推荐人奖励金额计算值:" value="{{commission2count}}" bind:lininput="bvCommission2Count"></l-input>
+</view>
+
+
 <picker mode="date" value="{{startdate}}" start="2015-09-01" end="2022-09-01" bindchange="bvStartDate">
   <view class="picker">
     <text class="text">起售日期: {{startdate}}</text>

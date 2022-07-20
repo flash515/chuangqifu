@@ -27,12 +27,12 @@
 <!-- <l-button type="default" plain="{{true}}" bind:lintap="getAccessToken">获取token</l-button>
 <text>\r\n\r\n</text>
 <view>{{accessToken}}</view> -->
-<view class="btn" bindtap="getUrlLink">一键生成您的专属小税宝推广链接</view>
+<view class="btn" bindtap="getUrlLink">一键生成您的专属创企服推广链接</view>
 <text>\n</text>
 
 <view hidden="{{urllink.length==0}}">{{urllink}}<text decode="{{true}}">&emsp;</text><l-button type="default" size="mini" shape="semicircle" plain="{{true}}" bind:lintap="copy">复制链接</l-button></view>
 <text>\n</text>
-<view class="btn" bindtap="getQRCode">一键生成您的专属小税宝推广码</view>
+<view class="btn" bindtap="getQRCode">一键生成您的专属创企服推广码</view>
 <text>\r\n</text>
 <view class="content">
     <canvas canvas-id='myCanvas' style='width:{{windowW}}px;height:{{windowW}}px;margin: 0 auto;padding: 0;display:block;'></canvas>

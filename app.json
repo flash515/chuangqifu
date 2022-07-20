@@ -2,33 +2,25 @@
   "pages": [
     "pages/index/index",
     "pages/index/home",
-    "pages/index/aboutus",
     "pages/product/product",
-    "pages/product/personaldetail",
-    "pages/product/indibusinessdetail",
-    "pages/product/soleproprietordetail",
-    "pages/product/companydetail",
+    "pages/product/gongshang",
+    "pages/product/caishui",
+    "pages/product/dizhi",
+    "pages/product/zhichan",
+    "pages/product/zizhi",
+    "pages/product/tuoguan",
+    "pages/product/yinhang",
+    "pages/product/productdetail",
     "pages/manage/productedit",
     "pages/manage/productview",
-    "pages/manage/scheme",
     "pages/manage/manageindex",
     "pages/manage/messgae",
     "pages/manage/pending",
     "pages/manage/providerindex",
-    "pages/order/newpersonal",
-    "pages/order/newindibusiness",
-    "pages/order/newsoleproprietor",
-    "pages/order/newcompany",
+    "pages/order/neworder",
     "pages/order/orderhistory",
     "pages/order/paymenthistory",
-    "pages/order/dkorderdetail",
-    "pages/order/zcorderdetail",
-    "pages/order/client",
-    "pages/order/address",
-    "pages/order/individual",
-    "pages/order/enterprise",
     "pages/order/pay",
-    "pages/order/delegateissue",
     "pages/mine/pricepolicy",
     "pages/mine/promoterpolicy",
     "pages/mine/booking",
@@ -42,17 +34,13 @@
     "pages/mine/sharevalue",
     "pages/mine/newbooking",
     "pages/mine/sms",
-    "pages/scheme/schemelist",
     "pages/tools/meetingroom/meetingroom",
     "pages/tools/meetingroom/meetingroom1",
     "pages/tools/meetingroom/meetingroom2",
     "pages/tools/meetingroom/meetingroom3",
     "pages/tools/meetingroom/meetingroom4",
-    "pages/tools/test",
-    "pages/tools/test1",
-    "pages/tools/test2",
-    "pages/tools/test3",
-    "pages/tools/sort"
+    "pages/tools/sort",
+    "pages/tools/shuizhengchaxun"
   ],
   "permission": {
     "scope.userLocation": {
@@ -62,6 +50,7 @@
   "usingComponents": {
     "l-list": "/miniprogram_npm/lin-ui/list/index",
     "l-price": "/miniprogram_npm/lin-ui/price/index",
+    "l-counter": "/miniprogram_npm/lin-ui/counter/index",
     "l-textarea": "/miniprogram_npm/lin-ui/textarea/index",
     "l-button": "/miniprogram_npm/lin-ui/button/index",
     "l-input": "/miniprogram_npm/lin-ui/input/index",
@@ -80,7 +69,7 @@
     "l-transition": "/miniprogram_npm/lin-ui/transition/index",
     "l-search-bar": "/miniprogram_npm/lin-ui/search-bar/index",
     "l-rate": "/miniprogram_npm/lin-ui/rate/index",
-    "l-collapse":"/miniprogram_npm/lin-ui/collapse/index",
+    "l-collapse": "/miniprogram_npm/lin-ui/collapse/index",
     "l-collapse-item": "/miniprogram_npm/lin-ui/collapse-item/index"
   },
   "tabBar": {
@@ -117,5 +106,4 @@
     ]
   },
   "sitemapLocation": "sitemap.json"
-
 }

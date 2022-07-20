@@ -16,7 +16,7 @@
 <l-collapse>
   <l-collapse-item title="查看推广政策">
     <l-card type="primary" plaintext="{{true}}">
-      <text space="emsp" decode='true'>  小税宝为协助推广的客户提供了相应的业绩奖励，客户在符合相应推广人数要求后，仅需支付1元并申请通过即可获得白银、黄金、铂金推广大使资格，资格申请通过之后的业绩奖励按新标准计算，资格申请通过之前的业绩奖励仍按原标准计算。</text>
+      <text space="emsp" decode='true'>  创企服为协助推广的客户提供了相应的业绩奖励，客户在符合相应推广人数要求后，仅需支付1元并申请通过即可获得白银、黄金、铂金推广大使资格，资格申请通过之后的业绩奖励按新标准计算，资格申请通过之前的业绩奖励仍按原标准计算。</text>
     </l-card>
   </l-collapse-item>
 </l-collapse>

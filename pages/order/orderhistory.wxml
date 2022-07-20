@@ -15,37 +15,9 @@
 </view>
 <view class="mainframe">
 <l-tabs>
-  <l-tabpanel tab="自然人开票" key="one" slot="one">
-    <l-button class="mainbtn" width="600" data-name="DKORDER" bind:lintap="bvRefresh" shape="semicircle" plain="{{true}}">刷新</l-button>
-    <view wx:for="{{dkorderhistory}}" wx:key="key">
-      <l-card type="primary" plaintext="{{true}}">
-        <view class="content">
-          <view>订单日期：{{item.AddDate}}</view>
-          <view>订单名称：{{item.ProductName}}</view>
-          <view>开票人：{{item.SellerName}}</view>
-          <view>办理费用：{{item.TotalFee}}</view>
-          <view style="display:flex; flex-direction:row;">
-            <view>付款状态：</view>
-            <view wx:if="{{item.PaymentStatus =='unchecked'}}">待确认</view>
-            <view wx:if="{{item.PaymentStatus =='checked'}}">已确认</view>
-          </view>
-          <view style="display:flex; flex-direction:row;">
-          <view>订单状态：</view>
-            <view wx:if="{{item.OrderStatus =='unchecked'}}">待确认</view>
-            <view wx:if="{{item.OrderStatus =='checked'}}">已确认</view>
-          </view>
-          <view>
-            <l-button data-id="{{item._id}}" bind:lintap="bvDKOrdertDetail" size="mini" shape="semicircle" icon="more"
-icon-color="blue"
-              plain="{{true}}">订单详情</l-button>
-          </view>
-        </view>
-      </l-card>
-    </view>
-  </l-tabpanel>
-  <l-tabpanel tab="企业注册" key="two" slot="two">
-    <l-button class="mainbtn" width="600" data-name="ZCORDER" bind:lintap="bvRefresh"  shape="semicircle" plain="{{true}}">刷新</l-button>
-    <view wx:for="{{zcorderhistory}}" wx:key="key">
+  <l-tabpanel tab="业务订单" key="one" slot="one">
+    <l-button class="mainbtn" width="600" data-name="ORDER" bind:lintap="bvRefresh"  shape="semicircle" plain="{{true}}">刷新</l-button>
+    <view wx:for="{{orderhistory}}" wx:key="key">
       <l-card type="primary" plaintext="{{true}}">
         <view class="content">
           <view>订单日期：{{item.AddDate}}</view>
@@ -63,7 +35,7 @@ icon-color="blue"
             <view wx:if="{{item.OrderStatus =='checked'}}">已确认</view>
           </view>
           <view>
-            <l-button data-id="{{item._id}}" bind:lintap="bvZCOrdertDetail" shape="semicircle" icon="more" size="mini"
+            <l-button data-id="{{item._id}}" bind:lintap="bvOrdertDetail" shape="semicircle" icon="more" size="mini"
 icon-color="blue" plain="{{true}}">订单详情</l-button>
           </view>
         </view>
@@ -71,7 +43,7 @@ icon-color="blue" plain="{{true}}">订单详情</l-button>
       </l-card>
     </view>
   </l-tabpanel>
-  <l-tabpanel tab="会员卡" key="three" slot="three">
+  <l-tabpanel tab="会员卡" key="two" slot="two">
     <l-button class="mainbtn" width="600" data-name="DISCOUNTORDER" bind:lintap="bvRefresh"  shape="semicircle" plain="{{true}}">刷新</l-button>
     <view wx:for="{{discounthistory}}" wx:key="key">
       <l-card type="primary" plaintext="{{true}}">
@@ -96,7 +68,7 @@ icon-color="blue" plain="{{true}}">订单详情</l-button>
       </l-card>
     </view>
   </l-tabpanel>
-  <l-tabpanel tab="推广等级" key="four" slot="four">
+  <l-tabpanel tab="推广等级" key="three" slot="three">
     <l-button class="mainbtn" width="600" data-name="PROMOTERORDER" bind:lintap="bvRefresh" shape="semicircle" plain="{{true}}">刷新</l-button>
     <view wx:for="{{promoterhistory}}" wx:key="key">
       <l-card type="primary" plaintext="{{true}}">

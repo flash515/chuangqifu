@@ -10,7 +10,7 @@ Page({
     // chatRoomEnvId: 'release-f8415a',
     chatRoomCollection: 'MeetingRoom3',
     chatRoomGroupId: 'demo',
-    chatRoomGroupName: '小税宝快捷会议室一',
+    chatRoomGroupName: '创企服快捷会议室一',
 
     // functions for used in chatroom components
     onGetUserInfo: null,
@@ -76,9 +76,9 @@ Page({
 
   onShareAppMessage() {
     return {
-      title: '邀请您进入小税宝快捷会议室',
+      title: '邀请您进入创企服快捷会议室',
       path: '/pages/tools/meetingroom/meetingroom3',
-      imageUrl: 'cloud://xsbmain-9gvsp7vo651fd1a9.7873-xsbmain-9gvsp7vo651fd1a9-1304477809/omLS75Xib_obyxkVAahnBffPytcA/index.png', //封面
+      imageUrl: 'cloud://cloud1-2gn7aud7a22c693c.7873-cloud1-2gn7aud7a22c693c-1304477809/omLS75Xib_obyxkVAahnBffPytcA/index.png', //封面
         }
   },
 })

@@ -26,41 +26,47 @@
   <view class="userinfo-avatar" style="background-image: url({{avatarUrl}})" size="default"></view>
     <view class="userinfo-nickname" >{{nickName}}</view>
   </view>
-  <l-button size="mini" shape="semicircle" plain="{{true}}" icon="share" icon-clolr="blue" open-type="share">点击分享小税宝</l-button>
+  <l-button size="mini" shape="semicircle" plain="{{true}}" icon="share" icon-clolr="blue" open-type="share">点击分享创企服</l-button>
 </view>
 
-<l-grid show-border="true" row-num="2">
+<l-grid row-num="4">
   <l-grid-item key='one' slot='one'>
-    <navigator url='../scheme/schemelist'>
+    <navigator url='../product/dizhi'>
       <l-icon name='order' />
-      <view class="text">税筹项目</view>
+      <view class="text" >地址服务</view>
     </navigator>
   </l-grid-item>
   <l-grid-item key='two' slot='two'>
-    <navigator url='../product/product'>
+    <navigator url='../product/gongshang'>
       <l-icon name='order' />
-      <view class="text">税筹产品</view>
+      <view class="text">工商代办</view>
     </navigator>
   </l-grid-item>
   <l-grid-item key='three' slot='three'>
-    <navigator url='../order/client'>
-      <l-icon name='user' />
-      <view class="text">常客信息管理</view>
+    <navigator url='../product/yinhang'>
+      <l-icon name='order' />
+      <view class="text">银行代办</view>
     </navigator>
   </l-grid-item>
   <l-grid-item key='four' slot='four'>
-    <navigator url='../order/newpersonal'>
+    <navigator url='../product/caishui'>
       <l-icon name='order' />
-      <view class="text">自然人开票</view>
+      <view class="text">财税服务</view>
     </navigator>
   </l-grid-item>
   <l-grid-item key='five' slot='five'>
-    <navigator url='../mine/booking'>
-      <l-icon name='comment' />
-      <view class="text">预约管理</view>
+    <navigator url='../product/tuoguan'>
+      <l-icon name='order' />
+      <view class="text">企业托管</view>
     </navigator>
   </l-grid-item>
-<l-grid-item key='six' slot='six'>
+  <l-grid-item key='six' slot='six'>
+    <navigator url='../product/zizhi'>
+      <l-icon name='order' />
+      <view class="text">资质代办</view>
+    </navigator>
+  </l-grid-item>
+  <l-grid-item key='seven' slot='seven'>
     <navigator url='../tools/meetingroom/meetingroom'>
       <l-icon name='comment' />
       <view class="text">快捷会议室</view>

@@ -157,8 +157,8 @@ Page({
   enlarge: function (event) {
     var src = event.currentTarget.dataset.src; //获取data-src
     var imgList = [
-      'cloud://xsbmain-9gvsp7vo651fd1a9.7873-xsbmain-9gvsp7vo651fd1a9-1304477809/omLS75Xib_obyxkVAahnBffPytcA/微信收款码.png',
-      'cloud://xsbmain-9gvsp7vo651fd1a9.7873-xsbmain-9gvsp7vo651fd1a9-1304477809/omLS75Xib_obyxkVAahnBffPytcA/支付宝收款码.jpg'
+      'cloud://cloud1-2gn7aud7a22c693c.7873-cloud1-2gn7aud7a22c693c-1304477809/omLS75Xib_obyxkVAahnBffPytcA/微信收款码.png',
+      'cloud://cloud1-2gn7aud7a22c693c.7873-cloud1-2gn7aud7a22c693c-1304477809/omLS75Xib_obyxkVAahnBffPytcA/支付宝收款码.jpg'
     ]
     //图片预览
     wx.previewImage({

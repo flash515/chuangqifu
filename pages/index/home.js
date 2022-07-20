@@ -30,7 +30,7 @@ Page({
     return {
       title: app.globalData.Gcompanyname + app.globalData.Gusername + '邀请您体验：',
       path: '/pages/index/index?userid=' + app.globalData.Gopenid,
-      imageUrl: 'https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/omLS75Xib_obyxkVAahnBffPytcA/sharepic.png?sign=9064611f2619d44b847ebdb2e02dc988&t=1621407312', //封面
+      imageUrl: 'https://636c-cloud1-2gn7aud7a22c693c-1312824882.tcb.qcloud.la/setting/image/sharepic.png?sign=85d87b923b700905106df5d4d1813858&t=1657616944', //封面
       success: function (res) {
         // 转发成功之后的回调
         if (res.errMsg == 'shareAppMessage:ok') {
@@ -51,12 +51,12 @@ Page({
     return {
     title: '真的有宝哦，快来体验税筹资源小程序！',
     query: '/pages/index/index?userid=' + app.globalData.Gopenid,
-    imageUrl: 'https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/omLS75Xib_obyxkVAahnBffPytcA/sharepic.png?sign=9064611f2619d44b847ebdb2e02dc988&t=1621407312', //封面
+    imageUrl: 'https://636c-cloud1-2gn7aud7a22c693c-1312824882.tcb.qcloud.la/setting/image/sharepic.png?sign=85d87b923b700905106df5d4d1813858&t=1657616944', //封面
     }
   },
   getUserProfile: function (e) {
     wx.getUserProfile({
-      desc: "登录小税宝以查看更多信息",
+      desc: "登录创企服以查看更多信息",
       success: res => {
         console.log("获得的用户微信信息", res)
         this.setData({

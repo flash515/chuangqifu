@@ -1,0 +1,29 @@
+/* pages/order/product.wxss */
+.title
+{color: black;
+font-size: 20px;
+font-weight: bold;
+padding-top: 10px;
+
+}
+.title1
+{
+  color: black;
+  text-align: left；
+font-size：16px;
+font-weight: bold;
+}
+.body{
+  text-align: justify;
+  padding:25px;
+  line-height: 2;
+}
+.img
+{width:100%;
+height: 100px;}
+.userinfo-nickname {
+  font-size: 32rpx;
+  color: #007aff;
+  background-color: white;
+  background-size: cover;
+}

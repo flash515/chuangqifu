@@ -78,7 +78,7 @@ Page({
           date6: e.currentTarget.dataset.adddate,
           thing4: e.currentTarget.dataset.question,
           thing2: this.data.answer,
-          name1: "小税宝客服"
+          name1: "创企服客服"
         },
         success: res => {
           console.log(res)

@@ -24,7 +24,7 @@ Page({
   },
   getUserProfile: function (e) {
     wx.getUserProfile({
-      desc: "登录小税宝以查看更多信息",
+      desc: "登录创企服以查看更多信息",
       success: res => {
         console.log("获得的用户微信信息", res)
         this.setData({

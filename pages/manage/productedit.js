@@ -30,11 +30,15 @@ Page({
     price2: "",
     price3: "",
     price4: "",
+    commission1:"",
+    commission2:"",
     providercountprice: 0,
     price1count: 0,
     price2count: 0,
     price3count: 0,
     price4count: 0,
+    commission1count:0,
+    commission2count:0,
     reward: "",
     rewardtime: "",
     startdate: "",
@@ -147,6 +151,10 @@ if(res.data.length>1){
       price3count: this.data.productarray[this.data.x].Price3Count,
       price4: this.data.productarray[this.data.x].Price4,
       price4count: this.data.productarray[this.data.x].Price4Count,
+      commission1: this.data.productarray[this.data.x].Commission1,
+      commission1count: this.data.productarray[this.data.x].Commission1Count,
+      commission2: this.data.productarray[this.data.x].Commission2,
+      commission2count: this.data.productarray[this.data.x].Commission2Count,
       score: this.data.productarray[this.data.x].Score,
       updatedate: this.data.productarray[this.data.x].UpdateDate,
       attachmentimage: this.data.productarray[this.data.x].AttachmentImage,
@@ -309,6 +317,26 @@ if(res.data.length>1){
   bvPrice4Count(e) {
     this.setData({
       price4count: e.detail.value
+    })
+  },
+  bvCommission1(e) {
+    this.setData({
+      commission1: e.detail.value
+    })
+  },
+  bvCommission1Count(e) {
+    this.setData({
+      commission1count: e.detail.value
+    })
+  },
+  bvCommission2(e) {
+    this.setData({
+      commission2: e.detail.value
+    })
+  },
+  bvCommission2Count(e) {
+    this.setData({
+      commission2count: e.detail.value
     })
   },
   bvReward(e) {
@@ -482,14 +510,18 @@ if(res.data.length>1){
             ProviderPrice: this.data.providerprice,
             ProviderCountPrice: this.data.providercountprice,
             Price1: this.data.price1,
-            Price1Count: this.data.price1count,
+            Price1Count: Number(this.data.price1count),
             Price2: this.data.price2,
-            Price2Count: this.data.price2count,
+            Price2Count: Number(this.data.price2count),
             Price3: this.data.price3,
-            Price3Count: this.data.price3count,
+            Price3Count: Number(this.data.price3count),
             Price4: this.data.price4,
-            Price4Count: this.data.price4count,
-            Score: this.data.score,
+            Price4Count: Number(this.data.price4count),
+            Commission1: this.data.commission1,
+            Commission1Count: Number(this.data.commission1count),
+            Commission2: this.data.commission2,
+            Commission2Count: Number(this.data.commission2count),
+            Score: Number(this.data.score),
             AttachmentImage: this.data.attachmentimage,
             AttachmentFile: this.data.attachmentfile,
           },
@@ -548,6 +580,10 @@ if(res.data.length>1){
         Price3Count: this.data.price3count,
         Price4: this.data.price4,
         Price4Count: this.data.price4count,
+        Commission1: this.data.commission1,
+        Commission1Count: Number(this.data.commission1count),
+        Commission2: this.data.commission2,
+        Commission2Count: Number(this.data.commission2count),
         AttachmentImage: this.data.attachmentimage,
         AttachmentFile: this.data.attachmentfile,
         Score: this.data.score,
@@ -639,6 +675,10 @@ if(res.data.length>1){
           price3count: fliter[0].Price3Count,
           price4: fliter[0].Price4,
           price4count: fliter[0].Price4Count,
+          commission1: fliter[0].Commission1,
+          commission1count: fliter[0].Commission1Count,
+          commission2: fliter[0].Commission2,
+          commission2count: fliter[0].Commission2Count,
           score: fliter[0].Score,
           updatedate: fliter[0].UpdateDate,
           attachmentimage: fliter[0].AttachmentImage,

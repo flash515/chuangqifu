@@ -5,7 +5,7 @@ const cloud = require('wx-server-sdk')
 const request = require('request')
 const access_token = require('AccessToken');//引入AccessToken类
 wx.cloud.init(
-{  env:'xsbmain-9gvsp7vo651fd1a9'}
+{  env:'cloud1-2gn7aud7a22c693c'}
 )
 let appid ='wx810b87f0575b9a47';//微信公众号开发者id
 let secret ='b673b44e5716c1e11cf04ca060912aa8';//微信公众号开发者secret_key
