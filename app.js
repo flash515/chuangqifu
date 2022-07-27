@@ -91,6 +91,8 @@ App({
     Gusername: "",
     GnickName: "",
     GavatarUrl: "",
+    Ginviterid: "",
+    Gindirectinviterid: "",
     // 用户类型
     Gusertype: "",
     Gdirect1yearvaliduser:"",
@@ -99,6 +101,7 @@ App({
     //轮播图
     Gimagearray:[],
     //用户设置
+    Gpointsmagnification:'',
     Gpriceshow:'',
     Gdirectvalueshow:'',
     Gindirectvalueshow:'',

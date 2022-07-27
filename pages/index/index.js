@@ -3,6 +3,7 @@ Page({
   data: {
     //inviterid接收传入的参数
     inviterid: "",
+    indirectinviterid: "",
     invitercompanyname: "",
     inviterusername: "",
     tempimage: [],
@@ -14,6 +15,7 @@ Page({
     if (options.userid) {
 
       this.data.inviterid = options.userid;
+      app.globalData.Ginviterid = options.userid;
       console.log("方法一如果参数以userid=格式存在，则显示接收到的参数", this.data.inviterid);
       // 接收参数方法一结束
     } else {
@@ -23,12 +25,13 @@ Page({
         //可以连接多个参数值，&是我们定义的参数链接方式
         // let inviterid = scene.split('&')[0];
         // let userId = scene.split("&")[1];
-        this.data.inviterid = scene.split('&')[0]
+        this.data.inviterid = scene.split('&')[0];
+        app.globalData.Ginviterid = scene.split('&')[0];
         console.log("扫码参数:", this.data.inviterid);
       } else {
         // 两种都不带参数，则是搜索小程序进入，推荐人指定为开发人
         this.data.inviterid = "oa1De5G404TbDrFGtCingTlGFQVQ"
-        // this.data.inviterid = "omLS75Xib_obyxkVAahnBffPytcA"
+        app.globalData.Ginviterid = "oa1De5G404TbDrFGtCingTlGFQVQ"
         console.log("搜索进入参数:", this.data.inviterid);
       }
     }
@@ -40,6 +43,7 @@ Page({
     })
     .get({
       success: res => {
+        app.globalData.Gpointsmagnification = res.data[0].pointsmagnification;
         console.log("轮播图：", res);
         wx.setStorageSync('LSetting', res.data[0]);
         //异步获取图片生成轮播图地址
@@ -72,8 +76,10 @@ Page({
         wx.setStorageSync('LInviterUser', res.data[0]);
         this.setData({
           invitercompanyname: res.data[0].CompanyName,
-          inviterusername: res.data[0].UserName
+          inviterusername: res.data[0].UserName,
+          indirectinviterid: res.data[0].InviterOpenId
         })
+        app.globalData.Gindirectinviterid = res.data[0].InviterOpenId;
       }
     })
     // 查询在售的产品并存入本地

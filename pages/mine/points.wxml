@@ -19,8 +19,19 @@
         placeholder="{{balance}}分" disabled="{{true}}" />
 </view>
 <view class="mainframe">
-<l-tabs bind:linchange="changeTabs">
-  <l-tabpanel tab="积分使用记录" key="one" slot="one">
+<l-tabs>
+  <l-tabpanel tab="积分累积记录" key="one" slot="one">
+    <l-button class="mainbtn" data-name="POINTS" bind:lintap="bvRefresh" width="600" shape="semicircle" plain="{{true}}">刷新</l-button>
+    <view wx:for="{{pointshistory}}" wx:key="key">
+      <l-card type="primary" plaintext="{{true}}">
+        <view>奖励日期：{{item.AddDate}}</view>
+        <view>奖励事由：{{item.ProductId}}</view>
+        <view>奖励金额：{{item.ProductId}}</view>
+        <view>入账状态：{{item.PaymentStatus}}</view>
+      </l-card>
+    </view>
+  </l-tabpanel>
+  <l-tabpanel tab="积分使用记录" key="two" slot="two">
     <l-button class="mainbtn" data-name="PAYMENT" bind:lintap="bvRefresh" width="600" shape="semicircle" plain="{{true}}">刷新</l-button>
     <view wx:for="{{paymenthistory}}" wx:key="key">
       <l-card type="primary" plaintext="{{true}}">
@@ -36,18 +47,6 @@
            <view hidden="{{item.PaymentStatus =='checked'}}">
             <l-button data-paymentid="{{item.PaymentId}}" data-productname="{{item.ProductName}}" data-totalfee="{{item.TotalFee}}" data-database="{{item.Database}}" bind:lintap="bvToPay" icon="order" icon-color="white" shape="semicircle" >支付费用</l-button>
           </view>
-      </l-card>
-    </view>
-
-  </l-tabpanel>
-  <l-tabpanel tab="积分累积记录" key="two" slot="two">
-    <l-button class="mainbtn" data-name="REWARD" bind:lintap="bvRefresh" width="600" shape="semicircle" plain="{{true}}">刷新</l-button>
-    <view wx:for="{{rewardhistory}}" wx:key="key">
-      <l-card type="primary" plaintext="{{true}}">
-        <view>奖励日期：{{item.AddDate}}</view>
-        <view>奖励事由：{{item.ProductId}}</view>
-        <view>奖励金额：{{item.ProductId}}</view>
-        <view>入账状态：{{item.PaymentStatus}}</view>
       </l-card>
     </view>
   </l-tabpanel>

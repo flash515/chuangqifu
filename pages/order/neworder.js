@@ -39,9 +39,9 @@ Page({
     // 总办理费用，自动计算
     totalfee: 0,
     // 直接推荐人，自动计算
-    charge1: 0,
+    commission1total: 0,
     // 间接推荐人，自动计算
-    charge2: 0,
+    commission2total: 0,
     sublock: false,
     ordersublock: false,
     paymentsublock: false,
@@ -188,6 +188,12 @@ Page({
             totalfee:fliter[0].Price4Count
           })
         }
+        this.setData({
+          commission1: fliter[0].Commission1,
+          commission1count: fliter[0].Commission1Count,
+          commission2: fliter[0].Commission2,
+          commission2count: fliter[0].Commission2Count
+        })
         console.log("客户价格", this.data.orderprice)
         console.log("客户计算价格", this.data.orderpricecount)
       },
@@ -196,7 +202,9 @@ Page({
 bvCount(e) {
   this.setData({
     count:e.detail.count,
-    totalfee: this.data.orderpricecount*e.detail.count
+    totalfee: this.data.orderpricecount*e.detail.count,
+    commission1total: this.data.commission1count*e.detail.count,
+    commission2total: this.data.commission2count*e.detail.count
   })
   console.log("客户计算价格", this.data.count)
 },
@@ -220,6 +228,7 @@ bvCount(e) {
   },
   addData() {
     this._orderadd()
+    this._pointsadd()
     this._paymentadd()
     this._discountupdate()
   },
@@ -257,8 +266,8 @@ data:{
           //费用
           Count:this.data.count,
           TotalFee: this.data.totalfee,
-          Charge1: this.data.charge1,
-          Charge2: this.data.charge2,
+          Commission1Total: this.data.commission1total,
+          Commission2Total: this.data.commission2total,
 
           SysAddDate: new Date().getTime(),
           AddDate: new Date().toLocaleDateString(),
@@ -303,6 +312,43 @@ data:{
           IssuedPlace: this.data.issuedplace,
           Count:this.data.count,
           TotalFee: this.data.totalfee,
+          SysAddDate: new Date().getTime(),
+          AddDate: new Date().toLocaleDateString(),
+          PaymentStatus: "unchecked",
+        },
+        success(res) {
+          that.setData({
+            paymentsublock: true
+          })
+          that._hidden()
+        },
+        fail(res) {
+          wx.showToast({
+            title: '提交失败请重试',
+            icon: 'error',
+            duration: 2000 //持续的时间
+          })
+        }
+      })
+    }
+  },
+  _pointsadd(){
+    let that=this
+    if (this.data.paymentsublock) {
+      that._hidden()
+    } else {
+      const db = wx.cloud.database()
+      db.collection("POINTS").add({
+        data: {
+          ProductId: this.data.productid,
+          ProductName: this.data.productname,
+          IssuedPlace: this.data.issuedplace,
+          Count:this.data.count,
+          TotalFee: this.data.totalfee,
+          InviterId:app.globalData.Ginviterid,
+          IndirectInviterId:app.globalData.Gindirectinviterid,
+          InviterPoints:app.globalData.Gpointsmagnification*this.data.commission1total,
+          IndirectInviterPoints:app.globalData.Gpointsmagnification*this.data.commission2total,
           SysAddDate: new Date().getTime(),
           AddDate: new Date().toLocaleDateString(),
           PaymentStatus: "unchecked",

@@ -58,8 +58,8 @@ Page({
           ...payment, // 解构参数appId,nonceStr,package,paySign,signType,timeStamp
           success: (res) => {
             console.log('支付成功', res);
-            that._productupdate();
-            that._paymentupdate();
+            that._orderupdate();
+            that._pointsupdate();
           },
           fail: (err) => {
             console.error('支付失败', err);
@@ -71,7 +71,7 @@ Page({
       });
   },
 
-  _productupdate() {
+  _orderupdate() {
     const db = wx.cloud.database()
     db.collection(this.data.database).where({
       PaymentId: this.data.paymentid
@@ -86,9 +86,9 @@ Page({
       }
     })
   },
-  _paymentupdate() {
+  _pointsupdate() {
     const db = wx.cloud.database()
-    db.collection('PAYMENT').where({
+    db.collection('POINTS').where({
       PaymentId: this.data.paymentid
     }).update({
       data: {
