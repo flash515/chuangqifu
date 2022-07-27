@@ -36,6 +36,14 @@ font-weight: bold;
   padding:10rpx;
   line-height: 2;
 }
+.flex-row{
+  display: flex;
+  align-items: center;
+}
+.flex-column{
+  display: flex;
+  align-items: center;
+}
 .mainframe{
   margin:20rpx 20rpx;
   padding:10rpx

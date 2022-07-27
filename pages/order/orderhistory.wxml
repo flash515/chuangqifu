@@ -21,9 +21,11 @@
       <l-card type="primary" plaintext="{{true}}">
         <view class="content">
           <view>订单日期：{{item.AddDate}}</view>
-          <view>订单名称：{{item.ProductName}}</view>
-          <view>投资人：{{item.InvestorName}}</view>
-          <view>办理费用：{{item.TotalFee}}</view>
+          <view>产品编号：{{item.ProductId}}</view>
+          <view>产品名称：{{item.ProductName}}</view>
+          <view>产品单价：{{item.OrderPrice}}</view>
+          <view>订单数量：{{item.Count}}</view>
+          <view>订单总价：{{item.TotalFee}}</view>
           <view style="display:flex; flex-direction:row;">
           <view>付款状态：</view>
             <view wx:if="{{item.PaymentStatus =='unchecked'}}">待确认</view>
@@ -34,9 +36,8 @@
             <view wx:if="{{item.OrderStatus =='unchecked'}}">待确认</view>
             <view wx:if="{{item.OrderStatus =='checked'}}">已确认</view>
           </view>
-          <view>
-            <l-button data-id="{{item._id}}" bind:lintap="bvOrdertDetail" shape="semicircle" icon="more" size="mini"
-icon-color="blue" plain="{{true}}">订单详情</l-button>
+          <view hidden="{{item.PaymentStatus =='checked'}}">
+            <l-button data-paymentid="{{item.PaymentId}}" data-productname="{{item.ProductName}}" data-totalfee="{{item.TotalFee}}" data-database="{{item.Database}}" bind:lintap="bvToPay" icon="order" icon-color="white" shape="semicircle" >支付费用</l-button>
           </view>
         </view>
 
@@ -65,6 +66,9 @@ icon-color="blue" plain="{{true}}">订单详情</l-button>
             <view wx:if="{{item.OrderStatus =='checked'}}">已确认</view>
           </view>
         </view>
+        <view hidden="{{item.PaymentStatus =='checked'}}">
+            <l-button data-paymentid="{{item.PaymentId}}" data-productname="{{item.ProductName}}" data-totalfee="{{item.TotalFee}}" data-database="{{item.Database}}" bind:lintap="bvToPay" icon="order" icon-color="white" shape="semicircle" >支付费用</l-button>
+          </view>
       </l-card>
     </view>
   </l-tabpanel>
@@ -84,6 +88,9 @@ icon-color="blue" plain="{{true}}">订单详情</l-button>
           <view>申请状态：</view>
             <view wx:if="{{item.OrderStatus =='unchecked'}}">待确认</view>
             <view wx:if="{{item.OrderStatus =='checked'}}">已确认</view>
+          </view>
+          <view hidden="{{item.PaymentStatus =='checked'}}">
+            <l-button data-paymentid="{{item.PaymentId}}" data-productname="{{item.ProductName}}" data-totalfee="{{item.TotalFee}}" data-database="{{item.Database}}" bind:lintap="bvToPay" icon="order" icon-color="white" shape="semicircle" >支付费用</l-button>
           </view>
       </l-card>
     </view>

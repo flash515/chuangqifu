@@ -162,38 +162,43 @@ Page({
         console.log(fliter);
         if (this.data.discountlevel == 'DL1') {
           this.setData({
-            totalfee: fliter[0].Price1Count,
-            orderprice: fliter[0].Price1
+            orderpricecount: fliter[0].Price1Count,
+            orderprice: fliter[0].Price1,
+            totalfee:fliter[0].Price1Count
           })
         }
         else if (this.data.discountlevel == 'DL2') {
           this.setData({
-            totalfee: fliter[0].Price2Count,
-            orderprice: fliter[0].Price2
+            orderpricecount: fliter[0].Price2Count,
+            orderprice: fliter[0].Price2,
+            totalfee:fliter[0].Price2Count
           })
         }
         else if (this.data.discountlevel == 'DL3') {
           this.setData({
-            totalfee: fliter[0].Price3Count,
-            orderprice: fliter[0].Price3
+            orderpricecount: fliter[0].Price3Count,
+            orderprice: fliter[0].Price3,
+            totalfee:fliter[0].Price3Count
           })
         }
         else if (this.data.discountlevel == 'DL4') {
           this.setData({
-            totalfee: fliter[0].Price4Count,
-            orderprice: fliter[0].Price4
+            orderpricecount: fliter[0].Price4Count,
+            orderprice: fliter[0].Price4,
+            totalfee:fliter[0].Price4Count
           })
         }
         console.log("客户价格", this.data.orderprice)
-        console.log("客户计算价格", this.data.totalfee)
+        console.log("客户计算价格", this.data.orderpricecount)
       },
     })
   },
 bvCount(e) {
   this.setData({
-    totalfee: this.data.orderprice*this.data.count
+    count:e.detail.count,
+    totalfee: this.data.orderpricecount*e.detail.count
   })
-  console.log("客户计算价格", this.data.totalfee)
+  console.log("客户计算价格", this.data.count)
 },
   onLoad: function (options) {
     //页面初始化 options为页面跳转所带来的参数
@@ -203,42 +208,6 @@ bvCount(e) {
       productid: options.productid,
       productname: options.productname,
       issuedplace: options.issuedplace,
-    })
-
-    // 读取本地暂存数据
-
-    wx.getStorage({
-      key: 'LTemp' + options.productid,
-      success: res => {
-        console.log("LTemp", res.data)
-        if (!res.data) {} else {
-          this.setData({
-            imageuploadlock: res.data.imageuploadlock,
-            //投资人
-            investorname: res.data.investorname,
-            investorphone: res.data.investorphone,
-            investoraddress: res.data.investoraddress,
-            investoremail: res.data.investoremail,
-            //注册信息
-            businessname: res.data.businessname,
-            alternatename: res.data.alternatename,
-            businessscope: res.data.businessscope,
-            investment: res.data.investment,
-            //附件
-            attachmentview: res.data.attachmentview,
-            attachmentimage: res.data.attachmentimage,
-            // 收件地址
-            addressee: res.data.addressee,
-            address: res.data.address,
-            addresseephone: res.data.addresseephone,
-            //费用
-            fee: res.data.fee,
-            totalfee: res.data.totalfee,
-            charge1: res.data.charge1,
-            charge2: res.data.charge2,
-          })
-        }
-      }
     })
     this.bvDiscountCheck()
   },
@@ -286,7 +255,7 @@ data:{
           OrderPriceCount: this.data.orderpricecount,
           OrderPrice: this.data.orderprice,
           //费用
-          Fee: this.data.fee,
+          Count:this.data.count,
           TotalFee: this.data.totalfee,
           Charge1: this.data.charge1,
           Charge2: this.data.charge2,
@@ -332,6 +301,7 @@ data:{
           ProductId: this.data.productid,
           ProductName: this.data.productname,
           IssuedPlace: this.data.issuedplace,
+          Count:this.data.count,
           TotalFee: this.data.totalfee,
           SysAddDate: new Date().getTime(),
           AddDate: new Date().toLocaleDateString(),

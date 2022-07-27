@@ -13,8 +13,10 @@
 </view>
 <view class="mainframe">
   <!-- 传入的产品信息 -->
-<l-tabs bind:linchange="changeTabs" equal-width="{{false}}" scrollable="{{true}}">
-  <l-tabpanel tab="订单信息" key="one" slot="one" >
+  <view class="title">
+  <text>订单信息</text>
+</view>
+<view>
       <l-input label="产品编号：" type="text" label-layout="left" label-width="270"
         placeholder="{{productid}}" disabled="{{true}}" />
       <l-input label="产品名称：" type="text" label-layout="left" label-width="270"
@@ -29,9 +31,9 @@
       <l-input label="办理费率：" type="text" label-layout="left" label-width="270"
         placeholder="{{orderprice}}" disabled="{{true}}" />
   </view>
-  <view>
-    <l-input label="办理数量：" label-layout="left" label-width="270" disabled="{{true}}" />
-    <l-counter count="1" min="1" bind:linchange="bvCount"/>
+  <view class="flex-row">
+  <view>    <l-input label="办理数量：" label-layout="left" label-width="270" disabled="{{true}}" /></view>
+  <view>    <l-counter count="1" min="1" bind:lintap="bvCount" disabled="{{submitted}}"/></view>
   </view>
 <view>
   <l-input label="办理费用（元）：" placeholder="{{totalfee}}" type="number" label-layout="left"
@@ -46,8 +48,7 @@
     <text>失效日期：{{dlenddate}}</text>
   </l-card>
 </view>
-  </l-tabpanel>
-</l-tabs>
+</view>
   <!-- 以下管理员显示内容 -->
   <view wx:if="{{usertype == 'admin'}}">
     <l-input name="fee" label="净服务费（元）：" type="number" label-layout="left" label-width="270" placeholder="{{fee}}"

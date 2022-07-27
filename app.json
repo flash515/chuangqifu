@@ -32,6 +32,7 @@
     "pages/mine/userinfo",
     "pages/mine/shareuser",
     "pages/mine/sharevalue",
+    "pages/mine/points",
     "pages/mine/newbooking",
     "pages/mine/sms",
     "pages/tools/meetingroom/meetingroom",
@@ -92,10 +93,10 @@
         "text": "订单"
       },
       {
-        "pagePath": "pages/order/paymenthistory",
+        "pagePath": "pages/mine/points",
         "iconPath": "/img/payment.png",
         "selectedIconPath": "/img/payment1.png",
-        "text": "收付款"
+        "text": "积分"
       },
       {
         "pagePath": "pages/mine/mine",
