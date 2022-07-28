@@ -39,11 +39,11 @@
         <l-rate active-color="red" inActive-color="grey" score="{{item.Score}}" count="10" />
         <view style="display:flex; flex-direction:row; " >
           <l-button data-id="_id={{item._id}}" bind:lintap="bvProductDetail" plain="{{true}}" shape="semicircle"
-            icon="more" icon-color="blue">详细介绍</l-button>
+            icon="more" icon-color="blue" size="mini">详细介绍</l-button>
           <view><text decode="{{true}}">&emsp;</text></view>
           <l-button icon="order" icon-color="white"
             data-id="productid={{item.ProductId}}&productname={{item.ProductName}}&issuedplace={{item.IssuedPlace}}"
-            bind:lintap="bvNewOrder" shape="semicircle">我要办理</l-button>
+            bind:lintap="bvNewOrder" shape="semicircle" size="mini">我要办理</l-button>
         </view>
         <text>\n</text>
       </view>
@@ -76,11 +76,11 @@
         <l-rate active-color="red" inActive-color="grey" score="{{item.Score}}" count="10" />
         <view style="display:flex; flex-direction:row;" >
           <l-button data-id="_id={{item._id}}" bind:lintap="bvProductDetail" plain="{{true}}" shape="semicircle"
-            icon="more" icon-color="blue">详细介绍</l-button>
+            icon="more" icon-color="blue" size="mini">详细介绍</l-button>
           <view><text decode="{{true}}">&emsp;</text></view>
           <l-button icon="order" icon-color="white"
             data-id="productid={{item.ProductId}}&productname={{item.ProductName}}&issuedplace={{item.IssuedPlace}}"
-            bind:lintap="bvNewOrder" shape="semicircle">我要办理</l-button>
+            bind:lintap="bvNewOrder" shape="semicircle" size="mini">我要办理</l-button>
         </view>
         <text>\n</text>
       </view>
@@ -112,12 +112,12 @@
         <l-rate active-color="red" inActive-color="grey" score=" {{item.Score}} " count="10" />
         <view style="display:flex; flex-direction:row;" >
           <l-button data-id="_id={{item._id}}" bind:lintap="bvProductDetail" plain="{{true}}" shape="semicircle"
-            icon="more" icon-color="blue">详细介绍
+            icon="more" icon-color="blue" size="mini">详细介绍
           </l-button>
           <view><text decode="{{true}}">&emsp;</text></view>
           <l-button icon="order" icon-color="white"
             data-id="productid={{item.ProductId}}&productname={{item.ProductName}}&issuedplace={{item.IssuedPlace}}"
-            bind:lintap="bvNewOrder" shape="semicircle">我要办理</l-button>
+            bind:lintap="bvNewOrder" shape="semicircle" size="mini">我要办理</l-button>
         </view>
         <text>\n</text>
       </view>

@@ -18,6 +18,7 @@
     "pages/manage/pending",
     "pages/manage/providerindex",
     "pages/order/neworder",
+    "pages/order/orderdetail",
     "pages/order/orderhistory",
     "pages/order/paymenthistory",
     "pages/order/pay",

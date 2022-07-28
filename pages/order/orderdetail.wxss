@@ -1,0 +1,13 @@
+/* pages/order/newindibusiness.wxss */
+.text
+{
+  font-size: 28rpx;
+  margin-left:20rpx;
+  color: rgb(0, 0, 0);
+}
+.userinfo-nickname {
+  font-size: 32rpx;
+  color: #007aff;
+  background-color: white;
+  background-size: cover;
+}

@@ -20,7 +20,12 @@ Page({
     previousMargin: 0,
     nextMargin: 0
   },
-
+  bvOrdertDetail(e) {
+    console.log(e.currentTarget.dataset.id)
+    wx.navigateTo({
+      url: '../order/orderdetail?' + e.currentTarget.dataset.id
+    })
+  },
   bvToPay(e) {
     wx.navigateTo({
       url: '../order/pay?totalfee=' + e.currentTarget.dataset.totalfee + '&productname=' + e.currentTarget.dataset.productname + '&paymentid=' + e.currentTarget.dataset.paymentid+'&database='+e.currentTarget.dataset.database

@@ -14,30 +14,31 @@
 </view>
 <view class="mainframe">
 <l-collapse>
-  <l-collapse-item title="查看推广政策">
+  <l-collapse-item title="推广政策说明">
     <l-card type="primary" plaintext="{{true}}">
-      <text space="emsp" decode='true'>  创企服为协助推广的客户提供了相应的业绩奖励，客户在符合相应推广人数要求后，仅需支付1元并申请通过即可获得白银、黄金、铂金推广大使资格，资格申请通过之后的业绩奖励按新标准计算，资格申请通过之前的业绩奖励仍按原标准计算。</text>
+      <text space="emsp" decode='true'>  创企服为协助推广的用户提供了白银、黄金、铂金推广大使资格以及相应的积分奖励方案，新资格申请通过之后的积分奖励按新标准计算，新资格申请通过之前的积分奖励仍按原标准计算。</text>
     </l-card>
   </l-collapse-item>
 </l-collapse>
 <l-collapse>
-  <l-collapse-item title="查看推广资格及奖励">
+  <l-collapse-item title="推广资格说明">
     <l-collapse>
-      <l-collapse-item title="普客">
-        <l-card type="primary" plaintext="{{true}}" title="普客资格">
-          <text decode='true'>1、微信登录用户</text>
+      <l-collapse-item title="会员">
+        <l-card type="primary" plaintext="{{true}}" title="会员资格">
+          <text decode='true'>1、用户在微信登录后成为会员</text>
         </l-card>
-        <l-card type="primary" plaintext="{{true}}" title="普客业绩奖励">
-          <text decode='true'>1、税收奖励：其本人代办的企业的税收奖励</text>
+        <l-card type="primary" plaintext="{{true}}" title="会员积分奖励">
+          <text decode='true'>1、积分奖励：用户在首次微信登录成为会员后获得10分积分奖励</text>
         </l-card>
       </l-collapse-item>
     </l-collapse>
     <l-collapse>
       <l-collapse-item title="白银推广大使">
         <l-card type="primary" plaintext="{{true}}" title="白银推广大使资格">
-          <text decode='true'>1、手机号码通过验证；</text>
-          <text decode='true'>2、有效直接推广人数≥1人；</text>
-          <text decode='true'>3、申请并支付1元获得白银推广大使资格；</text>
+          <text decode='true'>1、用户在微信登录后成为会员；</text>
+          <text decode='true'>2、用户填写个人资料以及手机号码通过验证；</text>
+          <text decode='true'>3、有效直接推广会员≥1人；</text>
+          <text decode='true'>4、申请并支付1元获得白银推广大使资格；</text>
           <view hidden="{{phonehidden}}">
           <l-button size="mini" type="default" bind:lintap="bvPhoneUpdate" shape="semicircle" plain="true">前往验证手机号码</l-button>
           </view>
@@ -58,19 +59,19 @@
             </view>
           </view>
         </l-card>
-        <l-card type="primary" plaintext="{{true}}" title="白银推广大使推广业绩奖励">
-          <text decode='true'>1、自然人代开：第一级推荐用户代办的自然人代开票金额的0.03%；</text>
-          <text decode='true'>2、企业注册：第一级推荐用户代办的企业注册每户300元；</text>
-          <text decode='true'>3、税收奖励：其本人代办的企业的税收奖励；</text>
+        <l-card type="primary" plaintext="{{true}}" title="白银推广大使推广积分奖励">
+          <text decode='true'>1、用户手机号首次通过验证获得50积分奖励；</text>
+          <text decode='true'>2、第一级积分奖励：按直接推荐的用户在创企服中实际消费金额的数值计算积分奖励；</text>
         </l-card>
       </l-collapse-item>
     </l-collapse>
     <l-collapse>
       <l-collapse-item title="黄金推广大使">
         <l-card type="primary" plaintext="{{true}}" title="黄金推广大使资格">
-          <text decode='true'>1、手机号码通过验证；</text>
-          <text decode='true'>2、有效直接推广人数≥100人；</text>
-          <text decode='true'>3、申请并支付1元获得黄金推广大使资格；</text>
+          <text decode='true'>1、用户在微信登录后成为会员；</text>
+          <text decode='true'>2、用户填写个人资料以及手机号码通过验证；</text>
+          <text decode='true'>3、有效直接推广会员≥100人；</text>
+          <text decode='true'>4、申请并支付1元获得黄金推广大使资格；</text>
           <view hidden="{{phonehidden}}">
           <l-button size="mini" type="default" bind:lintap="bvPhoneUpdate" shape="semicircle" plain="true">前往验证手机号码</l-button>
           </view>
@@ -91,19 +92,19 @@
           </view>
           </view>
         </l-card>
-        <l-card type="primary" plaintext="{{true}}" title="黄金推广大使推广业绩奖励">
-          <text decode='true'>1、自然人代开：第一级推荐用户代办的自然人代开票金额的0.03%；</text>
-          <text decode='true'>2、企业注册：第一级推荐用户代办的企业注册每户300元；</text>
-          <text decode='true'>3、税收奖励：其本人代办的企业的税收奖励；</text>
+        <l-card type="primary" plaintext="{{true}}" title="黄金推广大使推广积分奖励">
+          <text decode='true'>1、用户手机号首次通过验证获得50积分奖励；</text>
+          <text decode='true'>2、第一级积分奖励：按直接推荐的用户在创企服中实际消费金额数值的2倍计算积分奖励；</text>
         </l-card>
       </l-collapse-item>
     </l-collapse>
     <l-collapse>
       <l-collapse-item title="铂金推广大使">
         <l-card type="primary" plaintext="{{true}}" title="铂金推广大使资格">
-          <text decode='true'>1、手机号码通过验证；</text>
-          <text decode='true'>2、有效直接推广人数≥300人；</text>
-          <text decode='true'>3、申请并支付1元获得铂金推广大使资格；</text>
+          <text decode='true'>1、用户在微信登录后成为会员；</text>
+          <text decode='true'>2、用户填写个人资料以及手机号码通过验证；</text>
+          <text decode='true'>3、有效直接推广会员≥300人；</text>
+          <text decode='true'>4、申请并支付1元获得铂金推广大使资格；</text>
           <view hidden="{{phonehidden}}">
           <l-button size="mini" type="default" bind:lintap="bvPhoneUpdate" shape="semicircle" plain="true">前往验证手机号码</l-button>
           </view>
@@ -125,10 +126,10 @@
           </view>
           </view>
         </l-card>
-        <l-card type="primary" plaintext="{{true}}" title="铂金推广大使推广业绩奖励">
-          <text decode='true'>1、自然人代开：第一级推荐用户代办的自然人代开票金额的0.03%；</text>
-          <text decode='true'>2、企业注册：第一级推荐用户代办的企业注册每户300元；</text>
-          <text decode='true'>3、税收奖励：其本人代办的企业的税收奖励；</text>
+        <l-card type="primary" plaintext="{{true}}" title="铂金推广大使推广积分奖励">
+          <text decode='true'>1、用户手机号首次通过验证获得50积分奖励；</text>
+          <text decode='true'>2、第一级积分奖励：按直接推荐的用户在创企服中实际消费金额数值的2倍计算积分奖励；</text>
+          <text decode='true'>3、第二级积分奖励：按间接推荐的用户在创企服中实际消费金额的数值计算积分奖励；</text>
         </l-card>
       </l-collapse-item>
     </l-collapse>
