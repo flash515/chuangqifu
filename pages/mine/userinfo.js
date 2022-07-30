@@ -139,7 +139,7 @@ bvPhoneCode(e){
     })
     // 从本地存储中读取
     wx.getStorage({
-      key: 'LInviterUser',
+      key: 'LInviter',
       success: res => {
         this.setData({
           invitercompanyname: res.data.CompanyName,

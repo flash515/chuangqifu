@@ -130,6 +130,15 @@ Page({
         this.IndirectUserQuery(res.data)
       }
     })
+        // 通过传递来的参数查询推荐人信息
+        db.collection('USER').where({
+          _openid: app.globalData.Gindirectinviterid
+        }).get({
+          success: res => {
+            wx.setStorageSync('LIndirectInviter', res.data[0]);
+            app.globalData.Gindirectinviterpromoterlevel = res.data[0].PromoterLevel;
+          }
+        })
   },
   IndirectUserQuery: function (options) {
     // 从本地存储中读取

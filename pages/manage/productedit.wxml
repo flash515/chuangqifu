@@ -22,8 +22,22 @@
 <view>
   <l-input type="text" value="{{productid}}" label="产品编号:" bind:lininput="bvProductId"></l-input>
 </view>
+<view class="section">
+  <view class="section__title">产品分类</view>
+  <picker mode="multiSelector" bindchange="bindMultiPickerChange" bindcolumnchange="bindMultiPickerColumnChange" value="{{multiIndex}}" range="{{multiArray}}">
+    <view class="picker">
+      当前选择：{{multiArray[0][multiIndex[0]]}}，{{multiArray[1][multiIndex[1]]}}，{{multiArray[2][multiIndex[2]]}}
+    </view>
+  </picker>
+</view>
 <view>
-  <l-input type="text" value="{{producttype}}" label="产品类型:" bind:lininput="bvProductType"></l-input>
+  <l-input type="text" value="{{category1}}" label="产品一级分类:" bind:lininput="bvCategory1"></l-input>
+</view>
+<view>
+  <l-input type="text" value="{{category2}}" label="产品二级分类:" bind:lininput="bvCategory2"></l-input>
+</view>
+<view>
+  <l-input type="text" value="{{category3}}" label="产品三级分类:" bind:lininput="bvCategory3"></l-input>
 </view>
 <view>
   <l-input type="text" value="{{productname}}" label="产品名称:" bind:lininput="bvProductName"></l-input>
@@ -102,15 +116,13 @@
   <l-input type="digit" label="PL4普客价计算费率:" value="{{price4count}}" bind:lininput="bvPrice4Count"></l-input>
 </view>
 <view>
-
-<view class="page-section-title">代理积分奖励模式</view>
-<label class="radio">
-  <radio value="r1" checked="true"/>固定数值积分奖励
-</label>
-<label class="radio">
-  <radio value="r2" />按零售价的固定比例积分奖励
-</label>
+  <view class="page-section-title">代理佣金比例</view>
+  <l-radio-group current="system" none-checked="{{false}}" placement="row" bind:linchange="bvRadioChanged">
+    <l-radio key="system">系统默认比例</l-radio>
+    <l-radio key="custom">自设比例</l-radio>
+</l-radio-group>
 </view>
+<view hidden="{{commissiontype=='system'}}">
 <view>
   <l-input type="text" label="直接推荐人奖励金额：" value="{{commission1}}" bind:lininput="bvCommission1"></l-input>
 </view>
@@ -123,7 +135,7 @@
 <view>
   <l-input type="digit" label="间接推荐人奖励金额计算值:" value="{{commission2count}}" bind:lininput="bvCommission2Count"></l-input>
 </view>
-
+</view>
 
 <picker mode="date" value="{{startdate}}" start="2015-09-01" end="2022-09-01" bindchange="bvStartDate">
   <view class="picker">

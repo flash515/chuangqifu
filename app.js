@@ -92,7 +92,9 @@ App({
     GnickName: "",
     GavatarUrl: "",
     Ginviterid: "",
+    Ginviterpromoterlevel: "",
     Gindirectinviterid: "",
+    Gindirectinviterpromoterlevel: "",
     // 用户类型
     Gusertype: "",
     Gdirect1yearvaliduser:"",

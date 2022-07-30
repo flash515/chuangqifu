@@ -20,6 +20,7 @@
     "pages/order/neworder",
     "pages/order/orderdetail",
     "pages/order/orderhistory",
+    "pages/order/pointshistory",
     "pages/order/paymenthistory",
     "pages/order/pay",
     "pages/mine/pricepolicy",
@@ -94,7 +95,7 @@
         "text": "订单"
       },
       {
-        "pagePath": "pages/mine/points",
+        "pagePath": "pages/order/pointshistory",
         "iconPath": "/img/payment.png",
         "selectedIconPath": "/img/payment1.png",
         "text": "积分"

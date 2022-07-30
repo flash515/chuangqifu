@@ -9,9 +9,61 @@ Page({
     procudtarray: [], //通过查询功能得到的产品数组
     procudtdetail: [],
     array: [],
+    items: [
+      {value: 'System', name: '系统默认比例', checked: 'true'},
+      {value: 'Custom', name: '自设比例'},
+    ],
+    // 多列选择器
+    multiArray: [['无脊柱动物', '脊柱动物'], ['扁性动物', '线形动物', '环节动物', '软体动物', '节肢动物'], ['猪肉绦虫', '吸血虫']],
+    objectMultiArray: [
+      [
+        {
+          id: 0,
+          name: '无脊柱动物'
+        },
+        {
+          id: 1,
+          name: '脊柱动物'
+        }
+      ], [
+        {
+          id: 0,
+          name: '扁性动物'
+        },
+        {
+          id: 1,
+          name: '线形动物'
+        },
+        {
+          id: 2,
+          name: '环节动物'
+        },
+        {
+          id: 3,
+          name: '软体动物'
+        },
+        {
+          id: 3,
+          name: '节肢动物'
+        }
+      ], [
+        {
+          id: 0,
+          name: '猪肉绦虫'
+        },
+        {
+          id: 1,
+          name: '吸血虫'
+        }
+      ]
+    ],
+    multiIndex: [0, 0, 0],
     // 表单参数
     adddate: "",
     productid: "",
+    category1: "",
+    category2: "",
+    category3: "",
     producttype: "",
     productname: "",
     outline: "",
@@ -30,6 +82,7 @@ Page({
     price2: "",
     price3: "",
     price4: "",
+    commissiontype:"system",
     commission1:"",
     commission2:"",
     providercountprice: 0,
@@ -126,6 +179,9 @@ if(res.data.length>1){
       adddate: this.data.productarray[this.data.x].AddDate,
       status: this.data.productarray[this.data.x].Status,
       productid: this.data.productarray[this.data.x].ProductId,
+      category1: this.data.productarray[this.data.x].Category1,
+      category2: this.data.productarray[this.data.x].Category2,
+      category3: this.data.productarray[this.data.x].Category3,
       producttype: this.data.productarray[this.data.x].ProductType,
       productname: this.data.productarray[this.data.x].ProductName,
       outline: this.data.productarray[this.data.x].Outline,
@@ -151,6 +207,7 @@ if(res.data.length>1){
       price3count: this.data.productarray[this.data.x].Price3Count,
       price4: this.data.productarray[this.data.x].Price4,
       price4count: this.data.productarray[this.data.x].Price4Count,
+      commissiontype: this.data.productarray[this.data.x].CommissionType,
       commission1: this.data.productarray[this.data.x].Commission1,
       commission1count: this.data.productarray[this.data.x].Commission1Count,
       commission2: this.data.productarray[this.data.x].Commission2,
@@ -170,8 +227,11 @@ if(res.data.length>1){
       })
     }
   },
-
-
+  bvRadioChanged(e) {
+    this.setData({
+      commissiontype: e.detail.key
+    })
+  },
   onsaleChange(e) {
     if (e.detail.value == true) {
       this.setData({
@@ -204,6 +264,21 @@ if(res.data.length>1){
   bvProductName(e) {
     this.setData({
       productname: e.detail.value
+    })
+  },
+  bvCategory1(e) {
+    this.setData({
+      category1: e.detail.value
+    })
+  },
+  bvCategory2(e) {
+    this.setData({
+      category2: e.detail.value
+    })
+  },
+  bvCategory3(e) {
+    this.setData({
+      category3: e.detail.value
     })
   },
   bvProductType(e) {
@@ -492,6 +567,9 @@ if(res.data.length>1){
             AddDate: new Date().toLocaleDateString(),
             Status: this.data.status,
             ProductId: this.data.productid,
+            Category1: this.data.category1,
+            Category2: this.data.category2,
+            Category3: this.data.category3,
             ProductType: this.data.producttype,
             ProductName: this.data.productname,
             Outline: this.data.outline,
@@ -517,6 +595,7 @@ if(res.data.length>1){
             Price3Count: Number(this.data.price3count),
             Price4: this.data.price4,
             Price4Count: Number(this.data.price4count),
+            CommissionType: this.data.commissiontype,
             Commission1: this.data.commission1,
             Commission1Count: Number(this.data.commission1count),
             Commission2: this.data.commission2,
@@ -555,6 +634,9 @@ if(res.data.length>1){
       data: {
         Status: this.data.status,
         ProductId: this.data.productid,
+        Category1: this.data.category1,
+        Category2: this.data.category2,
+        Category3: this.data.category3,
         ProductType: this.data.producttype,
         ProductName: this.data.productname,
         Outline: this.data.outline,
@@ -580,6 +662,7 @@ if(res.data.length>1){
         Price3Count: this.data.price3count,
         Price4: this.data.price4,
         Price4Count: this.data.price4count,
+        CommissionType: this.data.commissiontype,
         Commission1: this.data.commission1,
         Commission1Count: Number(this.data.commission1count),
         Commission2: this.data.commission2,
@@ -650,6 +733,9 @@ if(res.data.length>1){
           adddate: fliter[0].AddDate,
           status: fliter[0].Status,
           productid: fliter[0].ProductId,
+          category1: fliter[0].Category1,
+          category2: fliter[0].Category2,
+          category3: fliter[0].Category3,
           producttype: fliter[0].ProductType,
           productname: fliter[0].ProductName,
           outline: fliter[0].Outline,
@@ -675,6 +761,7 @@ if(res.data.length>1){
           price3count: fliter[0].Price3Count,
           price4: fliter[0].Price4,
           price4count: fliter[0].Price4Count,
+          commissiontype: fliter[0].CommissionType,
           commission1: fliter[0].Commission1,
           commission1count: fliter[0].Commission1Count,
           commission2: fliter[0].Commission2,

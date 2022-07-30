@@ -44,7 +44,11 @@ Page({
     points:0,
     // 总办理费用，自动计算 
     totalfee: 0,
+    // 推荐人积分计算
+    commissiontype:"",
     // 直接推荐人，自动计算
+    inviterpoints: 0,
+    indirectinviterpoints: 0,
     commission1total: 0,
     // 间接推荐人，自动计算
     commission2total: 0,
@@ -195,6 +199,7 @@ Page({
           })
         }
         this.setData({
+          commissiontype: fliter[0].CommissionType,
           commission1: fliter[0].Commission1,
           commission1count: fliter[0].Commission1Count,
           commission2: fliter[0].Commission2,
@@ -213,6 +218,7 @@ bvCount(e) {
     commission2total: this.data.commission2count*e.detail.count,
     totalfee: this.data.temptotalfee-(this.data.points/10)
   })
+  this._commissioncount()
   console.log("客户计算价格", this.data.count)
 },
 bvPoints(e) {
@@ -222,7 +228,40 @@ bvPoints(e) {
     commission1total: this.data.commission1count*e.detail.count,
     commission2total: this.data.commission2count*e.detail.count
   })
+  this._pointscount()
   console.log("客户计算价格", this.data.count)
+},
+_pointscount(){
+  if (app.globalData.Ginviterpromoterlevel=="normal"){
+    this.setData({
+inviterpoints:0
+    })
+  }
+  else if(app.globalData.Ginviterpromoterlevel=="sliver"){
+    this.setData({
+inviterpoints:this.data.totalfee*0.1*10
+    })
+  }
+  else if(app.globalData.Ginviterpromoterlevel=="gold"){
+    this.setData({
+inviterpoints:this.data.totalfee*0.2*10
+    })
+  }
+  else if(app.globalData.Ginviterpromoterlevel=="platium"){
+    this.setData({
+inviterpoints:this.data.totalfee*0.2*10
+    })
+  }
+  if (app.globalData.Gindirectinviterpromoterlevel=="platium"){
+    this.setData({
+      indirectinviterpoints:this.data.totalfee*0.1*10
+    })
+  }
+  else{
+    this.setData({
+      indirectinviterpoints:0
+    })
+  }
 },
   onLoad: function (options) {
     //页面初始化 options为页面跳转所带来的参数
@@ -367,11 +406,12 @@ data:{
           TotalFee: this.data.totalfee,
           InviterId:app.globalData.Ginviterid,
           IndirectInviterId:app.globalData.Gindirectinviterid,
-          InviterPoints:app.globalData.Gpointsmagnification*this.data.commission1total,
-          IndirectInviterPoints:app.globalData.Gpointsmagnification*this.data.commission2total,
+          InviterPoints:this.data.inviterpoints,
+          IndirectInviterPoints:this.data.indirectinviterpoints,
           SysAddDate: new Date().getTime(),
           AddDate: new Date().toLocaleDateString(),
           PaymentStatus: "unchecked",
+          PointsStatus: "unchecked",
         },
         success(res) {
           that.setData({

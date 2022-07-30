@@ -73,13 +73,14 @@ Page({
       _openid: this.data.inviterid
     }).get({
       success: res => {
-        wx.setStorageSync('LInviterUser', res.data[0]);
+        wx.setStorageSync('LInviter', res.data[0]);
         this.setData({
           invitercompanyname: res.data[0].CompanyName,
           inviterusername: res.data[0].UserName,
           indirectinviterid: res.data[0].InviterOpenId
         })
         app.globalData.Gindirectinviterid = res.data[0].InviterOpenId;
+        app.globalData.Ginviterpromoterlevel = res.data[0].PromoterLevel;
       }
     })
     // 查询在售的产品并存入本地
