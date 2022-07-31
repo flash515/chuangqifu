@@ -41,7 +41,7 @@ Page({
 // 可用积分
     balance:6000,
 // 本次使用积分
-    points:0,
+consumepoints:0,
     // 总办理费用，自动计算 
     totalfee: 0,
     // 推荐人积分计算
@@ -221,9 +221,9 @@ bvCount(e) {
   this._commissioncount()
   console.log("客户计算价格", this.data.count)
 },
-bvPoints(e) {
+bvConsumePoints(e) {
   this.setData({
-    points:e.detail.count,
+    consumepoints:e.detail.count,
     totalfee: this.data.temptotalfee-(e.detail.count/10),
     commission1total: this.data.commission1count*e.detail.count,
     commission2total: this.data.commission2count*e.detail.count
@@ -323,7 +323,7 @@ data:{
           Count:this.data.count,
           TempTotalFee:this.data.temptotalfee,
           Balance:this.data.balance,
-          Points:this.data.points,
+          ConsumePoints:this.data.consumepoints,
           TotalFee: this.data.totalfee,
           Commission1Total: this.data.commission1total,
           Commission2Total: this.data.commission2total,
@@ -408,6 +408,8 @@ data:{
           IndirectInviterId:app.globalData.Gindirectinviterid,
           InviterPoints:this.data.inviterpoints,
           IndirectInviterPoints:this.data.indirectinviterpoints,
+          ConsumeId:app.globalData.Gopenid,
+          ConsumePoints:this.data.consumepoints,
           SysAddDate: new Date().getTime(),
           AddDate: new Date().toLocaleDateString(),
           PaymentStatus: "unchecked",

@@ -1,7 +1,5 @@
 <view>
-  <swiper class="swiper" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" circular="{{circular}}"
-    vertical="{{vertical}}" interval="{{interval}}" duration="{{duration}}" previous-margin="{{previousMargin}}px"
-    next-margin="{{nextMargin}}px">
+  <swiper class="swiper" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" circular="{{circular}}" vertical="{{vertical}}" interval="{{interval}}" duration="{{duration}}" previous-margin="{{previousMargin}}px" next-margin="{{nextMargin}}px">
     <block wx:for="{{image}}" wx:for-index="index" wx:key="key">
       <swiper-item>
         <image src="{{item}}" class="swiper image" mode="scaleToFill" />
@@ -13,56 +11,81 @@
 <view class="title">
   <text>会员积分记录</text>
 </view>
-<text>\n</text>
-<view class="title1">
-  <l-input label="积分余额：" type="text" label-layout="left" label-width="270"
-        placeholder="{{balance}}分" disabled="{{true}}" />
-</view>
 <view class="mainframe">
-<l-tabs>
-  <l-tabpanel tab="个人积分" key="one" slot="one">
-    <l-button class="mainbtn" data-name="POINTS" bind:lintap="bvRefresh" width="600" shape="semicircle" plain="{{true}}">刷新</l-button>
-    <view wx:for="{{personalpoints}}" wx:key="key">
-      <l-card type="primary" plaintext="{{true}}">
-        <view>积分日期：{{item.AddDate}}</view>
-        <view>积分事由：{{item.ProductName}}</view>
-        <view>积分数值：{{item.InviterPoints}}</view>
-        <view>入账状态：{{item.PointsStatus}}</view>
-      </l-card>
+  <view wx:if="{{avatarUrl=='' || nickName==''}}">
+    <button class="userinfo-nickname" bindtap='getUserProfile'>请微信登录后查看</button>
+  </view>
+  <view wx:else>
+    <view class="userinfo" style="display:flex; flex-direction:row; justify-content:space-between">
+      <view style="display:flex; flex-direction:row;align-items:center">
+        <view class="userinfo-avatar" style="background-image: url({{avatarUrl}})" size="default"></view>
+        <view class="userinfo-nickname">{{nickName}}</view>
+      </view>
     </view>
-  </l-tabpanel>
-  <l-tabpanel tab="直接推广积分" key="two" slot="two">
-    <l-button class="mainbtn" data-name="POINTS" bind:lintap="bvRefresh" width="600" shape="semicircle" plain="{{true}}">刷新</l-button>
-    <view wx:for="{{inviterpoints}}" wx:key="key">
-      <l-card type="primary" plaintext="{{true}}">
-        <view>积分日期：{{item.AddDate}}</view>
-        <view>积分事由：{{item.ProductName}}</view>
-        <view>积分数值：{{item.InviterPoints}}</view>
-        <view>入账状态：{{item.PointsStatus}}</view>
-      </l-card>
+    <view class="title1">
+      <l-input label="积分余额：" type="text" label-layout="left" label-width="270" placeholder="{{balance}}分" disabled="{{true}}" />
     </view>
-  </l-tabpanel>
-  <l-tabpanel tab="间接推广积分" key="three" slot="three">
-    <l-button class="mainbtn" data-name="POINTS" bind:lintap="bvRefresh" width="600" shape="semicircle" plain="{{true}}">刷新</l-button>
-    <view wx:for="{{indirectinviterpoints}}" wx:key="key">
-      <l-card type="primary" plaintext="{{true}}">
-        <view>积分日期：{{item.AddDate}}</view>
-        <view>积分事由：{{item.ProductName}}</view>
-        <view>积分数值：{{item.IndirectInviterPoints}}</view>
-        <view>入账状态：{{item.PointsStatus}}</view>
-      </l-card>
-    </view>
-  </l-tabpanel>
-  <l-tabpanel tab="积分使用" key="four" slot="four">
-    <l-button class="mainbtn" data-name="POINTS" bind:lintap="bvRefresh" width="600" shape="semicircle" plain="{{true}}">刷新</l-button>
-    <view wx:for="{{indirectinviterpoints}}" wx:key="key">
-      <l-card type="primary" plaintext="{{true}}">
-        <view>积分日期：{{item.AddDate}}</view>
-        <view>积分事由：{{item.ProductName}}</view>
-        <view>积分数值：{{item.IndirectInviterPoints}}</view>
-        <view>入账状态：{{item.PointsStatus}}</view>
-      </l-card>
-    </view>
-  </l-tabpanel>
-</l-tabs>
+    <l-tabs>
+      <l-tabpanel tab="个人积分" key="one" slot="one">
+        <l-button class="mainbtn" data-name="POINTS" bind:lintap="bvRefresh" width="600" shape="semicircle" plain="{{true}}">刷新</l-button>
+        <view wx:for="{{personalpoints}}" wx:key="key">
+          <l-card type="primary" plaintext="{{true}}">
+            <view>积分日期：{{item.AddDate}}</view>
+            <view>积分事由：{{item.ProductName}}</view>
+            <view>积分数值：{{item.InviterPoints}}</view>
+            <view style="display:flex; flex-direction:row;">
+              <view>入账状态：</view>
+              <view wx:if="{{item.PointsStatus =='unchecked'}}">待入账</view>
+              <view wx:if="{{item.PointsStatus =='checked'}}">已入账</view>
+            </view>
+          </l-card>
+        </view>
+      </l-tabpanel>
+      <l-tabpanel tab="直接推广积分" key="two" slot="two">
+        <l-button class="mainbtn" data-name="POINTS" bind:lintap="bvRefresh" width="600" shape="semicircle" plain="{{true}}">刷新</l-button>
+        <view wx:for="{{inviterpoints}}" wx:key="key">
+          <l-card type="primary" plaintext="{{true}}">
+            <view>积分日期：{{item.AddDate}}</view>
+            <view>积分事由：{{item.ProductName}}</view>
+            <view>积分数值：{{item.InviterPoints}}</view>
+            <view style="display:flex; flex-direction:row;">
+              <view>入账状态：</view>
+              <view wx:if="{{item.PointsStatus =='unchecked'}}">待入账</view>
+              <view wx:if="{{item.PointsStatus =='checked'}}">已入账</view>
+            </view>
+          </l-card>
+        </view>
+      </l-tabpanel>
+      <l-tabpanel tab="间接推广积分" key="three" slot="three">
+        <l-button class="mainbtn" data-name="POINTS" bind:lintap="bvRefresh" width="600" shape="semicircle" plain="{{true}}">刷新</l-button>
+        <view wx:for="{{indirectinviterpoints}}" wx:key="key">
+          <l-card type="primary" plaintext="{{true}}">
+            <view>积分日期：{{item.AddDate}}</view>
+            <view>积分事由：{{item.ProductName}}</view>
+            <view>积分数值：{{item.IndirectInviterPoints}}</view>
+            <view style="display:flex; flex-direction:row;">
+              <view>入账状态：</view>
+              <view wx:if="{{item.PointsStatus =='unchecked'}}">待入账</view>
+              <view wx:if="{{item.PointsStatus =='checked'}}">已入账</view>
+            </view>
+          </l-card>
+        </view>
+      </l-tabpanel>
+      <l-tabpanel tab="积分使用" key="four" slot="four">
+        <l-button class="mainbtn" data-name="POINTS" bind:lintap="bvRefresh" width="600" shape="semicircle" plain="{{true}}">刷新</l-button>
+        <view wx:for="{{consumepoints}}" wx:key="key">
+          <l-card type="primary" plaintext="{{true}}">
+            <view>积分使用日期：{{item.AddDate}}</view>
+            <view>积分使用事由：{{item.ProductName}}</view>
+            <view>积分使用数值：{{item.ConsumePoints}}</view>
+            <view style="display:flex; flex-direction:row;">
+              <view>入账状态：</view>
+              <view wx:if="{{item.PointsStatus =='unchecked'}}">待入账</view>
+              <view wx:if="{{item.PointsStatus =='checked'}}">已入账</view>
+            </view>
+          </l-card>
+        </view>
+      </l-tabpanel>
+    </l-tabs>
+  </view>
 </view>

@@ -11,9 +11,7 @@
 <l-card type="primary" plaintext="{{true}}">
   <l-list title="待办事项" icon="setting" url="../manage/pending" />
   <l-list title="用户管理" icon="setting" url="../manage/userview" />
-  <l-list title="税筹项目管理" icon="setting" url="../manage/scheme" />
   <l-list title="产品管理" icon="setting" url="../manage/productview" />
   <l-list title="管理员订阅消息管理" icon="notification" bind:lintap="bvSubMessage"/>
   <l-list title="客户订阅消息发送" icon="setting" url="../manage/messgae" />
-  <l-list title="测试页面" icon="address" url="../tools/test" />
 </l-card>       

@@ -127,6 +127,7 @@ Page({
                   UserType: "client",
                   DiscountLevel: "DL4",
                   PromoterLevel: "normal",
+                  Balance:10
                 },
                 success: res => {
                   wx.cloud.callFunction({
@@ -160,7 +161,7 @@ Page({
               app.globalData.Gusertype = "client"
               app.globalData.Gdiscountlevel = "DL4"
               app.globalData.Gpromoterlevel = "null"
-
+              app.globalData.Gbalance =10
             } else {
               app.globalData.Gcompanyname = this.data.userinfo.CompanyName
               app.globalData.Gusername = this.data.userinfo.UserName
@@ -169,6 +170,7 @@ Page({
               app.globalData.Gusertype = this.data.userinfo.UserType
               app.globalData.Gdiscountlevel = this.data.userinfo.DiscountLevel
               app.globalData.Gpromoterlevel = this.data.userinfo.PromoterLevel
+              app.globalData.Gbalance = this.data.userinfo.Balance
             }
             // 判断是否新用户并提交数据库的代码框结束
           }

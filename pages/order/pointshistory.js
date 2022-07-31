@@ -5,8 +5,14 @@ Page({
    * 页面的初始数据
    */
   data: {
+    avatarUrl: "",
+    nickName: "",
     balance: 0,
     orderhistory: [],
+    personalpoints:[],
+    inviterpoints:[],
+    indirectinviterpoints:[],
+    consumepoints:[],
     // 轮播参数
     image: [],
     indicatorDots: true,
@@ -17,6 +23,51 @@ Page({
     duration: 500,
     previousMargin: 0,
     nextMargin: 0
+  },
+  getUserProfile: function (e) {
+    wx.getUserProfile({
+      desc: "登录创企服以查看更多信息",
+      success: res => {
+        console.log("获得的用户微信信息", res)
+        this.setData({
+          avatarUrl: res.userInfo.avatarUrl,
+          nickName: res.userInfo.nickName
+        })
+        app.globalData.GavatarUrl=res.userInfo.avatarUrl
+        app.globalData.GnickName=res.userInfo.nickName
+        // 获取数据库引用
+        const db = wx.cloud.database()
+        // 更新数据
+        db.collection('USER').where({
+          _openid: app.globalData.Gopenid
+        }).update({
+          data: {
+            avatarUrl: res.userInfo.avatarUrl,
+            city: res.userInfo.city,
+            country: res.userInfo.country,
+            gender: res.userInfo.gender,
+            language: res.userInfo.language,
+            nickName: res.userInfo.nickName,
+            province: res.userInfo.province
+          },
+        })
+        // 以上更新数据结束
+        wx.showToast({
+          icon:'success',
+          title: '登录成功',
+        })
+        return;
+      },
+      fail: res => {
+        //拒绝授权
+        wx.showToast({
+          icon: 'error',
+          title: '您拒绝了请求',
+        })
+        return;
+      }
+    })
+
   },
   bvRefresh(e) {
     wx.cloud.callFunction({
@@ -54,28 +105,36 @@ Page({
           // 列表渲染
           pointshistory: res.data
         })
-        var personalfliter = []
-        var inviterfliter = []
-        var indirectinviterfliter = []
+        var personalfliter = [];
+        var inviterfliter = [];
+        var indirectinviterfliter = [];
+        var consumefliter = [];
         for (var i = 0; i < res.data.length; i++) {
-          if (res.data[i].PersonalId == app.globalData.Gopenid) {
+          if (res.data[i].PersonalId == app.globalData.Gopenid && res.data[i].PointsStatus=="checked"){
             personalfliter.push(res.data[i]);
           }
         }
         for (var i = 0; i < res.data.length; i++) {
-          if (res.data[i].InviterId == app.globalData.Gopenid) {
+          if (res.data[i].InviterId == app.globalData.Gopenid && res.data[i].PointsStatus=="checked") {
             inviterfliter.push(res.data[i]);
           }
         }
         for (var i = 0; i < res.data.length; i++) {
-          if (res.data[i].IndirectInviterId == app.globalData.Gopenid) {
+          if (res.data[i].IndirectInviterId == app.globalData.Gopenid && res.data[i].PointsStatus=="checked") {
             indirectinviterfliter.push(res.data[i]);
+          }
+        }
+        for (var i = 0; i < res.data.length; i++) {
+          if (res.data[i].ConsumeId == app.globalData.Gopenid && res.data[i].PointsStatus=="checked") {
+            consumefliter.push(res.data[i]);
           }
         }
         this.setData({
           personalpoints: personalfliter,
           inviterpoints:inviterfliter,
-          indirectinviterpoints:indirectinviterfliter
+          indirectinviterpoints:indirectinviterfliter,
+          consumepoints:consumefliter,
+          balance:app.globalData.Gbalance
         })
         console.log(this.data.pointshistory);
       }
@@ -93,7 +152,11 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    this.setData({
+      avatarUrl: app.globalData.GavatarUrl,
+      nickName: app.globalData.GnickName,
+      image: app.globalData.Gimagearray
+    })
   },
 
   /**
@@ -113,24 +176,6 @@ Page({
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  onPullDownRefresh: function () {
-    wx.cloud.callFunction({
-      name: "NormalQuery",
-      data: {
-        collectionName: "PAYMENT",
-        command: "and",
-        where: [{
-          _openid: app.globalData.Gopenid
-        }]
-      },
-      success: res => {
-        this.setData({
-          paymenthistory: res.result.data
-        })
-      }
-    })
-    wx.stopPullDownRefresh()
-  },
 
   /**
    * 页面上拉触底事件的处理函数

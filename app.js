@@ -100,6 +100,7 @@ App({
     Gdirect1yearvaliduser:"",
     Gdiscountlevel: "",
     Gpromoterlevel: "",
+    Gbanlance: "",
     //轮播图
     Gimagearray:[],
     //用户设置

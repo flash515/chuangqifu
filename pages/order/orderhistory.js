@@ -6,6 +6,8 @@ Page({
    * 页面的初始数据
    */
   data: {
+    avatarUrl: "",
+    nickName: "",
     orderhistory:[],
     discounthistory:[],
     promoterhistory:[],
@@ -23,7 +25,7 @@ Page({
   bvOrdertDetail(e) {
     console.log(e.currentTarget.dataset.id)
     wx.navigateTo({
-      url: '../order/orderdetail?' + e.currentTarget.dataset.id
+      url: '../order/orderdetail?id=' + e.currentTarget.dataset.id
     })
   },
   bvToPay(e) {
@@ -60,6 +62,51 @@ if(e.currentTarget.dataset.name=="ORDER"){
       }
     })
   },
+  getUserProfile: function (e) {
+    wx.getUserProfile({
+      desc: "登录创企服以查看更多信息",
+      success: res => {
+        console.log("获得的用户微信信息", res)
+        this.setData({
+          avatarUrl: res.userInfo.avatarUrl,
+          nickName: res.userInfo.nickName
+        })
+        app.globalData.GavatarUrl=res.userInfo.avatarUrl
+        app.globalData.GnickName=res.userInfo.nickName
+        // 获取数据库引用
+        const db = wx.cloud.database()
+        // 更新数据
+        db.collection('USER').where({
+          _openid: app.globalData.Gopenid
+        }).update({
+          data: {
+            avatarUrl: res.userInfo.avatarUrl,
+            city: res.userInfo.city,
+            country: res.userInfo.country,
+            gender: res.userInfo.gender,
+            language: res.userInfo.language,
+            nickName: res.userInfo.nickName,
+            province: res.userInfo.province
+          },
+        })
+        // 以上更新数据结束
+        wx.showToast({
+          icon:'success',
+          title: '登录成功',
+        })
+        return;
+      },
+      fail: res => {
+        //拒绝授权
+        wx.showToast({
+          icon: 'error',
+          title: '您拒绝了请求',
+        })
+        return;
+      }
+    })
+
+  },
   /**
    * 生命周期函数--监听页面加载
    */
@@ -93,6 +140,7 @@ if(e.currentTarget.dataset.name=="ORDER"){
         this.setData({
           orderhistory: res.result.data
         })
+        wx.setStorageSync('LOrderHistory', res.result.data);
       }
     })
     wx.cloud.callFunction({
@@ -123,7 +171,11 @@ if(e.currentTarget.dataset.name=="ORDER"){
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    this.setData({
+      avatarUrl: app.globalData.GavatarUrl,
+      nickName: app.globalData.GnickName,
+      image: app.globalData.Gimagearray
+    })
   },
 
   /**

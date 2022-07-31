@@ -40,7 +40,7 @@
 <view>    <l-input label="可用积分：" placeholder="{{balance}}" label-layout="left" label-width="270" disabled="{{true}}" /></view>
   <view class="flex-row">
   <view>    <l-input label="本次使用积分：" label-layout="left" label-width="270" disabled="{{true}}" /></view>
-  <view>    <l-counter count="{{points}}" min="0" step="10" bind:lintap="bvPoints" disabled="{{submitted}}"/></view>
+  <view>    <l-counter count="{{consumepoints}}" min="0" step="10" max="{{balance}}" bind:lintap="bvConsumePoints" disabled="{{submitted}}"/></view>
   </view>
   <view>
   <l-input label="实际支付费用（元）：" placeholder="{{totalfee}}" type="number" label-layout="left"
