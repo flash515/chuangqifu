@@ -29,6 +29,7 @@ Page({
     companyscale: "",
     username: "",
     userphone: "",
+    useroldphone: "",
     result:"未发送",
     usertype: "",
     adddate: "",
@@ -157,7 +158,9 @@ bvPhoneCode(e){
           companyscale: res.data.CompanyScale,
           username: res.data.UserName,
           userphone: res.data.UserPhone,
+          useroldphone: res.data.UserPhone,
           usertype: res.data.UserType,
+          balance: res.data.Balance,
           adddate: res.data.AddDate,
           updatedate: res.data.UpdateDate
         })
@@ -178,13 +181,12 @@ bvPhoneCode(e){
           businessscope: res.data[0].BusinessScope,
           companyscale: res.data[0].CompanyScale,
           username: res.data[0].UserName,
+          useroldphone: res.data[0].UserPhone,
           userphone: res.data[0].UserPhone,
           usertype: res.data[0].UserType,
+          balance:res.data[0].Balance,
           adddate: res.data[0].AddDate,
           updatedate: res.data[0].UpdateDate,
-          accountname:res.data[0].AccountName,
-          bankname:res.data[0].BankName,
-          account:res.data[0].Account
         })
       }
     })
@@ -221,13 +223,26 @@ bvPhoneCode(e){
         })
       }
     })
-
+    // 根据用户是否已验证手机号，提供首次验证积分
+    if(this.data.useroldphone==""){
+      console.log('加积分')
+      const db = wx.cloud.database()
+      db.collection('USER').where({
+        _openid: this.data.openid
+      }).update({
+        data: {
+          Balance: this.data.balance+50,
+          UpdateDate: new Date().toLocaleDateString()
+        },
+    })
+    }
   } else {
     wx.showToast({
         title: '验证码错误',
         icon: 'error',
         duration: 2000
     })
+
 }
   },
 

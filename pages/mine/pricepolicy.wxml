@@ -14,29 +14,30 @@
 </view>
 <view class="mainframe">
   <l-collapse>
-    <l-collapse-item title="查看价格优惠政策">
+    <l-collapse-item title="价格优惠政策说明">
       <l-card type="primary" plaintext="{{true}}">
-        <text space="emsp" decode='true'>  创企服提供了根据客户业务量调整报价的方式，只需具备相应的业务量即可在当前订单获得优惠的即时价格；同时，创企服也提供了客户购买会员卡券即可获得在一定期间内价格优惠的方式。\n</text>
-        <text space="emsp" decode='true'> 创企服产品售价体系：普客价&gt;会员价\n</text>
-        <text space="emsp" decode='true'> 例如注册及托管小规模企业的价格为：\n</text>
-        <text space="emsp" decode='true'> 普客价：7000元/年\n</text>
-        <text space="emsp" decode='true'> 会员价：6000元/年\n</text>
+        <text space="emsp" decode='true'>  创企服产品售价体系：普客价&gt;折扣价\n</text>
+        <text space="emsp" decode='true'>  例如注册及托管小规模企业的价格为：\n</text>
+        <text space="emsp" decode='true'>  普客价：7000元/年\n</text>
+        <text space="emsp" decode='true'>  折扣价：6000元/年\n</text>
+        <text space="emsp" decode='true'>  创企服提供了根据用户业务量调整报价的方式，只需具备相应的业务量即可在当前订单获得价格优惠；\n</text>
+        <text space="emsp" decode='true'>  同时，创企服也提供了用户购买折扣卡即可获得在一定期间内价格优惠的方式。\n</text>
       </l-card>
     </l-collapse-item>
   </l-collapse>
   <l-collapse>
-    <l-collapse-item title="查看即时价格优惠政策">
-      <l-card type="primary" plaintext="{{true}}" title="即时会员价——符合以下任一条件可享即时会员价">
+    <l-collapse-item title="一、根据业务量获得价格优惠政策">
+      <l-card type="primary" plaintext="{{true}}" title="业务量符合以下任一条件可享折扣价">
         <text decode='true'>前溯一年内办理自然人代开票金额≥100万；或</text>
         <text decode='true'>前溯一年内办理企业注册数量≥1家；或</text>
-        <text decode='true'>前溯一年内推广有效客户数量≥50人；</text>
+        <text decode='true'>前溯一年内推广有效用户数量≥50人；</text>
       </l-card>
     </l-collapse-item>
   </l-collapse>
   <view hidden="{{orderhidden==false}}">
     <l-collapse>
-      <l-collapse-item title="会员卡系列">
-        <l-card type="avatar" plaintext="{{true}}" title="会员单次体验卡">
+      <l-collapse-item title="二、购买折扣卡获得价格优惠政策">
+        <l-card type="avatar" plaintext="{{true}}" title="单次折扣体验卡">
           <text>有效期：限30天内单次使用</text>
           <text>购卡费用：50元</text>
           <picker mode="date" value="{{dl3_30startdate}}" start="{{startdate}}" bindchange="bvDL3_30">
@@ -46,11 +47,11 @@
           </picker>
           <text class="text" style="color:blue">卡券失效日期：{{dl3_30enddate}}</text>
           <l-button slot="more" size="mini" type="default" bind:lintap="bvBuy" data-level="DL3" data-id="DL3_Single"
-            data-name="会员单次体验卡" data-startdate="{{dl3_30startdate}}" data-enddate="{{dl3_30enddate}}" data-price="50"
+            data-name="单次折扣体验卡" data-startdate="{{dl3_30startdate}}" data-enddate="{{dl3_30enddate}}" data-price="50"
             shape="semicircle" plain="true">购买</l-button>
         </l-card>
         <text>\n</text>
-        <l-card type="avatar" plaintext="{{true}}" title="会员季卡">
+        <l-card type="avatar" plaintext="{{true}}" title="折扣季卡">
           <text>有效期：90天</text>
           <text>购卡费用：300元</text>
           <picker mode="date" value="{{dl3_90startdate}}" start="{{startdate}}" bindchange="bvDL3_90">
@@ -60,11 +61,11 @@
           </picker>
           <text class="text" style="color:blue">卡券失效日期：{{dl3_90enddate}}</text>
           <l-button slot="more" size="mini" type="default" bind:lintap="bvBuy" data-level="DL3" data-id="DL3_90"
-            data-name="会员季卡" data-startdate="{{dl3_90startdate}}" data-enddate="{{dl3_90enddate}}" data-price="300"
+            data-name="折扣季卡" data-startdate="{{dl3_90startdate}}" data-enddate="{{dl3_90enddate}}" data-price="300"
             shape="semicircle" plain="true">购买</l-button>
         </l-card>
         <text>\n</text>
-        <l-card type="avatar" plaintext="{{true}}" title="会员半年卡">
+        <l-card type="avatar" plaintext="{{true}}" title="折扣半年卡">
           <text>有效期：180天</text>
           <text>购卡费用：400元</text>
           <picker mode="date" value="{{dl3_180startdate}}" start="{{startdate}}" bindchange="bvDL3_180">
@@ -74,11 +75,11 @@
           </picker>
           <text class="text" style="color:blue">卡券失效日期：{{dl3_180enddate}}</text>
           <l-button slot="more" size="mini" type="default" bind:lintap="bvBuy" data-level="DL3" data-id="DL3_180"
-            data-name="会员半年卡" data-startdate="{{dl3_180startdate}}" data-enddate="{{dl3_180enddate}}" data-price="450"
+            data-name="折扣半年卡" data-startdate="{{dl3_180startdate}}" data-enddate="{{dl3_180enddate}}" data-price="450"
             shape="semicircle" plain="true">购买</l-button>
         </l-card>
         <text>\n</text>
-        <l-card type="avatar" plaintext="{{true}}" title="会员年卡">
+        <l-card type="avatar" plaintext="{{true}}" title="折扣年卡">
           <text>有效期：360天</text>
           <text>购卡费用：600元</text>
           <picker mode="date" value="{{dl3_360startdate}}" start="{{startdate}}" bindchange="bvDL3_360">
@@ -88,15 +89,15 @@
           </picker>
           <text class="text" style="color:blue">卡券失效日期：{{dl3_360enddate}}</text>
           <l-button slot="more" size="mini" type="default" bind:lintap="bvBuy" data-level="DL3" data-id="DL3_360"
-            data-name="会员年卡" data-startdate="{{dl3_360startdate}}" data-enddate="{{dl3_360enddate}}" data-price="600"
+            data-name="折扣年卡" data-startdate="{{dl3_360startdate}}" data-enddate="{{dl3_360enddate}}" data-price="600"
             shape="semicircle" plain="true">购买</l-button>
         </l-card>
       </l-collapse-item>
     </l-collapse>
   </view>
   <view hidden="{{orderhidden}}">
-    <l-card type="avatar" plaintext="{{true}}" title="会员卡订单详情">
-      <text>会员卡券名称：{{ordername}}</text>
+    <l-card type="avatar" plaintext="{{true}}" title="折扣卡订单详情">
+      <text>折扣卡券名称：{{ordername}}</text>
       <text>卡券购买费用：{{orderfee}}元</text>
       <text>卡券生效日期：{{orderstartdate}}</text>
       <text>卡券失效日期：{{orderenddate}}</text>
@@ -108,9 +109,9 @@
   <text>\n</text>
   <l-card type="primary" plaintext="{{true}}">
     <text>当前价格类型：{{dlname}}</text>
-    <text>会员购买日期：{{adddate}}</text>
-    <text>会员生效日期：{{dlstartdate}}</text>
-    <text>会员失效日期：{{dlenddate}}</text>
+    <text>卡券购买日期：{{adddate}}</text>
+    <text>卡券生效日期：{{dlstartdate}}</text>
+    <text>卡券失效日期：{{dlenddate}}</text>
     <view style="display:flex; flex-direction:row;">
       <view>付款状态：</view>
       <view wx:if="{{paymentstatus =='unchecked'}}">待确认</view>

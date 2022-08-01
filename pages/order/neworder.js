@@ -39,7 +39,7 @@ Page({
     // 积分折减前总办理费用，自动计算
     temptotalfee: 0,
 // 可用积分
-    balance:6000,
+    balance:0,
 // 本次使用积分
 consumepoints:0,
     // 总办理费用，自动计算 
@@ -108,6 +108,7 @@ consumepoints:0,
       image: app.globalData.Gimagearray,
       avatarUrl: app.globalData.GavatarUrl,
       nickName: app.globalData.GnickName,
+
     })
   },
   bvDiscountCheck(){
@@ -216,7 +217,7 @@ bvCount(e) {
     temptotalfee: this.data.orderpricecount*e.detail.count,
     commission1total: this.data.commission1count*e.detail.count,
     commission2total: this.data.commission2count*e.detail.count,
-    totalfee: this.data.temptotalfee-(this.data.points/10)
+    totalfee: this.data.temptotalfee-(this.data.consumepoints/10)
   })
   this._commissioncount()
   console.log("客户计算价格", this.data.count)
@@ -271,7 +272,8 @@ inviterpoints:this.data.totalfee*0.2*10
       productid: options.productid,
       productname: options.productname,
       issuedplace: options.issuedplace,
-      points:this.data.balance
+      balance:app.globalData.Gbalance,
+      consumepoints:app.globalData.Gbalance,
     })
     this.bvDiscountCheck()
   },

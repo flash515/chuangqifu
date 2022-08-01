@@ -110,10 +110,10 @@
   <l-input type="digit" label="PL3优惠价计算费率:" value="{{price3count}}" bind:lininput="bvPrice3Count"></l-input>
 </view>
 <view>
-  <l-input type="text" label="PL4普客价格:" value="{{price4}}" bind:lininput="bvPrice4"></l-input>
+  <l-input type="text" label="PL4原价格:" value="{{price4}}" bind:lininput="bvPrice4"></l-input>
 </view>
 <view>
-  <l-input type="digit" label="PL4普客价计算费率:" value="{{price4count}}" bind:lininput="bvPrice4Count"></l-input>
+  <l-input type="digit" label="PL4原价计算费率:" value="{{price4count}}" bind:lininput="bvPrice4Count"></l-input>
 </view>
 <view>
   <view class="page-section-title">代理佣金比例</view>

@@ -45,12 +45,7 @@
         <l-input type="text" label="企业规模：" value="{{companyscale}}" bind:lininput="bvCompanyScale"></l-input>
       </view>
     </l-tabpanel>
-    <l-tabpanel tab="收款账号" key="two" slot="two">
-      <l-input type="text" label="账户名称：" value="{{accountname}}" bind:lininput="bvAccountName"></l-input>
-      <l-input type="text" label="开户银行：" value="{{bankname}}" bind:lininput="bvBankName"></l-input>
-      <l-input type="text" label="银行账号：" value="{{account}}" bind:lininput="bvAccount"></l-input>
-    </l-tabpanel>
-    <l-tabpanel tab="邀请人信息" key="three" slot="three">
+    <l-tabpanel tab="邀请人信息" key="two" slot="two">
       <view>
         <l-input type="text" label="邀请企业：" value="{{invitercompanyname}}" disabled="{{true}}"></l-input>
       </view>

@@ -310,31 +310,31 @@ this.setData({
           })
           if (tempfliter[0].DiscountLevel == "DL1") {
             this.setData({
-              dlname: "特惠价"
+              dlname: "特惠折扣价"
             })
           } else if (tempfliter[0].DiscountLevel == "DL2") {
             this.setData({
-              dlname: "巨惠价"
+              dlname: "巨惠折扣价"
             })
           } else if (tempfliter[0].DiscountLevel == "DL3") {
             this.setData({
-              dlname: "会员价"
+              dlname: "折扣价"
             })
           } else if (tempfliter[0].DiscountLevel == "DL4") {
             this.setData({
-              dlname: "普客价"
+              dlname: "原价"
             })
           }
         } else{
             //卡券已过期
             this.setData({
-              dlname: "普客价"
+              dlname: "原价"
             })
           }
         } else {
           //没有卡券
           this.setData({
-            dlname: "普客价",
+            dlname: "原价",
           })
         }
       }

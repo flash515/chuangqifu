@@ -348,19 +348,19 @@ this.setData({
             })
           } else if (tempfliter[0].DiscountLevel == "DL4") {
             this.setData({
-              dlname: "普客价"
+              dlname: "原价"
             })
           }
         } else{
             //卡券已过期
             this.setData({
-              dlname: "普客价"
+              dlname: "原价"
             })
           }
         } else {
           //没有卡券
           this.setData({
-            dlname: "普客价",
+            dlname: "原价",
           })
         }
       }

@@ -125,9 +125,10 @@ Page({
                   InviterCompanyName: this.data.invitercompanyname,
                   InviterUserName: this.data.inviterusername,
                   UserType: "client",
+                  UserPhone:"",
                   DiscountLevel: "DL4",
                   PromoterLevel: "normal",
-                  Balance:10
+                  Balance:0
                 },
                 success: res => {
                   wx.cloud.callFunction({
