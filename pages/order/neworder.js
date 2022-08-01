@@ -108,7 +108,6 @@ consumepoints:0,
       image: app.globalData.Gimagearray,
       avatarUrl: app.globalData.GavatarUrl,
       nickName: app.globalData.GnickName,
-
     })
   },
   bvDiscountCheck(){

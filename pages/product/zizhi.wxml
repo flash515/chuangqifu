@@ -30,7 +30,7 @@
           </view>
           <view wx:if="{{usertype == 'admin'||usertype == 'provider'||discountlevel == 'DL2'}}"> {{item.Price2}}
           </view>
-          <view wx:if="{{usertype == 'admin'||usertype == 'provider'||discountlevel == 'DL3'}}">会员价：{{item.Price3}}
+          <view wx:if="{{usertype == 'admin'||usertype == 'provider'||discountlevel == 'DL3'}}">折扣价：{{item.Price3}}
           </view>
           <view wx:if="{{usertype == 'admin'||usertype == 'provider'||discountlevel == 'DL4'}}">原价：{{item.Price4}}
           </view>
