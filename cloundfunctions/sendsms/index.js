@@ -4,7 +4,7 @@ const QcloudSms = require("qcloudsms_js")
 const appid = "1400717137" // 替换成您申请的云短信 AppID 以及 AppKey
 const appkey = "83e5282068850cbec24b7822164422bf"
 const templateId = "1496907" // 替换成您所申请模板 ID
-const smsSign = "创企服" // 替换成您所申请的签名
+const smsSign = "创企服小程序" // 替换成您所申请的签名
 
 cloud.init({
   env: 'cloud1-2gn7aud7a22c693c',
