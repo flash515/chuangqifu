@@ -1,4 +1,4 @@
-<!-- 个体工商户详情 -->
+<!-- 产品详情 -->
 <view>
   <swiper class="swiper" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" circular="{{circular}}"
     vertical="{{vertical}}" interval="{{interval}}" duration="{{duration}}" previous-margin="{{previousMargin}}px"
@@ -38,18 +38,34 @@
     <view>{{item.Reward}}</view>
     <label class="title1">奖励时间：</label>
     <view>{{item.RewardTime}}</view>
+    <label class="title1">推荐程度：</label>
+    <l-rate active-color="red" inActive-color="grey" score="{{item.Score}}" count="10" />
     <label class="title1">办理费用：</label>
     <view wx:if="{{avatarUrl=='' || nickName==''}}">
       <button class="userinfo-nickname" bindtap='getUserProfile'>微信登录</button>
     </view>
     <view wx:else>
-      <view wx:if="{{usertype == 'admin'||usertype == 'provider'||discountlevel == 'DL1'}}"> {{item.Price1}} </view>
-      <view wx:if="{{usertype == 'admin'||usertype == 'provider'||discountlevel == 'DL2'}}"> {{item.Price2}} </view>
-      <view wx:if="{{usertype == 'admin'||usertype == 'provider'||discountlevel == 'DL3'}}"> {{item.Price3}} </view>
-      <view wx:if="{{usertype == 'admin'||usertype == 'provider'||discountlevel == 'DL4'}}"> {{item.Price4}}</view>
+      <view wx:if="{{usertype == 'admin'||discountlevel == 'DL1'}}"><l-price 
+        unit=""
+    value="原价：{{item.Price4}}"
+    deleted="{{true}}"
+    del-color="#3963bc"
+  ></l-price> <view>特惠折扣价：{{item.Price1}}</view> </view>
+      <view wx:if="{{usertype == 'admin'||discountlevel == 'DL2'}}"><l-price 
+        unit=""
+    value="原价：{{item.Price4}}"
+    deleted="{{true}}"
+    del-color="#3963bc"
+  ></l-price> <view>巨惠折扣价：{{item.Price2}}</view> </view>
+      <view wx:if="{{usertype == 'admin'||discountlevel == 'DL3'}}"><l-price 
+        unit=""
+    value="原价：{{item.Price4}}"
+    deleted="{{true}}"
+    del-color="#3963bc"
+  ></l-price> <view>折扣价：{{item.Price3}}</view></view>
+      <view wx:if="{{usertype == 'admin'||discountlevel == 'DL4'}}"> {{item.Price4}}</view>
     </view>
-    <label class="title1">推荐程度：</label>
-    <l-rate active-color="red" inActive-color="grey" score="{{item.Score}}" count="10" />
+
     <!-- 附件展示 -->
     <label class="title1">其他资料：</label>
     <view wx:for="{{item.AttachmentImage}}" wx:for-item="value" wx:for-index="key" wx:key="key">

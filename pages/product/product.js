@@ -165,7 +165,7 @@ Page({
   bvNewIndibusiness(e) {
     console.log(e.currentTarget.dataset.id);
     wx.navigateTo({
-      url: '../order/newindibusiness?' + e.currentTarget.dataset.id
+      url: '../order/neworder?' + e.currentTarget.dataset.id
     })
   },
 

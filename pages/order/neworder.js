@@ -109,53 +109,9 @@ consumepoints:0,
       avatarUrl: app.globalData.GavatarUrl,
       nickName: app.globalData.GnickName,
     })
+    this._totalfee()
   },
-  bvDiscountCheck(){
-    const db = wx.cloud.database()
-    const _ = db.command
-    db.collection('DISCOUNTORDER').where({
-        _openid: app.globalData.Gopenid,
-        PaymentStatus:"checked",
-        OrderStatus:"checked",
-        Available:true,
-      }).orderBy('PaymentId','desc').get({
-      success: res => {
-        console.log(res)
-        if (res.data.length != 0) {
-          var tempfliter = []
-          for (var i = 0; i < res.data.length; i++) {
-            if (new Date(res.data[i].DLStartDate).getTime() <= new Date().getTime() && new Date(res.data[i].DLEndDate).getTime() >= new Date().getTime()) {
-              tempfliter.push(res.data[i]);
-            }
-          }
-          if(tempfliter.length !=0  && tempfliter.length != undefined){
-          console.log(tempfliter)
-          this.setData({
-            discountorderid:tempfliter[0]._id,
-            discountid:tempfliter[0].DiscountId,
-            discounthidden:false,
-            discountname:tempfliter[0].DiscountName,
-            discountlevel:tempfliter[0].DiscountLevel,
-            adddate:tempfliter[0].AddDate,
-            dlstartdate: tempfliter[0].DLStartDate,
-            dlenddate: tempfliter[0].DLEndDate,
-
-          })
-        }
-      }
-      else{
-        this.setData({
-          discountlevel:"DL4",
-          discounthidden:true,
-        })
-      }
-      console.log(this.data.discountlevel)
-      this.bvOrderPrice(this.data.discountlevel)
-    }
-    })
-
-  },
-  bvOrderPrice() {
+  _orderprice() {
     // 从本地存储中读取客户价格
     wx.getStorage({
       key: 'LProductList',
@@ -170,32 +126,37 @@ consumepoints:0,
           }
         }
         console.log(fliter);
-        if (this.data.discountlevel == 'DL1') {
+        if (app.globalData.Gdiscountlevel == 'DL1') {
           this.setData({
             orderpricecount: fliter[0].Price1Count,
             orderprice: fliter[0].Price1,
-            temptotalfee: fliter[0].Price1Count
+            temptotalfee: fliter[0].Price1Count,
+            totalfee: fliter[0].Price1Count-(this.data.consumepoints/10),
           })
+          console.log(this.data.orderprice)
         }
-        else if (this.data.discountlevel == 'DL2') {
+        else if (app.globalData.Gdiscountlevel == 'DL2') {
           this.setData({
             orderpricecount: fliter[0].Price2Count,
             orderprice: fliter[0].Price2,
-            temptotalfee: fliter[0].Price2Count
+            temptotalfee: fliter[0].Price2Count,
+            totalfee: fliter[0].Price2Count-(this.data.consumepoints/10),
           })
         }
-        else if (this.data.discountlevel == 'DL3') {
+        else if (app.globalData.Gdiscountlevel == 'DL3') {
           this.setData({
             orderpricecount: fliter[0].Price3Count,
             orderprice: fliter[0].Price3,
-            temptotalfee: fliter[0].Price43ount
+            temptotalfee: fliter[0].Price3Count,
+            totalfee: fliter[0].Price3Count-(this.data.consumepoints/10),
           })
         }
-        else if (this.data.discountlevel == 'DL4') {
+        else if (app.globalData.Gdiscountlevel == 'DL4') {
           this.setData({
             orderpricecount: fliter[0].Price4Count,
             orderprice: fliter[0].Price4,
-            temptotalfee: fliter[0].Price4Count
+            temptotalfee: fliter[0].Price4Count,
+            totalfee: fliter[0].Price4Count-(this.data.consumepoints/10),
           })
         }
         this.setData({
@@ -209,27 +170,28 @@ consumepoints:0,
         console.log("客户计算价格", this.data.orderpricecount)
       },
     })
+    // 计算总费用
   },
+
 bvCount(e) {
   this.setData({
     count:e.detail.count,
     temptotalfee: this.data.orderpricecount*e.detail.count,
-    commission1total: this.data.commission1count*e.detail.count,
-    commission2total: this.data.commission2count*e.detail.count,
-    totalfee: this.data.temptotalfee-(this.data.consumepoints/10)
   })
-  this._commissioncount()
-  console.log("客户计算价格", this.data.count)
+  this._totalfee()
+  this._pointscount()
 },
 bvConsumePoints(e) {
   this.setData({
     consumepoints:e.detail.count,
-    totalfee: this.data.temptotalfee-(e.detail.count/10),
-    commission1total: this.data.commission1count*e.detail.count,
-    commission2total: this.data.commission2count*e.detail.count
   })
+  this._totalfee()
   this._pointscount()
-  console.log("客户计算价格", this.data.count)
+},
+_totalfee(){
+  this.setData({
+    totalfee: this.data.temptotalfee-(this.data.consumepoints/10),
+  })
 },
 _pointscount(){
   if (app.globalData.Ginviterpromoterlevel=="normal"){
@@ -274,7 +236,8 @@ inviterpoints:this.data.totalfee*0.2*10
       balance:app.globalData.Gbalance,
       consumepoints:app.globalData.Gbalance,
     })
-    this.bvDiscountCheck()
+    this._orderprice()
+
   },
 
   //跳转注册资料页面

@@ -21,22 +21,39 @@
         <view>
           {{item.Outline}}
         </view>
+        <label class="title1">推荐程度：</label>
+        <l-rate active-color="red" inActive-color="grey" score=" {{item.Score}} " count="10" />
+        <view>
         <label class="title1">办理费用：</label>
+      </view>
         <view wx:if="{{avatarUrl=='' || nickName==''}}">
           <button class="userinfo-nickname" bindtap='getUserProfile'>微信登录</button>
         </view>
         <view wx:else>
-          <view wx:if="{{usertype == 'admin'||usertype == 'provider'||discountlevel == 'DL1'}}"> {{item.Price1}}
+          <view wx:if="{{usertype == 'admin'||discountlevel == 'DL1'}}"><l-price 
+        unit=""
+    value="原价：{{item.Price4}}"
+    deleted="{{true}}"
+    del-color="#3963bc"
+  ></l-price> <view>特惠折扣价：{{item.Price1}}</view>
           </view>
-          <view wx:if="{{usertype == 'admin'||usertype == 'provider'||discountlevel == 'DL2'}}"> {{item.Price2}}
+          <view wx:if="{{usertype == 'admin'||discountlevel == 'DL2'}}"><l-price 
+        unit=""
+    value="原价：{{item.Price4}}"
+    deleted="{{true}}"
+    del-color="#3963bc"
+  ></l-price> <view>巨惠折扣价：{{item.Price2}}</view>
           </view>
-          <view wx:if="{{usertype == 'admin'||usertype == 'provider'||discountlevel == 'DL3'}}">折扣价：{{item.Price3}}
+          <view wx:if="{{usertype == 'admin'||discountlevel == 'DL3'}}"><l-price 
+        unit=""
+    value="原价：{{item.Price4}}"
+    deleted="{{true}}"
+    del-color="#3963bc"
+  ></l-price> <view>折扣价：{{item.Price3}}</view>
           </view>
-          <view wx:if="{{usertype == 'admin'||usertype == 'provider'||discountlevel == 'DL4'}}">原价：{{item.Price4}}
+          <view wx:if="{{usertype == 'admin'||discountlevel == 'DL4'}}">原价：{{item.Price4}}
           </view>
-        </view>
-        <label class="title1">推荐程度：</label>
-        <l-rate active-color="red" inActive-color="grey" score="{{item.Score}}" count="10" />
+
         <view style="display:flex; flex-direction:row; " >
           <l-button data-id="_id={{item._id}}" bind:lintap="bvProductDetail" plain="{{true}}" shape="semicircle"
             icon="more" icon-color="blue" size="mini">详细介绍</l-button>
@@ -47,6 +64,7 @@
         </view>
         <text>\n</text>
       </view>
+    </view>
     </l-tabpanel>
     <l-tabpanel tab="工商变更" key="two" slot="two">
       <view wx:for="{{GTarray}}" wx:key="key">
@@ -57,23 +75,39 @@
         <view>
           {{item.Outline}}
         </view>
+        <label class="title1">推荐程度：</label>
+        <l-rate active-color="red" inActive-color="grey" score=" {{item.Score}} " count="10" />
+        <view>
         <label class="title1">办理费用：</label>
+      </view>
         <view wx:if="{{avatarUrl=='' || nickName==''}}">
           <button class="userinfo-nickname" bindtap='getUserProfile'>微信登录</button>
         </view>
         <view wx:else>
-          <view wx:if="{{usertype == 'admin'||usertype == 'provider'||discountlevel == 'DL1'}}"> {{item.Price1}}
+          <view wx:if="{{usertype == 'admin'||discountlevel == 'DL1'}}"><l-price 
+        unit=""
+    value="原价：{{item.Price4}}"
+    deleted="{{true}}"
+    del-color="#3963bc"
+  ></l-price> <view>特惠折扣价：{{item.Price1}}</view>
           </view>
-          <view wx:if="{{usertype == 'admin'||usertype == 'provider'||discountlevel == 'DL2'}}"> {{item.Price2}}
+          <view wx:if="{{usertype == 'admin'||discountlevel == 'DL2'}}"><l-price 
+        unit=""
+    value="原价：{{item.Price4}}"
+    deleted="{{true}}"
+    del-color="#3963bc"
+  ></l-price> <view>巨惠折扣价：{{item.Price2}}</view>
           </view>
-          <view wx:if="{{usertype == 'admin'||usertype == 'provider'||discountlevel == 'DL3'}}">折扣价：{{item.Price3}}
+          <view wx:if="{{usertype == 'admin'||discountlevel == 'DL3'}}"><l-price 
+        unit=""
+    value="原价：{{item.Price4}}"
+    deleted="{{true}}"
+    del-color="#3963bc"
+  ></l-price> <view>折扣价：{{item.Price3}}</view>
           </view>
-          <view wx:if="{{usertype == 'admin'||usertype == 'provider'||discountlevel == 'DL4'}}">原价：{{item.Price4}}
+          <view wx:if="{{usertype == 'admin'||discountlevel == 'DL4'}}">原价：{{item.Price4}}
           </view>
-        </view>
 
-        <label class="title1">推荐程度：</label>
-        <l-rate active-color="red" inActive-color="grey" score="{{item.Score}}" count="10" />
         <view style="display:flex; flex-direction:row;" >
           <l-button data-id="_id={{item._id}}" bind:lintap="bvProductDetail" plain="{{true}}" shape="semicircle"
             icon="more" icon-color="blue" size="mini">详细介绍</l-button>
@@ -84,6 +118,7 @@
         </view>
         <text>\n</text>
       </view>
+    </view>
     </l-tabpanel>
     <l-tabpanel tab="工商注销" key="three" slot="three">
       <view wx:for="{{GDarray}}" wx:key="key">
@@ -94,22 +129,40 @@
         <view>
           {{item.Outline}}
         </view>
+        <label class="title1">推荐程度：</label>
+        <l-rate active-color="red" inActive-color="grey" score=" {{item.Score}} " count="10" />
+        <view>
         <label class="title1">办理费用：</label>
+      </view>
         <view wx:if="{{avatarUrl=='' || nickName==''}}">
           <button class="userinfo-nickname" bindtap='getUserProfile'>微信登录</button>
         </view>
         <view wx:else>
-          <view wx:if="{{usertype == 'admin'||usertype == 'provider'||discountlevel == 'DL1'}}"> {{item.Price1}}
+          <view wx:if="{{usertype == 'admin'||discountlevel == 'DL1'}}"><l-price 
+        unit=""
+    value="原价：{{item.Price4}}"
+    deleted="{{true}}"
+    del-color="#3963bc"
+  ></l-price> <view>特惠折扣价：{{item.Price1}}</view>
           </view>
-          <view wx:if="{{usertype == 'admin'||usertype == 'provider'||discountlevel == 'DL2'}}"> {{item.Price2}}
+          <view wx:if="{{usertype == 'admin'||discountlevel == 'DL2'}}"><l-price 
+        unit=""
+    value="原价：{{item.Price4}}"
+    deleted="{{true}}"
+    del-color="#3963bc"
+  ></l-price> <view>巨惠折扣价：{{item.Price2}}</view>
           </view>
-          <view wx:if="{{usertype == 'admin'||usertype == 'provider'||discountlevel == 'DL3'}}">折扣价：{{item.Price3}}
+          <view wx:if="{{usertype == 'admin'||discountlevel == 'DL3'}}"><l-price 
+        unit=""
+    value="原价：{{item.Price4}}"
+    deleted="{{true}}"
+    del-color="#3963bc"
+  ></l-price> <view>折扣价：{{item.Price3}}</view>
           </view>
-          <view wx:if="{{usertype == 'admin'||usertype == 'provider'||discountlevel == 'DL4'}}">原价：{{item.Price4}}
+          <view wx:if="{{usertype == 'admin'||discountlevel == 'DL4'}}">原价：{{item.Price4}}
           </view>
-        </view>
-        <label class="title1">推荐程度：</label>
-        <l-rate active-color="red" inActive-color="grey" score=" {{item.Score}} " count="10" />
+
+
         <view style="display:flex; flex-direction:row;" >
           <l-button data-id="_id={{item._id}}" bind:lintap="bvProductDetail" plain="{{true}}" shape="semicircle"
             icon="more" icon-color="blue" size="mini">详细介绍
@@ -121,6 +174,7 @@
         </view>
         <text>\n</text>
       </view>
+    </view>
     </l-tabpanel>
   </l-tabs>
 </view>

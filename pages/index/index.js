@@ -162,14 +162,44 @@ Page({
               app.globalData.Gusertype = "client"
               app.globalData.Gdiscountlevel = "DL4"
               app.globalData.Gpromoterlevel = "null"
-              app.globalData.Gbalance =10
             } else {
+              // 老用户确认价格等级
+              const db = wx.cloud.database()
+              const _ = db.command
+              db.collection('DISCOUNTORDER').where({
+                  _openid: app.globalData.Gopenid,
+                  PaymentStatus:"checked",
+                  OrderStatus:"checked"
+                }).orderBy('PaymentId','desc').get({
+                success: res => {
+                  console.log(res)
+                  if (res.data.length != 0) {
+                    var tempfliter = []
+                    for (var i = 0; i < res.data.length; i++) {
+                      if (new Date(res.data[i].DLStartDate).getTime() <= new Date().getTime() && new Date(res.data[i].DLEndDate).getTime() >= new Date().getTime()) {
+                        tempfliter.push(res.data[i]);
+                      }
+                    }
+                    if(tempfliter.length !=0  && tempfliter.length != undefined){
+                              console.log(tempfliter)
+                              console.log(tempfliter[0].DiscountLevel)
+app.globalData.Gdiscountlevel=tempfliter[0].DiscountLevel
+console.log(app.globalData.Gdiscountlevel)
+                  } else{
+                      //卡券已过期
+                      app.globalData.Gdiscountlevel = "DL4"
+                    }
+                  } else {
+                    //没有卡券
+                    app.globalData.Gdiscountlevel = "DL4"
+                  }
+                }
+              })
               app.globalData.Gcompanyname = this.data.userinfo.CompanyName
               app.globalData.Gusername = this.data.userinfo.UserName
               app.globalData.GnickName = this.data.userinfo.nickName
               app.globalData.GavatarUrl = this.data.userinfo.avatarUrl
               app.globalData.Gusertype = this.data.userinfo.UserType
-              app.globalData.Gdiscountlevel = this.data.userinfo.DiscountLevel
               app.globalData.Gpromoterlevel = this.data.userinfo.PromoterLevel
               app.globalData.Gbalance = this.data.userinfo.Balance
             }
