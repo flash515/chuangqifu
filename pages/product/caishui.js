@@ -1,11 +1,11 @@
 const app = getApp()
 Page({
   data: {
-    DKarray: [],
-    GTarray: [],
-    GDarray: [],
-    GSarray: [],
-    KParray: [],
+    array1: [],
+    array2: [],
+    array3: [],
+    array4: [],
+    array5: [],
     productarray: [],
     usertype: "",
     discountlevel: "",
@@ -83,58 +83,58 @@ Page({
         })
         console.log("产品数组", this.data.productarray)
         // 筛选自然人代开
-        var DKfliter = [];
+        var fliter1 = [];
         for (var i = 0; i < this.data.productarray.length; i++) {
           if (this.data.productarray[i].ProductType == "记账报税") {
-            DKfliter.push(this.data.productarray[i]);
+            fliter1.push(this.data.productarray[i]);
           }
         }
-        console.log(DKfliter);
+        console.log(fliter1);
         // 筛选个体工商
-        var GTfliter = [];
+        var fliter2 = [];
         for (var i = 0; i < this.data.productarray.length; i++) {
           if (this.data.productarray[i].ProductType == "税种核定") {
-            GTfliter.push(this.data.productarray[i]);
+            fliter2.push(this.data.productarray[i]);
           }
         }
-        console.log(GTfliter);
+        console.log(fliter2);
         // 筛选个独/合伙企业
-        var GDfliter = [];
+        var fliter3 = [];
         for (var i = 0; i < this.data.productarray.length; i++) {
           if (this.data.productarray[i].ProductType == "领票购票") {
-            GDfliter.push(this.data.productarray[i]);
+            fliter3.push(this.data.productarray[i]);
           }
         }
-        console.log(GDfliter);
+        console.log(fliter3);
         // 筛选有限公司
-        var GSfliter = [];
+        var fliter4 = [];
         for (var i = 0; i < this.data.productarray.length; i++) {
           if (this.data.productarray[i].ProductType == "核定征收") {
-            GSfliter.push(this.data.productarray[i]);
+            fliter4.push(this.data.productarray[i]);
           }
         }
-        console.log(GSfliter);
+        console.log(fliter4);
                 // 筛选开票申请
-                var KPfliter = [];
+                var fliter5 = [];
                 for (var i = 0; i < this.data.productarray.length; i++) {
                   if (this.data.productarray[i].ProductType == "开票申请") {
-                    KPfliter.push(this.data.productarray[i]);
+                    fliter5.push(this.data.productarray[i]);
                   }
                 }
-                console.log(KPfliter);
+                console.log(fliter5);
         this.setData({
-          DKarray: DKfliter,
-          GTarray: GTfliter,
-          GDarray: GDfliter,
-          GSarray: GSfliter,
-          KParray: KPfliter
+          array1: fliter1,
+          array2: fliter2,
+          array3: fliter3,
+          array4: fliter4,
+          array5: fliter5
         })
         // 打印数组
-        console.log("代开产品", this.data.DKarray)
-        console.log("个体产品", this.data.GTarray)
-        console.log("个独/合伙", this.data.GDarray)
-        console.log("有限公司", this.data.GSarray)
-        console.log("有限公司", this.data.KParray)
+        console.log("记账报税", this.data.array1)
+        console.log("税种核定", this.data.array2)
+        console.log("领票购票", this.data.array3)
+        console.log("开票申请", this.data.array4)
+        console.log("有限公司", this.data.array5)
       }
 
     })

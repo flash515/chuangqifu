@@ -47,7 +47,7 @@
           </picker>
           <text class="text" style="color:blue">卡券失效日期：{{dl3_30enddate}}</text>
           <l-button slot="more" size="mini" type="default" bind:lintap="bvBuy" data-level="DL3" data-id="DL3_Single"
-            data-name="单次折扣体验卡" data-startdate="{{dl3_30startdate}}" data-enddate="{{dl3_30enddate}}" data-price="50"
+            data-name="单次折扣体验卡" data-startdate="{{dl3_30startdate}}" data-enddate="{{dl3_30enddate}}" data-price="50" data-type="Single"
             shape="semicircle" plain="true">购买</l-button>
         </l-card>
         <text>\n</text>
@@ -61,7 +61,7 @@
           </picker>
           <text class="text" style="color:blue">卡券失效日期：{{dl3_90enddate}}</text>
           <l-button slot="more" size="mini" type="default" bind:lintap="bvBuy" data-level="DL3" data-id="DL3_90"
-            data-name="折扣季卡" data-startdate="{{dl3_90startdate}}" data-enddate="{{dl3_90enddate}}" data-price="300"
+            data-name="折扣季卡" data-startdate="{{dl3_90startdate}}" data-enddate="{{dl3_90enddate}}" data-price="300" data-type="Period"
             shape="semicircle" plain="true">购买</l-button>
         </l-card>
         <text>\n</text>
@@ -75,7 +75,7 @@
           </picker>
           <text class="text" style="color:blue">卡券失效日期：{{dl3_180enddate}}</text>
           <l-button slot="more" size="mini" type="default" bind:lintap="bvBuy" data-level="DL3" data-id="DL3_180"
-            data-name="折扣半年卡" data-startdate="{{dl3_180startdate}}" data-enddate="{{dl3_180enddate}}" data-price="450"
+            data-name="折扣半年卡" data-startdate="{{dl3_180startdate}}" data-enddate="{{dl3_180enddate}}" data-price="450" data-type="Period"
             shape="semicircle" plain="true">购买</l-button>
         </l-card>
         <text>\n</text>
@@ -89,7 +89,7 @@
           </picker>
           <text class="text" style="color:blue">卡券失效日期：{{dl3_360enddate}}</text>
           <l-button slot="more" size="mini" type="default" bind:lintap="bvBuy" data-level="DL3" data-id="DL3_360"
-            data-name="折扣年卡" data-startdate="{{dl3_360startdate}}" data-enddate="{{dl3_360enddate}}" data-price="600"
+            data-name="折扣年卡" data-startdate="{{dl3_360startdate}}" data-enddate="{{dl3_360enddate}}" data-price="600" data-type="Period"
             shape="semicircle" plain="true">购买</l-button>
         </l-card>
       </l-collapse-item>

@@ -11,7 +11,7 @@
 <view class="mainframe">
   <l-tabs equal-width="{{false}}" scrollable="{{true}}">
     <l-tabpanel tab="记账报税" key="one" slot="one">
-      <view wx:for="{{DKarray}}" wx:key="key">
+      <view wx:for="{{array1}}" wx:key="key">
         <view class="title1">
           {{item.ProductName}}{{item.ProductId}}
         </view>
@@ -51,7 +51,7 @@
       </view>
     </l-tabpanel>
     <l-tabpanel tab="税种核定" key="two" slot="two">
-      <view wx:for="{{GTarray}}" wx:key="key">
+      <view wx:for="{{array2}}" wx:key="key">
         <view class="title1">
           {{item.ProductName}}{{item.ProductId}}
         </view>
@@ -93,7 +93,7 @@
       </view>
     </l-tabpanel>
     <l-tabpanel tab="领票购票" key="three" slot="three">
-      <view wx:for="{{GTarray}}" wx:key="key">
+      <view wx:for="{{array3}}" wx:key="key">
         <view class="title1">
           {{item.ProductName}}{{item.ProductId}}
         </view>
@@ -133,8 +133,8 @@
         </view>
       </view>
     </l-tabpanel>
-    <l-tabpanel tab="开票申请" key="five" slot="five">
-      <view wx:for="{{KParray}}" wx:key="key">
+    <l-tabpanel tab="开票申请" key="four" slot="four">
+      <view wx:for="{{array4}}" wx:key="key">
         <view class="title1">
           {{item.ProductName}}{{item.ProductId}}
         </view>

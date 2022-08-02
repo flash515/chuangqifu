@@ -10,9 +10,8 @@ Page({
   data: {
     adddate:"",
     startdate: "",
-    discountlevel: "",
-    discountid: "",
-    discountname: "",
+    orderlevel: "",
+orderid: "",
     ordername:"",
     orderstartdate:"",
     orderenddate:"",
@@ -65,6 +64,7 @@ ordername: e.currentTarget.dataset.name,
 orderstartdate: e.currentTarget.dataset.startdate,
 orderenddate: e.currentTarget.dataset.enddate,
 orderfee: e.currentTarget.dataset.price,
+ordertype:e.currentTarget.dataset.type,
 })
       if (this.data.ordersublock == false && this.data.paymentsublock == false) {
 this.setData({
@@ -95,6 +95,7 @@ this.setData({
           DiscountLevel: this.data.orderlevel,
           DiscountId: this.data.orderid,
           DiscountName: this.data.ordername,
+          DiscountType: this.data.ordertype,
           DLStartDate: this.data.orderstartdate,
           DLEndDate: this.data.orderenddate,
           TotalFee: this.data.orderfee,
@@ -212,7 +213,7 @@ this.setData({
             ...payment, // 解构参数appId,nonceStr,package,paySign,signType,timeStamp
             success: (res) => {
               console.log('支付成功', res);
-              that._productupdate();
+              that._orderupdate();
               that._paymentupdate();
               that._userupdate();
               that.setData({
@@ -228,7 +229,7 @@ this.setData({
           console.error(err);
         });
     },
-    _productupdate() {
+    _orderupdate() {
       const db = wx.cloud.database()
       db.collection('DISCOUNTORDER').where({
         PaymentId: this.data.paymentid
@@ -288,7 +289,8 @@ this.setData({
     db.collection('DISCOUNTORDER').where({
         _openid: app.globalData.Gopenid,
         PaymentStatus:"checked",
-        OrderStatus:"checked"
+        OrderStatus:"checked",
+        Available:true
       }).orderBy('PaymentId','desc').get({
       success: res => {
         console.log(res)

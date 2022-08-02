@@ -21,14 +21,8 @@
         placeholder="{{productid}}" disabled="{{true}}" />
       <l-input label="产品名称：" type="text" label-layout="left" label-width="270"
         placeholder="{{productname}}" disabled="{{true}}" />
-        <view wx:if="{{avatarUrl=='' || nickName==''}}">
-          <label class="text">办理费用：</label>
-        <button class="userinfo-nickname" bindtap='getUserProfile'>微信登录</button>
-      </view>
-      <view wx:else>
       <l-input label="办理费用：" type="text" label-layout="left" label-width="270"
         placeholder="{{orderprice}}" disabled="{{true}}" />
-  </view>
   <view class="flex-row">
   <view>    <l-input label="办理数量：" label-layout="left" label-width="270" disabled="{{true}}" /></view>
   <view>    <l-counter count="1" min="1" bind:lintap="bvCount" disabled="{{submitted}}"/></view>
@@ -47,14 +41,6 @@
           label-width="270" disabled="{{true}}" />
 </view>
   <text>\n</text>
-  <view hidden="{{discounthidden}}">
-  <l-card type="primary" plaintext="{{true}}" >
-    <text>价格优惠类型：{{discountname}}</text>
-    <text>购买日期：{{adddate}}</text>
-    <text>生效日期：{{dlstartdate}}</text>
-    <text>失效日期：{{dlenddate}}</text>
-  </l-card>
-</view>
 </view>
   <!-- 以下管理员显示内容 -->
   <view wx:if="{{usertype == 'admin'}}">

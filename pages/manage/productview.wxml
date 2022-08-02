@@ -64,7 +64,7 @@
     <view>
       <l-button data-id="" bind:lintap="bvAddProduct">新增产品</l-button>
     </view>
-    <view wx:for="{{GSarray}}" wx:key="key">
+    <view wx:for="{{array4}}" wx:key="key">
       <l-card type="primary" plaintext="{{true}}">
         <view class="content">
           <view>数据ID：{{item._id}}</view>

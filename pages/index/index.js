@@ -169,7 +169,8 @@ Page({
               db.collection('DISCOUNTORDER').where({
                   _openid: app.globalData.Gopenid,
                   PaymentStatus:"checked",
-                  OrderStatus:"checked"
+                  OrderStatus:"checked",
+                  Available:true,
                 }).orderBy('PaymentId','desc').get({
                 success: res => {
                   console.log(res)
@@ -184,6 +185,7 @@ Page({
                               console.log(tempfliter)
                               console.log(tempfliter[0].DiscountLevel)
 app.globalData.Gdiscountlevel=tempfliter[0].DiscountLevel
+app.globalData.Gdiscounttype=tempfliter[0].DiscountType
 console.log(app.globalData.Gdiscountlevel)
                   } else{
                       //卡券已过期

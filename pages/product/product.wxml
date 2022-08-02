@@ -13,7 +13,7 @@
 <view class="mainframe">
   <l-tabs equal-width="{{false}}" scrollable="{{true}}">
     <l-tabpanel tab="自然人开票" key="one" slot="one">
-      <view wx:for="{{DKarray}}" wx:key="key">
+      <view wx:for="{{array1}}" wx:key="key">
         <view class="title1">
           {{item.ProductName}}{{item.ProductId}}
         </view>
@@ -64,7 +64,7 @@
       </view>
     </l-tabpanel>
     <l-tabpanel tab="个体工商" key="two" slot="two">
-      <view wx:for="{{GTarray}}" wx:key="key">
+      <view wx:for="{{array2}}" wx:key="key">
         <view class="title1">
           {{item.ProductName}}{{item.ProductId}}
         </view>
@@ -116,7 +116,7 @@
       </view>
     </l-tabpanel>
     <l-tabpanel tab="个独/合伙企业" key="three" slot="three">
-      <view wx:for="{{GDarray}}" wx:key="key">
+      <view wx:for="{{array3}}" wx:key="key">
         <view class="title1">
           {{item.ProductName}}{{item.ProductId}}
         </view>
@@ -168,7 +168,7 @@
       </view>
     </l-tabpanel>
     <l-tabpanel tab="有限公司" key="four" slot="four">
-      <view wx:for="{{GSarray}}" wx:key="key">
+      <view wx:for="{{array4}}" wx:key="key">
         <view class="title1">
           {{item.ProductName}}{{item.ProductId}}
         </view>

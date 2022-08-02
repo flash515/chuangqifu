@@ -99,6 +99,7 @@ App({
     Gusertype: "",
     Gdirect1yearvaliduser:"",
     Gdiscountlevel: "",
+    Gdiscounttype: "",
     Gpromoterlevel: "",
     Gbanlance: "",
     //轮播图

@@ -58,50 +58,6 @@ consumepoints:0,
     submitted: false,
     btnhidden: true
   },
-  getUserProfile: function (e) {
-    wx.getUserProfile({
-      desc: "登录创企服以查看更多信息",
-      success: res => {
-        console.log("获得的用户微信信息", res)
-        this.setData({
-          avatarUrl: res.userInfo.avatarUrl,
-          nickName: res.userInfo.nickName
-        })
-        app.globalData.GavatarUrl = res.userInfo.avatarUrl
-        app.globalData.GnickName = res.userInfo.nickName
-        // 获取数据库引用
-        const db = wx.cloud.database()
-        // 更新数据
-        db.collection('USER').where({
-          _openid: app.globalData.Gopenid
-        }).update({
-          data: {
-            avatarUrl: res.userInfo.avatarUrl,
-            city: res.userInfo.city,
-            country: res.userInfo.country,
-            gender: res.userInfo.gender,
-            language: res.userInfo.language,
-            nickName: res.userInfo.nickName,
-            province: res.userInfo.province
-          },
-        })
-        // 以上更新数据结束
-        wx.showToast({
-          icon: 'success',
-          title: '登录成功',
-        })
-        return;
-      },
-      fail: res => {
-        //拒绝授权
-        wx.showToast({
-          icon: 'error',
-          title: '您拒绝了请求',
-        })
-        return;
-      }
-    })
-  },
 
   onShow: function () {
     this.setData({
@@ -110,6 +66,64 @@ consumepoints:0,
       nickName: app.globalData.GnickName,
     })
     this._totalfee()
+  },
+  bvDiscountCheck(){
+    //查询是否有购买折扣记录
+    const db = wx.cloud.database()
+    const _ = db.command
+    db.collection('DISCOUNTORDER').where({
+        _openid: app.globalData.Gopenid,
+        PaymentStatus:"checked",
+        OrderStatus:"checked",
+        Available:true,
+      }).orderBy('PaymentId','desc').get({
+      success: res => {
+        console.log(res)
+        if (res.data.length != 0) {
+          //如果有购买记录则执行
+          var tempfliter = []
+          for (var i = 0; i < res.data.length; i++) {
+            if (new Date(res.data[i].DLStartDate).getTime() <= new Date().getTime() && new Date(res.data[i].DLEndDate).getTime() >= new Date().getTime()) {
+              //如果有在有效期内的折扣，则给tempfliter赋值
+              tempfliter.push(res.data[i]);
+            }
+            else{
+              //如果没有在有效期内的折扣，则直接给参数赋值
+              this.setData({
+                discountlevel:"DL4",
+                discounthidden:true,
+              })
+              console.log(this.data.discountlevel)
+            }
+          if(tempfliter.length !=0  && tempfliter.length != undefined){
+            //tempfliter不为空时（有效的折扣），给参数赋值
+          console.log(tempfliter)
+          this.setData({
+            discountorderid:tempfliter[0]._id,
+            discountid:tempfliter[0].DiscountId,
+            discounthidden:false,
+            discountname:tempfliter[0].DiscountName,
+            discountlevel:tempfliter[0].DiscountLevel,
+            adddate:tempfliter[0].AddDate,
+            dlstartdate: tempfliter[0].DLStartDate,
+            dlenddate: tempfliter[0].DLEndDate,
+
+          })
+        }
+      }
+    }
+      else{
+        this.setData({
+          discountlevel:"DL4",
+          discounthidden:true,
+        })
+        console.log(this.data.discountlevel)
+      }
+      console.log(this.data.discountlevel)
+      this.bvOrderPrice(this.data.discountlevel)
+    }
+    })
+
   },
   _orderprice() {
     // 从本地存储中读取客户价格
@@ -237,7 +251,7 @@ inviterpoints:this.data.totalfee*0.2*10
       consumepoints:app.globalData.Gbalance,
     })
     this._orderprice()
-
+    this.bvDiscountCheck()
   },
 
   //跳转注册资料页面

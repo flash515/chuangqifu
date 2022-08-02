@@ -13,7 +13,7 @@
 <view class="mainframe">
   <l-tabs equal-width="{{false}}" scrollable="{{true}}">
     <l-tabpanel tab="食品经营许可证" key="one" slot="one">
-      <view wx:for="{{DKarray}}" wx:key="key">
+      <view wx:for="{{array1}}" wx:key="key">
         <view class="title1">
           {{item.ProductName}}{{item.ProductId}}
         </view>

@@ -11,7 +11,7 @@
 <view class="mainframe">
   <l-tabs equal-width="{{false}}" scrollable="{{true}}">
     <l-tabpanel tab="深圳地址" key="one" slot="one">
-      <view wx:for="{{DKarray}}" wx:key="key">
+      <view wx:for="{{array1}}" wx:key="key">
         <view class="title1">
           {{item.ProductName}}{{item.ProductId}}
         </view>
@@ -62,7 +62,7 @@
 
     </l-tabpanel>
     <l-tabpanel tab="广州地址" key="two" slot="two">
-      <view wx:for="{{GTarray}}" wx:key="key">
+      <view wx:for="{{array2}}" wx:key="key">
         <view class="title1">
           {{item.ProductName}}{{item.ProductId}}
         </view>
@@ -112,7 +112,7 @@
     </view>
     </l-tabpanel>
     <l-tabpanel tab="东莞地址" key="three" slot="three">
-      <view wx:for="{{GDarray}}" wx:key="key">
+      <view wx:for="{{array3}}" wx:key="key">
         <view class="title1">
           {{item.ProductName}}{{item.ProductId}}
         </view>

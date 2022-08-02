@@ -7,7 +7,7 @@ Page({
   data: {
     productarray: [],
     DZarray: [],
-    GSarray: [],
+    array4: [],
     YHarray: [],
     CSarray: [],
     TGarray: [],
@@ -70,10 +70,10 @@ Page({
         }
 
         // 筛选工商代办
-        var GSfliter = [];
+        var fliter4 = [];
         for (var i = 0; i < this.data.productarray.length; i++) {
           if (this.data.productarray[i].ProductType == "工商代办") {
-            GSfliter.push(this.data.productarray[i]);
+            fliter4.push(this.data.productarray[i]);
           }
         }
 
@@ -108,7 +108,7 @@ Page({
                 }
         this.setData({
           DZarray: DZfliter,
-          GSarray: GSfliter,
+          array4: fliter4,
           YHarray: YHfliter,
           CSarray: CSfliter,
           TGarray: TGfliter,
@@ -118,7 +118,7 @@ Page({
         console.log("代开产品", this.data.DZarray)
         console.log("个体产品", this.data.YHarray)
         console.log("个独/合伙", this.data.CSarray)
-        console.log("有限公司", this.data.GSarray)
+        console.log("有限公司", this.data.array4)
       },
     })
   },
