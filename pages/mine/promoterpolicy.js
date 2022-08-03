@@ -277,52 +277,27 @@ Page({
       startdate: str.getFullYear() + "-" + (str.getMonth() + 1) + "-" + str.getDate()
     })
     console.log(this.data.startdate)
-    // let that=this
-    const db = wx.cloud.database()
-    const _ = db.command
-    db.collection('PROMOTERORDER').where({
-      _openid: app.globalData.Gopenid,
-      PaymentStatus: "checked",
-      OrderStatus: "checked",
-    }).orderBy('SysAddDate', 'desc').limit(1).get({
-      success: res => {
-        console.log(res.data.length)
-        if (res.data.length != 0) {
-          this.setData({
-            adddate: res.data[0].AddDate,
-            plstartdate: res.data[0].PLStartDate,
-            promoterlevel: res.data[0].PromoterLevel,
-            paymentstatus: res.data[0].PaymentStatus,
-            orderstatus: res.data[0].OrderStatus,
-            promotername: res.data[0].PromoterName,
-          })
-        } else {
-          this.setData({
-            promotername: "普客",
-          })
-        }
-      },
-      fail: res => {
-        wx.showToast({
-          title: '查询失败请刷新',
-          icon: 'error',
-          duration: 2000 //持续的时间
-        })
-      }
-    })
+
     wx.getStorage({
       key: 'LUserInfo',
       success: res => {
+        if(res.data.UserPhone!="" && res.data.UserPhone!="undefined"){
         this.setData({
           phone: res.data.UserPhone,
         })
         this._condition()
+      }else{
+        this.setData({
+          promotername: "普客",
+        })
       }
+    }
     })
-
   },
+
+  // 有效推广用户数量
 _condition(){
-  if(this.data.phone==""||this.data.phone=="undefined"){}else{
+
     this.setData({
       phonehidden:true
     })
@@ -353,7 +328,41 @@ _condition(){
       }
     }
   })
-
-}
+  this._plcheck()
+},
+_plcheck(){
+  // let that=this
+  const db = wx.cloud.database()
+  const _ = db.command
+  db.collection('PROMOTERORDER').where({
+    _openid: app.globalData.Gopenid,
+    PaymentStatus: "checked",
+    OrderStatus: "checked",
+  }).orderBy('SysAddDate', 'desc').limit(1).get({
+    success: res => {
+      console.log(res.data.length)
+      if (res.data.length != 0) {
+        this.setData({
+          adddate: res.data[0].AddDate,
+          plstartdate: res.data[0].PLStartDate,
+          promoterlevel: res.data[0].PromoterLevel,
+          paymentstatus: res.data[0].PaymentStatus,
+          orderstatus: res.data[0].OrderStatus,
+          promotername: res.data[0].PromoterName,
+        })
+      } else {
+        this.setData({
+          promotername: "会员",
+        })
+      }
+    },
+    fail: res => {
+      wx.showToast({
+        title: '查询失败请刷新',
+        icon: 'error',
+        duration: 2000 //持续的时间
+      })
+    }
+  })
 },
 })

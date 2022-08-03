@@ -76,9 +76,9 @@ Page({
 
   onShareAppMessage() {
     return {
-      title: '邀请您进入创企服快捷会议室',
-      path: '/pages/tools/meetingroom/meetingroom3',
-      imageUrl: 'cloud://cloud1-2gn7aud7a22c693c.7873-cloud1-2gn7aud7a22c693c-1304477809/omLS75Xib_obyxkVAahnBffPytcA/index.png', //封面
+      title: app.globalData.GnickName + '邀请您进入创企服快捷会议室三',
+      path: '/pages/tools/meetingroom/meetingroom?userid=' + app.globalData.Gopenid,
+      imageUrl: 'cloud://cloud1-2gn7aud7a22c693c.636c-cloud1-2gn7aud7a22c693c-1312824882/setting/image/shareroom.png', //封面
         }
   },
 })

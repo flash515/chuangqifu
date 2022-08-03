@@ -17,17 +17,18 @@
 <view style="display:flex; flex-direction:row; justify-content:space-between">
   <label class="title1">订单总金额:</label>
   <l-price size="50" color="#3963bc" unit="￥" value='{{totalfee}}' reserve-digit="2" autofix='true'></l-price>
-  <view hidden="{{onlinehidden}}">
-  <l-button size="mini" type="default" bind:lintap="bvWXPay" shape="semicircle" plain="true">微信支付</l-button>
 </view>
+<text>\n</text>
+<view hidden="{{onlinehidden}}">
+  <l-button class="mainbtn" width="600" bind:lintap="bvWXPay" shape="semicircle" plain="true">微信即时支付</l-button>
 </view>
-  <text>\n</text>
+
     <!-- 2022年12月31日前不加税款<text>注明：以上费用为不含税费用，如需开票，须额外支付3%增值税款。</text> -->
 </l-card>
 <text>\n</text>
 <view hidden="{{onlinehidden}}">
 <l-collapse>
-  <l-collapse-item title="微信扫码支付">
+  <l-collapse-item title="扫码支付">
     <l-card type="primary" position="left" image="cloud://cloud1-2gn7aud7a22c693c.636c-cloud1-2gn7aud7a22c693c-1312824882/setting/image/微信收款码.jpg">
       <view class="content" hidden="{{openSettingBtnHidden==false}}">请先保存微信付款码到手机相册后，用微信扫一扫打开相册图片，扫码付款 </view>
       <l-button shape="semicircle" plain="{{true}}" bind:lintap="saveImage" data-src="cloud://cloud1-2gn7aud7a22c693c.636c-cloud1-2gn7aud7a22c693c-1312824882/setting/image/微信收款码.jpg">保存到相册</l-button>
@@ -36,11 +37,7 @@
     <l-button open-type="openSetting" size="medium" shape="semicircle" plain="{{true}}" bind:lintap="saveImage" >前往设置页面</l-button>
       </view>    
     </l-card>
-  </l-collapse-item>
-</l-collapse>
-<text>\n</text>
-<l-collapse>
-  <l-collapse-item title="支付宝扫码支付">
+    <text>\n</text>
     <l-card type="primary" position="left" image="cloud://cloud1-2gn7aud7a22c693c.636c-cloud1-2gn7aud7a22c693c-1312824882/setting/image/支付宝收款码.jpg">
       <view class="content" hidden="{{openSettingBtnHidden==false}}">请先保存支付宝付款码到手机相册后，用支付宝扫一扫打开相册图片，扫码付款 </view>
       <l-button shape="semicircle" plain="{{true}}" bind:lintap="saveImage" data-src="cloud://cloud1-2gn7aud7a22c693c.636c-cloud1-2gn7aud7a22c693c-1312824882/setting/image/支付宝收款码.jpg">保存到相册</l-button>
@@ -51,8 +48,9 @@
     </l-card>
   </l-collapse-item>
 </l-collapse>
-<text>\n</text>
+
 </view>
+<text>\n</text>
 <l-collapse>
   <l-collapse-item title="银行转账支付">
     <l-card type="cover" plaintext="{{true}}">
@@ -64,6 +62,7 @@
     </l-card>
   </l-collapse-item>
 </l-collapse>
+<text>\n</text>
 <l-collapse>
   <l-collapse-item title="预约当面转账">
     <l-card type="cover" plaintext="{{true}}">

@@ -32,7 +32,7 @@
                 <view>订单日期：{{item.AddDate}}</view>
                 <view>产品编号：{{item.ProductId}}</view>
                 <view>产品名称：{{item.ProductName}}</view>
-                <view>订单总价：{{item.TotalFee}}</view>
+                <view>订单总价（元）：{{item.TotalFee}}</view>
                 <view style="display:flex; flex-direction:row;">
                   <view>付款状态：</view>
                   <view wx:if="{{item.PaymentStatus =='unchecked'}}">待确认</view>
@@ -49,7 +49,7 @@
                   </view>
                   <view><text decode="{{true}}">&emsp;</text></view>
                   <view hidden="{{item.PaymentStatus =='checked'}}">
-                    <l-button data-paymentid="{{item.PaymentId}}" data-productname="{{item.ProductName}}" data-totalfee="{{item.TotalFee}}" data-database="{{item.Database}}" bind:lintap="bvToPay" icon="order" icon-color="white" shape="semicircle" size="mini">支付费用</l-button>
+                    <l-button data-paymentid="{{item.PaymentId}}" data-productname="{{item.ProductName}}" data-totalfee="{{item.TotalFee}}" data-database="ORDER" bind:lintap="bvToPay" icon="order" icon-color="white" shape="semicircle" size="mini">支付费用</l-button>
                   </view>
                 </view>
               </view>
@@ -67,7 +67,7 @@
           <view>折扣卡名称：{{item.DiscountName}}</view>
           <view>折扣起始日期：{{item.DLStartDate}}</view>
           <view>折扣终止日期：{{item.DLEndDate}}</view>
-          <view>折扣卡费用：{{item.TotalFee}}</view>
+          <view>折扣卡费用（元）：{{item.TotalFee}}</view>
           <view style="display:flex; flex-direction:row;">
           <view>付款状态：</view>
             <view wx:if="{{item.PaymentStatus =='unchecked'}}">待确认</view>
@@ -79,18 +79,20 @@
             <view wx:if="{{item.OrderStatus =='checked'}}">已确认</view>
           </view>
           <view hidden="{{item.PaymentStatus =='checked'}}">
-                    <l-button data-paymentid="{{item.PaymentId}}" data-productname="{{item.ProductName}}" data-totalfee="{{item.TotalFee}}" data-database="{{item.Database}}" bind:lintap="bvToPay" icon="order" icon-color="white" shape="semicircle" size="mini">支付费用</l-button>
+                    <l-button data-paymentid="{{item.PaymentId}}" data-productname="{{item.DiscountName}}" data-totalfee="{{item.TotalFee}}" data-database="DISCOUNTORDER" bind:lintap="bvToPay" icon="order" icon-color="white" shape="semicircle" size="mini">支付费用</l-button>
                   </view>
         </view>
       </l-card>
     </view>
   </l-tabpanel>
         <l-tabpanel tab="推广等级订单" key="three" slot="three">
+          <l-button class="mainbtn" width="600" data-name="PROMOTERORDER" bind:lintap="bvRefresh" shape="semicircle" plain="{{true}}">刷新</l-button>
           <view wx:for="{{promoterhistory}}" wx:key="key">
             <l-card type="primary" plaintext="{{true}}">
               <view>订单日期：{{item.AddDate}}</view>
               <view>推广等级：{{item.PromoterName}}</view>
               <view>起始日期：{{item.PLStartDate}}</view>
+              <view>推广等级费用（元）：{{item.TotalFee}}</view>
               <view style="display:flex; flex-direction:row;">
                 <view>付款状态：</view>
                 <view wx:if="{{item.PaymentStatus =='unchecked'}}">待确认</view>
@@ -102,7 +104,7 @@
                 <view wx:if="{{item.OrderStatus =='checked'}}">已确认</view>
               </view>
               <view hidden="{{item.PaymentStatus =='checked'}}">
-                <l-button data-paymentid="{{item.PaymentId}}" data-productname="{{item.ProductName}}" data-totalfee="{{item.TotalFee}}" data-database="{{item.Database}}" bind:lintap="bvToPay" icon="order" icon-color="white" shape="semicircle">支付费用</l-button>
+                <l-button data-paymentid="{{item.PaymentId}}" data-productname="{{item.PromoterName}}" data-totalfee="{{item.TotalFee}}" data-database="PROMOTERORDER" bind:lintap="bvToPay" icon="order" icon-color="white" shape="semicircle">支付费用</l-button>
               </view>
             </l-card>
           </view>

@@ -13,6 +13,13 @@
   <text>价格政策</text>
 </view>
 <view class="mainframe">
+  <l-card type="primary" plaintext="{{true}}">
+    <text>当前价格类型：{{dlname}}</text>
+    <text>卡券购买日期：{{adddate}}</text>
+    <text>卡券生效日期：{{dlstartdate}}</text>
+    <text>卡券失效日期：{{dlenddate}}</text>
+  </l-card>
+  <text>\n</text>
   <l-collapse>
     <l-collapse-item title="价格优惠政策说明">
       <l-card type="primary" plaintext="{{true}}">
@@ -107,20 +114,5 @@
     </l-card>
   </view>
   <text>\n</text>
-  <l-card type="primary" plaintext="{{true}}">
-    <text>当前价格类型：{{dlname}}</text>
-    <text>卡券购买日期：{{adddate}}</text>
-    <text>卡券生效日期：{{dlstartdate}}</text>
-    <text>卡券失效日期：{{dlenddate}}</text>
-    <view style="display:flex; flex-direction:row;">
-      <view>付款状态：</view>
-      <view wx:if="{{paymentstatus =='unchecked'}}">待确认</view>
-      <view wx:if="{{paymentstatus =='checked'}}">已确认</view>
-    </view>
-    <view style="display:flex; flex-direction:row;">
-      <view>订单状态：</view>
-      <view wx:if="{{orderstatus =='unchecked'}}">待确认</view>
-      <view wx:if="{{orderstatus =='checked'}}">已确认</view>
-    </view>
-  </l-card>
+
 </view>

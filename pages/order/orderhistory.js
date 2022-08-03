@@ -209,7 +209,4 @@ if(e.currentTarget.dataset.name=="ORDER"){
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
-
-  }
 })

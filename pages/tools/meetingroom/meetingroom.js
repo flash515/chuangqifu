@@ -103,9 +103,6 @@ Page({
               using4: true
             })
           }
-          wx.navigateTo({
-            url: e.target.dataset.url,
-          })
         }
       })
     }
@@ -209,7 +206,7 @@ Page({
         } else {
           this.setData({
             using1: true,
-            room1password: res.data.Room1Password
+            room1password: res.data[0].Room1Password
           })
         }
         if (res.data[0].Room2Password == "") {
@@ -219,7 +216,7 @@ Page({
         } else {
           this.setData({
             using2: true,
-            room2password: res.data.Room2Password
+            room2password: res.data[0].Room2Password
           })
         }
         if (res.data[0].Room3Password == "") {
@@ -229,7 +226,7 @@ Page({
         } else {
           this.setData({
             using3: true,
-            room3password: res.data.Room3Password
+            room3password: res.data[0].Room3Password
           })
         }
         if (res.data[0].Room4Password == "") {
@@ -239,7 +236,7 @@ Page({
         } else {
           this.setData({
             using4: true,
-            room4password: res.data.Room4Password
+            room4password: res.data[0].Room4Password
           })
         }
       }

@@ -29,15 +29,20 @@ Page({
         }]
       },
       success: res => {
-        if (e.currentTarget.dataset.name == "PAYMENT") {
+        if (e.currentTarget.dataset.name == "ORDER") {
           this.setData({
-            paymenthistory: res.result.data
+            orderhistory: res.result.data
           })
-        } else if (e.currentTarget.dataset.name == "REWARD") {
+        } else if (e.currentTarget.dataset.name == "DISCOUNTORDER") {
           this.setData({
-            rewardhistory: res.result.data
+            discounthistory: res.result.data
+          })
+        }else if (e.currentTarget.dataset.name == "PROMOTERORDER") {
+          this.setData({
+            promoterhistory: res.result.data
           })
         }
+        
       }
     })
   },

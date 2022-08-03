@@ -13,6 +13,12 @@
   <text>推广政策</text>
 </view>
 <view class="mainframe">
+  <l-card type="primary" plaintext="{{true}}">
+  <text>当前推广资格：{{promotername}}</text>
+  <text>资格申请日期：{{adddate}}</text>
+  <text>资格生效日期：{{plstartdate}}</text>
+</l-card>
+<text>\n</text>
 <l-collapse>
   <l-collapse-item title="推广政策说明">
     <l-card type="primary" plaintext="{{true}}">
@@ -55,7 +61,7 @@
             data-startdate="{{startdate1}}" data-price="1" shape="semicircle" plain="true">申请</l-button>
           </view>
             <view hidden="{{paymenthidden}}">
-            <l-button size="mini" type="default" bind:lintap="bvWXPay" shape="semicircle" plain="true">微信支付</l-button>
+            <l-button size="mini" type="default" bind:lintap="bvWXPay" shape="semicircle" plain="true">微信即时支付</l-button>
             <text decode="{{true}}">&emsp;</text>
             <l-button size="mini" type="default" bind:lintap="bvOtherPay" shape="semicircle" plain="true">其他方式支付</l-button>
             </view>
@@ -86,7 +92,7 @@
             data-startdate="{{startdate2}}" data-price="1" shape="semicircle" plain="true">申请</l-button>
           </view>
             <view hidden="{{paymenthidden}}">
-            <l-button size="mini" type="default" bind:lintap="bvWXPay" shape="semicircle" plain="true">微信支付</l-button>
+            <l-button size="mini" type="default" bind:lintap="bvWXPay" shape="semicircle" plain="true">微信即时支付</l-button>
             <text decode="{{true}}">&emsp;</text>
             <l-button size="mini" type="default" bind:lintap="bvOtherPay" shape="semicircle" plain="true">其他方式支付</l-button>
           </view>
@@ -118,7 +124,7 @@
           </l-button>
           </view>
           <view hidden="{{paymenthidden}}">
-          <l-button size="mini" type="default" bind:lintap="bvWXPay" shape="semicircle" plain="true">微信支付</l-button>
+          <l-button size="mini" type="default" bind:lintap="bvWXPay" shape="semicircle" plain="true">微信即时支付</l-button>
           <text decode="{{true}}">&emsp;</text>
             <l-button size="mini" type="default" bind:lintap="bvOtherPay" shape="semicircle" plain="true">其他方式支付</l-button>
           </view>
@@ -132,19 +138,5 @@
     </l-collapse>
   </l-collapse-item>
 </l-collapse>
-<l-card type="primary" plaintext="{{true}}">
-  <text>当前推广资格：{{promotername}}</text>
-  <text>资格申请日期：{{adddate}}</text>
-  <text>资格生效日期：{{plstartdate}}</text>
-  <view style="display:flex; flex-direction:row;">
-  <view>付款状态：</view>
-  <view wx:if="{{paymentstatus =='unchecked'}}">待确认</view>
-  <view wx:if="{{paymentstatus =='checked'}}">已确认</view>
-  </view>
-  <view style="display:flex; flex-direction:row;">
-    <view>申请状态：</view>
-    <view wx:if="{{orderstatus =='unchecked'}}">待确认</view>
-    <view wx:if="{{orderstatus =='checked'}}">已确认</view>
-  </view>
-</l-card>
+
 </view>

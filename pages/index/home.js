@@ -28,7 +28,7 @@ Page({
       console.log(res.target)
     }
     return {
-      title: app.globalData.Gcompanyname + app.globalData.Gusername + '邀请您体验：',
+      title: app.globalData.GnickName + '邀请您体验：',
       path: '/pages/index/index?userid=' + app.globalData.Gopenid,
       imageUrl: 'https://636c-cloud1-2gn7aud7a22c693c-1312824882.tcb.qcloud.la/setting/image/sharepic.png?sign=85d87b923b700905106df5d4d1813858&t=1657616944', //封面
       success: function (res) {
@@ -47,9 +47,10 @@ Page({
       },
     }
   },
+  // 分享到朋友圈
   onShareTimeline: function(){
     return {
-    title: '真的有宝哦，快来体验税筹资源小程序！',
+    title: '真的有宝哦，快来体验代理代办小程序！',
     query: '/pages/index/index?userid=' + app.globalData.Gopenid,
     imageUrl: 'https://636c-cloud1-2gn7aud7a22c693c-1312824882.tcb.qcloud.la/setting/image/sharepic.png?sign=85d87b923b700905106df5d4d1813858&t=1657616944', //封面
     }
