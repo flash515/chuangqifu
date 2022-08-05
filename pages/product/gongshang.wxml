@@ -51,7 +51,7 @@
     del-color="#3963bc"
   ></l-price> <view>折扣价：{{item.Price3}}</view>
           </view>
-          <view wx:if="{{usertype == 'admin'||discountlevel == 'DL4'}}">原价：{{item.Price4}}
+          <view wx:if="{{usertype == 'admin'||discountlevel == 'DL4'}}">{{item.Price4}}
           </view>
 
         <view style="display:flex; flex-direction:row; " >

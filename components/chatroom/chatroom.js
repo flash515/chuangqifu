@@ -3,7 +3,7 @@ const SETDATA_SCROLL_TO_BOTTOM = {
   scrollTop: 100000,
   scrollWithAnimation: true,
 }
-
+// 子组件在自己的JS中properties接收父组件传过来的值
 Component({
   properties: {
     envId: String,
@@ -11,12 +11,12 @@ Component({
     groupId: String,
     groupName: String,
     userInfo: Object,
-    onGetUserInfo: {
-      type: Function,
-    },
-    getOpenID: {
-      type: Function,
-    },
+    // onGetUserInfo: {
+    //   type: Function,
+    // },
+    // getOpenID: {
+    //   type: Function,
+    // },
   },
 
   data: {
@@ -27,16 +27,25 @@ Component({
     scrollToMessage: '',
     hasKeyboard: false,
   },
-
+// 自定义的方法
   methods: {
-    onGetUserInfo(e) {
-      this.properties.onGetUserInfo(e)
-    },
+    // onGetUserInfo(e) {
+    //   this.properties.onGetUserInfo(e)
+    // },
 
-    getOpenID() { 
-      return this.properties.getOpenID() 
-    },
-
+    // getOpenID() { 
+    //   return this.properties.getOpenID() 
+    // },
+    getUserProfile(){
+    wx.getUserInfo({
+      success: res => {
+        this.setData({
+          avatarUrl: res.userInfo.avatarUrl,
+          userInfo: res.userInfo
+        })
+      }
+    })
+  },
     mergeCommonCriteria(criteria) {
       return {
         groupId: this.data.groupId,

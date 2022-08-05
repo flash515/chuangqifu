@@ -37,14 +37,14 @@
       <l-card type="primary" plaintext="{{true}}" title="业务量符合以下任一条件可享折扣价">
         <text decode='true'>前溯一年内办理自然人代开票金额≥100万；或</text>
         <text decode='true'>前溯一年内办理企业注册数量≥1家；或</text>
-        <text decode='true'>前溯一年内推广有效用户数量≥50人；</text>
+        <text decode='true'>前溯一年内推广有效用户数量≥100人；</text>
       </l-card>
     </l-collapse-item>
   </l-collapse>
   <view hidden="{{orderhidden==false}}">
     <l-collapse>
       <l-collapse-item title="二、购买折扣卡获得价格优惠政策">
-        <l-card type="avatar" plaintext="{{true}}" title="单次折扣体验卡">
+        <l-card type="avatar" plaintext="{{true}}" title="单次折扣价体验卡">
           <text>有效期：限30天内单次使用</text>
           <text>购卡费用：50元</text>
           <picker mode="date" value="{{dl3_30startdate}}" start="{{startdate}}" bindchange="bvDL3_30">
@@ -58,7 +58,7 @@
             shape="semicircle" plain="true">购买</l-button>
         </l-card>
         <text>\n</text>
-        <l-card type="avatar" plaintext="{{true}}" title="折扣季卡">
+        <l-card type="avatar" plaintext="{{true}}" title="折扣价季卡">
           <text>有效期：90天</text>
           <text>购卡费用：300元</text>
           <picker mode="date" value="{{dl3_90startdate}}" start="{{startdate}}" bindchange="bvDL3_90">
@@ -72,7 +72,7 @@
             shape="semicircle" plain="true">购买</l-button>
         </l-card>
         <text>\n</text>
-        <l-card type="avatar" plaintext="{{true}}" title="折扣半年卡">
+        <l-card type="avatar" plaintext="{{true}}" title="折扣价半年卡">
           <text>有效期：180天</text>
           <text>购卡费用：400元</text>
           <picker mode="date" value="{{dl3_180startdate}}" start="{{startdate}}" bindchange="bvDL3_180">
@@ -86,7 +86,7 @@
             shape="semicircle" plain="true">购买</l-button>
         </l-card>
         <text>\n</text>
-        <l-card type="avatar" plaintext="{{true}}" title="折扣年卡">
+        <l-card type="avatar" plaintext="{{true}}" title="折扣价年卡">
           <text>有效期：360天</text>
           <text>购卡费用：600元</text>
           <picker mode="date" value="{{dl3_360startdate}}" start="{{startdate}}" bindchange="bvDL3_360">

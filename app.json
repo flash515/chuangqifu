@@ -43,7 +43,9 @@
     "pages/tools/meetingroom/meetingroom3",
     "pages/tools/meetingroom/meetingroom4",
     "pages/tools/sort",
-    "pages/tools/shuizhengchaxun"
+    "pages/tools/shuizhengchaxun",
+    "pages/tools/test/meetingroom",
+    "pages/tools/test/meetingroom1"
   ],
   "permission": {
     "scope.userLocation": {

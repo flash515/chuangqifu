@@ -6,21 +6,13 @@ Page({
    */
   data: {
     room1key: "",
-    room2key: "",
-    room3key: "",
-    room4key: "",
+
     room1clean: "",
-    room2clean: "",
-    room3clean: "",
-    room4clean: "",
+
     room1password: "",
-    room2password: "",
-    room3password: "",
-    room4password: "",
+
     using1: "",
-    using2: "",
-    using3: "",
-    using4: "",
+
 
     // 轮播参数
     image: [],
@@ -35,40 +27,19 @@ Page({
 
   },
   Room1Password(e) {
-    this.data.room1password= e.detail.value
-  },
-  Room2Password(e) {
-    this.data.room2password= e.detail.value
-  },
-  Room3Password(e) {
-    this.data.room3password= e.detail.value
-  },
-  Room4Password(e) {
-    this.data.room4password= e.detail.value
+    this.setData({
+      room1password: e.detail.value
+    })
   },
   Room1Key(e) {
-    this.data.room1key= e.detail.value
-  },
-  Room2Key(e) {
-    this.data.room2key= e.detail.value
-  },
-  Room3Key(e) {
-    this.data.room3key= e.detail.value
-  },
-  Room4Key(e) {
-    this.data.room4key= e.detail.value
+    this.setData({
+      room1key: e.detail.value
+    })
   },
   Room1Clean(e) {
-    this.data.room1clean= e.detail.value
-  },
-  Room2Clean(e) {
-    this.data.room2clean= e.detail.value
-  },
-  Room3Clean(e) {
-    this.data.room3clean= e.detail.value
-  },
-  Room4Clean(e) {
-    this.data.room4clean= e.detail.value
+    this.setData({
+      room1clean: e.detail.value
+    })
   },
   RoomApply(e) {
     // 调用云函数
@@ -158,6 +129,8 @@ Page({
             data: {
               key1: e.target.dataset.key,
               value1: "",
+              key2: e.target.dataset.time,
+              value2: "",
             },
             success: res => {
               wx.showToast({
@@ -275,7 +248,10 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+this.setData({
+  room1key:"",
+  room1clean:""
+})
   },
 
   /**

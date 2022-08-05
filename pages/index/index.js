@@ -11,14 +11,15 @@ Page({
   },
   onLoad: function (options) {
     let that = this
+
     // 接收参数方法一开始
     if (options.userid) {
-
       this.data.inviterid = options.userid;
       app.globalData.Ginviterid = options.userid;
       console.log("方法一如果参数以userid=格式存在，则显示接收到的参数", this.data.inviterid);
       // 接收参数方法一结束
     } else {
+
       // 接收参数方法二开始，scene中只有参数值
       if (options.scene) {
         let scene = decodeURIComponent(options.scene);
@@ -35,6 +36,7 @@ Page({
         console.log("搜索进入参数:", this.data.inviterid);
       }
     }
+
     //获取小程序全局设置
     const db = wx.cloud.database()
     db.collection('setting')
@@ -68,6 +70,7 @@ Page({
       })
       return
     }
+
     // 通过传递来的参数查询推荐人信息
     db.collection('USER').where({
       _openid: this.data.inviterid
@@ -93,6 +96,7 @@ Page({
         wx.setStorageSync('LProductList', res.data)
       }
     })
+    
     // 通过云函数获取用户本人的小程序ID
     wx.cloud.callFunction({
       name: 'login',

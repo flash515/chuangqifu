@@ -13,7 +13,6 @@ Page({
     plstartdate: "",
     promoterlevel: "",
     promotername: "",
-    totalfee: "",
     paymentid: "",
     productname: "",
     phone:"",
@@ -60,10 +59,16 @@ Page({
     })
   },
   bvApply(e) {
-    this.data.orderlevel = e.currentTarget.dataset.level
-    this.data.orderstartdate = e.currentTarget.dataset.startdate
-    this.data.orderfee = e.currentTarget.dataset.price
-    this.data.ordername = e.currentTarget.dataset.name
+    this.setData({
+      orderlevel: e.currentTarget.dataset.level,
+      orderstartdate: e.currentTarget.dataset.startdate,
+      orderfee: e.currentTarget.dataset.price,
+      ordername: e.currentTarget.dataset.name,
+    })
+    // this.data.orderlevel = e.currentTarget.dataset.level
+    // this.data.orderstartdate = e.currentTarget.dataset.startdate
+    // this.data.orderfee = e.currentTarget.dataset.price
+    // this.data.ordername = e.currentTarget.dataset.name
     if (this.data.applysublock == false && this.data.paymentsublock == false) {
       this.data.paymentid = this._getGoodsRandomNumber();
     }
@@ -245,7 +250,7 @@ Page({
   },
   bvOtherPay() {
     wx.navigateTo({
-      url: '../order/pay?totalfee=' + this.data.totalfee + '&productname=' + this.data.promotername + '&paymentid=' + this.data.paymentid+'&database=PROMOTERORDER'
+      url: '../order/pay?totalfee=' + this.data.orderfee + '&productname=' + this.data.promotername + '&paymentid=' + this.data.paymentid+'&database=PROMOTERORDER'
     })
   },
   // 随机生成支付订单号,订单号不能重复
@@ -282,10 +287,13 @@ Page({
       key: 'LUserInfo',
       success: res => {
         if(res.data.UserPhone!="" && res.data.UserPhone!="undefined"){
+          // 手机号有效才执行
         this.setData({
-          phone: res.data.UserPhone,
+        phone: res.data.UserPhone,
+        phonehidden:true
         })
-        this._condition()
+        // 进一步查询推广等级
+        this._plcheck()
       }else{
         this.setData({
           promotername: "普客",
@@ -294,13 +302,48 @@ Page({
     }
     })
   },
-
+  // 查询推广等级
+  _plcheck(){
+    let that=this
+    const db = wx.cloud.database()
+    const _ = db.command
+    db.collection('PROMOTERORDER').where({
+      _openid: app.globalData.Gopenid,
+      PaymentStatus: "checked",
+      OrderStatus: "checked",
+    }).orderBy('SysAddDate', 'desc').limit(1).get({
+      success: res => {
+        console.log(res.data.length)
+        if (res.data.length != 0) {
+          this.setData({
+            adddate: res.data[0].AddDate,
+            plstartdate: res.data[0].PLStartDate,
+            promoterlevel: res.data[0].PromoterLevel,
+            paymentstatus: res.data[0].PaymentStatus,
+            orderstatus: res.data[0].OrderStatus,
+            promotername: res.data[0].PromoterName,
+          })
+        } else {
+          this.setData({
+            promotername: "会员",
+          })
+          console.log("会员执行了")
+        }
+      // 进一步查询是否符合新条件
+      this._condition()
+      },
+      fail: res => {
+        wx.showToast({
+          title: '查询失败请刷新',
+          icon: 'error',
+          duration: 2000 //持续的时间
+        })
+      }
+    })
+  },
   // 有效推广用户数量
 _condition(){
-
-    this.setData({
-      phonehidden:true
-    })
+  console.log("condition执行了")
   wx.getStorage({
     key: 'LDirectUser',
     success: res => {
@@ -314,55 +357,38 @@ _condition(){
         }
       }
       if (directvalidfliter.length >= 1 && directvalidfliter.length < 100) {
-        this.setData({
-          btn1hidden: false
-        })
+        this._btn1check()
+        console.log("btn1执行了")
       } else if (directvalidfliter.length >= 100 && directvalidfliter.length < 300) {
-        this.setData({
-          btn2hidden: false
-        })
+        this._btn2check()
       } else if (directvalidfliter.length >= 300) {
-        this.setData({
-          btn3hidden: false
-        })
+        this._btn3check()
       }
     }
   })
-  this._plcheck()
 },
-_plcheck(){
-  // let that=this
-  const db = wx.cloud.database()
-  const _ = db.command
-  db.collection('PROMOTERORDER').where({
-    _openid: app.globalData.Gopenid,
-    PaymentStatus: "checked",
-    OrderStatus: "checked",
-  }).orderBy('SysAddDate', 'desc').limit(1).get({
-    success: res => {
-      console.log(res.data.length)
-      if (res.data.length != 0) {
-        this.setData({
-          adddate: res.data[0].AddDate,
-          plstartdate: res.data[0].PLStartDate,
-          promoterlevel: res.data[0].PromoterLevel,
-          paymentstatus: res.data[0].PaymentStatus,
-          orderstatus: res.data[0].OrderStatus,
-          promotername: res.data[0].PromoterName,
-        })
-      } else {
-        this.setData({
-          promotername: "会员",
-        })
-      }
-    },
-    fail: res => {
-      wx.showToast({
-        title: '查询失败请刷新',
-        icon: 'error',
-        duration: 2000 //持续的时间
+_btn1check(){
+if(this.data.promoterlevel=="" || this.data.promoterlevel=="normal" || this.data.promoterlevel=="member"){
+  this.setData({
+    btn1hidden: false
+  })
+  console.log("btn1执行了")
+}
+},
+_btn2check(){
+  if(this.data.promoterlevel=="" || this.data.promoterlevel=="normal" || this.data.promoterlevel=="member" || this.data.promoterlevel=="sliver"){
+    this.setData({
+      btn2hidden: false
+    })
+    console.log("btn2执行了")
+  }
+  },
+  _btn3check(){
+    if(this.data.promoterlevel=="" || this.data.promoterlevel=="normal" || this.data.promoterlevel=="member" || this.data.promoterlevel=="sliver" || this.data.promoterlevel=="gold"){
+      this.setData({
+        btn3hidden: false
       })
+      console.log("btn3执行了")
     }
-  })
-},
+    },
 })

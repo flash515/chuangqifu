@@ -201,6 +201,13 @@ Page({
         duration: 2000 //持续的时间
       })
     } else {
+      if(this.data.address=="" || this.data.phone=="" || this.data.contacts=="" || this.data.date=="" || this.data.time=="" ){
+        wx.showToast({
+          title: '请提供详细信息',
+          icon: 'error',
+          duration: 2000 //持续的时间
+        })
+      }else{
       // 未锁定时执行
       // 获取数据库引用
       const db = wx.cloud.database()
@@ -233,6 +240,7 @@ Page({
           }
         }),
         this.data.booklock = true // 修改上传状态为锁定
+      }
     }
   },
   /**

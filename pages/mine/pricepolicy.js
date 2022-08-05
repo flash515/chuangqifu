@@ -281,7 +281,7 @@ this.setData({
       image: app.globalData.Gimagearray,
       startdate: str.getFullYear() + "-" + (str.getMonth() + 1) + "-" + str.getDate()
     })
-
+// 查询当前的价格折扣卡
     console.log(this.data.startdate)
     // let that=this
     const db = wx.cloud.database()
