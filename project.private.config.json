@@ -318,9 +318,10 @@
           "scene": null
         },
         {
-          "name": "pages/tools/meetingroom/meetingroom",
-          "pathName": "pages/tools/meetingroom/meetingroom",
+          "name": "pages/tools/test/meetingroom1",
+          "pathName": "pages/tools/test/meetingroom1",
           "query": "",
+          "launchMode": "default",
           "scene": null
         },
         {

@@ -16,33 +16,33 @@
   <text>\n</text>
   <label class="title1">快捷会议室一</label>
   <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center">
-    <l-input label="当前状态：" ></l-input>
+    <l-input label="当前状态：" />
     <text decode="{{true}}">&emsp;&emsp;</text>
-    <view hidden="{{using1}}">
+    <view hidden="{{room1status}}">
       <l-button type="success" shape="semicircle" size="mini">可使用</l-button>
     </view>
-    <view hidden="{{!using1}}">
+    <view hidden="{{!room1status}}">
       <l-button type="warning" shape="semicircle" size="mini">使用中</l-button>
     </view>
   </view>
-  <view hidden="{{using1}}">
+  <view hidden="{{room1status}}">
   <view style="display:flex; flex-direction:row; justify-content:space-between;align-items:center">
     <l-input label="设置密码：" placeholder="请设置会议室密码" bind:lininput="Room1Password" clear="{{true}}" />
-    <l-button shape="semicircle" plain="{{true}}" bind:lintap="RoomApply" size="mini" data-id="Room1Password"
-      data-value="{{room1password}}" data-time="Room1Time">确定</l-button>
+    <l-button shape="semicircle" plain="{{true}}" bind:lintap="RoomApply" size="mini" data-key1="Room1Password"
+      data-value1="{{room1password}}" data-key2="Room1Time" data-value2="{{room1time}}" data-key3="Room1Status" data-value3="{{room1status}}">申请使用</l-button>
   </view>
 </view> 
-  <view hidden="{{!using1}}">
+  <view hidden="{{!room1status}}">
     <view style="display:flex; flex-direction:row; justify-content:space-around;align-items:center">
-    <l-input label="输入密码：" label-layout="left" placeholder="请输入会议室密码" bind:lininput="Room1Key" clear="{{true}}" ></l-input>
+    <l-input label="输入密码：" label-layout="left" placeholder="请输入会议室密码" bind:lininput="Room1Key" clear="{{true}}"  />
     <l-button shape="semicircle" icon="to-top" icon-color="blue" plain="{{true}}" bind:lintap="Roomlogin"
-        data-value="{{room1key}}" data-password="{{room1password}}" data-url="../meetingroom/meetingroom1" size="mini">
+        data-value="{{room1key}}" data-password="{{room1password}}" data-time="{{room1time}}" data-url="../meetingroom/meetingroom1?starttime={{room1time}}" size="mini">
         进入会议室</l-button>
       </view>
       <view style="display:flex; flex-direction:row; justify-content:space-around;align-items:center">
-    <l-input label="输入密码：" label-layout="left" placeholder="请输入会议室密码" bind:lininput="Room1Clean" clear="{{true}}" ></l-input>
+    <l-input label="输入密码：" label-layout="left" placeholder="请输入会议室密码" bind:lininput="Room1Clean" clear="{{true}}"  />
       <l-button type="error" shape="semicircle" icon="delete" icon-color="white" bind:lintap="RoomClean" size="mini"
-        data-value="{{room1clean}}" data-password="{{room1password}}" data-room="MeetingRoom1" data-key="Room1Password">
+        data-value="{{room1clean}}" data-password="{{room1password}}" data-room="MeetingRoom1" data-key1="Room1Password" data-key2="Room1Time" data-key3="Room1Status">
         清空会议室</l-button>
   </view>
 </view>
@@ -50,105 +50,103 @@
 <text>\n</text>
 <label class="title1">快捷会议室二</label>
   <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center">
-    <l-input label="当前状态：" ></l-input>
+    <l-input label="当前状态：" />
     <text decode="{{true}}">&emsp;&emsp;</text>
-    <view hidden="{{using2}}">
+    <view hidden="{{room2status}}">
       <l-button type="success" shape="semicircle" size="mini">可使用</l-button>
     </view>
-    <view hidden="{{!using2}}">
+    <view hidden="{{!room2status}}">
       <l-button type="warning" shape="semicircle" size="mini">使用中</l-button>
     </view>
   </view>
-  <view hidden="{{using2}}">
+  <view hidden="{{room2status}}">
   <view style="display:flex; flex-direction:row; justify-content:space-between;align-items:center">
-    <l-input label="设置密码：" placeholder="请设置会议室密码" bind:lininput="Room2Password" clear="{{true}}" ></l-input>
-    <l-button shape="semicircle" plain="{{true}}" bind:lintap="RoomApply" size="mini" data-id="Room2Password"
-      data-value="{{room2password}}"  data-time="Room2Time" >确定</l-button>
+    <l-input label="设置密码：" placeholder="请设置会议室密码" bind:lininput="Room2Password" clear="{{true}}" />
+    <l-button shape="semicircle" plain="{{true}}" bind:lintap="RoomApply" size="mini" data-key1="Room2Password"
+      data-value1="{{room2password}}" data-key2="Room2Time" data-value2="{{room2time}}" data-key3="Room2Status" data-value3="{{room2status}}">申请使用</l-button>
   </view>
 </view> 
-  <view hidden="{{!using2}}">
+  <view hidden="{{!room2status}}">
     <view style="display:flex; flex-direction:row; justify-content:space-around;align-items:center">
-    <l-input label="输入密码：" label-layout="left" placeholder="请输入会议室密码" bind:lininput="Room2Key" clear="{{true}}" ></l-input>
+    <l-input label="输入密码：" label-layout="left" placeholder="请输入会议室密码" bind:lininput="Room2Key" clear="{{true}}" />
     <l-button shape="semicircle" icon="to-top" icon-color="blue" plain="{{true}}" bind:lintap="Roomlogin"
-        data-value="{{room2key}}" data-password="{{room2password}}" data-url="../meetingroom/meetingroom2" size="mini">
+        data-value="{{room2key}}" data-password="{{room2password}}" data-time="{{room2time}}" data-url="../meetingroom/meetingroom2?starttime={{room2time}}" size="mini">
         进入会议室</l-button>
       </view>
       <view style="display:flex; flex-direction:row; justify-content:space-around;align-items:center">
-    <l-input label="输入密码：" label-layout="left" placeholder="请输入会议室密码" bind:lininput="Room2Clean" clear="{{true}}" ></l-input>
+    <l-input label="输入密码：" label-layout="left" placeholder="请输入会议室密码" bind:lininput="Room2Clean" clear="{{true}}" />
       <l-button type="error" shape="semicircle" icon="delete" icon-color="white" bind:lintap="RoomClean" size="mini"
-        data-value="{{room2clean}}" data-password="{{room2password}}" data-room="MeetingRoom2" data-key="Room2Password">
+        data-value="{{room2clean}}" data-password="{{room2password}}" data-room="MeetingRoom2" data-key1="Room2Password" data-key2="Room2Time" data-key3="Room2Status">
         清空会议室</l-button>
-      </view>
   </view>
+</view>
   <text>\n</text>
   <text>\n</text>
   <label class="title1">快捷会议室三</label>
   <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center">
-    <l-input label="当前状态：" ></l-input>
+    <l-input label="当前状态：" />
     <text decode="{{true}}">&emsp;&emsp;</text>
-    <view hidden="{{using3}}">
+    <view hidden="{{room3status}}">
       <l-button type="success" shape="semicircle" size="mini">可使用</l-button>
     </view>
-    <view hidden="{{!using3}}">
+    <view hidden="{{!room3status}}">
       <l-button type="warning" shape="semicircle" size="mini">使用中</l-button>
     </view>
   </view>
-  <view hidden="{{using3}}">
+  <view hidden="{{room3status}}">
   <view style="display:flex; flex-direction:row; justify-content:space-between;align-items:center">
-    <l-input label="设置密码：" placeholder="请设置会议室密码" bind:lininput="Room3Password" clear="{{true}}" ></l-input>
-    <l-button shape="semicircle" plain="{{true}}" bind:lintap="RoomApply" size="mini" data-id="Room3Password"
-      data-value="{{room3password}}"  data-time="Room3Time">确定</l-button>
+    <l-input label="设置密码：" placeholder="请设置会议室密码" bind:lininput="Room3Password" clear="{{true}}" />
+    <l-button shape="semicircle" plain="{{true}}" bind:lintap="RoomApply" size="mini" data-key1="Room3Password"
+      data-value1="{{room3password}}" data-key2="Room3Time" data-value2="{{room3time}}" data-key3="Room3Status" data-value3="{{room3status}}">申请使用</l-button>
   </view>
 </view> 
-  <view hidden="{{!using3}}">
-    <view style="display:flex; flex-direction:row; justify-content:space-between;align-items:center">
-    <l-input label="输入密码：" label-layout="left" placeholder="请输入会议室密码" bind:lininput="Room3Key" clear="{{true}}" ></l-input>
+  <view hidden="{{!room3status}}">
+    <view style="display:flex; flex-direction:row; justify-content:space-around;align-items:center">
+    <l-input label="输入密码：" label-layout="left" placeholder="请输入会议室密码" bind:lininput="Room3Key" clear="{{true}}" />
     <l-button shape="semicircle" icon="to-top" icon-color="blue" plain="{{true}}" bind:lintap="Roomlogin"
-        data-value="{{room3key}}" data-password="{{room3password}}" data-url="../meetingroom/meetingroom3" size="mini">
+        data-value="{{room3key}}" data-password="{{room3password}}" data-time="{{room3time}}" data-url="../meetingroom/meetingroom3?starttime={{room3time}}" size="mini">
         进入会议室</l-button>
-    </view>
-    <view style="display:flex; flex-direction:row; justify-content:space-between;align-items:center">
-    <l-input label="输入密码：" label-layout="left" placeholder="请输入会议室密码" bind:lininput="Room3Clean" clear="{{true}}" ></l-input>
-      <l-button type="error" shape="semicircle" icon="delete" icon-color="white" bind:lintap="RoomClean" size="mini"
-        data-value="{{room3clean}}" data-password="{{room3password}}" data-room="MeetingRoom3" data-key="Room3Password">
-        清空会议室</l-button>
       </view>
-
+      <view style="display:flex; flex-direction:row; justify-content:space-around;align-items:center">
+    <l-input label="输入密码：" label-layout="left" placeholder="请输入会议室密码" bind:lininput="Room3Clean" clear="{{true}}" />
+      <l-button type="error" shape="semicircle" icon="delete" icon-color="white" bind:lintap="RoomClean" size="mini"
+        data-value="{{room3clean}}" data-password="{{room3password}}" data-room="MeetingRoom3" data-key1="Room3Password" data-key2="Room3Time" data-key3="Room3Status">
+        清空会议室</l-button>
   </view>
+</view>
   <text>\n</text>
   <text>\n</text>
   <label class="title1">快捷会议室四</label>
   <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center">
-    <l-input label="当前状态：" ></l-input>
+    <l-input label="当前状态：" />
     <text decode="{{true}}">&emsp;&emsp;</text>
-    <view hidden="{{using4}}">
+    <view hidden="{{room4status}}">
       <l-button type="success" shape="semicircle" size="mini">可使用</l-button>
     </view>
-    <view hidden="{{!using4}}">
+    <view hidden="{{!room4status}}">
       <l-button type="warning" shape="semicircle" size="mini">使用中</l-button>
     </view>
   </view>
-  <view hidden="{{using4}}">
+  <view hidden="{{room4status}}">
   <view style="display:flex; flex-direction:row; justify-content:space-between;align-items:center">
-    <l-input label="设置密码：" placeholder="请设置会议室密码" bind:lininput="Room4Password" clear="{{true}}" ></l-input>
-    <l-button shape="semicircle" plain="{{true}}" bind:lintap="RoomApply" size="mini" data-id="Room4Password"
-      data-value="{{room4password}}"  data-time="Room4Time">确定</l-button>
+    <l-input label="设置密码：" placeholder="请设置会议室密码" bind:lininput="Room4Password" clear="{{true}}" />
+    <l-button shape="semicircle" plain="{{true}}" bind:lintap="RoomApply" size="mini" data-key1="Room4Password"
+      data-value1="{{room4password}}" data-key2="Room4Time" data-value2="{{room4time}}" data-key3="Room4Status" data-value3="{{room4status}}">申请使用</l-button>
   </view>
 </view> 
-  <view hidden="{{!using4}}">
-    <view style="display:flex; flex-direction:row; justify-content:space-between;align-items:center">
-    <l-input label="输入密码：" label-layout="left" placeholder="请输入会议室密码" bind:lininput="Room4Key" clear="{{true}}" ></l-input>
+  <view hidden="{{!room4status}}">
+    <view style="display:flex; flex-direction:row; justify-content:space-around;align-items:center">
+    <l-input label="输入密码：" label-layout="left" placeholder="请输入会议室密码" bind:lininput="Room4Key" clear="{{true}}" />
     <l-button shape="semicircle" icon="to-top" icon-color="blue" plain="{{true}}" bind:lintap="Roomlogin"
-        data-value="{{room4key}}" data-password="{{room4password}}" data-url="../meetingroom/meetingroom4" size="mini">
+        data-value="{{room4key}}" data-password="{{room4password}}" data-time="{{room4time}}" data-url="../meetingroom/meetingroom4?starttime={{room4time}}" size="mini">
         进入会议室</l-button>
-    </view>
-    <view style="display:flex; flex-direction:row; justify-content:space-between;align-items:center">
-    <l-input label="输入密码：" label-layout="left" placeholder="请输入会议室密码" bind:lininput="Room4Clean" clear="{{true}}" ></l-input>
-      <l-button type="error" shape="semicircle" icon="delete" icon-color="white" bind:lintap="RoomClean" size="mini"
-        data-value="{{room4clean}}" data-password="{{room4password}}" data-room="MeetingRoom4" data-key="Room4Password">
-        清空会议室</l-button>
       </view>
-
+      <view style="display:flex; flex-direction:row; justify-content:space-around;align-items:center">
+    <l-input label="输入密码：" label-layout="left" placeholder="请输入会议室密码" bind:lininput="Room4Clean" clear="{{true}}" />
+      <l-button type="error" shape="semicircle" icon="delete" icon-color="white" bind:lintap="RoomClean" size="mini"
+        data-value="{{room4clean}}" data-password="{{room4password}}" data-room="MeetingRoom4" data-key1="Room4Password" data-key2="Room4Time" data-key3="Room4Status">
+        清空会议室</l-button>
   </view>
+</view>
 
 </view>

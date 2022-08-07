@@ -3,20 +3,24 @@ const SETDATA_SCROLL_TO_BOTTOM = {
   scrollTop: 100000,
   scrollWithAnimation: true,
 }
-// 子组件在自己的JS中properties接收父组件传过来的值
+    // 子组件在自己的JS中properties接收父组件传过来的值，定义好type属性和value为[]，即为默认值（父组件传过来的值）
 Component({
   properties: {
+
     envId: String,
     collection: String,
     groupId: String,
     groupName: String,
     userInfo: Object,
-    // onGetUserInfo: {
-    //   type: Function,
-    // },
-    // getOpenID: {
-    //   type: Function,
-    // },
+    onGetUserInfo: {
+      type: Function,
+    },
+    getOpenID: {
+      type: Function,
+    },
+    getUserProfile: {
+      type: Function,
+    },
   },
 
   data: {
@@ -29,15 +33,25 @@ Component({
   },
 // 自定义的方法
   methods: {
-    // onGetUserInfo(e) {
-    //   this.properties.onGetUserInfo(e)
-    // },
+    onGetUserInfo(e) {
+      // this.properties.onGetUserInfo(e)
+        wx.getUserInfo({
+          success: res => {
+            this.setData({
+              avatarUrl: res.userInfo.avatarUrl,
+              userInfo: res.userInfo
+            })
+          }
+        })
+    },
 
-    // getOpenID() { 
-    //   return this.properties.getOpenID() 
-    // },
-    getUserProfile(){
-    wx.getUserInfo({
+    getOpenID() { 
+      return this.properties.getOpenID() 
+    },
+
+  getuserprofile(){
+    wx.getUserProfile({
+      desc:"便于参会人员识别",
       success: res => {
         this.setData({
           avatarUrl: res.userInfo.avatarUrl,

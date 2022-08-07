@@ -12,6 +12,7 @@ exports.main = async (event, context) => {
     data: {
       [event.key1]: event.value1,
       [event.key2]: event.value2,
+      [event.key3]: event.value3,
     }
   })
 }catch (e) {

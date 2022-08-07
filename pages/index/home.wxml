@@ -70,7 +70,7 @@
     <view wx:if="{{avatarUrl=='' || nickName==''}}">
         </view>
         <view wx:else>
-    <navigator url='../tools/test/meetingroom'>
+    <navigator url='../tools/meetingroom/meetingroom'>
       <l-icon name='comment' />
       <view class="text">快捷会议室</view>
     </navigator>

@@ -1,7 +1,9 @@
-const app = getApp()
 
+const app = getApp()
 Page({
   data: {
+    inviterid:"",
+    starttime:"",
     avatarUrl: './user-unlogin.png',
     userInfo: null,
     logged: false,
@@ -10,35 +12,42 @@ Page({
     // chatRoomEnvId: 'release-f8415a',
     chatRoomCollection: 'MeetingRoom3',
     chatRoomGroupId: 'demo',
-    chatRoomGroupName: '创企服快捷会议室一',
+    chatRoomGroupName: '创企服快捷会议室三',
 
     // functions for used in chatroom components
     onGetUserInfo: null,
     getOpenID: null,
   },
 
-  onLoad: function() {
-    // 获取用户信息
-    wx.getSetting({
-      success: res => {
-        if (res.authSetting['scope.userInfo']) {
-          // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
-          wx.getUserInfo({
-            success: res => {
-              this.setData({
-                avatarUrl: res.userInfo.avatarUrl,
-                userInfo: res.userInfo
-              })
-            }
-          })
-        }
-      }
-    })
+  onLoad: function(options) {
+      this.data.inviterid = options.userid;
+      app.globalData.Ginviterid = options.userid;
+      this.data.starttime=options.starttime;
+      console.log("方法一如果参数以userid=格式存在，则显示接收到的参数", this.data.inviterid);
+      console.log(Date.parse(new Date()) - this.data.starttime);
+      // 接收参数方法一结束
+
+if(Date.parse(new Date()) - this.data.starttime<"1800000"){
+  const db = wx.cloud.database()
+  db.collection('USER').where({
+    _openid: this.data.inviterid
+  }).get({
+    success: res => {
+      wx.setStorageSync('LInviter', res.data[0]);
+      this.setData({
+        invitercompanyname: res.data[0].CompanyName,
+        inviterusername: res.data[0].UserName,
+        indirectinviterid: res.data[0].InviterOpenId
+      })
+      app.globalData.Gindirectinviterid = res.data[0].InviterOpenId;
+      app.globalData.Ginviterpromoterlevel = res.data[0].PromoterLevel;
+    }
+  })
+
     this.setData({
-      onGetUserInfo: this.onGetUserInfo,
+      // onGetUserInfo: this.onGetUserInfo,
       getOpenID: this.getOpenID,
     })
-
     wx.getSystemInfo({
       success: res => {
         console.log('system info', res)
@@ -50,8 +59,13 @@ Page({
         }
       },
     })
+}else{
+  wx.showToast({
+    icon: 'error',
+    title: '此邀请已过期',
+  })
+}
   },
-
   getOpenID: async function() {
     if (this.openid) {
       return this.openid
@@ -73,11 +87,10 @@ Page({
       })
     }
   },
-
   onShareAppMessage() {
     return {
-      title: app.globalData.GnickName + '邀请您进入创企服快捷会议室三',
-      path: '/pages/tools/meetingroom/meetingroom?userid=' + app.globalData.Gopenid,
+      title: app.globalData.GnickName + '邀请您进入创企服快捷会议室三，此邀请30分积内有效',
+      path: '/pages/tools/meetingroom/meetingroom3?userid=' + app.globalData.Gopenid+'&starttime='+this.data.starttime,
       imageUrl: 'cloud://cloud1-2gn7aud7a22c693c.636c-cloud1-2gn7aud7a22c693c-1312824882/setting/image/shareroom.png', //封面
         }
   },

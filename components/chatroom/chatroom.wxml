@@ -74,7 +74,7 @@
 
     <view class="message-sender" wx:if="{{!userInfo}}">
       <button 
-bindtap="getUserProfile"
+bindtap="getuserprofile"
         class="userinfo"
       >请先登录后参与聊天</button>
     </view>
