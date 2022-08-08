@@ -1,0 +1,70 @@
+<view>
+  <swiper class="swiper" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" circular="{{circular}}" vertical="{{vertical}}" interval="{{interval}}" duration="{{duration}}" previous-margin="{{previousMargin}}px" next-margin="{{nextMargin}}px">
+    <block wx:for="{{image}}" wx:for-index="index" wx:key="key">
+      <swiper-item>
+        <image src="{{item}}" class="swiper image" mode="scaleToFill" />
+        <!-- <view class="swiper-item {{item.url}}"></view> -->
+      </swiper-item>
+    </block>
+  </swiper>
+</view>
+<view class="mainframe">
+  <l-tabs bind:linchange="changeTabs" placement="left">
+        <l-tabpanel tab="地址服务" key="one" slot="one">
+          <l-grid row-num="4">
+    <l-grid-item key='one' slot='one'>
+      <navigator url='../product/dizhi'>
+        <l-icon name='order' />
+        <view class="text">地址服务</view>
+      </navigator>
+    </l-grid-item>
+    <l-grid-item key='two' slot='two'>
+      <navigator url='../product/gongshang'>
+        <l-icon name='order' />
+        <view class="text">工商代办</view>
+      </navigator>
+    </l-grid-item>
+    <l-grid-item key='three' slot='three'>
+      <navigator url='../product/yinhang'>
+        <l-icon name='order' />
+        <view class="text">银行代办</view>
+      </navigator>
+    </l-grid-item>
+    <l-grid-item key='four' slot='four'>
+      <navigator url='../product/caishui'>
+        <l-icon name='order' />
+        <view class="text">财税服务</view>
+      </navigator>
+    </l-grid-item>
+    <l-grid-item key='five' slot='five'>
+      <navigator url='../product/tuoguan'>
+        <l-icon name='order' />
+        <view class="text">企业托管</view>
+      </navigator>
+    </l-grid-item>
+    <l-grid-item key='six' slot='six'>
+      <navigator url='../product/zizhi'>
+        <l-icon name='order' />
+        <view class="text">资质代办</view>
+      </navigator>
+    </l-grid-item>
+  </l-grid>
+        </l-tabpanel>
+        <l-tabpanel tab="工商代办" key="two" slot="two">
+
+        </l-tabpanel>
+        <l-tabpanel tab="银行代办" key="three" slot="three">
+          <view class="tab-content">接口</view>
+        </l-tabpanel>
+        <l-tabpanel tab="财税服务" key="four" slot="four">
+          <view class="tab-content">面板</view>
+        </l-tabpanel>
+
+        <l-tabpanel tab="资质代办" key="five" slot="five">
+          <view class="tab-content">面板</view>
+        </l-tabpanel>
+        <l-tabpanel tab="企业托管" key="six" slot="six">
+          <view class="tab-content">面板</view>
+        </l-tabpanel>
+      </l-tabs>
+</view>

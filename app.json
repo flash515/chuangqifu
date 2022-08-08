@@ -2,6 +2,7 @@
   "pages": [
     "pages/index/index",
     "pages/index/home",
+    "pages/product/allproduct",
     "pages/product/product",
     "pages/product/gongshang",
     "pages/product/caishui",

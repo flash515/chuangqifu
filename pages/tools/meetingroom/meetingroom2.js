@@ -27,7 +27,7 @@ Page({
       console.log(Date.parse(new Date()) - this.data.starttime);
       // 接收参数方法一结束
 
-if(Date.parse(new Date()) - this.data.starttime<"1800000"){
+if(Date.parse(new Date()) - this.data.starttime<"3600000"){
   const db = wx.cloud.database()
   db.collection('USER').where({
     _openid: this.data.inviterid
@@ -60,9 +60,8 @@ if(Date.parse(new Date()) - this.data.starttime<"1800000"){
       },
     })
 }else{
-  wx.showToast({
-    icon: 'error',
-    title: '此邀请已过期',
+  wx.redirectTo({
+    url: '../meetingroom/meetingroom',
   })
 }
   },
@@ -89,7 +88,7 @@ if(Date.parse(new Date()) - this.data.starttime<"1800000"){
   },
   onShareAppMessage() {
     return {
-      title: app.globalData.GnickName + '邀请您进入创企服快捷会议室二，此邀请30分积内有效',
+      title: app.globalData.GnickName + '邀请您进入创企服快捷会议室二，此邀请60分钟内有效',
       path: '/pages/tools/meetingroom/meetingroom2?userid=' + app.globalData.Gopenid+'&starttime='+this.data.starttime,
       imageUrl: 'cloud://cloud1-2gn7aud7a22c693c.636c-cloud1-2gn7aud7a22c693c-1312824882/setting/image/shareroom.png', //封面
         }

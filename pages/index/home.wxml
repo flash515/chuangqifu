@@ -1,9 +1,7 @@
 <!--pages/index/home.wxml-->
 <!-- 轮播头图 -->
 <view>
-  <swiper class="swiper" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" circular="{{circular}}"
-    vertical="{{vertical}}" interval="{{interval}}" duration="{{duration}}" previous-margin="{{previousMargin}}px"
-    next-margin="{{nextMargin}}px">
+  <swiper class="swiper" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" circular="{{circular}}" vertical="{{vertical}}" interval="{{interval}}" duration="{{duration}}" previous-margin="{{previousMargin}}px" next-margin="{{nextMargin}}px">
     <block wx:for="{{image}}" wx:for-index="index" wx:key="key">
       <swiper-item>
         <image src="{{item}}" class="swiper image" mode="scaleToFill" />
@@ -12,72 +10,96 @@
   </swiper>
 </view>
 <!-- 通知栏 -->
-<l-notice-bar show="{{true}}" 
-              type="swip" speed="2000" front-icon-name="notification" front-icon-size="20"
-    front-icon-color="#3683D6" bind:lintap="onNoticeView"
-              swip-arr="{{noticearray}}">
+<l-notice-bar show="{{true}}" type="swip" speed="2000" front-icon-name="notification" front-icon-size="20" front-icon-color="#3683D6" bind:lintap="onNoticeView" swip-arr="{{noticearray}}">
 </l-notice-bar>
 <view class="mainframe">
-<view  wx:if="{{avatarUrl=='' || nickName==''}}">
-  <button class="userinfo-nickname" bindtap='getUserProfile'>微信登录</button>
-</view>
-<view wx:else class="userinfo"  style="display:flex; flex-direction:row; justify-content:space-between">
-<view style="display:flex; flex-direction:row;align-items:center">
-  <view class="userinfo-avatar" style="background-image: url({{avatarUrl}})" size="default"></view>
-    <view class="userinfo-nickname" >{{nickName}}</view>
+  <view wx:if="{{avatarUrl=='' || nickName==''}}">
+    <button class="userinfo-nickname" bindtap='getUserProfile'>微信登录</button>
   </view>
-  <l-button size="mini" shape="semicircle" plain="{{true}}" icon="share" icon-clolr="blue" open-type="share">点击分享创企服</l-button>
-</view>
-
-<l-grid row-num="4">
-  <l-grid-item key='one' slot='one'>
-    <navigator url='../product/dizhi'>
-      <l-icon name='order' />
-      <view class="text" >地址服务</view>
-    </navigator>
-  </l-grid-item>
-  <l-grid-item key='two' slot='two'>
-    <navigator url='../product/gongshang'>
-      <l-icon name='order' />
-      <view class="text">工商代办</view>
-    </navigator>
-  </l-grid-item>
-  <l-grid-item key='three' slot='three'>
-    <navigator url='../product/yinhang'>
-      <l-icon name='order' />
-      <view class="text">银行代办</view>
-    </navigator>
-  </l-grid-item>
-  <l-grid-item key='four' slot='four'>
-    <navigator url='../product/caishui'>
-      <l-icon name='order' />
-      <view class="text">财税服务</view>
-    </navigator>
-  </l-grid-item>
-  <l-grid-item key='five' slot='five'>
-    <navigator url='../product/tuoguan'>
-      <l-icon name='order' />
-      <view class="text">企业托管</view>
-    </navigator>
-  </l-grid-item>
-  <l-grid-item key='six' slot='six'>
-    <navigator url='../product/zizhi'>
-      <l-icon name='order' />
-      <view class="text">资质代办</view>
-    </navigator>
-  </l-grid-item>
-  <l-grid-item key='seven' slot='seven'>
-    <view wx:if="{{avatarUrl=='' || nickName==''}}">
-        </view>
-        <view wx:else>
-    <navigator url='../tools/meetingroom/meetingroom'>
-      <l-icon name='comment' />
-      <view class="text">快捷会议室</view>
-    </navigator>
+  <view wx:else class="userinfo" style="display:flex; flex-direction:row; justify-content:space-between">
+    <view style="display:flex; flex-direction:row;align-items:center">
+      <view class="userinfo-avatar" style="background-image: url({{avatarUrl}})" size="default"></view>
+      <view class="userinfo-nickname">{{nickName}}</view>
+    </view>
+    <l-button size="mini" shape="semicircle" plain="{{true}}" icon="share" icon-clolr="blue" open-type="share">点击分享创企服</l-button>
   </view>
-  </l-grid-item>
+  <l-list title="代理代办服务" icon="notification" right-desc="更多" tag-position="right" url="../product/allproduct"/>
+  <l-grid row-num="4">
+    <l-grid-item key='one' slot='one'>
+      <navigator url='../product/dizhi'>
+        <l-icon name='order' />
+        <view class="text">地址服务</view>
+      </navigator>
+    </l-grid-item>
+    <l-grid-item key='two' slot='two'>
+      <navigator url='../product/gongshang'>
+        <l-icon name='order' />
+        <view class="text">工商代办</view>
+      </navigator>
+    </l-grid-item>
+    <l-grid-item key='three' slot='three'>
+      <navigator url='../product/yinhang'>
+        <l-icon name='order' />
+        <view class="text">银行代办</view>
+      </navigator>
+    </l-grid-item>
+    <l-grid-item key='four' slot='four'>
+      <navigator url='../product/caishui'>
+        <l-icon name='order' />
+        <view class="text">财税服务</view>
+      </navigator>
+    </l-grid-item>
+    <l-grid-item key='five' slot='five'>
+      <navigator url='../product/tuoguan'>
+        <l-icon name='order' />
+        <view class="text">企业托管</view>
+      </navigator>
+    </l-grid-item>
+    <l-grid-item key='six' slot='six'>
+      <navigator url='../product/zizhi'>
+        <l-icon name='order' />
+        <view class="text">资质代办</view>
+      </navigator>
+    </l-grid-item>
+  </l-grid>
+  <l-list title="精选服务" icon="notification"/>
+  <l-grid row-num="2">
+    <l-grid-item key='one' slot='one'>
+      <navigator url='../product/dizhi'>
+        <l-icon name='order' />
+        <view class="text">地址服务</view>
+      </navigator>
+    </l-grid-item>
+    <l-grid-item key='two' slot='two'>
+      <navigator url='../product/gongshang'>
+        <l-icon name='order' />
+        <view class="text">工商代办</view>
+      </navigator>
+    </l-grid-item>
+    <l-grid-item key='three' slot='three'>
+      <navigator url='../product/yinhang'>
+        <l-icon name='order' />
+        <view class="text">银行代办</view>
+      </navigator>
+    </l-grid-item>
+    <l-grid-item key='four' slot='four'>
+      <navigator url='../product/caishui'>
+        <l-icon name='order' />
+        <view class="text">财税服务</view>
+      </navigator>
+    </l-grid-item>
 
-</l-grid>
+  </l-grid>
+  <view wx:if="{{promoterlevel=='member' || promoterlevel=='sliver'|| promoterlevel=='gold' || promoterlevel=='platinum'}}">
+    <l-list title="会员专享服务" icon="notification" right-desc="更多" tag-position="right" />
+    <l-grid>
+      <l-grid-item key='one' slot='one'>
+        <navigator url='../tools/meetingroom/meetingroom'>
+          <l-icon name='comment' />
+          <view class="text">快捷会议室</view>
+        </navigator>
+      </l-grid-item>
+
+    </l-grid>
+  </view>
 </view>
-
-

@@ -8,6 +8,7 @@ Page({
   data: {
     avatarUrl: "",
     nickName: "",
+    promoterlevel: "",
     noticearray: [],
     // 轮播头图
     image: [],
@@ -100,6 +101,11 @@ Page({
     })
 
   },
+  // bvAllProduct(){
+  //   wx.redirectTo({
+  //     url: '../product/allproduct',
+  //   })
+  // },
   /**
    * 生命周期函数--监听页面加载
   //  */
@@ -179,7 +185,8 @@ Page({
     this.setData({
       avatarUrl: app.globalData.GavatarUrl,
       nickName: app.globalData.GnickName,
-      image: app.globalData.Gimagearray
+      image: app.globalData.Gimagearray,
+      promoterlevel:app.globalData.Gpromoterlevel
     })
   },
 
