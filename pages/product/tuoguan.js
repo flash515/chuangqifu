@@ -1,6 +1,7 @@
 const app = getApp()
 Page({
   data: {
+    key:"one",
     array1: [],
     array2: [],
     array3: [],
@@ -70,7 +71,9 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    this.setData({
+      key:options.key
+    })
 
     // 从本地存储中读取产品
     wx.getStorage({
@@ -84,7 +87,7 @@ Page({
         // 筛选自然人代开
         var fliter1 = [];
         for (var i = 0; i < this.data.productarray.length; i++) {
-          if (this.data.productarray[i].ProductType == "南昌托管") {
+          if (this.data.productarray[i].Category2 == "南昌托管") {
             fliter1.push(this.data.productarray[i]);
           }
         }
@@ -92,7 +95,7 @@ Page({
         // 筛选个体工商
         var fliter2 = [];
         for (var i = 0; i < this.data.productarray.length; i++) {
-          if (this.data.productarray[i].ProductType == "西安托管") {
+          if (this.data.productarray[i].Category2 == "西安托管") {
             fliter2.push(this.data.productarray[i]);
           }
         }
@@ -100,7 +103,7 @@ Page({
         // 筛选个独/合伙企业
         var fliter3 = [];
         for (var i = 0; i < this.data.productarray.length; i++) {
-          if (this.data.productarray[i].ProductType == "个独/合伙企业") {
+          if (this.data.productarray[i].Category2 == "个独/合伙企业") {
             fliter3.push(this.data.productarray[i]);
           }
         }
@@ -108,7 +111,7 @@ Page({
         // 筛选有限公司
         var fliter4 = [];
         for (var i = 0; i < this.data.productarray.length; i++) {
-          if (this.data.productarray[i].ProductType == "有限公司") {
+          if (this.data.productarray[i].Category2 == "有限公司") {
             fliter4.push(this.data.productarray[i]);
           }
         }

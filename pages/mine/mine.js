@@ -40,7 +40,7 @@ Page({
   },
   bvSubMessage(e) {
     wx.requestSubscribeMessage({ //获取下发权限
-      tmplIds: ['Ap6SsQZ-fj8SZkyVv9ZvIg8EcJ5b1jgmMQko_o4LyAw','H4fK4iyDUqkVVxrd7RWuDQh5DOhoChTn8phqFGlfwRU','ml-9dfDe7aQ3uQt-ZOCP3qguylh4_nOXRC6Ks0lfW5k','tXhFEK36Dqkasd9Cmmuh5EKZ6LZycrWfgn4xqBreQz4'], 
+      tmplIds: ['iy3UdrGZA0baP3tG-vhbC033PAYeBfrXjLFjtfbr0yE','0P7fUWm2nH9s4SJXtiibQ3LpU3ecsiqSKRFPRmBQugo'], 
       success: (res) => {
 
       }

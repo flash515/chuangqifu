@@ -64,7 +64,6 @@ Page({
     category1: "",
     category2: "",
     category3: "",
-    producttype: "",
     productname: "",
     outline: "",
     startdate: "",
@@ -123,7 +122,7 @@ Page({
           }
         },
         {
-          ProductType: {
+          Category1: {
             $regex: '.*' + e.detail.value,
             $options: 'i'
           }
@@ -182,7 +181,6 @@ if(res.data.length>1){
       category1: this.data.productarray[this.data.x].Category1,
       category2: this.data.productarray[this.data.x].Category2,
       category3: this.data.productarray[this.data.x].Category3,
-      producttype: this.data.productarray[this.data.x].ProductType,
       productname: this.data.productarray[this.data.x].ProductName,
       outline: this.data.productarray[this.data.x].Outline,
       startdate: this.data.productarray[this.data.x].StartDate,
@@ -281,11 +279,7 @@ if(res.data.length>1){
       category3: e.detail.value
     })
   },
-  bvProductType(e) {
-    this.setData({
-      producttype: e.detail.value
-    })
-  },
+
   bvOutline(e) {
     this.setData({
       outline: e.detail.value
@@ -570,7 +564,6 @@ if(res.data.length>1){
             Category1: this.data.category1,
             Category2: this.data.category2,
             Category3: this.data.category3,
-            ProductType: this.data.producttype,
             ProductName: this.data.productname,
             Outline: this.data.outline,
             StartDate: this.data.startdate,
@@ -637,7 +630,6 @@ if(res.data.length>1){
         Category1: this.data.category1,
         Category2: this.data.category2,
         Category3: this.data.category3,
-        ProductType: this.data.producttype,
         ProductName: this.data.productname,
         Outline: this.data.outline,
         StartDate: this.data.startdate,
@@ -736,7 +728,6 @@ if(res.data.length>1){
           category1: fliter[0].Category1,
           category2: fliter[0].Category2,
           category3: fliter[0].Category3,
-          producttype: fliter[0].ProductType,
           productname: fliter[0].ProductName,
           outline: fliter[0].Outline,
           startdate: fliter[0].StartDate,

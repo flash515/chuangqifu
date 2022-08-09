@@ -9,7 +9,7 @@ Page({
   },
   bvSubMessage(e) {
     wx.requestSubscribeMessage({ //获取下发权限
-      tmplIds: ['FZCOVekfZayJruqd5W5FazMZ8o4OidK-ZDXGulCswRg','WKThYCNZRZ4yOlxQVOZljN0EAXX42_fH9vCgqVoYKnw'], 
+      tmplIds: ['Z1znM-MaX0eQKsXJNJxuu4oetRGDnTXM4AiO6AR0Rww','YwHrEpHzfQKHEWc-qUZS1VYwYsjb4fFTmY1PPetetQQ','G4Z_yV8lDPWkG6T3NCAQj_EtPcoSMm-b2kXkovBCvkM'], 
       success: (res) => {
 
       }

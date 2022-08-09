@@ -84,7 +84,7 @@ Page({
         // 筛选自然人代开
         var fliter1 = [];
         for (var i = 0; i < this.data.productarray.length; i++) {
-          if (this.data.productarray[i].ProductType == "自然人开票") {
+          if (this.data.productarray[i].Category1 == "地址服务") {
             fliter1.push(this.data.productarray[i]);
           }
         }
@@ -92,7 +92,7 @@ Page({
         // 筛选个体工商
         var fliter2 = [];
         for (var i = 0; i < this.data.productarray.length; i++) {
-          if (this.data.productarray[i].ProductType == "个体工商") {
+          if (this.data.productarray[i].Category1 == "工商代办") {
             fliter2.push(this.data.productarray[i]);
           }
         }
@@ -100,7 +100,7 @@ Page({
         // 筛选个独/合伙企业
         var fliter3 = [];
         for (var i = 0; i < this.data.productarray.length; i++) {
-          if (this.data.productarray[i].ProductType == "个独/合伙企业") {
+          if (this.data.productarray[i].Category1 == "银行代办") {
             fliter3.push(this.data.productarray[i]);
           }
         }
@@ -108,7 +108,7 @@ Page({
         // 筛选有限公司
         var fliter4 = [];
         for (var i = 0; i < this.data.productarray.length; i++) {
-          if (this.data.productarray[i].ProductType == "有限公司") {
+          if (this.data.productarray[i].Category1 == "财税服务") {
             fliter4.push(this.data.productarray[i]);
           }
         }

@@ -9,8 +9,9 @@
   </swiper>
 </view>
 <view class="mainframe">
-  <l-tabs equal-width="{{false}}" scrollable="{{true}}">
+  <l-tabs equal-width="{{false}}" scrollable="{{true}}" active-key="{{key}}">
     <l-tabpanel tab="记账报税" key="one" slot="one">
+      <text>\n</text>
       <view wx:for="{{array1}}" wx:key="key">
         <view class="title1">
           {{item.ProductName}}{{item.ProductId}}
@@ -29,13 +30,16 @@
         </view>
         <view wx:else>
           <view wx:if="{{usertype == 'admin'||discountlevel == 'DL1'}}">
-            <l-price unit="" value="原价：{{item.Price4}}" deleted="{{true}}" del-color="#3963bc"></l-price> <view>特惠折扣价：{{item.Price1}}</view>
+            <l-price unit="" value="原价：{{item.Price4}}" deleted="{{true}}" del-color="#3963bc"></l-price>
+            <view>特惠折扣价：{{item.Price1}}</view>
           </view>
           <view wx:if="{{usertype == 'admin'||discountlevel == 'DL2'}}">
-            <l-price unit="" value="原价：{{item.Price4}}" deleted="{{true}}" del-color="#3963bc"></l-price> <view>巨惠折扣价：{{item.Price2}}</view>
+            <l-price unit="" value="原价：{{item.Price4}}" deleted="{{true}}" del-color="#3963bc"></l-price>
+            <view>巨惠折扣价：{{item.Price2}}</view>
           </view>
           <view wx:if="{{usertype == 'admin'||discountlevel == 'DL3'}}">
-            <l-price unit="" value="原价：{{item.Price4}}" deleted="{{true}}" del-color="#3963bc"></l-price> <view>折扣价：{{item.Price3}}</view>
+            <l-price unit="" value="原价：{{item.Price4}}" deleted="{{true}}" del-color="#3963bc"></l-price>
+            <view>折扣价：{{item.Price3}}</view>
           </view>
           <view wx:if="{{usertype == 'admin'||discountlevel == 'DL4'}}">{{item.Price4}}
           </view>
@@ -51,6 +55,7 @@
       </view>
     </l-tabpanel>
     <l-tabpanel tab="税种核定" key="two" slot="two">
+      <text>\n</text>
       <view wx:for="{{array2}}" wx:key="key">
         <view class="title1">
           {{item.ProductName}}{{item.ProductId}}
@@ -69,13 +74,16 @@
         </view>
         <view wx:else>
           <view wx:if="{{usertype == 'admin'||discountlevel == 'DL1'}}">
-            <l-price unit="" value="原价：{{item.Price4}}" deleted="{{true}}" del-color="#3963bc"></l-price> <view>特惠折扣价：{{item.Price1}}</view>
+            <l-price unit="" value="原价：{{item.Price4}}" deleted="{{true}}" del-color="#3963bc"></l-price>
+            <view>特惠折扣价：{{item.Price1}}</view>
           </view>
           <view wx:if="{{usertype == 'admin'||discountlevel == 'DL2'}}">
-            <l-price unit="" value="原价：{{item.Price4}}" deleted="{{true}}" del-color="#3963bc"></l-price> <view>巨惠折扣价：{{item.Price2}}</view>
+            <l-price unit="" value="原价：{{item.Price4}}" deleted="{{true}}" del-color="#3963bc"></l-price>
+            <view>巨惠折扣价：{{item.Price2}}</view>
           </view>
           <view wx:if="{{usertype == 'admin'||discountlevel == 'DL3'}}">
-            <l-price unit="" value="原价：{{item.Price4}}" deleted="{{true}}" del-color="#3963bc"></l-price> <view>折扣价：{{item.Price3}}</view>
+            <l-price unit="" value="原价：{{item.Price4}}" deleted="{{true}}" del-color="#3963bc"></l-price>
+            <view>折扣价：{{item.Price3}}</view>
           </view>
           <view wx:if="{{usertype == 'admin'||discountlevel == 'DL4'}}">{{item.Price4}}
           </view>
@@ -93,6 +101,7 @@
       </view>
     </l-tabpanel>
     <l-tabpanel tab="领票购票" key="three" slot="three">
+      <text>\n</text>
       <view wx:for="{{array3}}" wx:key="key">
         <view class="title1">
           {{item.ProductName}}{{item.ProductId}}
@@ -111,13 +120,16 @@
         </view>
         <view wx:else>
           <view wx:if="{{usertype == 'admin'||discountlevel == 'DL1'}}">
-            <l-price unit="" value="原价：{{item.Price4}}" deleted="{{true}}" del-color="#3963bc"></l-price> <view>特惠折扣价：{{item.Price1}}</view>
+            <l-price unit="" value="原价：{{item.Price4}}" deleted="{{true}}" del-color="#3963bc"></l-price>
+            <view>特惠折扣价：{{item.Price1}}</view>
           </view>
           <view wx:if="{{usertype == 'admin'||discountlevel == 'DL2'}}">
-            <l-price unit="" value="原价：{{item.Price4}}" deleted="{{true}}" del-color="#3963bc"></l-price> <view>巨惠折扣价：{{item.Price2}}</view>
+            <l-price unit="" value="原价：{{item.Price4}}" deleted="{{true}}" del-color="#3963bc"></l-price>
+            <view>巨惠折扣价：{{item.Price2}}</view>
           </view>
           <view wx:if="{{usertype == 'admin'||discountlevel == 'DL3'}}">
-            <l-price unit="" value="原价：{{item.Price4}}" deleted="{{true}}" del-color="#3963bc"></l-price> <view>折扣价：{{item.Price3}}</view>
+            <l-price unit="" value="原价：{{item.Price4}}" deleted="{{true}}" del-color="#3963bc"></l-price>
+            <view>折扣价：{{item.Price3}}</view>
           </view>
           <view wx:if="{{usertype == 'admin'||discountlevel == 'DL4'}}">{{item.Price4}}
           </view>
@@ -133,7 +145,10 @@
         </view>
       </view>
     </l-tabpanel>
-    <l-tabpanel tab="开票申请" key="four" slot="four">
+    <l-tabpanel tab="开票代办" key="four" slot="four">
+    <view wx:if="{{promoterlevel=='member' || promoterlevel=='sliver'|| promoterlevel=='gold' || promoterlevel=='platinum'}}">
+
+      <text>\n</text>
       <view wx:for="{{array4}}" wx:key="key">
         <view class="title1">
           {{item.ProductName}}{{item.ProductId}}
@@ -152,13 +167,16 @@
         </view>
         <view wx:else>
           <view wx:if="{{usertype == 'admin'||discountlevel == 'DL1'}}">
-            <l-price unit="" value="原价：{{item.Price4}}" deleted="{{true}}" del-color="#3963bc"></l-price> <view>特惠折扣价：{{item.Price1}}</view>
+            <l-price unit="" value="原价：{{item.Price4}}" deleted="{{true}}" del-color="#3963bc"></l-price>
+            <view>特惠折扣价：{{item.Price1}}</view>
           </view>
           <view wx:if="{{usertype == 'admin'||discountlevel == 'DL2'}}">
-            <l-price unit="" value="原价：{{item.Price4}}" deleted="{{true}}" del-color="#3963bc"></l-price> <view>巨惠折扣价：{{item.Price2}}</view>
+            <l-price unit="" value="原价：{{item.Price4}}" deleted="{{true}}" del-color="#3963bc"></l-price>
+            <view>巨惠折扣价：{{item.Price2}}</view>
           </view>
           <view wx:if="{{usertype == 'admin'||discountlevel == 'DL3'}}">
-            <l-price unit="" value="原价：{{item.Price4}}" deleted="{{true}}" del-color="#3963bc"></l-price> <view>折扣价：{{item.Price3}}</view>
+            <l-price unit="" value="原价：{{item.Price4}}" deleted="{{true}}" del-color="#3963bc"></l-price>
+            <view>折扣价：{{item.Price3}}</view>
           </view>
           <view wx:if="{{usertype == 'admin'||discountlevel == 'DL4'}}">{{item.Price4}}
           </view>
@@ -173,6 +191,8 @@
           <text>\n</text>
         </view>
       </view>
-    </l-tabpanel>
+
+  </view>
+</l-tabpanel>
   </l-tabs>
 </view>

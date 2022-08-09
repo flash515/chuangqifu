@@ -16,8 +16,13 @@
   <view wx:for="{{productdetail}}" wx:key="key">
     <label class="title1">产品编号：</label>
     <view>{{item.ProductId}}</view>
-    <label class="title1">产品类型：</label>
-    <view>{{item.ProductType}}</view>
+
+    <label class="title1">产品一级分类：</label>
+    <view>{{item.Category1}}</view>
+    <label class="title1">产品二级分类：</label>
+    <view>{{item.Category2}}</view>
+    <label class="title1">产品三级分类：</label>
+    <view>{{item.Category3}}</view>
     <label class="title1">产品名称：</label>
     <view>{{item.ProductName}}</view>
     <label class="title1">产品概要：</label>

@@ -1,6 +1,7 @@
 const app = getApp()
 Page({
   data: {
+    key:"one",
     array1: [],
     array2: [],
     array3: [],
@@ -8,6 +9,7 @@ Page({
     array5: [],
     productarray: [],
     usertype: "",
+    promoterlevel:"",
     discountlevel: "",
     priceshow: "",
     avatarUrl: "",
@@ -71,7 +73,10 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+this.setData({
+  key:options.key,
+  promoterlevel: app.globalData.Gpromoterlevel,
+})
 
     // 从本地存储中读取产品
     wx.getStorage({
@@ -85,7 +90,7 @@ Page({
         // 筛选自然人代开
         var fliter1 = [];
         for (var i = 0; i < this.data.productarray.length; i++) {
-          if (this.data.productarray[i].ProductType == "记账报税") {
+          if (this.data.productarray[i].Category2 == "记账报税") {
             fliter1.push(this.data.productarray[i]);
           }
         }
@@ -93,7 +98,7 @@ Page({
         // 筛选个体工商
         var fliter2 = [];
         for (var i = 0; i < this.data.productarray.length; i++) {
-          if (this.data.productarray[i].ProductType == "税种核定") {
+          if (this.data.productarray[i].Category2 == "税种核定") {
             fliter2.push(this.data.productarray[i]);
           }
         }
@@ -101,7 +106,7 @@ Page({
         // 筛选个独/合伙企业
         var fliter3 = [];
         for (var i = 0; i < this.data.productarray.length; i++) {
-          if (this.data.productarray[i].ProductType == "领票购票") {
+          if (this.data.productarray[i].Category2 == "领票购票") {
             fliter3.push(this.data.productarray[i]);
           }
         }
@@ -109,7 +114,7 @@ Page({
         // 筛选有限公司
         var fliter4 = [];
         for (var i = 0; i < this.data.productarray.length; i++) {
-          if (this.data.productarray[i].ProductType == "核定征收") {
+          if (this.data.productarray[i].Category2 == "开票代办") {
             fliter4.push(this.data.productarray[i]);
           }
         }
@@ -117,7 +122,7 @@ Page({
                 // 筛选开票申请
                 var fliter5 = [];
                 for (var i = 0; i < this.data.productarray.length; i++) {
-                  if (this.data.productarray[i].ProductType == "开票申请") {
+                  if (this.data.productarray[i].Category2 == "核定征收") {
                     fliter5.push(this.data.productarray[i]);
                   }
                 }

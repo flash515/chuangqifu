@@ -6,12 +6,12 @@ Page({
    */
   data: {
     productarray: [],
-    DZarray: [],
+    array1: [],
+    array2: [],
+    array3: [],
     array4: [],
-    YHarray: [],
-    CSarray: [],
-    TGarray: [],
-    ZZarray: []
+    array5: [],
+    array6: [],
   },
   bvAddProduct(e) {
     wx.navigateTo({
@@ -62,63 +62,60 @@ Page({
         })
         console.log("本人产品数组", this.data.productarray)
         // 筛选地址服务
-        var DZfliter = [];
+        var fliter1 = [];
         for (var i = 0; i < this.data.productarray.length; i++) {
-          if (this.data.productarray[i].ProductType == "地址服务") {
-            DZfliter.push(this.data.productarray[i]);
+          if (this.data.productarray[i].Category1 == "地址服务") {
+            fliter1.push(this.data.productarray[i]);
           }
         }
 
         // 筛选工商代办
-        var fliter4 = [];
+        var fliter2 = [];
         for (var i = 0; i < this.data.productarray.length; i++) {
-          if (this.data.productarray[i].ProductType == "工商代办") {
-            fliter4.push(this.data.productarray[i]);
+          if (this.data.productarray[i].Category1 == "工商代办") {
+            fliter2.push(this.data.productarray[i]);
           }
         }
 
         // 筛选银行代办
-        var YHfliter = [];
+        var fliter3 = [];
         for (var i = 0; i < this.data.productarray.length; i++) {
-          if (this.data.productarray[i].ProductType == "银行代办") {
-            YHfliter.push(this.data.productarray[i]);
+          if (this.data.productarray[i].Category1 == "银行代办") {
+            fliter3.push(this.data.productarray[i]);
           }
         }
 
         // 筛选财税服务
-        var CSfliter = [];
+        var fliter4 = [];
         for (var i = 0; i < this.data.productarray.length; i++) {
-          if (this.data.productarray[i].ProductType == "财税服务") {
-            CSfliter.push(this.data.productarray[i]);
+          if (this.data.productarray[i].Category1 == "财税服务") {
+            fliter4.push(this.data.productarray[i]);
           }
         }
         // 筛选企业托管
-        var TGfliter = [];
+        var fliter5 = [];
         for (var i = 0; i < this.data.productarray.length; i++) {
-          if (this.data.productarray[i].ProductType == "企业托管") {
-            TGfliter.push(this.data.productarray[i]);
+          if (this.data.productarray[i].Category1 == "企业托管") {
+            fliter5.push(this.data.productarray[i]);
           }
         }
                 // 筛选资质代办
-                var ZZfliter = [];
+                var fliter6 = [];
                 for (var i = 0; i < this.data.productarray.length; i++) {
-                  if (this.data.productarray[i].ProductType == "资质代办") {
-                    ZZfliter.push(this.data.productarray[i]);
+                  if (this.data.productarray[i].Category1 == "资质代办") {
+                    fliter6.push(this.data.productarray[i]);
                   }
                 }
         this.setData({
-          DZarray: DZfliter,
+          array1: fliter1,
+          array2: fliter2,
+          array3: fliter3,
           array4: fliter4,
-          YHarray: YHfliter,
-          CSarray: CSfliter,
-          TGarray: TGfliter,
-          ZZarray: ZZfliter
+          array5: fliter5,
+          array6: fliter6,
+
         })
-        // 打印数组
-        console.log("代开产品", this.data.DZarray)
-        console.log("个体产品", this.data.YHarray)
-        console.log("个独/合伙", this.data.CSarray)
-        console.log("有限公司", this.data.array4)
+
       },
     })
   },

@@ -6,6 +6,7 @@ Page({
     array3: [],
     array4: [],
     array5: [],
+    promoterlevel:"",
     productarray: [],
     usertype: "",
     discountlevel: "",
@@ -85,7 +86,7 @@ Page({
         // 筛选自然人代开
         var fliter1 = [];
         for (var i = 0; i < this.data.productarray.length; i++) {
-          if (this.data.productarray[i].ProductType == "记账报税") {
+          if (this.data.productarray[i].Category1 == "地址服务") {
             fliter1.push(this.data.productarray[i]);
           }
         }
@@ -93,7 +94,7 @@ Page({
         // 筛选个体工商
         var fliter2 = [];
         for (var i = 0; i < this.data.productarray.length; i++) {
-          if (this.data.productarray[i].ProductType == "税种核定") {
+          if (this.data.productarray[i].Category1 == "工商代办") {
             fliter2.push(this.data.productarray[i]);
           }
         }
@@ -101,7 +102,7 @@ Page({
         // 筛选个独/合伙企业
         var fliter3 = [];
         for (var i = 0; i < this.data.productarray.length; i++) {
-          if (this.data.productarray[i].ProductType == "领票购票") {
+          if (this.data.productarray[i].Category1 == "银行代办") {
             fliter3.push(this.data.productarray[i]);
           }
         }
@@ -109,7 +110,7 @@ Page({
         // 筛选有限公司
         var fliter4 = [];
         for (var i = 0; i < this.data.productarray.length; i++) {
-          if (this.data.productarray[i].ProductType == "核定征收") {
+          if (this.data.productarray[i].Category1 == "财税服务") {
             fliter4.push(this.data.productarray[i]);
           }
         }
@@ -117,17 +118,26 @@ Page({
                 // 筛选开票申请
                 var fliter5 = [];
                 for (var i = 0; i < this.data.productarray.length; i++) {
-                  if (this.data.productarray[i].ProductType == "开票申请") {
+                  if (this.data.productarray[i].Category1 == "企业托管") {
                     fliter5.push(this.data.productarray[i]);
                   }
                 }
                 console.log(fliter5);
+                                // 筛选开票申请
+                                var fliter6 = [];
+                                for (var i = 0; i < this.data.productarray.length; i++) {
+                                  if (this.data.productarray[i].Category1 == "企业托管") {
+                                    fliter5.push(this.data.productarray[i]);
+                                  }
+                                }
+                                console.log(fliter6);
         this.setData({
           array1: fliter1,
           array2: fliter2,
           array3: fliter3,
           array4: fliter4,
-          array5: fliter5
+          array5: fliter5,
+          array6: fliter6,
         })
         // 打印数组
         console.log("记账报税", this.data.array1)
@@ -168,6 +178,7 @@ Page({
     this.setData({
       image: app.globalData.Gimagearray,
       usertype: app.globalData.Gusertype,
+      promoterlevel: app.globalData.Gpromoterlevel,
       discountlevel: app.globalData.Gdiscountlevel,
       priceshow: app.globalData.Gpriceshow,
       avatarUrl: app.globalData.GavatarUrl,

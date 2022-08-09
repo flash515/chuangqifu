@@ -6,14 +6,16 @@
     <view>
       <l-button data-id="" bind:lintap="bvAddProduct" >新增产品</l-button>
     </view>
-    <view wx:for="{{DZarray}}" wx:key="key">
+    <view wx:for="{{array1}}" wx:key="key">
       <l-card type="primary" plaintext="{{true}}">
         <view class="content">
           <view>数据ID：{{item._id}}</view>
           <view>提交日期：{{item.AddDate}}</view>
           <view>产品状态：{{item.Status}}</view>
           <view>产品编号：{{item.ProductId}}</view>
-          <view>产品类型：{{item.ProductType}}</view>
+          <view>产品一级分类：{{item.Category1}}</view>
+          <view>产品二级分类：{{item.Category2}}</view>
+          <view>产品三级分类：{{item.Category3}}</view>
           <view>产品名称：{{item.ProductName}}</view>
           <view>产品概要：{{item.Outline}}</view>
           <view>产品说明：{{item.Description}}</view>
@@ -64,14 +66,16 @@
     <view>
       <l-button data-id="" bind:lintap="bvAddProduct">新增产品</l-button>
     </view>
-    <view wx:for="{{array4}}" wx:key="key">
+    <view wx:for="{{array2}}" wx:key="key">
       <l-card type="primary" plaintext="{{true}}">
         <view class="content">
           <view>数据ID：{{item._id}}</view>
           <view>提交日期：{{item.AddDate}}</view>
           <view>产品状态：{{item.Status}}</view>
           <view>产品编号：{{item.ProductId}}</view>
-          <view>产品类型：{{item.ProductType}}</view>
+          <view>产品一级分类：{{item.Category1}}</view>
+          <view>产品二级分类：{{item.Category2}}</view>
+          <view>产品三级分类：{{item.Category3}}</view>
           <view>产品名称：{{item.ProductName}}</view>
           <view>产品概要：{{item.Outline}}</view>
           <view>产品说明：{{item.Description}}</view>
@@ -123,14 +127,16 @@
     <view>
       <l-button data-id="" bind:lintap="bvAddProduct" >新增产品</l-button>
     </view>
-    <view wx:for="{{YHarray}}" wx:key="key">
+    <view wx:for="{{array3}}" wx:key="key">
       <l-card type="primary" plaintext="{{true}}">
         <view class="content">
           <view>数据ID：{{item._id}}</view>
           <view>提交日期：{{item.AddDate}}</view>
           <view>产品状态：{{item.Status}}</view>
           <view>产品编号：{{item.ProductId}}</view>
-          <view>产品类型：{{item.ProductType}}</view>
+          <view>产品一级分类：{{item.Category1}}</view>
+          <view>产品二级分类：{{item.Category2}}</view>
+          <view>产品三级分类：{{item.Category3}}</view>
           <view>产品名称：{{item.ProductName}}</view>
           <view>产品概要：{{item.Outline}}</view>
           <view>产品说明：{{item.Description}}</view>
@@ -182,14 +188,16 @@
     <view>
       <l-button data-id="" bind:lintap="bvAddProduct" >新增产品</l-button>
     </view>
-    <view wx:for="{{CSarray}}" wx:key="key">
+    <view wx:for="{{array4}}" wx:key="key">
       <l-card type="primary" plaintext="{{true}}">
         <view class="content">
           <view>数据ID：{{item._id}}</view>
           <view>提交日期：{{item.AddDate}}</view>
           <view>产品状态：{{item.Status}}</view>
           <view>产品编号：{{item.ProductId}}</view>
-          <view>产品类型：{{item.ProductType}}</view>
+          <view>产品一级分类：{{item.Category1}}</view>
+          <view>产品二级分类：{{item.Category2}}</view>
+          <view>产品三级分类：{{item.Category3}}</view>
           <view>产品名称：{{item.ProductName}}</view>
           <view>产品概要：{{item.Outline}}</view>
           <view>产品说明：{{item.Description}}</view>
@@ -239,14 +247,16 @@
     <view>
       <l-button data-id="" bind:lintap="bvAddProduct" >新增产品</l-button>
     </view>
-    <view wx:for="{{TGarray}}" wx:key="key">
+    <view wx:for="{{array5}}" wx:key="key">
       <l-card type="primary" plaintext="{{true}}">
         <view class="content">
           <view>数据ID：{{item._id}}</view>
           <view>提交日期：{{item.AddDate}}</view>
           <view>产品状态：{{item.Status}}</view>
           <view>产品编号：{{item.ProductId}}</view>
-          <view>产品类型：{{item.ProductType}}</view>
+          <view>产品一级分类：{{item.Category1}}</view>
+          <view>产品二级分类：{{item.Category2}}</view>
+          <view>产品三级分类：{{item.Category3}}</view>
           <view>产品名称：{{item.ProductName}}</view>
           <view>产品概要：{{item.Outline}}</view>
           <view>产品说明：{{item.Description}}</view>
@@ -296,14 +306,16 @@
     <view>
       <l-button data-id="" bind:lintap="bvAddProduct" >新增产品</l-button>
     </view>
-    <view wx:for="{{ZZarray}}" wx:key="key">
+    <view wx:for="{{array6}}" wx:key="key">
       <l-card type="primary" plaintext="{{true}}">
         <view class="content">
           <view>数据ID：{{item._id}}</view>
           <view>提交日期：{{item.AddDate}}</view>
           <view>产品状态：{{item.Status}}</view>
           <view>产品编号：{{item.ProductId}}</view>
-          <view>产品类型：{{item.ProductType}}</view>
+          <view>产品一级分类：{{item.Category1}}</view>
+          <view>产品二级分类：{{item.Category2}}</view>
+          <view>产品三级分类：{{item.Category3}}</view>
           <view>产品名称：{{item.ProductName}}</view>
           <view>产品概要：{{item.Outline}}</view>
           <view>产品说明：{{item.Description}}</view>
