@@ -48,6 +48,7 @@ consumepoints:0,
     commissiontype:"",
     // 直接推荐人，自动计算
     inviterpoints: 0,
+    // 间接推荐人积分，自动计算
     indirectinviterpoints: 0,
     commission1total: 0,
     // 间接推荐人，自动计算
@@ -145,7 +146,7 @@ consumepoints:0,
             orderpricecount: fliter[0].Price1Count,
             orderprice: fliter[0].Price1,
             temptotalfee: fliter[0].Price1Count,
-            totalfee: fliter[0].Price1Count-(this.data.consumepoints/10),
+            totalfee: fliter[0].Price1Count-(this.data.consumepoints/app.globalData.Gpointsmagnification),
           })
           console.log(this.data.orderprice)
         }
@@ -154,7 +155,7 @@ consumepoints:0,
             orderpricecount: fliter[0].Price2Count,
             orderprice: fliter[0].Price2,
             temptotalfee: fliter[0].Price2Count,
-            totalfee: fliter[0].Price2Count-(this.data.consumepoints/10),
+            totalfee: fliter[0].Price2Count-(this.data.consumepoints/app.globalData.Gpointsmagnification),
           })
         }
         else if (app.globalData.Gdiscountlevel == 'DL3') {
@@ -162,7 +163,7 @@ consumepoints:0,
             orderpricecount: fliter[0].Price3Count,
             orderprice: fliter[0].Price3,
             temptotalfee: fliter[0].Price3Count,
-            totalfee: fliter[0].Price3Count-(this.data.consumepoints/10),
+            totalfee: fliter[0].Price3Count-(this.data.consumepoints/app.globalData.Gpointsmagnification),
           })
         }
         else if (app.globalData.Gdiscountlevel == 'DL4') {
@@ -170,7 +171,7 @@ consumepoints:0,
             orderpricecount: fliter[0].Price4Count,
             orderprice: fliter[0].Price4,
             temptotalfee: fliter[0].Price4Count,
-            totalfee: fliter[0].Price4Count-(this.data.consumepoints/10),
+            totalfee: fliter[0].Price4Count-(this.data.consumepoints/app.globalData.Gpointsmagnification),
           })
         }
         this.setData({
@@ -204,9 +205,10 @@ bvConsumePoints(e) {
 },
 _totalfee(){
   this.setData({
-    totalfee: this.data.temptotalfee-(this.data.consumepoints/10),
+    totalfee: this.data.temptotalfee-(this.data.consumepoints/app.globalData.Gpointsmagnification),
   })
 },
+// 每笔订单计算直接上级和间接上级的积分
 _pointscount(){
   if (app.globalData.Ginviterpromoterlevel=="normal"){
     this.setData({
@@ -215,22 +217,22 @@ inviterpoints:0
   }
   else if(app.globalData.Ginviterpromoterlevel=="sliver"){
     this.setData({
-inviterpoints:this.data.totalfee*0.1*10
+inviterpoints:this.data.totalfee*0.1*app.globalData.Gpointsmagnification
     })
   }
   else if(app.globalData.Ginviterpromoterlevel=="gold"){
     this.setData({
-inviterpoints:this.data.totalfee*0.2*10
+inviterpoints:this.data.totalfee*0.2*app.globalData.Gpointsmagnification
     })
   }
   else if(app.globalData.Ginviterpromoterlevel=="platium"){
     this.setData({
-inviterpoints:this.data.totalfee*0.2*10
+inviterpoints:this.data.totalfee*0.2*app.globalData.Gpointsmagnification
     })
   }
   if (app.globalData.Gindirectinviterpromoterlevel=="platium"){
     this.setData({
-      indirectinviterpoints:this.data.totalfee*0.1*10
+      indirectinviterpoints:this.data.totalfee*0.1*app.globalData.Gpointsmagnification
     })
   }
   else{
@@ -238,6 +240,144 @@ inviterpoints:this.data.totalfee*0.2*10
       indirectinviterpoints:0
     })
   }
+},
+_balancecheck(){
+  let p1=new Promise((resolve,reject)=>{
+    wx.cloud.callFunction({
+      name: "NormalQuery",
+      data: {
+        collectionName: "POINTS",
+        command: "and",
+        where: [{
+          PersonalId: app.globalData.Gopenid,
+          PointsStatus:'checked',
+        }]
+      },
+      success: res => {
+        console.log(res)
+        let points1=0
+        for(let i =0;i<res.result.data.length;i++){
+          points1 += res.result.data[i].PersonalPoints
+      }
+      this.setData({
+        personalhistory: res.result.data,
+        personalpoints:points1
+      })
+      console.log("异步执行",this.data.personalpoints)
+      resolve(this.data.personalpoints);
+    },
+    fail: err => {
+      resolve(this.data.personalpoints);
+    }
+  })
+  console.log("1执行了",this.data.personalpoints)
+  });
+  
+  let p2=new Promise((resolve,reject)=>{
+    wx.cloud.callFunction({
+      name: "NormalQuery",
+      data: {
+        collectionName: "POINTS",
+        command: "and",
+        where: [{
+          InviterId: app.globalData.Gopenid,
+          PointsStatus:'checked',
+        }]
+      },
+      success: res => {
+        console.log(res)
+        let points2=0
+        for(let i =0;i<res.result.data.length;i++){
+          points2 += res.result.data[i].InviterPoints
+      }
+      this.setData({
+            inviterhistory: res.result.data,
+            inviterpoints:points2
+          })
+          console.log("异步执行",this.data.inviterpoints)
+          resolve(this.data.inviterpoints);
+      },
+      fail: err => {
+        resolve(this.data.inviterpoints);
+      }
+    })
+    console.log(this.data.inviterpoints)
+    console.log("2执行了")
+  });
+  let p3=new Promise((resolve,reject)=>{
+    wx.cloud.callFunction({
+      name: "NormalQuery",
+      data: {
+        collectionName: "POINTS",
+        command: "and",
+        where: [{
+          IndirectInviterId: app.globalData.Gopenid,
+          PointsStatus:'checked',
+        }]
+      },
+      success: res => {
+        console.log(res)
+        let points3=0
+        for(let i =0;i<res.result.data.length;i++){
+          points3 += res.result.data[i].IndirectInviterPoints
+      }
+          this.setData({
+            indirectinviterhistory: res.result.data,
+            indirectinviterpoints:points3
+          })
+          console.log("异步执行",this.data.indirectinviterpoints)
+          resolve(this.data.indirectinviterpoints);
+      },
+      fail: err => {
+        // this.setData({
+        //   indirectinviterpoints:0
+        // })
+        resolve(this.data.indirectinviterpoints);
+      }
+  
+    })
+    console.log(this.data.indirectinviterpoints)
+    console.log("3执行了")
+  });
+  let p4=new Promise((resolve,reject)=>{
+    wx.cloud.callFunction({
+      name: "NormalQuery",
+      data: {
+        collectionName: "POINTS",
+        command: "and",
+        where: [{
+          ConsumeId: app.globalData.Gopenid,
+          PointsStatus:'checked',
+        }]
+      },
+      success: res => {
+        console.log(res)
+        let points4=0
+        for(let i =0;i<res.result.data.length;i++){
+          points4 += res.result.data[i].ConsumePoints
+      }
+          this.setData({
+            consumehistory: res.result.data,
+            consumepoints:points4
+          })
+          console.log("异步执行",this.data.consumepoints)
+          resolve(this.data.consumepoints);
+      },
+      fail: err => {
+        resolve(this.data.consumepoints);
+      }
+    })
+    console.log(this.data.consumepoints)
+    console.log("4执行了")
+  });
+  Promise.all([p1,p2,p3,p4]).then(res=>{
+    this.setData({
+      balance:this.data.personalpoints+this.data.inviterpoints+this.data.indirectinviterpoints-this.data.consumepoints,
+    }),
+    console.log("balance执行了")
+  });
+  
+  
 },
   onLoad: function (options) {
     //页面初始化 options为页面跳转所带来的参数
@@ -247,11 +387,11 @@ inviterpoints:this.data.totalfee*0.2*10
       productid: options.productid,
       productname: options.productname,
       issuedplace: options.issuedplace,
-      balance:app.globalData.Gbalance,
       consumepoints:app.globalData.Gbalance,
     })
     this._orderprice()
     this.bvDiscountCheck()
+    this._balancecheck()
   },
 
   //跳转注册资料页面
@@ -383,8 +523,8 @@ data:{
           Count:this.data.count,
           TotalFee: this.data.totalfee,
           InviterId:app.globalData.Ginviterid,
-          IndirectInviterId:app.globalData.Gindirectinviterid,
           InviterPoints:this.data.inviterpoints,
+          IndirectInviterId:app.globalData.Gindirectinviterid,
           IndirectInviterPoints:this.data.indirectinviterpoints,
           ConsumeId:app.globalData.Gopenid,
           ConsumePoints:this.data.consumepoints,

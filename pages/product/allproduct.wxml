@@ -9,7 +9,7 @@
   </swiper>
 </view>
 <view class="mainframe">
-  <l-tabs bind:linchange="changeTabs" placement="left">
+  <l-tabs placement="left">
     <l-tabpanel tab="地址服务" key="one" slot="one">
       <l-grid row-num="3">
         <l-grid-item key='one' slot='one'>

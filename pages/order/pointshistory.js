@@ -8,11 +8,15 @@ Page({
     avatarUrl: "",
     nickName: "",
     balance: 0,
-    orderhistory: [],
-    personalpoints:[],
-    inviterpoints:[],
-    indirectinviterpoints:[],
-    consumepoints:[],
+    personalhistory:[],
+    inviterhistory:[],
+    indirectinviterhistory:[],
+    consumehistory:[],
+    pointshistory: [],
+    personalpoints:0,
+    inviterpoints:0,
+    indirectinviterpoints:0,
+    consumepoints:0,
     // 轮播参数
     image: [],
     indicatorDots: true,
@@ -91,54 +95,148 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
+
   onLoad: function (options) {
     this.setData({
       image: app.globalData.Gimagearray
     })
-    const db = wx.cloud.database()
-    // 查询当前用户所有的订单,数据库已做权限设置，用户只能查询本人订单
-    db.collection('POINTS').get({
-      success: res => {
-        console.log(res);
-        wx.setStorageSync('LPointslist', res.data);
-        this.setData({
-          // 列表渲染
-          pointshistory: res.data
-        })
-        var personalfliter = [];
-        var inviterfliter = [];
-        var indirectinviterfliter = [];
-        var consumefliter = [];
-        for (var i = 0; i < res.data.length; i++) {
-          if (res.data[i].PersonalId == app.globalData.Gopenid && res.data[i].PointsStatus=="checked"){
-            personalfliter.push(res.data[i]);
-          }
-        }
-        for (var i = 0; i < res.data.length; i++) {
-          if (res.data[i].InviterId == app.globalData.Gopenid && res.data[i].PointsStatus=="checked") {
-            inviterfliter.push(res.data[i]);
-          }
-        }
-        for (var i = 0; i < res.data.length; i++) {
-          if (res.data[i].IndirectInviterId == app.globalData.Gopenid && res.data[i].PointsStatus=="checked") {
-            indirectinviterfliter.push(res.data[i]);
-          }
-        }
-        for (var i = 0; i < res.data.length; i++) {
-          if (res.data[i].ConsumeId == app.globalData.Gopenid && res.data[i].PointsStatus=="checked") {
-            consumefliter.push(res.data[i]);
-          }
-        }
-        this.setData({
-          personalpoints: personalfliter,
-          inviterpoints:inviterfliter,
-          indirectinviterpoints:indirectinviterfliter,
-          consumepoints:consumefliter,
-          balance:app.globalData.Gbalance
-        })
-        console.log(this.data.pointshistory);
-      }
+
+let p1=new Promise((resolve,reject)=>{
+  wx.cloud.callFunction({
+    name: "NormalQuery",
+    data: {
+      collectionName: "POINTS",
+      command: "and",
+      where: [{
+        PersonalId: app.globalData.Gopenid,
+        PointsStatus:'checked',
+      }]
+    },
+    success: res => {
+      console.log(res)
+      let points1=0
+      for(let i =0;i<res.result.data.length;i++){
+        points1 += res.result.data[i].PersonalPoints
+    }
+    this.setData({
+      personalhistory: res.result.data,
+      personalpoints:points1
     })
+    console.log("异步执行",this.data.personalpoints)
+    resolve(this.data.personalpoints);
+  },
+  fail: err => {
+    resolve(this.data.personalpoints);
+  }
+})
+console.log("1执行了",this.data.personalpoints)
+});
+
+let p2=new Promise((resolve,reject)=>{
+  wx.cloud.callFunction({
+    name: "NormalQuery",
+    data: {
+      collectionName: "POINTS",
+      command: "and",
+      where: [{
+        InviterId: app.globalData.Gopenid,
+        PointsStatus:'checked',
+      }]
+    },
+    success: res => {
+      console.log(res)
+      let points2=0
+      for(let i =0;i<res.result.data.length;i++){
+        points2 += res.result.data[i].InviterPoints
+    }
+    this.setData({
+          inviterhistory: res.result.data,
+          inviterpoints:points2
+        })
+        console.log("异步执行",this.data.inviterpoints)
+        resolve(this.data.inviterpoints);
+    },
+    fail: err => {
+      resolve(this.data.inviterpoints);
+    }
+  })
+  console.log(this.data.inviterpoints)
+  console.log("2执行了")
+});
+let p3=new Promise((resolve,reject)=>{
+  wx.cloud.callFunction({
+    name: "NormalQuery",
+    data: {
+      collectionName: "POINTS",
+      command: "and",
+      where: [{
+        IndirectInviterId: app.globalData.Gopenid,
+        PointsStatus:'checked',
+      }]
+    },
+    success: res => {
+      console.log(res)
+      let points3=0
+      for(let i =0;i<res.result.data.length;i++){
+        points3 += res.result.data[i].IndirectInviterPoints
+    }
+        this.setData({
+          indirectinviterhistory: res.result.data,
+          indirectinviterpoints:points3
+        })
+        console.log("异步执行",this.data.indirectinviterpoints)
+        resolve(this.data.indirectinviterpoints);
+    },
+    fail: err => {
+      // this.setData({
+      //   indirectinviterpoints:0
+      // })
+      resolve(this.data.indirectinviterpoints);
+    }
+
+  })
+  console.log(this.data.indirectinviterpoints)
+  console.log("3执行了")
+});
+let p4=new Promise((resolve,reject)=>{
+  wx.cloud.callFunction({
+    name: "NormalQuery",
+    data: {
+      collectionName: "POINTS",
+      command: "and",
+      where: [{
+        ConsumeId: app.globalData.Gopenid,
+        PointsStatus:'checked',
+      }]
+    },
+    success: res => {
+      console.log(res)
+      let points4=0
+      for(let i =0;i<res.result.data.length;i++){
+        points4 += res.result.data[i].ConsumePoints
+    }
+        this.setData({
+          consumehistory: res.result.data,
+          consumepoints:points4
+        })
+        console.log("异步执行",this.data.consumepoints)
+        resolve(this.data.consumepoints);
+    },
+    fail: err => {
+      resolve(this.data.consumepoints);
+    }
+  })
+  console.log(this.data.consumepoints)
+  console.log("4执行了")
+});
+Promise.all([p1,p2,p3,p4]).then(res=>{
+  this.setData({
+    balance:this.data.personalpoints+this.data.inviterpoints+this.data.indirectinviterpoints-this.data.consumepoints,
+  }),
+  console.log("balance执行了")
+});
+
+
   },
 
   /**

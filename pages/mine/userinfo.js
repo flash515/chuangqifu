@@ -31,6 +31,7 @@ Page({
     userphone: "",
     useroldphone: "",
     result:"未发送",
+    balance: "",
     usertype: "",
     adddate: "",
     updatedate: ""
@@ -214,6 +215,7 @@ bvPhoneCode(e){
           icon: 'success',
           duration: 2000 //持续的时间
         })
+
       },
       fail(res) {
         wx.showToast({
@@ -223,19 +225,28 @@ bvPhoneCode(e){
         })
       }
     })
-    // 根据用户是否已验证手机号，提供首次验证积分
-    if(this.data.useroldphone==""){
-      console.log('加积分')
-      const db = wx.cloud.database()
-      db.collection('USER').where({
-        _openid: this.data.openid
-      }).update({
-        data: {
-          Balance: this.data.balance+50,
-          UpdateDate: new Date().toLocaleDateString()
-        },
-    })
-    }
+            // 根据用户是否已验证手机号，提供首次验证积分
+            if(this.data.useroldphone==""){
+              console.log('加积分')
+              const db = wx.cloud.database()
+              db.collection("POINTS").add({
+                data: {
+        PersonalId:app.globalData.Gopenid,
+        PersonalPoints:50,
+        ProductName:"会员手机认证",
+                  SysAddDate: new Date().getTime(),
+                  AddDate: new Date().toLocaleDateString(),
+                  PointsStatus: "checked",
+                },      success(res) {
+                  wx.showToast({
+                    title: '积分更新信息成功',
+                    icon: 'success',
+                    duration: 2000 //持续的时间
+                  })
+          
+                },
+            })
+          }
   } else {
     wx.showToast({
         title: '验证码错误',

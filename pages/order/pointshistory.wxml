@@ -26,8 +26,22 @@
     </view>
 
     <l-tabs>
-      <l-tabpanel tab="直接推广积分" key="one" slot="one">
-        <view wx:for="{{inviterpoints}}" wx:key="key">
+      <l-tabpanel tab="会员认证积分" key="one" slot="one">
+        <view wx:for="{{personalhistory}}" wx:key="key">
+          <l-card type="primary" plaintext="{{true}}">
+            <view>积分日期：{{item.AddDate}}</view>
+            <view>积分事由：{{item.ProductName}}</view>
+            <view>积分数值：{{item.PersonalPoints}}</view>
+            <view style="display:flex; flex-direction:row;">
+              <view>入账状态：</view>
+              <view wx:if="{{item.PointsStatus =='unchecked'}}">待入账</view>
+              <view wx:if="{{item.PointsStatus =='checked'}}">已入账</view>
+            </view>
+          </l-card>
+        </view>
+      </l-tabpanel>
+      <l-tabpanel tab="直接推广积分" key="two" slot="two">
+        <view wx:for="{{inviterhistory}}" wx:key="key">
           <l-card type="primary" plaintext="{{true}}">
             <view>积分日期：{{item.AddDate}}</view>
             <view>积分事由：{{item.ProductName}}</view>
@@ -40,8 +54,8 @@
           </l-card>
         </view>
       </l-tabpanel>
-      <l-tabpanel tab="间接推广积分" key="two" slot="two">
-        <view wx:for="{{indirectinviterpoints}}" wx:key="key">
+      <l-tabpanel tab="间接推广积分" key="three" slot="three">
+        <view wx:for="{{indirectinviterhistory}}" wx:key="key">
           <l-card type="primary" plaintext="{{true}}">
             <view>积分日期：{{item.AddDate}}</view>
             <view>积分事由：{{item.ProductName}}</view>
@@ -54,8 +68,8 @@
           </l-card>
         </view>
       </l-tabpanel>
-      <l-tabpanel tab="积分使用纪录" key="three" slot="three">
-        <view wx:for="{{consumepoints}}" wx:key="key">
+      <l-tabpanel tab="积分使用纪录" key="four" slot="four">
+        <view wx:for="{{consumehistory}}" wx:key="key">
           <l-card type="primary" plaintext="{{true}}">
             <view>积分使用日期：{{item.AddDate}}</view>
             <view>积分使用事由：{{item.ProductName}}</view>

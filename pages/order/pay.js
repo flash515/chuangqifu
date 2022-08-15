@@ -93,9 +93,10 @@ Page({
     }).update({
       data: {
         PaymentStatus: "checked",
+        PointsStatus: "checked",
       },
       success(res) {
-        console.log("支付订单更新成功")
+        console.log("积分状态更新成功")
       },
     })
   },

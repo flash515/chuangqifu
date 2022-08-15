@@ -44,6 +44,14 @@
       <view>
         <l-input type="text" label="企业规模：" value="{{companyscale}}" bind:lininput="bvCompanyScale"></l-input>
       </view>
+      <text>\n</text>
+  <view hidden="{{btnhidden}}">
+    <l-button type="default" bind:lintap="UpdateData" shape="semicircle" icon="to-top" icon-color="white">更新信息
+    </l-button>
+    <text space="emsp" decode="{{true}}">&emsp;</text>
+    <l-button type="default" bind:lintap="RefreshData" shape="semicircle" icon="loading" icon-color="white">刷新信息
+    </l-button>
+  </view>
     </l-tabpanel>
     <l-tabpanel tab="邀请人信息" key="two" slot="two">
       <view>
@@ -54,12 +62,6 @@
       </view>
     </l-tabpanel>
   </l-tabs>
-  <text>\n</text>
-  <view hidden="{{btnhidden}}">
-    <l-button type="default" bind:lintap="UpdateData" shape="semicircle" icon="to-top" icon-color="white">更新信息
-    </l-button>
-    <text space="emsp" decode="{{true}}">&emsp;</text>
-    <l-button type="default" bind:lintap="RefreshData" shape="semicircle" icon="loading" icon-color="white">刷新信息
-    </l-button>
-  </view>
+
+
 </view>
