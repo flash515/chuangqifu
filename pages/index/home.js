@@ -144,6 +144,7 @@ Page({
           success: res => {
             wx.setStorageSync('LIndirectInviter', res.data[0]);
             app.globalData.Gindirectinviterpromoterlevel = res.data[0].PromoterLevel;
+            app.globalData.Gindirectinviterbalance = res.data[0].Balance;
           }
         })
   },

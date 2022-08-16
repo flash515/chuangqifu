@@ -84,6 +84,7 @@ Page({
         })
         app.globalData.Gindirectinviterid = res.data[0].InviterOpenId;
         app.globalData.Ginviterpromoterlevel = res.data[0].PromoterLevel;
+        app.globalData.Ginviterbalance = res.data[0].Balance;
       }
     })
     // 查询在售的产品并存入本地

@@ -93,8 +93,10 @@ App({
     GavatarUrl: "",
     Ginviterid: "",
     Ginviterpromoterlevel: "",
+    Ginviterbalance: "",
     Gindirectinviterid: "",
     Gindirectinviterpromoterlevel: "",
+    Gindirectinviterbalance: "",
     // 用户类型
     Gusertype: "",
     Gdirect1yearvaliduser:"",
