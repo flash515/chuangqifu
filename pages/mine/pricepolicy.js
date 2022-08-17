@@ -10,12 +10,16 @@ Page({
   data: {
     adddate:"",
     startdate: "",
+    dlname:"",
+    dlstartdate:"",
+    dlenddate:"",
     orderlevel: "",
 orderid: "",
     ordername:"",
     orderstartdate:"",
     orderenddate:"",
-    orderfee:"",
+    ordertotalfee:"",
+ordertype:"",
     orderhidden:true,
     ordersublock: false,
     paymentsublock: false,
@@ -56,35 +60,44 @@ orderid: "",
       dl3_30enddate: dateLater(e.detail.value, 30).year + '-' + dateLater(e.detail.value, 30).newdates
     })
   },
+
   bvBuy(e) {
-this.setData({
-orderlevel: e.currentTarget.dataset.level,
-orderid: e.currentTarget.dataset.id,
-ordername: e.currentTarget.dataset.name,
-orderstartdate: e.currentTarget.dataset.startdate,
-orderenddate: e.currentTarget.dataset.enddate,
-orderfee: e.currentTarget.dataset.price,
-ordertype:e.currentTarget.dataset.type,
-})
+    if (e.currentTarget.dataset.startdate == "" || e.currentTarget.dataset.startdate == undefined) {
+      wx.showToast({
+        title: '请选择生效日期',
+        icon: 'error',
+        duration: 2000 //持续的时间
+      })
+    } else {
       if (this.data.ordersublock == false && this.data.paymentsublock == false) {
-this.setData({
-  paymentid:this._getGoodsRandomNumber()
-})
-      }
-      if (this.data.orderstartdate == "" || this.data.orderstartdate == undefined) {
+        this.setData({
+          discountlevel: e.currentTarget.dataset.level,
+          discountid: e.currentTarget.dataset.id,
+          discountname: e.currentTarget.dataset.name,
+          discountstartdate: e.currentTarget.dataset.startdate,
+          discountenddate: e.currentTarget.dataset.enddate,
+          discounttotalfee: e.currentTarget.dataset.totalfee,
+          discounttype:e.currentTarget.dataset.type,
+        })
+        this._orderadd()
+      }else {
         wx.showToast({
-          title: '请选择生效日期',
+          title: '请勿重复提交',
           icon: 'error',
           duration: 2000 //持续的时间
         })
-      } else {
-        this._orderadd()
-        this._paymentadd()
       }
-
+        // this._paymentadd()
+      }
   },
+
   _orderadd(){
     let that = this
+    this.setData({
+      // 生成订单号
+      orderid:this._getGoodsRandomNumber(),
+      // paymentid:this._getGoodsRandomNumber()
+    })
     if (this.data.ordersublock) {
       that._hidden()
     } else {
@@ -92,16 +105,18 @@ this.setData({
       // 新增数据
       db.collection("DISCOUNTORDER").add({
         data: {
-          DiscountLevel: this.data.orderlevel,
-          DiscountId: this.data.orderid,
-          DiscountName: this.data.ordername,
-          DiscountType: this.data.ordertype,
-          DLStartDate: this.data.orderstartdate,
-          DLEndDate: this.data.orderenddate,
-          TotalFee: this.data.orderfee,
+
+          DiscountLevel: this.data.discountlevel,
+          DiscountId: this.data.discountid,
+          DiscountName: this.data.discountname,
+          DiscountType: this.data.discounttype,
+          DLStartDate: this.data.discountstartdate,
+          DLEndDate: this.data.discountenddate,
+          TotalFee: this.data.discounttotalfee,
           SysAddDate: new Date().getTime(),
           AddDate: new Date().toLocaleDateString(),
-          PaymentId: this.data.paymentid,
+          OrderId:this.data.orderid,
+          PaymentId: "",
           PaymentStatus:"unchecked",
           OrderStatus:"unchecked",
           Available:false
@@ -130,9 +145,10 @@ this.setData({
       const db = wx.cloud.database()
       db.collection("PAYMENT").add({
         data: {
-          ProductId: this.data.orderid,
-          ProductName: this.data.ordername,
-          TotalFee: this.data.orderfee,
+          ProductId: this.data.discountid,
+          ProductName: this.data.discountname,
+          TotalFee: this.data.discounttotalfee,
+          OrderId:this.data.orderid,
           AddDate: new Date().toLocaleDateString(),
           PaymentId: this.data.paymentid,
           PaymentStatus: "unchecked",
@@ -183,6 +199,7 @@ this.setData({
     return `${Math.round(Math.random() * 1000)}${formateDate +
     Math.round(Math.random() * 89 + 100).toString()}`;
   },
+
     // 点击支付按钮,发起支付
     bvWXPay(event) {
       const goodsnum = this.data.paymentid;

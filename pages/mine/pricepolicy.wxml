@@ -68,7 +68,7 @@
           </picker>
           <text class="text" style="color:blue">卡券失效日期：{{dl3_90enddate}}</text>
           <l-button slot="more" size="mini" type="default" bind:lintap="bvBuy" data-level="DL3" data-id="DL3_90"
-            data-name="折扣季卡" data-startdate="{{dl3_90startdate}}" data-enddate="{{dl3_90enddate}}" data-price="300" data-type="Period"
+            data-name="折扣季卡" data-startdate="{{dl3_90startdate}}" data-enddate="{{dl3_90enddate}}" data-totalfee="300" data-type="Period"
             shape="semicircle" plain="true">购买</l-button>
         </l-card>
         <text>\n</text>
