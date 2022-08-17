@@ -10,20 +10,25 @@ Page({
   data: {
     adddate:"",
     startdate: "",
+    //用于展示当前优惠折扣的变量
     dlname:"",
     dlstartdate:"",
     dlenddate:"",
-    orderlevel: "",
-orderid: "",
-    ordername:"",
-    orderstartdate:"",
-    orderenddate:"",
-    ordertotalfee:"",
-ordertype:"",
+    // 当前页面订单中的变量
+    orderid: "",
+    discountid: "",
+    discountlevel: "",
+    discountname:"",
+    discountstartdate:"",
+    discountenddate:"",
+    discounttotalfee:"",
+    discounttype:"",
+
     orderhidden:true,
     ordersublock: false,
-    paymentsublock: false,
     paymenthidden:false,
+    paymentsublock: false,
+
     // 轮播参数
     image: [],
     indicatorDots: true,
@@ -63,6 +68,7 @@ ordertype:"",
 
   bvBuy(e) {
     if (e.currentTarget.dataset.startdate == "" || e.currentTarget.dataset.startdate == undefined) {
+      // 未选定日期时弹窗
       wx.showToast({
         title: '请选择生效日期',
         icon: 'error',
@@ -78,8 +84,11 @@ ordertype:"",
           discountenddate: e.currentTarget.dataset.enddate,
           discounttotalfee: e.currentTarget.dataset.totalfee,
           discounttype:e.currentTarget.dataset.type,
+          // 生成订单号
+          orderid:this._getGoodsRandomNumber(),
         })
         this._orderadd()
+        this._paymentadd()
       }else {
         wx.showToast({
           title: '请勿重复提交',
@@ -87,17 +96,11 @@ ordertype:"",
           duration: 2000 //持续的时间
         })
       }
-        // this._paymentadd()
       }
   },
 
   _orderadd(){
     let that = this
-    this.setData({
-      // 生成订单号
-      orderid:this._getGoodsRandomNumber(),
-      // paymentid:this._getGoodsRandomNumber()
-    })
     if (this.data.ordersublock) {
       that._hidden()
     } else {
@@ -105,7 +108,7 @@ ordertype:"",
       // 新增数据
       db.collection("DISCOUNTORDER").add({
         data: {
-
+          OrderId:this.data.orderid,
           DiscountLevel: this.data.discountlevel,
           DiscountId: this.data.discountid,
           DiscountName: this.data.discountname,
@@ -115,8 +118,6 @@ ordertype:"",
           TotalFee: this.data.discounttotalfee,
           SysAddDate: new Date().getTime(),
           AddDate: new Date().toLocaleDateString(),
-          OrderId:this.data.orderid,
-          PaymentId: "",
           PaymentStatus:"unchecked",
           OrderStatus:"unchecked",
           Available:false
@@ -145,12 +146,11 @@ ordertype:"",
       const db = wx.cloud.database()
       db.collection("PAYMENT").add({
         data: {
+          OrderId:this.data.orderid,
           ProductId: this.data.discountid,
           ProductName: this.data.discountname,
           TotalFee: this.data.discounttotalfee,
-          OrderId:this.data.orderid,
           AddDate: new Date().toLocaleDateString(),
-          PaymentId: this.data.paymentid,
           PaymentStatus: "unchecked",
           Database:"DISCOUNTORDER"
         },
@@ -202,10 +202,10 @@ ordertype:"",
 
     // 点击支付按钮,发起支付
     bvWXPay(event) {
-      const goodsnum = this.data.paymentid;
+      const goodsnum = this.data.orderid;
       const subMchId = '1612084242'; // 子商户号,微信支付商户号,必填
-      const body = this.data.ordername;
-      const PayVal = this.data.orderfee * 100;
+      const body = this.data.discountname;
+      const PayVal = this.data.discounttotalfee * 100;
       this._callWXPay(body, goodsnum, subMchId, PayVal);
     },
     // 请求WXPay云函数,调用支付能力
@@ -249,7 +249,7 @@ ordertype:"",
     _orderupdate() {
       const db = wx.cloud.database()
       db.collection('DISCOUNTORDER').where({
-        PaymentId: this.data.paymentid
+        OrderId: this.data.orderid
       }).update({
         data: {
           PaymentStatus: "checked",
@@ -264,7 +264,7 @@ ordertype:"",
     _paymentupdate() {
       const db = wx.cloud.database()
       db.collection('PAYMENT').where({
-        PaymentId: this.data.paymentid
+        OrderId: this.data.orderid
       }).update({
         data: {
           PaymentStatus: "checked",

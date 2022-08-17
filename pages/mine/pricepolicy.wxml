@@ -41,6 +41,7 @@
       </l-card>
     </l-collapse-item>
   </l-collapse>
+  <!-- 如果有订单则隐藏折扣卡列表，此处待改进 -->
   <view hidden="{{orderhidden==false}}">
     <l-collapse>
       <l-collapse-item title="二、购买折扣卡获得价格优惠政策">
@@ -55,7 +56,7 @@
           <text class="text" style="color:blue">卡券失效日期：{{dl3_30enddate}}</text>
           <l-button slot="more" size="mini" type="default" bind:lintap="bvBuy" data-level="DL3" data-id="DL3_Single"
             data-name="单次折扣体验卡" data-startdate="{{dl3_30startdate}}" data-enddate="{{dl3_30enddate}}" data-price="50" data-type="Single"
-            shape="semicircle" plain="true">购买</l-button>
+            shape="semicircle" plain="true">马上购买</l-button>
         </l-card>
         <text>\n</text>
         <l-card type="avatar" plaintext="{{true}}" title="折扣价季卡">
@@ -69,7 +70,7 @@
           <text class="text" style="color:blue">卡券失效日期：{{dl3_90enddate}}</text>
           <l-button slot="more" size="mini" type="default" bind:lintap="bvBuy" data-level="DL3" data-id="DL3_90"
             data-name="折扣季卡" data-startdate="{{dl3_90startdate}}" data-enddate="{{dl3_90enddate}}" data-totalfee="300" data-type="Period"
-            shape="semicircle" plain="true">购买</l-button>
+            shape="semicircle" plain="true">马上购买</l-button>
         </l-card>
         <text>\n</text>
         <l-card type="avatar" plaintext="{{true}}" title="折扣价半年卡">
@@ -83,7 +84,7 @@
           <text class="text" style="color:blue">卡券失效日期：{{dl3_180enddate}}</text>
           <l-button slot="more" size="mini" type="default" bind:lintap="bvBuy" data-level="DL3" data-id="DL3_180"
             data-name="折扣半年卡" data-startdate="{{dl3_180startdate}}" data-enddate="{{dl3_180enddate}}" data-price="450" data-type="Period"
-            shape="semicircle" plain="true">购买</l-button>
+            shape="semicircle" plain="true">马上购买</l-button>
         </l-card>
         <text>\n</text>
         <l-card type="avatar" plaintext="{{true}}" title="折扣价年卡">
@@ -97,19 +98,21 @@
           <text class="text" style="color:blue">卡券失效日期：{{dl3_360enddate}}</text>
           <l-button slot="more" size="mini" type="default" bind:lintap="bvBuy" data-level="DL3" data-id="DL3_360"
             data-name="折扣年卡" data-startdate="{{dl3_360startdate}}" data-enddate="{{dl3_360enddate}}" data-price="600" data-type="Period"
-            shape="semicircle" plain="true">购买</l-button>
+            shape="semicircle" plain="true">马上购买</l-button>
         </l-card>
       </l-collapse-item>
     </l-collapse>
   </view>
+  <!-- 当前有待完成的订单时显示订单信息 -->
   <view hidden="{{orderhidden}}">
     <l-card type="avatar" plaintext="{{true}}" title="折扣卡订单详情">
-      <text>折扣卡券名称：{{ordername}}</text>
-      <text>卡券购买费用：{{orderfee}}元</text>
-      <text>卡券生效日期：{{orderstartdate}}</text>
-      <text>卡券失效日期：{{orderenddate}}</text>
+      <text>折扣卡券名称：{{discountname}}</text>
+      <text>卡券购买费用：{{discounttotalfee}}元</text>
+      <text>卡券生效日期：{{discountstartdate}}</text>
+      <text>卡券失效日期：{{discountenddate}}</text>
+      <!-- 当前有待支付的订单时显示支付按键 -->
       <view hidden="{{paymenthidden}}">
-        <l-button size="mini" type="default" bind:lintap="bvWXPay" shape="semicircle" plain="true">微信支付</l-button>
+        <l-button size="mini" type="default" bind:lintap="bvWXPay" shape="semicircle" plain="true">微信即时支付</l-button>
       </view>
     </l-card>
   </view>
