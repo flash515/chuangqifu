@@ -289,6 +289,11 @@ Page({
         },
       })
     },
+    bvOtherPay() {
+      wx.navigateTo({
+        url: '../order/pay?totalfee=' + this.data.discounttotalfee + '&productname=' + this.data.discountname + '&orderid=' + this.data.orderid+'&database=DISCOUNTORDER'
+      })
+    },
   /**
    * 生命周期函数--监听页面加载
    */

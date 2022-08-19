@@ -13,7 +13,7 @@ Page({
     data: "",
     time: "",
     totalfee: 0,
-    paymentid: "",
+    orderid: "",
     productname: "",
     database:"",
     openSettingBtnHidden: true,
@@ -30,7 +30,7 @@ Page({
   },
   // 点击支付按钮,发起支付
   bvWXPay(event) {
-    const goodsnum = this.data.paymentid;
+    const goodsnum = this.data.orderid;
     const subMchId = '1612084242'; // 子商户号,微信支付商户号,必填
     const body = this.data.productname;
     const PayVal = this.data.totalfee * 100;
@@ -74,7 +74,7 @@ Page({
   _orderupdate() {
     const db = wx.cloud.database()
     db.collection(this.data.database).where({
-      PaymentId: this.data.paymentid
+      OrderId: this.data.orderid
     }).update({
       data: {
         PaymentStatus: "checked",
@@ -89,7 +89,7 @@ Page({
   _pointsupdate() {
     const db = wx.cloud.database()
     db.collection('POINTS').where({
-      PaymentId: this.data.paymentid
+      OrderId: this.data.orderid
     }).update({
       data: {
         PaymentStatus: "checked",
@@ -253,7 +253,7 @@ Page({
       totalfee: options.totalfee,
       productid:options.productid,
       productname: options.productname,
-      paymentid: options.paymentid,
+      orderid: options.orderid,
       database:options.database,
       onlinehidden:options.onlinehidden,
       image: app.globalData.Gimagearray,

@@ -13,9 +13,10 @@ Page({
     plstartdate: "",
     promoterlevel: "",
     promotername: "",
-    paymentid: "",
+    // paymentid: "",
     productname: "",
     phone:"",
+    orderid:"",
     orderlevel:"",
     orderstartdate:"",
     orderfee:"",
@@ -70,7 +71,7 @@ Page({
     // this.data.orderfee = e.currentTarget.dataset.price
     // this.data.ordername = e.currentTarget.dataset.name
     if (this.data.applysublock == false && this.data.paymentsublock == false) {
-      this.data.paymentid = this._getGoodsRandomNumber();
+      this.data.orderid = this._getGoodsRandomNumber();
     }
     if (this.data.orderstartdate == "" || this.data.orderstartdate == 'undefined') {
       wx.showToast({
@@ -98,7 +99,7 @@ Page({
             TotalFee: this.data.orderfee,
             AddDate: new Date().toLocaleDateString(),
             SysAddDate: new Date().getTime(),
-            PaymentId: this.data.paymentid,
+            OrderId: this.data.orderid,
             PaymentStatus: "unchecked",
             OrderStatus: "unchecked",
           },
@@ -132,7 +133,7 @@ Page({
           ProductName: this.data.ordername,
           TotalFee: this.data.orderfee,
           AddDate: new Date().toLocaleDateString(),
-          PaymentId: this.data.paymentid,
+          OrderId: this.data.orderid,
           PaymentStatus: "unchecked",
           Database:"PROMOTERORDER"
         },
@@ -163,7 +164,7 @@ Page({
   },
   // 点击支付按钮,发起支付
   bvWXPay(event) {
-    const goodsnum = this.data.paymentid;
+    const goodsnum = this.data.orderid;
     const subMchId = '1612084242'; // 子商户号,微信支付商户号,必填
     const body = this.data.ordername;
     const PayVal = this.data.orderfee * 100;
@@ -191,7 +192,7 @@ Page({
           ...payment, // 解构参数appId,nonceStr,package,paySign,signType,timeStamp
           success: (res) => {
             console.log('支付成功', res);
-            that._productupdate();
+            that._orderupdate();
             that._paymentupdate();
             that._userupdate();
             that.setData({
@@ -207,10 +208,10 @@ Page({
         console.error(err);
       });
   },
-  _productupdate() {
+  _orderupdate() {
     const db = wx.cloud.database()
     db.collection('PROMOTERORDER').where({
-      PaymentId: this.data.paymentid
+      OrderId: this.data.orderid
     }).update({
       data: {
         PaymentStatus: "checked",
@@ -224,7 +225,7 @@ Page({
   _paymentupdate() {
     const db = wx.cloud.database()
     db.collection('PAYMENT').where({
-      PaymentId: this.data.paymentid
+      OrderId: this.data.orderid
     }).update({
       data: {
         PaymentStatus: "checked",
@@ -250,7 +251,7 @@ Page({
   },
   bvOtherPay() {
     wx.navigateTo({
-      url: '../order/pay?totalfee=' + this.data.orderfee + '&productname=' + this.data.promotername + '&paymentid=' + this.data.paymentid+'&database=PROMOTERORDER'
+      url: '../order/pay?totalfee=' + this.data.orderfee + '&productname=' + this.data.promotername + '&orderid=' + this.data.orderid+'&database=PROMOTERORDER'
     })
   },
   // 随机生成支付订单号,订单号不能重复

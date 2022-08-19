@@ -24,6 +24,7 @@ Page({
     // 办理地点
     issuedplace: "",
     discountorderid:"",
+    orderid:"",
     discountid:"",
     discountname:"",
     discountlevel:"",
@@ -68,6 +69,28 @@ consumepoints:0,
     })
     this._totalfee()
   },
+    // 随机生成支付订单号,订单号不能重复
+    _getGoodsRandomNumber() {
+      const date = new Date(); // 当前时间
+      let Year = `${date.getFullYear()}`; // 获取年份
+      let Month = `${
+      date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1
+    }`; // 获取月
+      let Day = `${date.getDate() < 10 ? `0${date.getDate()}` : date.getDate()}`; // 获取天
+      let hour = `${
+      date.getHours() < 10 ? `0${date.getHours()}` : date.getHours()
+    }`; // 获取小时
+      let min = `${
+      date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes()
+    }`; // 获取分钟
+      let sec = `${
+      date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds()
+    }`; // 获取秒
+      let formateDate = `${Year}${Month}${Day}${hour}${min}${sec}`; // 时间
+      return `${Math.round(Math.random() * 1000)}${formateDate +
+      Math.round(Math.random() * 89 + 100).toString()}`;
+    },
+
   bvDiscountCheck(){
     //查询是否有购买折扣记录
     const db = wx.cloud.database()
@@ -400,7 +423,10 @@ _balancecheck(){
       url: 'https://sm758rc5kj.jiandaoyun.com/f/5c221c18326ce11b6be21cca',
     })
   },
-  addData() {
+  bvNewOrder() {
+    this.setData({
+      orderid:this._getGoodsRandomNumber(),
+    })
     this._orderadd()
     this._pointsadd()
     this._paymentadd()
@@ -432,19 +458,21 @@ data:{
       // 新增数据
       db.collection("ORDER").add({
         data: {
+          OrderId:this.data.orderid,
           ProductId: this.data.productid,
           ProductName: this.data.productname,
           IssuedPlace: this.data.issuedplace,
-          OrderPriceCount: this.data.orderpricecount,
           OrderPrice: this.data.orderprice,
+          OrderPriceCount: this.data.orderpricecount,
+
           //费用
           Count:this.data.count,
           TempTotalFee:this.data.temptotalfee,
-          Balance:this.data.balance,
+          // Balance:this.data.balance,
           ConsumePoints:this.data.consumepoints,
           TotalFee: this.data.totalfee,
-          Commission1Total: this.data.commission1total,
-          Commission2Total: this.data.commission2total,
+          // Commission1Total: this.data.commission1total,
+          // Commission2Total: this.data.commission2total,
 
           SysAddDate: new Date().getTime(),
           AddDate: new Date().toLocaleDateString(),
@@ -484,6 +512,7 @@ data:{
       const db = wx.cloud.database()
       db.collection("PAYMENT").add({
         data: {
+          OrderId:this.data.orderid,
           ProductId: this.data.productid,
           ProductName: this.data.productname,
           IssuedPlace: this.data.issuedplace,
@@ -517,6 +546,7 @@ data:{
       const db = wx.cloud.database()
       db.collection("POINTS").add({
         data: {
+          OrderId:this.data.orderid,
           ProductId: this.data.productid,
           ProductName: this.data.productname,
           IssuedPlace: this.data.issuedplace,

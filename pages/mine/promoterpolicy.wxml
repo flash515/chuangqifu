@@ -32,7 +32,7 @@
         </view>
       </picker>
       <view hidden="{{applyhidden}}">
-        <l-button size="mini" type="default" bind:lintap="bvApply" data-level="sliver" data-name="白银推广大使" data-startdate="{{startdate1}}" data-price="1" shape="semicircle" plain="true">我要申请</l-button>
+        <l-button size="mini" type="default" bind:lintap="bvApply" data-level="sliver" data-name="白银推广大使" data-startdate="{{startdate1}}" data-price="1" shape="semicircle" plain="true">现在申请</l-button>
       </view>
       <view hidden="{{paymenthidden}}">
         <l-button size="mini" type="default" bind:lintap="bvWXPay" shape="semicircle" plain="true">微信即时支付</l-button>
@@ -52,7 +52,7 @@
         </view>
       </picker>
       <view hidden="{{applyhidden}}">
-        <l-button size="mini" type="default" bind:lintap="bvApply" data-level="gold" data-name="黄金推广大使" data-startdate="{{startdate2}}" data-price="1" shape="semicircle" plain="true">申请</l-button>
+        <l-button size="mini" type="default" bind:lintap="bvApply" data-level="gold" data-name="黄金推广大使" data-startdate="{{startdate2}}" data-price="1" shape="semicircle" plain="true">现在申请</l-button>
       </view>
       <view hidden="{{paymenthidden}}">
         <l-button size="mini" type="default" bind:lintap="bvWXPay" shape="semicircle" plain="true">微信即时支付</l-button>
@@ -71,7 +71,7 @@
         </view>
       </picker>
       <view hidden="{{applyhidden}}">
-        <l-button size="mini" type="default" bind:lintap="bvApply" data-level="platinum" data-name="铂金推广大使" data-startdate="{{startdate3}}" data-price="1" shape="semicircle" plain="true">申请
+        <l-button size="mini" type="default" bind:lintap="bvApply" data-level="platinum" data-name="铂金推广大使" data-startdate="{{startdate3}}" data-price="1" shape="semicircle" plain="true">现在申请
         </l-button>
       </view>
       <view hidden="{{paymenthidden}}">
