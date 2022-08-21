@@ -95,13 +95,13 @@ Page({
         // 新增数据
         db.collection("PROMOTERORDER").add({
           data: {
+            OrderId: this.data.orderid,
             PromoterLevel: this.data.orderlevel,
             PromoterName: this.data.ordername,
             PLStartDate: this.data.orderstartdate,
             TotalFee: this.data.orderfee,
             AddDate: new Date().toLocaleDateString(),
             SysAddDate: new Date().getTime(),
-            OrderId: this.data.orderid,
             PaymentStatus: "unchecked",
             OrderStatus: "unchecked",
           },
