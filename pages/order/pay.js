@@ -12,9 +12,10 @@ Page({
     contacts: "",
     data: "",
     time: "",
-    totalfee: 0,
     orderid: "",
+    productid: "",
     productname: "",
+    totalfee: 0,
     database:"",
     openSettingBtnHidden: true,
     // 轮播头图
@@ -250,14 +251,14 @@ Page({
   onLoad: function (options) {
     var str = new Date()
     this.setData({
-      totalfee: options.totalfee,
+      orderid: options.orderid,
       productid:options.productid,
       productname: options.productname,
-      orderid: options.orderid,
+      totalfee: options.totalfee,
       database:options.database,
       onlinehidden:options.onlinehidden,
       image: app.globalData.Gimagearray,
-      startdate: str.getFullYear() + "-" + (str.getMonth() + 1) + "-" + str.getDate()
+      // startdate: str.getFullYear() + "-" + (str.getMonth() + 1) + "-" + str.getDate()
     })
   },
 

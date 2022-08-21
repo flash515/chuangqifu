@@ -60,19 +60,6 @@ Page({
     })
   },
   bvApply(e) {
-    this.setData({
-      orderlevel: e.currentTarget.dataset.level,
-      orderstartdate: e.currentTarget.dataset.startdate,
-      orderfee: e.currentTarget.dataset.price,
-      ordername: e.currentTarget.dataset.name,
-    })
-    // this.data.orderlevel = e.currentTarget.dataset.level
-    // this.data.orderstartdate = e.currentTarget.dataset.startdate
-    // this.data.orderfee = e.currentTarget.dataset.price
-    // this.data.ordername = e.currentTarget.dataset.name
-    if (this.data.applysublock == false && this.data.paymentsublock == false) {
-      this.data.orderid = this._getGoodsRandomNumber();
-    }
     if (this.data.orderstartdate == "" || this.data.orderstartdate == 'undefined') {
       wx.showToast({
         title: '请选择生效日期',
@@ -80,6 +67,21 @@ Page({
         duration: 2000 //持续的时间
       })
     } else {
+      if (this.data.applysublock == false && this.data.paymentsublock == false) {
+    this.setData({
+      orderlevel: e.currentTarget.dataset.level,
+      orderstartdate: e.currentTarget.dataset.startdate,
+      orderfee: e.currentTarget.dataset.price,
+      ordername: e.currentTarget.dataset.name,
+                // 生成订单号
+      orderid:this._getGoodsRandomNumber(),
+    })
+    // this.data.orderlevel = e.currentTarget.dataset.level
+    // this.data.orderstartdate = e.currentTarget.dataset.startdate
+    // this.data.orderfee = e.currentTarget.dataset.price
+    // this.data.ordername = e.currentTarget.dataset.name
+
+    }
       this._orderadd()
       this._paymentadd()
     }
@@ -251,7 +253,7 @@ Page({
   },
   bvOtherPay() {
     wx.navigateTo({
-      url: '../order/pay?totalfee=' + this.data.orderfee + '&productname=' + this.data.promotername + '&orderid=' + this.data.orderid+'&database=PROMOTERORDER'
+      url: '../order/pay?orderid=' + this.data.orderid+'&productid=' + this.data.promoterid + '&productname=' + this.data.promotername + '&totalfee='+this.data.orderfee+'&database=PROMOTERORDER'
     })
   },
   // 随机生成支付订单号,订单号不能重复

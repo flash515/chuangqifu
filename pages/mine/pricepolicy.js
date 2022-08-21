@@ -291,7 +291,7 @@ Page({
     },
     bvOtherPay() {
       wx.navigateTo({
-        url: '../order/pay?totalfee=' + this.data.discounttotalfee + '&productname=' + this.data.discountname + '&orderid=' + this.data.orderid+'&database=DISCOUNTORDER'
+        url: '../order/pay?orderid=' +this.data.orderid+'&productid=' + this.data.discountid+'&productname=' + this.data.discountname + '&totalfee=' + this.data.discounttotalfee +  '&database=DISCOUNTORDER'
       })
     },
   /**
