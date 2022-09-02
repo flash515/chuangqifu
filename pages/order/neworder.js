@@ -100,7 +100,7 @@ consumepoints:0,
         PaymentStatus:"checked",
         OrderStatus:"checked",
         Available:true,
-      }).orderBy('PaymentId','desc').get({
+      }).orderBy('OrderId','desc').get({
       success: res => {
         console.log(res)
         if (res.data.length != 0) {
@@ -265,7 +265,9 @@ inviterpoints:this.data.totalfee*0.2*app.globalData.Gpointsmagnification
   }
 },
 _balancecheck(){
+  // 通过查询并计算POINTS数据库中有关纪录的方式来取得balance值
   let p1=new Promise((resolve,reject)=>{
+    // 本人获得的积分
     wx.cloud.callFunction({
       name: "NormalQuery",
       data: {
@@ -297,6 +299,7 @@ _balancecheck(){
   });
   
   let p2=new Promise((resolve,reject)=>{
+    // 作为直接推荐人获得的积分
     wx.cloud.callFunction({
       name: "NormalQuery",
       data: {
@@ -328,6 +331,7 @@ _balancecheck(){
     console.log("2执行了")
   });
   let p3=new Promise((resolve,reject)=>{
+    // 作为间接推荐人获得的积分
     wx.cloud.callFunction({
       name: "NormalQuery",
       data: {
@@ -363,6 +367,7 @@ _balancecheck(){
     console.log("3执行了")
   });
   let p4=new Promise((resolve,reject)=>{
+    // 已使用的积分
     wx.cloud.callFunction({
       name: "NormalQuery",
       data: {
@@ -430,21 +435,8 @@ _balancecheck(){
     this._orderadd()
     this._pointsadd()
     this._paymentadd()
-    this._discountupdate()
   },
-  _discountupdate(){
-    console.log("discountupdate已执行")
-if(this.data.discountid=="DL3_Single"){
-  const db = wx.cloud.database()
-  db.collection("DISCOUNTORDER").where({
-_id:this.data.discountorderid
-  }).update({
-data:{
-  Available:false
-}
-  })
-}
-  },
+
   // 异步新增数据方法
   _orderadd() {
     let that = this
@@ -552,8 +544,10 @@ data:{
           IssuedPlace: this.data.issuedplace,
           Count:this.data.count,
           TotalFee: this.data.totalfee,
+          // 直接推荐人
           InviterId:app.globalData.Ginviterid,
           InviterPoints:this.data.inviterpoints,
+// 间接推荐人
           IndirectInviterId:app.globalData.Gindirectinviterid,
           IndirectInviterPoints:this.data.indirectinviterpoints,
           ConsumeId:app.globalData.Gopenid,
@@ -593,7 +587,8 @@ data:{
   },
   bvPay() {
     wx.navigateTo({
-      url: '../order/pay?totalfee=' + this.data.totalfee+'&onlinehidden=true'
+         // 转到付款页面时，需要传递的参数orderid、productid、productname、totalfee、database
+      url: '../order/pay?orderid=' +this.data.orderid+'&productid=' + this.data.productid+'&productname=' + this.data.productname + '&totalfee=' + this.data.totalfee +  '&database=ORDER'
     })
   }
 })

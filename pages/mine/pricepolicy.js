@@ -313,7 +313,7 @@ Page({
         PaymentStatus:"checked",
         OrderStatus:"checked",
         Available:true
-      }).orderBy('PaymentId','desc').get({
+      }).orderBy('OrderId','desc').get({
       success: res => {
         console.log(res)
         if (res.data.length != 0) {

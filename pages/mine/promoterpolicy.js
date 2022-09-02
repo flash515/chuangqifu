@@ -61,6 +61,7 @@ Page({
   },
   bvApply(e) {
     if (this.data.orderstartdate == "" || this.data.orderstartdate == 'undefined') {
+      // 如果没有选择生效日期则提示
       wx.showToast({
         title: '请选择生效日期',
         icon: 'error',
@@ -68,6 +69,7 @@ Page({
       })
     } else {
       if (this.data.applysublock == false && this.data.paymentsublock == false) {
+        // 确认不是重复提交
     this.setData({
       orderlevel: e.currentTarget.dataset.level,
       orderstartdate: e.currentTarget.dataset.startdate,
@@ -89,6 +91,7 @@ Page({
   _orderadd(e) {
     let that = this
       if (this.data.applysublock) {
+        // 控制页面组件显示和隐藏的参数是异步赋值的，因此需要在数据库操作执行前再次检查参数，避免重复提交
         that._hidden()
       } else {
         const db = wx.cloud.database()
@@ -107,6 +110,7 @@ Page({
           },
           success(res) {
             console.log("promoter成功")
+            // 下面好像不应该用that,直接用this就可以的，但是用that应该也没影响
             that.setData({
               applysublock: true
             })
@@ -126,6 +130,7 @@ Page({
   _paymentadd() {
     let that = this
     if (this.data.paymentsublock) {
+        // 控制页面组件显示和隐藏的参数是异步赋值的，因此需要在数据库操作执行前再次检查参数，避免重复提交
       that._hidden()
     } else {
       const db = wx.cloud.database()
@@ -252,8 +257,9 @@ Page({
     })
   },
   bvOtherPay() {
+    // 转到其他付款页面时，需要传递的参数orderid、productid、productname、totalfee、database
     wx.navigateTo({
-      url: '../order/pay?orderid=' + this.data.orderid+'&productid=' + this.data.promoterid + '&productname=' + this.data.promotername + '&totalfee='+this.data.orderfee+'&database=PROMOTERORDER'
+      url: '../order/pay?orderid=' + this.data.orderid+'&productid=' + this.data.orderlevel + '&productname=' + this.data.ordername + '&totalfee='+this.data.orderfee+'&database=PROMOTERORDER'
     })
   },
   // 随机生成支付订单号,订单号不能重复

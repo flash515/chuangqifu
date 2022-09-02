@@ -61,6 +61,7 @@ Page({
             console.log('支付成功', res);
             that._orderupdate();
             that._pointsupdate();
+            that._discountupdate()
           },
           fail: (err) => {
             console.error('支付失败', err);
@@ -100,6 +101,24 @@ Page({
         console.log("积分状态更新成功")
       },
     })
+  },
+  _discountupdate(){
+    console.log("discountupdate已执行")
+if(this.data.productid=="DL3_Single"){
+  const db = wx.cloud.database()
+  db.collection("DISCOUNTORDER").where({
+    OrderId:this.data.orderid
+  }).update({
+data:{
+  Available:false
+}
+  })
+}
+  },
+  _balanceupdate(){
+if(this.data.database=="ORDER"){
+  
+}
   },
   // 保存到手机
   saveImage: function (event) {
@@ -250,6 +269,7 @@ Page({
    */
   onLoad: function (options) {
     var str = new Date()
+    // 订单编号orderid、产品编号productid、产品名称productname、订单总费用totalfee、订单数据库database、微信即时支付是否隐藏onlinehidden
     this.setData({
       orderid: options.orderid,
       productid:options.productid,
