@@ -40,28 +40,28 @@ Page({
     //获取小程序全局设置
     const db = wx.cloud.database()
     db.collection('setting')
-    .where({
-      currentstatus: "effect"
-    })
-    .get({
-      success: res => {
-        app.globalData.Gpointsmagnification = res.data[0].pointsmagnification;
-        console.log("轮播图：", res);
-        wx.setStorageSync('LSetting', res.data[0]);
-        //异步获取图片生成轮播图地址
-        for (let i = 0; i < res.data[0].swiper.length; i++) {
-          wx.getImageInfo({
-            //把图片地址转换为本地地址
-            src: res.data[0].swiper[i],
-            success(res) {
-              that.data.tempimage.push(res.path)
-              app.globalData.Gimagearray = that.data.tempimage
+      .where({
+        currentstatus: "effect"
+      })
+      .get({
+        success: res => {
+          app.globalData.Gpointsmagnification = res.data[0].pointsmagnification;
+          console.log("轮播图：", res);
+          wx.setStorageSync('LSetting', res.data[0]);
+          //异步获取图片生成轮播图地址
+          for (let i = 0; i < res.data[0].swiper.length; i++) {
+            wx.getImageInfo({
+              //把图片地址转换为本地地址
+              src: res.data[0].swiper[i],
+              success(res) {
+                that.data.tempimage.push(res.path)
+                app.globalData.Gimagearray = that.data.tempimage
 
-            }
-          })
+              }
+            })
+          }
         }
-      }
-    })
+      })
 
     //准备调用云数据库
     if (!wx.cloud) {
@@ -87,17 +87,31 @@ Page({
         app.globalData.Ginviterbalance = res.data[0].Balance;
       }
     })
-    // 查询在售的产品并存入本地
-    db.collection('PRODUCT').where({
-      // 状态为在售的产品
-      Status: "在售"
-    }).get({
+    // 调用云函数查询在售的产品并存入本地
+    wx.cloud.callFunction({
+      name: "NormalQuery",
+      data: {
+        collectionName: "PRODUCT",
+        command: "or",
+        where: [{
+          Status: "在售"
+        }]
+      },
       success: res => {
-        //括号1开始
-        wx.setStorageSync('LProductList', res.data)
+        wx.setStorageSync('LProductList', res.result.data)
       }
     })
-    
+
+    // db.collection('PRODUCT').where({
+    //   // 状态为在售的产品
+    //   Status: "在售"
+    // }).get({
+    //   success: res => {
+    //     //括号1开始
+    //     wx.setStorageSync('LProductList', res.data)
+    //   }
+    // })
+
     // 通过云函数获取用户本人的小程序ID
     wx.cloud.callFunction({
       name: 'login',
@@ -130,10 +144,10 @@ Page({
                   InviterCompanyName: this.data.invitercompanyname,
                   InviterUserName: this.data.inviterusername,
                   UserType: "client",
-                  UserPhone:"",
+                  UserPhone: "",
                   DiscountLevel: "DL4",
                   PromoterLevel: "normal",
-                  Balance:0
+                  Balance: 0
                 },
                 success: res => {
                   wx.cloud.callFunction({
@@ -172,11 +186,11 @@ Page({
               const db = wx.cloud.database()
               const _ = db.command
               db.collection('DISCOUNTORDER').where({
-                  _openid: app.globalData.Gopenid,
-                  PaymentStatus:"checked",
-                  OrderStatus:"checked",
-                  Available:true,
-                }).orderBy('PaymentId','desc').get({
+                _openid: app.globalData.Gopenid,
+                PaymentStatus: "checked",
+                OrderStatus: "checked",
+                Available: true,
+              }).orderBy('OrderId', 'desc').get({
                 success: res => {
                   console.log(res)
                   if (res.data.length != 0) {
@@ -186,13 +200,13 @@ Page({
                         tempfliter.push(res.data[i]);
                       }
                     }
-                    if(tempfliter.length !=0  && tempfliter.length != undefined){
-                              console.log(tempfliter)
-                              console.log(tempfliter[0].DiscountLevel)
-app.globalData.Gdiscountlevel=tempfliter[0].DiscountLevel
-app.globalData.Gdiscounttype=tempfliter[0].DiscountType
-console.log(app.globalData.Gdiscountlevel)
-                  } else{
+                    if (tempfliter.length != 0 && tempfliter.length != undefined) {
+                      console.log(tempfliter)
+                      console.log(tempfliter[0].DiscountLevel)
+                      app.globalData.Gdiscountlevel = tempfliter[0].DiscountLevel
+                      app.globalData.Gdiscounttype = tempfliter[0].DiscountType
+                      console.log(app.globalData.Gdiscountlevel)
+                    } else {
                       //卡券已过期
                       app.globalData.Gdiscountlevel = "DL4"
                     }
