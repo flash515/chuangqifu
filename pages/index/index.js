@@ -12,31 +12,6 @@ Page({
   onLoad: function (options) {
     let that = this
 
-    // 接收参数方法一开始
-    if (options.userid) {
-      this.data.inviterid = options.userid;
-      app.globalData.Ginviterid = options.userid;
-      console.log("方法一如果参数以userid=格式存在，则显示接收到的参数", this.data.inviterid);
-      // 接收参数方法一结束
-    } else {
-
-      // 接收参数方法二开始，scene中只有参数值
-      if (options.scene) {
-        let scene = decodeURIComponent(options.scene);
-        //可以连接多个参数值，&是我们定义的参数链接方式
-        // let inviterid = scene.split('&')[0];
-        // let userId = scene.split("&")[1];
-        this.data.inviterid = scene.split('&')[0];
-        app.globalData.Ginviterid = scene.split('&')[0];
-        console.log("扫码参数:", this.data.inviterid);
-      } else {
-        // 两种都不带参数，则是搜索小程序进入，推荐人指定为开发人
-        // this.data.inviterid = "oa1De5G404TbDrFGtCingTlGFQVQ"
-        // app.globalData.Ginviterid = "oa1De5G404TbDrFGtCingTlGFQVQ"
-        console.log("搜索进入参数:", this.data.inviterid);
-      }
-    }
-
     //获取小程序全局设置
     const db = wx.cloud.database()
     db.collection('setting')
@@ -71,23 +46,7 @@ Page({
       return
     }
 
-    // 通过传递来的参数查询推荐人信息
-    db.collection('USER').where({
-      _openid: this.data.inviterid
-    }).get({
-      success: res => {
-        wx.setStorageSync('LInviter', res.data[0]);
-        this.setData({
-          invitercompanyname: res.data[0].CompanyName,
-          inviterusername: res.data[0].UserName,
-          indirectinviterid: res.data[0].InviterOpenId
-        })
-        app.globalData.Gindirectinviterid = res.data[0].InviterOpenId;
-        app.globalData.Ginviterpromoterlevel = res.data[0].PromoterLevel;
-        app.globalData.Ginviterbalance = res.data[0].Balance;
-        console.log(app.globalData.Gindirectinviterid)
-      }
-    })
+
     // 调用云函数查询在售的产品并存入本地
     wx.cloud.callFunction({
       name: "NormalQuery",
@@ -117,15 +76,40 @@ Page({
         }).get({
           success: res => {
             console.log(res);
-            // 如果云数据库中有本人信息，则把用户本人信息存入本地
-            wx.setStorageSync('LUserInfo', res.data[0]);
-            // 查询结果赋值给数组参数
-            this.setData({
-              userinfo: res.data[0]
-            })
             console.log(res.data.length);
             // 判断是否新用户并提交数据库起始
             if (res.data.length == 0) {
+              // 如果是新用户，检查是否有传递过来的推荐人id
+              // 接收参数方法一开始
+              if (options.userid) {
+                that.setData({
+                  inviterid:options.userid,
+                })
+                app.globalData.Ginviterid = options.userid;
+                console.log("方法一如果参数以userid=格式存在，则显示接收到的参数", that.data.inviterid);
+                // 接收参数方法一结束
+              } else {
+
+                // 接收参数方法二开始，scene中只有参数值
+                if (options.scene) {
+                  let scene = decodeURIComponent(options.scene);
+                  //可以连接多个参数值，&是我们定义的参数链接方式
+                  // let inviterid = scene.split('&')[0];
+                  // let userId = scene.split("&")[1];
+                  that.setData({
+                    inviterid:scene.split('&')[0],
+                  })
+                  // this.data.inviterid = scene.split('&')[0];
+                  app.globalData.Ginviterid = scene.split('&')[0];
+                  console.log("扫码参数:", this.data.inviterid);
+                } else {
+                  // 两种都不带参数，则是搜索小程序进入，推荐人指定为开发人
+                  // this.data.inviterid = "oa1De5G404TbDrFGtCingTlGFQVQ"
+                  // app.globalData.Ginviterid = "oa1De5G404TbDrFGtCingTlGFQVQ"
+                  console.log("搜索进入参数:", this.data.inviterid);
+                }
+              }
+
               // 在USER数据库中新增用户信息
               db.collection("USER").add({
                 data: {
@@ -173,6 +157,15 @@ Page({
               app.globalData.Gdiscountlevel = "DL4"
               app.globalData.Gpromoterlevel = "null"
             } else {
+              // 如果云数据库中有本人信息，则把用户本人信息存入本地
+              wx.setStorageSync('LUserInfo', res.data[0]);
+              // 查询结果赋值给数组参数
+              that.setData({
+                userinfo: res.data[0],
+                inviterid: res.data[0].InviterOpenId,
+              })
+              app.globalData.Ginviterid = res.data[0].InviterOpenId;
+
               // 老用户确认价格等级
               const db = wx.cloud.database()
               const _ = db.command
@@ -220,17 +213,33 @@ Page({
         })
       }
     })
-
+    // 查询推荐人信息
+    db.collection('USER').where({
+      _openid: this.data.inviterid
+    }).get({
+      success: res => {
+        wx.setStorageSync('LInviter', res.data[0]);
+        this.setData({
+          invitercompanyname: res.data[0].CompanyName,
+          inviterusername: res.data[0].UserName,
+          indirectinviterid: res.data[0].InviterOpenId
+        })
+        app.globalData.Gindirectinviterid = res.data[0].InviterOpenId;
+        app.globalData.Ginviterpromoterlevel = res.data[0].PromoterLevel;
+        app.globalData.Ginviterbalance = res.data[0].Balance;
+        console.log(app.globalData.Gindirectinviterid)
+      }
+    })
 
   },
 
   onShow: function () {
     // 延时跳转
-    setTimeout(function () {
-      wx.switchTab({
-        url: '../index/home',
-      })
-    }, 4000)
+    // setTimeout(function () {
+    //   wx.switchTab({
+    //     url: '../index/home',
+    //   })
+    // }, 4000)
   },
 
 })
