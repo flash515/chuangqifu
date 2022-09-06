@@ -23,8 +23,6 @@
       </view>
       <view class="userinfo-nickname">积分余额：{{balance}}分</view>
     </view>
-    </view>
-
     <l-tabs>
       <l-tabpanel tab="会员认证积分" key="one" slot="one">
         <view wx:for="{{personalhistory}}" wx:key="key">
@@ -84,3 +82,4 @@
       </l-tabpanel>
     </l-tabs>
   </view>
+</view>

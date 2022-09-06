@@ -9,20 +9,15 @@
     </block>
   </swiper>
 </view>
-<l-grid show-border="true" row-num="3">
+<l-grid show-border="true" row-num="2">
   <l-grid-item key="one" slot="one" >
   <navigator url="../mine/shareuser">
       <l-icon name="user" />
       <view class="text">推广人数</view>
     </navigator>
   </l-grid-item>
-  <l-grid-item key="two" slot="two" bind:linitemtap="bvGoToShareValue">
-    <!-- <navigator url="../mine/sharevalue"> -->
-      <l-icon name="more" />
-      <view class="text">推广价值</view>
-    <!-- </navigator> -->
-  </l-grid-item>
-  <l-grid-item key="three" slot="three">
+
+  <l-grid-item key="two" slot="two">
     <l-button special="{{true}}" open-type="contact">
       <l-icon name="customer-service" /></l-button>
       <l-button special="{{true}}" open-type="contact">

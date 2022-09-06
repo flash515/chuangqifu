@@ -31,8 +31,8 @@ Page({
         console.log("扫码参数:", this.data.inviterid);
       } else {
         // 两种都不带参数，则是搜索小程序进入，推荐人指定为开发人
-        this.data.inviterid = "oa1De5G404TbDrFGtCingTlGFQVQ"
-        app.globalData.Ginviterid = "oa1De5G404TbDrFGtCingTlGFQVQ"
+        // this.data.inviterid = "oa1De5G404TbDrFGtCingTlGFQVQ"
+        // app.globalData.Ginviterid = "oa1De5G404TbDrFGtCingTlGFQVQ"
         console.log("搜索进入参数:", this.data.inviterid);
       }
     }
@@ -85,6 +85,7 @@ Page({
         app.globalData.Gindirectinviterid = res.data[0].InviterOpenId;
         app.globalData.Ginviterpromoterlevel = res.data[0].PromoterLevel;
         app.globalData.Ginviterbalance = res.data[0].Balance;
+        console.log(app.globalData.Gindirectinviterid)
       }
     })
     // 调用云函数查询在售的产品并存入本地
@@ -101,16 +102,6 @@ Page({
         wx.setStorageSync('LProductList', res.result.data)
       }
     })
-
-    // db.collection('PRODUCT').where({
-    //   // 状态为在售的产品
-    //   Status: "在售"
-    // }).get({
-    //   success: res => {
-    //     //括号1开始
-    //     wx.setStorageSync('LProductList', res.data)
-    //   }
-    // })
 
     // 通过云函数获取用户本人的小程序ID
     wx.cloud.callFunction({

@@ -125,6 +125,7 @@ Page({
         console.log("noticearray", this.data.noticearray)
       }
     })
+
     wx.cloud.callFunction({
       name: 'ShareUserQuery',
       data: {
@@ -134,14 +135,16 @@ Page({
         wx.setStorageSync('LDirectUser', res.result.data);
         // 查询结果赋值给数组参数
         console.log("云函数查询直接推广用户", res.result.data)
-        this.IndirectUserQuery(res.data)
+        this.IndirectUserQuery(res.result.data)
       }
     })
+
         // 通过传递来的参数查询推荐人信息
         db.collection('USER').where({
           _openid: app.globalData.Gindirectinviterid
         }).get({
           success: res => {
+            console.log(res)
             wx.setStorageSync('LIndirectInviter', res.data[0]);
             app.globalData.Gindirectinviterpromoterlevel = res.data[0].PromoterLevel;
             app.globalData.Gindirectinviterbalance = res.data[0].Balance;

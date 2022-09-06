@@ -6,11 +6,11 @@ Page({
    * 页面的初始数据
    */
   data: {
-    time:"获取验证码",
+    time: "获取验证码",
     currentTime: 60,
-    disabled:false,
-    s_phonecode:"",
-    u_phonecode:"",
+    disabled: false,
+    s_phonecode: "",
+    u_phonecode: "",
     // 轮播参数
     image: [],
     indicatorDots: true,
@@ -30,7 +30,7 @@ Page({
     username: "",
     userphone: "",
     useroldphone: "",
-    result:"未发送",
+    result: "未发送",
     balance: "",
     usertype: "",
     adddate: "",
@@ -38,11 +38,11 @@ Page({
   },
   changeTabs(e) {
     console.log(e.detail)
-    if(e.detail.activeKey=="three"){
+    if (e.detail.activeKey == "three") {
       this.setData({
         btnhidden: true
       })
-    }else{
+    } else {
       this.setData({
         btnhidden: false
       })
@@ -78,30 +78,30 @@ Page({
       userphone: e.detail.value
     })
   },
-  _SendCodeBtn(){
+  _SendCodeBtn() {
     var that = this;
     var currentTime = that.data.currentTime
     interval = setInterval(function () {
       currentTime--;
       that.setData({
-        time: currentTime+'秒'
+        time: currentTime + '秒'
       })
       if (currentTime <= 0) {
         clearInterval(interval)
         that.setData({
           time: '重新发送',
-          currentTime:60,
-          disabled: false  
+          currentTime: 60,
+          disabled: false
         })
       }
-    }, 1000) 
+    }, 1000)
   },
   bvSendCode() {
     let _this = this;
-this._SendCodeBtn()
-this.setData({
-  disabled:true
-})
+    this._SendCodeBtn()
+    this.setData({
+      disabled: true
+    })
     wx.cloud.callFunction({
       name: 'sendsms',
       data: {
@@ -127,11 +127,11 @@ this.setData({
       }
     })
   },
-bvPhoneCode(e){
-  this.setData({
-    u_phonecode: e.detail.value
-})
-},
+  bvPhoneCode(e) {
+    this.setData({
+      u_phonecode: e.detail.value
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
@@ -169,7 +169,7 @@ bvPhoneCode(e){
     })
   },
   // 刷新信息
-  RefreshData(){
+  RefreshData() {
     const db = wx.cloud.database()
     db.collection('USER').where({
       _openid: app.globalData.Gopenid
@@ -185,7 +185,7 @@ bvPhoneCode(e){
           useroldphone: res.data[0].UserPhone,
           userphone: res.data[0].UserPhone,
           usertype: res.data[0].UserType,
-          balance:res.data[0].Balance,
+          balance: res.data[0].Balance,
           adddate: res.data[0].AddDate,
           updatedate: res.data[0].UpdateDate,
         })
@@ -194,67 +194,84 @@ bvPhoneCode(e){
   },
   //修改数据操作
   UpdateData() {
-    if (this.data.s_phonecode == this.data.u_phonecode && this.data.u_phonecode !="") {
-    console.log('手机验证码正确')
-    const db = wx.cloud.database()
-    db.collection('USER').where({
-      _openid: this.data.openid
-    }).update({
-      data: {
-        CompanyName: this.data.companyname,
-        CompanyId: this.data.companyid,
-        CompanyScale: this.data.companyscale,
-        BusinessScope: this.data.businessscope,
-        UserName: this.data.username,
-        UserPhone: this.data.userphone,
-        UpdateDate: new Date().toLocaleDateString()
-      },
-      success(res) {
-        wx.showToast({
-          title: '更新信息成功',
-          icon: 'success',
-          duration: 2000 //持续的时间
-        })
+    if (this.data.s_phonecode == this.data.u_phonecode && this.data.u_phonecode != "") {
+      console.log('手机验证码正确')
+      const db = wx.cloud.database()
+      db.collection('USER').where({
+        _openid: this.data.openid
+      }).update({
+        data: {
+          CompanyName: this.data.companyname,
+          CompanyId: this.data.companyid,
+          CompanyScale: this.data.companyscale,
+          BusinessScope: this.data.businessscope,
+          UserName: this.data.username,
+          UserPhone: this.data.userphone,
+          UpdateDate: new Date().toLocaleDateString()
+        },
+        success(res) {
+          wx.showToast({
+            title: '更新信息成功',
+            icon: 'success',
+            duration: 2000 //持续的时间
+          })
 
-      },
-      fail(res) {
-        wx.showToast({
-          title: '更新信息失败',
-          icon: 'error',
-          duration: 2000 //持续的时间
+        },
+        fail(res) {
+          wx.showToast({
+            title: '更新信息失败',
+            icon: 'error',
+            duration: 2000 //持续的时间
+          })
+        }
+      })
+      // 根据用户是否已验证手机号，提供首次验证积分
+      if (this.data.useroldphone == "") {
+        console.log('加积分')
+        const db = wx.cloud.database()
+        db.collection("POINTS").add({
+          data: {
+            PersonalId: app.globalData.Gopenid,
+            PersonalPoints: 50,
+            ProductName: "会员手机认证",
+            SysAddDate: new Date().getTime(),
+            AddDate: new Date().toLocaleDateString(),
+            PointsStatus: "checked",
+          }, success(res) {
+            wx.showToast({
+              title: '积分更新信息成功',
+              icon: 'success',
+              duration: 2000 //持续的时间
+            })
+
+          },
+        })
+        db.collection('USER').where({
+          _openid: this.data.openid
+        }).update({
+          data: {
+            Balance: 50,
+          },
+          success(res) {
+            wx.showToast({
+              title: '已获得50积分',
+              icon: 'success',
+              duration: 2000
+            })
+          },
+          fail(res) {
+
+          }
         })
       }
-    })
-            // 根据用户是否已验证手机号，提供首次验证积分
-            if(this.data.useroldphone==""){
-              console.log('加积分')
-              const db = wx.cloud.database()
-              db.collection("POINTS").add({
-                data: {
-        PersonalId:app.globalData.Gopenid,
-        PersonalPoints:50,
-        ProductName:"会员手机认证",
-                  SysAddDate: new Date().getTime(),
-                  AddDate: new Date().toLocaleDateString(),
-                  PointsStatus: "checked",
-                },      success(res) {
-                  wx.showToast({
-                    title: '积分更新信息成功',
-                    icon: 'success',
-                    duration: 2000 //持续的时间
-                  })
-          
-                },
-            })
-          }
-  } else {
-    wx.showToast({
+    } else {
+      wx.showToast({
         title: '验证码错误',
         icon: 'error',
         duration: 2000
-    })
+      })
 
-}
+    }
   },
 
   /**

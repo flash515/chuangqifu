@@ -5,7 +5,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    onlinehidden:false,
+    onlinehidden: false,
     booklock: false,
     address: "",
     phone: "",
@@ -16,7 +16,13 @@ Page({
     productid: "",
     productname: "",
     totalfee: 0,
-    database:"",
+    database: "",
+    inviterpoints: 0,
+    indirectinviterpoints: 0,
+    tempinviterbalance: 0,
+    tempindirectinviterbalance: 0,
+    inviterbalance: 0,
+    indirectinviterbalance: 0,
     openSettingBtnHidden: true,
     // 轮播头图
     image: [],
@@ -41,15 +47,15 @@ Page({
   _callWXPay(body, goodsnum, subMchId, payVal) {
     let that = this
     wx.cloud.callFunction({
-        name: 'WXPay',
-        data: {
-          // 需要将data里面的参数传给WXPay云函数
-          body,
-          goodsnum, // 商品订单号不能重复
-          subMchId, // 子商户号,微信支付商户号,必填
-          payVal, // 这里必须整数,不能是小数,而且类型是number,否则就会报错
-        },
-      })
+      name: 'WXPay',
+      data: {
+        // 需要将data里面的参数传给WXPay云函数
+        body,
+        goodsnum, // 商品订单号不能重复
+        subMchId, // 子商户号,微信支付商户号,必填
+        payVal, // 这里必须整数,不能是小数,而且类型是number,否则就会报错
+      },
+    })
       .then((res) => {
         console.log(res);
         const payment = res.result.payment;
@@ -81,7 +87,7 @@ Page({
       data: {
         PaymentStatus: "checked",
         OrderStatus: "checked",
-        Available:true,
+        Available: true,
       },
       success(res) {
         console.log("产品订单更新成功")
@@ -102,23 +108,96 @@ Page({
       },
     })
   },
-  _discountupdate(){
+  _discountupdate() {
     console.log("discountupdate已执行")
-if(this.data.productid=="DL3_Single"){
-  const db = wx.cloud.database()
-  db.collection("DISCOUNTORDER").where({
-    OrderId:this.data.orderid
-  }).update({
-data:{
-  Available:false
-}
-  })
-}
+    if (this.data.productid == "DL3_Single") {
+      const db = wx.cloud.database()
+      db.collection("DISCOUNTORDER").where({
+        OrderId: this.data.orderid
+      }).update({
+        data: {
+          Available: false
+        }
+      })
+    }
   },
-  _balanceupdate(){
-if(this.data.database=="ORDER"){
-  
-}
+  _balanceupdate() {
+    if (this.data.database == "ORDER") {
+      const db = wx.cloud.database()
+      let p1 = new Promise((resolve, reject) => {
+        db.collection('POINTS').where({
+          OrderId: this.data.orderid
+        }).get({
+          success: res => {
+            console.log(res)
+            this.setData({
+              inviterpoints: res.data.InviterPoints,
+              indirectinviterpoints: res.data.IndirectInviterPoints,
+            })
+            resolve(this.data.inviterpoints,this.data.indirectinviterpoints);
+          }
+        })
+      });
+      let p2 = new Promise((resolve, reject) => {
+        db.collection('USER').where({
+          _openid: app.globalData.Ginviterid
+        }).get({
+          success: res => {
+            console.log(res)
+            this.setData({
+              tempinviterbalance: res.data.Balance,
+            })
+            resolve(this.data.tempinviterbalance);
+          }
+        })
+      });
+      let p3 = new Promise((resolve, reject) => {
+        db.collection('USER').where({
+          _openid: app.globalData.Gindirectinviterid
+        }).get({
+          success: res => {
+            console.log(res)
+            this.setData({
+              tempindirectinviterbalance: res.data.Balance,
+            })
+            resolve(this.data.tempindirectinviterbalance);
+          }
+        })
+      });
+      Promise.all([p1, p2, p3]).then(res => {
+        this.setData({
+          inviterbalance: this.data.tempinviterbalance + this.data.inviterpoints,
+          indirectinviterbalance: this.data.tempindirectinviterbalance + this.data.indirectinviterpoints,
+        })          
+        db.collection('USER').where({
+          _openid: app.globalData.Ginviterid
+        }).update({
+          data: {
+            Balance:this.data.inviterbalance
+          },
+          success(res) {
+            console.log("推荐人积分更新成功")
+          },
+          fail(res) {
+            console.log("推荐人积分更新失败")
+          }
+        })
+    
+        db.collection('USER').where({
+          _openid: app.globalData.Gindirectinviterid
+        }).update({
+          data: {
+            Balance:this.data.indirectinviterbalanc
+          },
+          success(res) {
+            console.log("间接推荐人积分更新成功")
+          },
+          fail(res) {
+            console.log("间接推荐人积分更新失败")
+          }
+        })
+      });
+    }
   },
   // 保存到手机
   saveImage: function (event) {
@@ -222,17 +301,17 @@ if(this.data.database=="ORDER"){
         duration: 2000 //持续的时间
       })
     } else {
-      if(this.data.address=="" || this.data.phone=="" || this.data.contacts=="" || this.data.date=="" || this.data.time=="" ){
+      if (this.data.address == "" || this.data.phone == "" || this.data.contacts == "" || this.data.date == "" || this.data.time == "") {
         wx.showToast({
           title: '请提供详细信息',
           icon: 'error',
           duration: 2000 //持续的时间
         })
-      }else{
-      // 未锁定时执行
-      // 获取数据库引用
-      const db = wx.cloud.database()
-      db.collection('BOOKING').add({
+      } else {
+        // 未锁定时执行
+        // 获取数据库引用
+        const db = wx.cloud.database()
+        db.collection('BOOKING').add({
           data: {
             Address: this.data.address,
             Phone: this.data.phone,
@@ -260,7 +339,7 @@ if(this.data.database=="ORDER"){
             })
           }
         }),
-        this.data.booklock = true // 修改上传状态为锁定
+          this.data.booklock = true // 修改上传状态为锁定
       }
     }
   },
@@ -272,11 +351,11 @@ if(this.data.database=="ORDER"){
     // 订单编号orderid、产品编号productid、产品名称productname、订单总费用totalfee、订单数据库database、微信即时支付是否隐藏onlinehidden
     this.setData({
       orderid: options.orderid,
-      productid:options.productid,
+      productid: options.productid,
       productname: options.productname,
       totalfee: options.totalfee,
-      database:options.database,
-      onlinehidden:options.onlinehidden,
+      database: options.database,
+      onlinehidden: options.onlinehidden,
       image: app.globalData.Gimagearray,
       // startdate: str.getFullYear() + "-" + (str.getMonth() + 1) + "-" + str.getDate()
     })
