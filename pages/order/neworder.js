@@ -67,7 +67,7 @@ Page({
       avatarUrl: app.globalData.GavatarUrl,
       nickName: app.globalData.GnickName,
     })
-    this._totalfee()
+    // this._totalfee()
   },
   // 随机生成支付订单号,订单号不能重复
   _getGoodsRandomNumber() {
@@ -213,53 +213,109 @@ Page({
       temptotalfee: this.data.orderpricecount * e.detail.count,
     })
     this._totalfee()
-    this._pointscount()
   },
   bvConsumePoints(e) {
     this.setData({
       consumepoints: e.detail.count,
     })
     this._totalfee()
-    this._pointscount()
   },
   _totalfee() {
+    let that=this
     this.setData({
       totalfee: this.data.temptotalfee - (this.data.consumepoints / app.globalData.Gpointsmagnification),
     })
-    this._pointscount()
+    setTimeout(function () {
+      console.log("pointscount执行了")
+      if (app.globalData.Ginviterpromoterlevel == "normal" || app.globalData.Ginviterpromoterlevel == "member") {
+        that.setData({
+          inviterpoints: 0
+        })
+        console.log("normal执行了")
+      }
+      else if (app.globalData.Ginviterpromoterlevel == "sliver") {
+        that.setData({
+          inviterpoints: that.data.totalfee * 0.1 * app.globalData.Gpointsmagnification
+        })
+        console.log("sliver执行了")
+      }
+      else if (app.globalData.Ginviterpromoterlevel == "gold") {
+        that.setData({
+          inviterpoints: that.data.totalfee * 0.2 * app.globalData.Gpointsmagnification
+        })
+        console.log("gold执行了")
+        console.log(that.data.totalfee)
+        console.log(that.data.inviterpoints)
+      }
+      else if (app.globalData.Ginviterpromoterlevel == "platinum") {
+        that.setData({
+          inviterpoints: that.data.totalfee * 0.2 * app.globalData.Gpointsmagnification
+        })
+        console.log("inviterpromoterlevel执行了")
+      }
+      if (app.globalData.Gindirectinviterpromoterlevel == "platinum") {
+        that.setData({
+          indirectinviterpoints: that.data.totalfee * 0.1 * app.globalData.Gpointsmagnification
+        })
+        console.log("indirectinviterpromoterlevel执行了")
+      }
+      else {
+        that.setData({
+          indirectinviterpoints: 0
+        })
+      }
+    }, 10000)
+    // this._points()
+  },
+  _points() {
+
+    this.setData({
+      inviterpoints: this.data.totalfee,
+
+    })
   },
   // 每笔订单计算直接上级和间接上级的积分
   _pointscount() {
-    if (app.globalData.Ginviterpromoterlevel == "normal") {
+    console.log("pointscount执行了")
+    if (app.globalData.Ginviterpromoterlevel == "normal" || app.globalData.Ginviterpromoterlevel == "member") {
       this.setData({
         inviterpoints: 0
       })
+      console.log("normal执行了")
     }
     else if (app.globalData.Ginviterpromoterlevel == "sliver") {
       this.setData({
         inviterpoints: this.data.totalfee * 0.1 * app.globalData.Gpointsmagnification
       })
+      console.log("sliver执行了")
     }
     else if (app.globalData.Ginviterpromoterlevel == "gold") {
       this.setData({
-        inviterpoints: this.data.totalfee * 0.2 * app.globalData.Gpointsmagnification
+        // inviterpoints: this.data.totalfee * 0.2 * app.globalData.Gpointsmagnification
+        inviterpoints: this.data.totalfee + 1
       })
+      console.log("gold执行了")
+      console.log(this.data.totalfee)
+      console.log(this.data.inviterpoints)
     }
     else if (app.globalData.Ginviterpromoterlevel == "platinum") {
       this.setData({
         inviterpoints: this.data.totalfee * 0.2 * app.globalData.Gpointsmagnification
       })
+      console.log("inviterpromoterlevel执行了")
     }
     if (app.globalData.Gindirectinviterpromoterlevel == "platinum") {
       this.setData({
         indirectinviterpoints: this.data.totalfee * 0.1 * app.globalData.Gpointsmagnification
       })
+      console.log("indirectinviterpromoterlevel执行了")
     }
     else {
       this.setData({
         indirectinviterpoints: 0
       })
     }
+
   },
   _balancecheck() {
     // 通过查询并计算POINTS数据库中有关纪录的方式来取得balance值
@@ -433,8 +489,8 @@ Page({
       orderid: this._getGoodsRandomNumber(),
     })
     this._orderadd()
-    this._pointsadd()
     this._paymentadd()
+    this._pointsadd()
   },
 
   // 异步新增数据方法
@@ -476,12 +532,6 @@ Page({
             ordersublock: true // 修改上传状态并返回前端
           })
           that._hidden()
-          wx.removeStorage({
-            key: 'LTemp' + that.data.productid,
-            success(res) {
-              console.log("删除缓存", res)
-            }
-          })
         },
         fail(res) {
           wx.showToast({

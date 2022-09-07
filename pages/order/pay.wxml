@@ -20,7 +20,12 @@
 </view>
 <text>\n</text>
 <view hidden="{{onlinehidden}}">
+  <view wx:if="{{payalready==false}}">
   <l-button class="mainbtn" width="600" bind:lintap="bvWXPay" shape="semicircle" plain="true">微信即时支付</l-button>
+</view>
+  <view wx:elif="{{payalready==true}}">
+  <l-button class="mainbtn" width="600" shape="semicircle" plain="true" disabled="{{true}}">已支付</l-button>
+</view>
 </view>
 
     <!-- 2022年12月31日前不加税款<text>注明：以上费用为不含税费用，如需开票，须额外支付3%增值税款。</text> -->

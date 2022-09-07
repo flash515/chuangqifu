@@ -7,17 +7,15 @@ cloud.init({
 const db = cloud.database()
 // 云函数入口函数
 exports.main = async (event, context) => {
-  try{
-  return await db.collection('PRODUCTQA').where({
-    _id: event.id,
-  }).update({
-    data: {
-    Answer: event.answer,
-    Status: event.status,
-    UpdateDate: event.updatedate
-    }
-  })
-}catch (e) {
-  console.log(e)
-}
+  try {
+    return await db.collection('USER').where({
+      _openid: event.id,
+    }).update({
+      data: {
+        Balance: event.balance
+      }
+    })
+  } catch (e) {
+    console.log(e)
+  }
 }

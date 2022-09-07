@@ -6,6 +6,7 @@ Page({
    */
   data: {
     onlinehidden: false,
+    payalready:false,
     booklock: false,
     address: "",
     phone: "",
@@ -65,9 +66,13 @@ Page({
           ...payment, // 解构参数appId,nonceStr,package,paySign,signType,timeStamp
           success: (res) => {
             console.log('支付成功', res);
+            that.setData({
+              payalready:true
+            })
             that._orderupdate();
             that._pointsupdate();
-            that._discountupdate()
+            that._discountupdate();
+            that._balanceupdate()
           },
           fail: (err) => {
             console.error('支付失败', err);
@@ -122,6 +127,7 @@ Page({
     }
   },
   _balanceupdate() {
+    let that=this
     if (this.data.database == "ORDER") {
       const db = wx.cloud.database()
       let p1 = new Promise((resolve, reject) => {
@@ -165,37 +171,64 @@ Page({
         })
       });
       Promise.all([p1, p2, p3]).then(res => {
-        this.setData({
-          inviterbalance: this.data.tempinviterbalance + this.data.inviterpoints,
-          indirectinviterbalance: this.data.tempindirectinviterbalance + this.data.indirectinviterpoints,
-        })          
-        db.collection('USER').where({
-          _openid: app.globalData.Ginviterid
-        }).update({
+        that.setData({
+          inviterbalance: that.data.tempinviterbalance + that.data.inviterpoints,
+          indirectinviterbalance: that.data.tempindirectinviterbalance + that.data.indirectinviterpoints,
+        }) 
+        wx.cloud.callFunction({
+          // 要调用的云函数名称
+          name: 'BalanceUpdate',
+          // 传递给云函数的参数
           data: {
-            Balance:this.data.inviterbalance
+            id: app.globalData.Ginviterid,
+            balance: that.data.inviterbalance,
           },
-          success(res) {
-            console.log("推荐人积分更新成功")
+          success: res => {
+            console.log(res)
+            console.log("直接推荐人积分更新成功")
           },
-          fail(res) {
-            console.log("推荐人积分更新失败")
-          }
         })
-    
-        db.collection('USER').where({
-          _openid: app.globalData.Gindirectinviterid
-        }).update({
+        wx.cloud.callFunction({
+          // 要调用的云函数名称
+          name: 'BalanceUpdate',
+          // 传递给云函数的参数
           data: {
-            Balance:this.data.indirectinviterbalanc
+            id: app.globalData.Gindirectinviterid,
+            balance: that.data.indirectinviterbalance,
           },
-          success(res) {
+          success: res => {
+            console.log(res)
             console.log("间接推荐人积分更新成功")
           },
-          fail(res) {
-            console.log("间接推荐人积分更新失败")
-          }
         })
+
+        // db.collection('USER').where({
+        //   _openid: app.globalData.Ginviterid
+        // }).update({
+        //   data: {
+        //     Balance:this.data.inviterbalance
+        //   },
+        //   success(res) {
+        //     console.log("推荐人积分更新成功")
+        //   },
+        //   fail(res) {
+        //     console.log("推荐人积分更新失败")
+        //   }
+        // })
+    
+        // db.collection('USER').where({
+        //   _openid: app.globalData.Gindirectinviterid
+        // }).update({
+        //   data: {
+        //     Balance:this.data.indirectinviterbalanc
+        //   },
+        //   success(res) {
+        //     console.log("间接推荐人积分更新成功")
+        //   },
+        //   fail(res) {
+        //     console.log("间接推荐人积分更新失败")
+        //   }
+        // })
       });
     }
   },
