@@ -100,21 +100,19 @@ Page({
       success: res => {
         console.log(res)
         if (res.data.length != 0) {
-          //如果有购买记录则执行
-          var tempfliter = []
-          for (var i = 0; i < res.data.length; i++) {
-            if (new Date(res.data[i].DLStartDate).getTime() <= new Date().getTime() && new Date(res.data[i].DLEndDate).getTime() >= new Date().getTime()) {
-              //如果有在有效期内的折扣，则给tempfliter赋值
-              tempfliter.push(res.data[i]);
+          //如果有购买记录则执行，进一步筛选当前有效的折扣订单
+          let p1 = new Promise((resolve, reject) => {
+            var tempfliter = []
+            for (var i = 0; i < res.data.length; i++) {
+              if (new Date(res.data[i].DLStartDate).getTime() <= new Date().getTime() && new Date(res.data[i].DLEndDate).getTime() >= new Date().getTime()) {
+                //如果有在有效期内的折扣，则给tempfliter赋值
+                tempfliter.push(res.data[i]);
+              }
             }
-            else {
-              //如果没有在有效期内的折扣，则直接给参数赋值
-              this.setData({
-                discountlevel: "DL4",
-                discounthidden: true,
-              })
-              console.log(this.data.discountlevel)
-            }
+            resolve(this.data.tempfliter);
+            console.log(this.data.tempfliter)
+          });
+          Promise.all([p1]).then(res => {
             if (tempfliter.length != 0 && tempfliter.length != undefined) {
               //tempfliter不为空时（有效的折扣），给参数赋值
               console.log(tempfliter)
@@ -130,14 +128,22 @@ Page({
 
               })
             }
-          }
+            else {
+              //如果没有在有效期内的折扣，则直接给参数赋值
+              this.setData({
+                discountlevel: "DL4",
+                discounthidden: true,
+              })
+              console.log(this.data.discountlevel)
+            }
+          });
         }
         else {
+          // 如果没有折扣卡购买记录，直接赋值
           this.setData({
             discountlevel: "DL4",
             discounthidden: true,
           })
-          console.log(this.data.discountlevel)
         }
         console.log(this.data.discountlevel)
         this.bvOrderPrice(this.data.discountlevel)
@@ -221,7 +227,7 @@ Page({
     this._totalfee()
   },
   _totalfee() {
-    let that=this
+    let that = this
     this.setData({
       totalfee: this.data.temptotalfee - (this.data.consumepoints / app.globalData.Gpointsmagnification),
     })

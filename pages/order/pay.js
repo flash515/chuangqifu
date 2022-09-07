@@ -83,7 +83,10 @@ Page({
         console.error(err);
       });
   },
-
+// 测试函数
+// bvTest(){
+//   this._balanceupdate()
+// },
   _orderupdate() {
     const db = wx.cloud.database()
     db.collection(this.data.database).where({
@@ -135,12 +138,13 @@ Page({
           OrderId: this.data.orderid
         }).get({
           success: res => {
-            console.log(res)
+            console.log(res.data[0].InviterPoints)
             this.setData({
-              inviterpoints: res.data.InviterPoints,
-              indirectinviterpoints: res.data.IndirectInviterPoints,
+              inviterpoints: res.data[0].InviterPoints,
+              indirectinviterpoints: res.data[0].IndirectInviterPoints,
             })
             resolve(this.data.inviterpoints,this.data.indirectinviterpoints);
+            console.log(this.data.indirectinviterpoints)
           }
         })
       });
@@ -151,9 +155,10 @@ Page({
           success: res => {
             console.log(res)
             this.setData({
-              tempinviterbalance: res.data.Balance,
+              tempinviterbalance: res.data[0].Balance,
             })
             resolve(this.data.tempinviterbalance);
+            console.log(this.data.tempinviterbalance)
           }
         })
       });
@@ -164,9 +169,10 @@ Page({
           success: res => {
             console.log(res)
             this.setData({
-              tempindirectinviterbalance: res.data.Balance,
+              tempindirectinviterbalance: res.data[0].Balance,
             })
             resolve(this.data.tempindirectinviterbalance);
+            console.log(this.data.tempindirectinviterbalance)
           }
         })
       });
@@ -175,6 +181,7 @@ Page({
           inviterbalance: that.data.tempinviterbalance + that.data.inviterpoints,
           indirectinviterbalance: that.data.tempindirectinviterbalance + that.data.indirectinviterpoints,
         }) 
+
         wx.cloud.callFunction({
           // 要调用的云函数名称
           name: 'BalanceUpdate',
@@ -201,34 +208,6 @@ Page({
             console.log("间接推荐人积分更新成功")
           },
         })
-
-        // db.collection('USER').where({
-        //   _openid: app.globalData.Ginviterid
-        // }).update({
-        //   data: {
-        //     Balance:this.data.inviterbalance
-        //   },
-        //   success(res) {
-        //     console.log("推荐人积分更新成功")
-        //   },
-        //   fail(res) {
-        //     console.log("推荐人积分更新失败")
-        //   }
-        // })
-    
-        // db.collection('USER').where({
-        //   _openid: app.globalData.Gindirectinviterid
-        // }).update({
-        //   data: {
-        //     Balance:this.data.indirectinviterbalanc
-        //   },
-        //   success(res) {
-        //     console.log("间接推荐人积分更新成功")
-        //   },
-        //   fail(res) {
-        //     console.log("间接推荐人积分更新失败")
-        //   }
-        // })
       });
     }
   },
