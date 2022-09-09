@@ -54,7 +54,7 @@
   <text>\n</text>
 
     <view wx:if="{{!submitted}}">
-    <l-button type="default" bind:lintap="bvNewOrder" icon="to-top" icon-color="white" shape="semicircle">提交</l-button>
+    <l-button type="default" bind:lintap="bvSubmit" icon="to-top" icon-color="white" shape="semicircle">提交订单</l-button>
     <view><text space="emsp" decode="{{true}}">&emsp;</text></view>
   </view>
 <view wx:else>

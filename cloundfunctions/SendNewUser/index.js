@@ -14,17 +14,14 @@ exports.main = async (event, context) => {
       page: '../../pages/index/index',
       lang: 'zh_CN',
       data: {
-        date1: {
-          value: event.date1
+        thing1: {
+          value: event.thing1
         },
-        phrase2: {
-          value: event.phrase2
+        time2: {
+          value: event.time2
         },
-        thing3: {
-          value: event.thing3
-        }
       },
-      templateId: 'Ap6SsQZ-fj8SZkyVv9ZvIg8EcJ5b1jgmMQko_o4LyAw',
+      templateId: 'Z1znM-MaX0eQKsXJNJxuu4oetRGDnTXM4AiO6AR0Rww',
       miniprogramState: 'developer'
     })
 

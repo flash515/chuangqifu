@@ -27,32 +27,12 @@ Page({
         console.log("全局参数Gopenid=:", app.globalData.Gopenid)
         // 查询小程序数据库是否有当前用户信息
         this._usercheck()
-      }
-    })
-    this._setting()
-    this._productcheck()
-  },
-  _invitercheck() {
-    console.log("invitercheck执行了")
-    // 查询推荐人信息
-    const db = wx.cloud.database()
-    db.collection('USER').where({
-      _openid: app.globalData.Ginviterid
-    }).get({
-      success: res => {
-        wx.setStorageSync('LInviter', res.data[0]);
-        this.setData({
-          invitercompanyname: res.data[0].CompanyName,
-          inviterusername: res.data[0].UserName,
-          indirectinviterid: res.data[0].InviterOpenId
-        })
-        app.globalData.Gindirectinviterid = res.data[0].InviterOpenId;
-        app.globalData.Ginviterpromoterlevel = res.data[0].PromoterLevel;
-        app.globalData.Ginviterbalance = res.data[0].Balance;
-        console.log(app.globalData.Gindirectinviterid)
+        this._setting()
+        this._productcheck()
       }
     })
   },
+
   _productcheck() {
     console.log("productcheck执行了")
     wx.cloud.callFunction({
@@ -97,14 +77,13 @@ Page({
       })
   },
   _usercheck() {
-    console.log("usercheck执行了")
+    console.log("usercheck执行中")
     const db = wx.cloud.database()
     db.collection('USER').where({
       _openid: app.globalData.Gopenid,
     }).get({
       success: res => {
         console.log(res);
-        console.log(res.data.length);
         // 判断是否新用户并提交数据库起始
         if (res.data.length == 0) {
           this._newuser()
@@ -117,10 +96,16 @@ Page({
             inviterid: res.data[0].InviterOpenId,
           })
           app.globalData.Ginviterid = res.data[0].InviterOpenId;
+          app.globalData.Gcompanyname = res.data[0].CompanyName
+          app.globalData.Gusername = res.data[0].UserName
+          app.globalData.GnickName = res.data[0].nickName
+          app.globalData.GavatarUrl = res.data[0].avatarUrl
+          app.globalData.Gusertype = res.data[0].UserType
+          app.globalData.Gpromoterlevel = res.data[0].PromoterLevel
+          app.globalData.Gbalance = res.data[0].Balance
           this._olduser()
-          this._invitercheck()
         }
-        // 判断是否新用户并提交数据库的代码框结束
+
       }
     })
   },
@@ -135,28 +120,28 @@ Page({
       app.globalData.Ginviterid = options.userid;
       console.log("方法一如果参数以userid=格式存在，则显示接收到的参数", this.data.inviterid);
       // 接收参数方法一结束
-    } else {
-
+    } else if (options.scene) {
       // 接收参数方法二开始，scene中只有参数值
-      if (options.scene) {
-        let scene = decodeURIComponent(options.scene);
-        //可以连接多个参数值，&是我们定义的参数链接方式
-        // let inviterid = scene.split('&')[0];
-        // let userId = scene.split("&")[1];
-        this.setData({
-          inviterid: scene.split('&')[0],
-        })
-        // this.data.inviterid = scene.split('&')[0];
-        app.globalData.Ginviterid = scene.split('&')[0];
-        console.log("扫码参数:", this.data.inviterid);
-      } else {
-        // 两种都不带参数，则是搜索小程序进入，推荐人指定为开发人
-        // this.data.inviterid = "oa1De5G404TbDrFGtCingTlGFQVQ"
-        // app.globalData.Ginviterid = "oa1De5G404TbDrFGtCingTlGFQVQ"
-        console.log("搜索进入参数:", this.data.inviterid);
-      }
+      let scene = decodeURIComponent(options.scene);
+      //可以连接多个参数值，&是我们定义的参数链接方式
+      // let inviterid = scene.split('&')[0];
+      // let userId = scene.split("&")[1];
+      this.setData({
+        inviterid: scene.split('&')[0],
+      })
+      // this.data.inviterid = scene.split('&')[0];
+      app.globalData.Ginviterid = scene.split('&')[0];
+      console.log("扫码参数:", this.data.inviterid);
+    } else {
+      // 两种都不带参数，则是自主搜索小程序进入，推荐人指定为开发人
+      this.data.inviterid = "oa1De5G404TbDrFGtCingTlGFQVQ"
+      app.globalData.Ginviterid = "oa1De5G404TbDrFGtCingTlGFQVQ"
+      console.log("搜索进入参数:", this.data.inviterid);
     }
-
+    app.globalData.Gusertype = "client"
+    app.globalData.Gdiscountlevel = "DL4"
+    app.globalData.Gpromoterlevel = "null"
+    app.globalData.Gbalance = 0
     // 在USER数据库中新增用户信息
     db.collection("USER").add({
       data: {
@@ -172,40 +157,40 @@ Page({
         Balance: 0
       },
       success: res => {
+        // 调用云函数发信息给推荐人
         wx.cloud.callFunction({
           name: 'SendNewUser',
           data: {
             openid: this.data.inviterid,
-            date1: new Date().toLocaleString(),
-            phrase2: "新用户",
-            thing3: "有新的用户通过您的分享开启创企服"
+            time2: new Date().toLocaleString(),
+            thing1: "有新的用户通过您的分享开启创企服"
           }
         }).then(res => {
           console.log("推送消息成功", res)
         }).catch(res => {
           console.log("推送消息失败", res)
         })
+        // 调用云函数发信息给开发人
         wx.cloud.callFunction({
           name: 'SendNewUser',
           data: {
             openid: "oa1De5G404TbDrFGtCingTlGFQVQ",
-            date1: new Date().toLocaleString(),
-            phrase2: "新用户",
-            thing3: "有新的用户开启创企服"
+            time2: new Date().toLocaleString(),
+            thing1: "有新的用户开启创企服"
           }
         }).then(res => {
           console.log("推送消息成功", res)
         }).catch(res => {
           console.log("推送消息失败", res)
         })
+        // 查询推荐人信息
+        this._invitercheck()
       },
     })
-    app.globalData.Gusertype = "client"
-    app.globalData.Gdiscountlevel = "DL4"
-    app.globalData.Gpromoterlevel = "null"
+
   },
   _olduser() {
-    console.log("老用户操作执行了")
+    console.log("老用户价格等级查询")
     // 老用户确认价格等级
     const db = wx.cloud.database()
     const _ = db.command
@@ -238,23 +223,41 @@ Page({
           //没有卡券
           app.globalData.Gdiscountlevel = "DL4"
         }
+        // 查询推荐人信息
+        this._invitercheck()
       }
     })
-    app.globalData.Gcompanyname = this.data.userinfo.CompanyName
-    app.globalData.Gusername = this.data.userinfo.UserName
-    app.globalData.GnickName = this.data.userinfo.nickName
-    app.globalData.GavatarUrl = this.data.userinfo.avatarUrl
-    app.globalData.Gusertype = this.data.userinfo.UserType
-    app.globalData.Gpromoterlevel = this.data.userinfo.PromoterLevel
-    app.globalData.Gbalance = this.data.userinfo.Balance
+
+  },
+  _invitercheck() {
+    console.log("invitercheck执行了")
+    // 查询推荐人信息
+    const db = wx.cloud.database()
+    db.collection('USER').where({
+      _openid: app.globalData.Ginviterid
+    }).get({
+      success: res => {
+        wx.setStorageSync('LInviter', res.data[0]);
+        this.setData({
+          invitercompanyname: res.data[0].CompanyName,
+          inviterusername: res.data[0].UserName,
+          indirectinviterid: res.data[0].InviterOpenId
+        })
+        app.globalData.Gindirectinviterid = res.data[0].InviterOpenId;
+        app.globalData.Ginviterpromoterlevel = res.data[0].PromoterLevel;
+        app.globalData.Ginviterbalance = res.data[0].Balance;
+        console.log(app.globalData.Gindirectinviterid)
+
+      },
+      complete: res => {
+        wx.switchTab({
+          url: '../index/home',
+        })
+      }
+    })
   },
   onShow: function () {
-    // 延时跳转
-    setTimeout(function () {
-      wx.switchTab({
-        url: '../index/home',
-      })
-    }, 4000)
+
   },
 
 })

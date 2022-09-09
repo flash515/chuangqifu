@@ -67,7 +67,6 @@ Page({
       avatarUrl: app.globalData.GavatarUrl,
       nickName: app.globalData.GnickName,
     })
-    // this._totalfee()
   },
   // 随机生成支付订单号,订单号不能重复
   _getGoodsRandomNumber() {
@@ -87,132 +86,6 @@ Page({
       Math.round(Math.random() * 89 + 100).toString()}`;
   },
 
-  bvDiscountCheck() {
-    //查询是否有购买折扣记录
-    const db = wx.cloud.database()
-    const _ = db.command
-    db.collection('DISCOUNTORDER').where({
-      _openid: app.globalData.Gopenid,
-      PaymentStatus: "checked",
-      OrderStatus: "checked",
-      Available: true,
-    }).orderBy('OrderId', 'desc').get({
-      success: res => {
-        console.log(res)
-        if (res.data.length != 0) {
-          //如果有购买记录则执行，进一步筛选当前有效的折扣订单
-          let p1 = new Promise((resolve, reject) => {
-            var tempfliter = []
-            for (var i = 0; i < res.data.length; i++) {
-              if (new Date(res.data[i].DLStartDate).getTime() <= new Date().getTime() && new Date(res.data[i].DLEndDate).getTime() >= new Date().getTime()) {
-                //如果有在有效期内的折扣，则给tempfliter赋值
-                tempfliter.push(res.data[i]);
-              }
-            }
-            resolve(this.data.tempfliter);
-            console.log(this.data.tempfliter)
-          });
-          Promise.all([p1]).then(res => {
-            if (tempfliter.length != 0 && tempfliter.length != undefined) {
-              //tempfliter不为空时（有效的折扣），给参数赋值
-              console.log(tempfliter)
-              this.setData({
-                discountorderid: tempfliter[0]._id,
-                discountid: tempfliter[0].DiscountId,
-                discounthidden: false,
-                discountname: tempfliter[0].DiscountName,
-                discountlevel: tempfliter[0].DiscountLevel,
-                adddate: tempfliter[0].AddDate,
-                dlstartdate: tempfliter[0].DLStartDate,
-                dlenddate: tempfliter[0].DLEndDate,
-
-              })
-            }
-            else {
-              //如果没有在有效期内的折扣，则直接给参数赋值
-              this.setData({
-                discountlevel: "DL4",
-                discounthidden: true,
-              })
-              console.log(this.data.discountlevel)
-            }
-          });
-        }
-        else {
-          // 如果没有折扣卡购买记录，直接赋值
-          this.setData({
-            discountlevel: "DL4",
-            discounthidden: true,
-          })
-        }
-        console.log(this.data.discountlevel)
-        this.bvOrderPrice(this.data.discountlevel)
-      }
-    })
-
-  },
-  _orderprice() {
-    // 从本地存储中读取客户价格
-    wx.getStorage({
-      key: 'LProductList',
-      success: res => {
-        console.log("产品数组", res.data)
-        // 筛选指定记录
-        var fliter = [];
-        // var _this = this
-        for (var i = 0; i < res.data.length; i++) {
-          if (res.data[i].ProductId == this.data.pageParam.productid) {
-            fliter.push(res.data[i]);
-          }
-        }
-        console.log(fliter);
-        if (app.globalData.Gdiscountlevel == 'DL1') {
-          this.setData({
-            orderpricecount: fliter[0].Price1Count,
-            orderprice: fliter[0].Price1,
-            temptotalfee: fliter[0].Price1Count,
-            totalfee: fliter[0].Price1Count - (this.data.consumepoints / app.globalData.Gpointsmagnification),
-          })
-          console.log(this.data.orderprice)
-        }
-        else if (app.globalData.Gdiscountlevel == 'DL2') {
-          this.setData({
-            orderpricecount: fliter[0].Price2Count,
-            orderprice: fliter[0].Price2,
-            temptotalfee: fliter[0].Price2Count,
-            totalfee: fliter[0].Price2Count - (this.data.consumepoints / app.globalData.Gpointsmagnification),
-          })
-        }
-        else if (app.globalData.Gdiscountlevel == 'DL3') {
-          this.setData({
-            orderpricecount: fliter[0].Price3Count,
-            orderprice: fliter[0].Price3,
-            temptotalfee: fliter[0].Price3Count,
-            totalfee: fliter[0].Price3Count - (this.data.consumepoints / app.globalData.Gpointsmagnification),
-          })
-        }
-        else if (app.globalData.Gdiscountlevel == 'DL4') {
-          this.setData({
-            orderpricecount: fliter[0].Price4Count,
-            orderprice: fliter[0].Price4,
-            temptotalfee: fliter[0].Price4Count,
-            totalfee: fliter[0].Price4Count - (this.data.consumepoints / app.globalData.Gpointsmagnification),
-          })
-        }
-        this.setData({
-          commissiontype: fliter[0].CommissionType,
-          commission1: fliter[0].Commission1,
-          commission1count: fliter[0].Commission1Count,
-          commission2: fliter[0].Commission2,
-          commission2count: fliter[0].Commission2Count
-        })
-        console.log("客户价格", this.data.orderprice)
-        console.log("客户计算价格", this.data.orderpricecount)
-      },
-    })
-    // 计算总费用
-  },
-
   bvCount(e) {
     this.setData({
       count: e.detail.count,
@@ -226,62 +99,13 @@ Page({
     })
     this._totalfee()
   },
+
   _totalfee() {
-    let that = this
+    // 计算总费用
     this.setData({
       totalfee: this.data.temptotalfee - (this.data.consumepoints / app.globalData.Gpointsmagnification),
     })
-    setTimeout(function () {
-      console.log("pointscount执行了")
-      if (app.globalData.Ginviterpromoterlevel == "normal" || app.globalData.Ginviterpromoterlevel == "member") {
-        that.setData({
-          inviterpoints: 0
-        })
-        console.log("normal执行了")
-      }
-      else if (app.globalData.Ginviterpromoterlevel == "sliver") {
-        that.setData({
-          inviterpoints: that.data.totalfee * 0.1 * app.globalData.Gpointsmagnification
-        })
-        console.log("sliver执行了")
-      }
-      else if (app.globalData.Ginviterpromoterlevel == "gold") {
-        that.setData({
-          inviterpoints: that.data.totalfee * 0.2 * app.globalData.Gpointsmagnification
-        })
-        console.log("gold执行了")
-        console.log(that.data.totalfee)
-        console.log(that.data.inviterpoints)
-      }
-      else if (app.globalData.Ginviterpromoterlevel == "platinum") {
-        that.setData({
-          inviterpoints: that.data.totalfee * 0.2 * app.globalData.Gpointsmagnification
-        })
-        console.log("inviterpromoterlevel执行了")
-      }
-      if (app.globalData.Gindirectinviterpromoterlevel == "platinum") {
-        that.setData({
-          indirectinviterpoints: that.data.totalfee * 0.1 * app.globalData.Gpointsmagnification
-        })
-        console.log("indirectinviterpromoterlevel执行了")
-      }
-      else {
-        that.setData({
-          indirectinviterpoints: 0
-        })
-      }
-    }, 10000)
-    // this._points()
-  },
-  _points() {
-
-    this.setData({
-      inviterpoints: this.data.totalfee,
-
-    })
-  },
-  // 每笔订单计算直接上级和间接上级的积分
-  _pointscount() {
+    // 每笔订单计算推荐人和间接推荐人的积分
     console.log("pointscount执行了")
     if (app.globalData.Ginviterpromoterlevel == "normal" || app.globalData.Ginviterpromoterlevel == "member") {
       this.setData({
@@ -291,14 +115,13 @@ Page({
     }
     else if (app.globalData.Ginviterpromoterlevel == "sliver") {
       this.setData({
-        inviterpoints: this.data.totalfee * 0.1 * app.globalData.Gpointsmagnification
+        inviterpoints: Math.trunc(this.data.totalfee * 0.1 * app.globalData.Gpointsmagnification)
       })
       console.log("sliver执行了")
     }
     else if (app.globalData.Ginviterpromoterlevel == "gold") {
       this.setData({
-        // inviterpoints: this.data.totalfee * 0.2 * app.globalData.Gpointsmagnification
-        inviterpoints: this.data.totalfee + 1
+        inviterpoints: Math.trunc(this.data.totalfee * 0.2 * app.globalData.Gpointsmagnification)
       })
       console.log("gold执行了")
       console.log(this.data.totalfee)
@@ -306,13 +129,13 @@ Page({
     }
     else if (app.globalData.Ginviterpromoterlevel == "platinum") {
       this.setData({
-        inviterpoints: this.data.totalfee * 0.2 * app.globalData.Gpointsmagnification
+        inviterpoints: Math.trunc(this.data.totalfee * 0.2 * app.globalData.Gpointsmagnification)
       })
       console.log("inviterpromoterlevel执行了")
     }
     if (app.globalData.Gindirectinviterpromoterlevel == "platinum") {
       this.setData({
-        indirectinviterpoints: this.data.totalfee * 0.1 * app.globalData.Gpointsmagnification
+        indirectinviterpoints: Math.trunc(this.data.totalfee * 0.1 * app.globalData.Gpointsmagnification)
       })
       console.log("indirectinviterpromoterlevel执行了")
     }
@@ -321,154 +144,10 @@ Page({
         indirectinviterpoints: 0
       })
     }
-
-  },
-  _balancecheck() {
-    // 通过查询并计算POINTS数据库中有关纪录的方式来取得balance值
-    let p1 = new Promise((resolve, reject) => {
-      // 本人获得的积分
-      wx.cloud.callFunction({
-        name: "NormalQuery",
-        data: {
-          collectionName: "POINTS",
-          command: "and",
-          where: [{
-            PersonalId: app.globalData.Gopenid,
-            PointsStatus: 'checked',
-          }]
-        },
-        success: res => {
-          console.log(res)
-          let points1 = 0
-          for (let i = 0; i < res.result.data.length; i++) {
-            points1 += res.result.data[i].PersonalPoints
-          }
-          this.setData({
-            personalhistory: res.result.data,
-            personalpoints: points1
-          })
-          console.log("异步执行", this.data.personalpoints)
-          resolve(this.data.personalpoints);
-        },
-        fail: err => {
-          resolve(this.data.personalpoints);
-        }
-      })
-      console.log("1执行了", this.data.personalpoints)
-    });
-
-    let p2 = new Promise((resolve, reject) => {
-      // 作为直接推荐人获得的积分
-      wx.cloud.callFunction({
-        name: "NormalQuery",
-        data: {
-          collectionName: "POINTS",
-          command: "and",
-          where: [{
-            InviterId: app.globalData.Gopenid,
-            PointsStatus: 'checked',
-          }]
-        },
-        success: res => {
-          console.log(res)
-          let points2 = 0
-          for (let i = 0; i < res.result.data.length; i++) {
-            points2 += res.result.data[i].InviterPoints
-          }
-          this.setData({
-            inviterhistory: res.result.data,
-            inviterpoints: points2
-          })
-          console.log("异步执行", this.data.inviterpoints)
-          resolve(this.data.inviterpoints);
-        },
-        fail: err => {
-          resolve(this.data.inviterpoints);
-        }
-      })
-      console.log(this.data.inviterpoints)
-      console.log("2执行了")
-    });
-    let p3 = new Promise((resolve, reject) => {
-      // 作为间接推荐人获得的积分
-      wx.cloud.callFunction({
-        name: "NormalQuery",
-        data: {
-          collectionName: "POINTS",
-          command: "and",
-          where: [{
-            IndirectInviterId: app.globalData.Gopenid,
-            PointsStatus: 'checked',
-          }]
-        },
-        success: res => {
-          console.log(res)
-          let points3 = 0
-          for (let i = 0; i < res.result.data.length; i++) {
-            points3 += res.result.data[i].IndirectInviterPoints
-          }
-          this.setData({
-            indirectinviterhistory: res.result.data,
-            indirectinviterpoints: points3
-          })
-          console.log("异步执行", this.data.indirectinviterpoints)
-          resolve(this.data.indirectinviterpoints);
-        },
-        fail: err => {
-          // this.setData({
-          //   indirectinviterpoints:0
-          // })
-          resolve(this.data.indirectinviterpoints);
-        }
-
-      })
-      console.log(this.data.indirectinviterpoints)
-      console.log("3执行了")
-    });
-    let p4 = new Promise((resolve, reject) => {
-      // 已使用的积分
-      wx.cloud.callFunction({
-        name: "NormalQuery",
-        data: {
-          collectionName: "POINTS",
-          command: "and",
-          where: [{
-            ConsumeId: app.globalData.Gopenid,
-            PointsStatus: 'checked',
-          }]
-        },
-        success: res => {
-          console.log(res)
-          let points4 = 0
-          for (let i = 0; i < res.result.data.length; i++) {
-            points4 += res.result.data[i].ConsumePoints
-          }
-          this.setData({
-            consumehistory: res.result.data,
-            consumepoints: points4
-          })
-          console.log("异步执行", this.data.consumepoints)
-          resolve(this.data.consumepoints);
-        },
-        fail: err => {
-          resolve(this.data.consumepoints);
-        }
-      })
-      console.log(this.data.consumepoints)
-      console.log("4执行了")
-    });
-    Promise.all([p1, p2, p3, p4]).then(res => {
-      this.setData({
-        balance: this.data.personalpoints + this.data.inviterpoints + this.data.indirectinviterpoints - this.data.consumepoints,
-      }),
-        console.log("balance执行了")
-    });
-
-
   },
   onLoad: function (options) {
     //页面初始化 options为页面跳转所带来的参数
-
+    let that = this;
     this.setData({
       pageParam: options,
       productid: options.productid,
@@ -477,11 +156,165 @@ Page({
       balance: app.globalData.Gbalance,
       consumepoints: app.globalData.Gbalance,
     })
-    this._orderprice()
-    this.bvDiscountCheck()
-    this._totalfee()
+    // 通过两个promise嵌套，顺序执行获得计算结果
+    let P = new Promise((resolve, reject) => {
 
-    // this._balancecheck()
+      let P1 = new Promise((resolve, reject) => {
+        //查询是否有购买折扣记录，index页面已实时查询过，但不排除本次登录有购买折扣的情况，所以需要再次实时查询
+        const db = wx.cloud.database()
+        const _ = db.command
+        db.collection('DISCOUNTORDER').where({
+          _openid: app.globalData.Gopenid,
+          PaymentStatus: "checked",
+          OrderStatus: "checked",
+          Available: true,
+        }).orderBy('OrderId', 'desc').get({
+          success: res => {
+            console.log(res)
+            if (res.data.length != 0) {
+              //如果有购买记录则执行，进一步筛选当前有效的折扣订单
+
+              var tempfliter = []
+              for (var i = 0; i < res.data.length; i++) {
+                if (new Date(res.data[i].DLStartDate).getTime() <= new Date().getTime() && new Date(res.data[i].DLEndDate).getTime() >= new Date().getTime()) {
+                  //如果有在有效期内的折扣，则给tempfliter赋值
+                  tempfliter.push(res.data[i]);
+                }
+              }
+              console.log(this.data.tempfliter)
+
+              if (tempfliter.length != 0 && tempfliter.length != undefined) {
+                //tempfliter不为空时（有效的折扣），给参数赋值
+                console.log(tempfliter)
+                this.setData({
+                  discountorderid: tempfliter[0]._id,
+                  discountid: tempfliter[0].DiscountId,
+                  discounthidden: false,
+                  discountname: tempfliter[0].DiscountName,
+                  discountlevel: tempfliter[0].DiscountLevel,
+                  adddate: tempfliter[0].AddDate,
+                  dlstartdate: tempfliter[0].DLStartDate,
+                  dlenddate: tempfliter[0].DLEndDate,
+
+                })
+              }
+              else {
+                //如果没有在有效期内的折扣，则直接给参数赋值
+                this.setData({
+                  discountlevel: "DL4",
+                  discounthidden: true,
+                })
+                console.log(this.data.discountlevel)
+              }
+            }
+            else {
+              // 如果没有折扣卡购买记录，直接赋值
+              this.setData({
+                discountlevel: "DL4",
+                discounthidden: true,
+              })
+            }
+            console.log(this.data.discountlevel)
+            resolve(this.data.discountlevel);
+          }
+        })
+      });
+      P1.then(res => {
+        // 从本地存储中读取客户价格
+        wx.getStorage({
+          key: 'LProductList',
+          success: res => {
+            console.log("产品数组", res.data)
+            // 筛选指定记录
+            var fliter = [];
+            // var _this = this
+            for (var i = 0; i < res.data.length; i++) {
+              if (res.data[i].ProductId == this.data.productid) {
+                fliter.push(res.data[i]);
+              }
+            }
+            console.log(fliter);
+            if (app.globalData.Gdiscountlevel == 'DL1') {
+              this.setData({
+                orderpricecount: fliter[0].Price1Count,
+                orderprice: fliter[0].Price1,
+                temptotalfee: fliter[0].Price1Count,
+              })
+              console.log(this.data.orderprice)
+            }
+            else if (app.globalData.Gdiscountlevel == 'DL2') {
+              this.setData({
+                orderpricecount: fliter[0].Price2Count,
+                orderprice: fliter[0].Price2,
+                temptotalfee: fliter[0].Price2Count,
+              })
+            }
+            else if (app.globalData.Gdiscountlevel == 'DL3') {
+              this.setData({
+                orderpricecount: fliter[0].Price3Count,
+                orderprice: fliter[0].Price3,
+                temptotalfee: fliter[0].Price3Count,
+              })
+            }
+            else if (app.globalData.Gdiscountlevel == 'DL4') {
+              this.setData({
+                orderpricecount: fliter[0].Price4Count,
+                orderprice: fliter[0].Price4,
+                temptotalfee: fliter[0].Price4Count,
+              })
+            }
+            // 计算总费用
+            this.setData({
+              totalfee: this.data.temptotalfee - (this.data.consumepoints / app.globalData.Gpointsmagnification),
+            })
+            resolve(this.data.totalfee);
+            console.log("客户计算价格", this.data.orderpricecount)
+            console.log("总费用", this.data.totalfee)
+          },
+        })
+      });
+    });
+    P.then(res => {
+      // 每笔订单计算推荐人和间接推荐人的积分
+      console.log("pointscount执行了")
+      if (app.globalData.Ginviterpromoterlevel == "normal" || app.globalData.Ginviterpromoterlevel == "member") {
+        this.setData({
+          inviterpoints: 0
+        })
+        console.log("normal执行了")
+      }
+      else if (app.globalData.Ginviterpromoterlevel == "sliver") {
+        this.setData({
+          inviterpoints: Math.trunc(this.data.totalfee * 0.1 * app.globalData.Gpointsmagnification)
+        })
+        console.log("sliver执行了")
+      }
+      else if (app.globalData.Ginviterpromoterlevel == "gold") {
+        this.setData({
+          inviterpoints: Math.trunc(this.data.totalfee * 0.2 * app.globalData.Gpointsmagnification)
+        })
+        console.log("gold执行了")
+        console.log(this.data.totalfee)
+        console.log(this.data.inviterpoints)
+      }
+      else if (app.globalData.Ginviterpromoterlevel == "platinum") {
+        this.setData({
+          inviterpoints: Math.trunc(this.data.totalfee * 0.2 * app.globalData.Gpointsmagnification)
+        })
+        console.log("inviterpromoterlevel执行了")
+      }
+      if (app.globalData.Gindirectinviterpromoterlevel == "platinum") {
+        this.setData({
+          indirectinviterpoints: Math.trunc(this.data.totalfee * 0.1 * app.globalData.Gpointsmagnification)
+        })
+        console.log("indirectinviterpromoterlevel执行了")
+      }
+      else {
+        this.setData({
+          indirectinviterpoints: 0
+        })
+      }
+    });
   },
 
   //跳转注册资料页面
@@ -490,7 +323,7 @@ Page({
       url: 'https://sm758rc5kj.jiandaoyun.com/f/5c221c18326ce11b6be21cca',
     })
   },
-  bvNewOrder() {
+  bvSubmit() {
     this.setData({
       orderid: this._getGoodsRandomNumber(),
     })
@@ -549,8 +382,6 @@ Page({
 
       })
     }
-
-
   },
   _paymentadd() {
     let that = this

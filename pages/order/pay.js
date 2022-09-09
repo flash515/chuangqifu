@@ -6,7 +6,7 @@ Page({
    */
   data: {
     onlinehidden: false,
-    payalready:false,
+    payalready: false,
     booklock: false,
     address: "",
     phone: "",
@@ -18,6 +18,7 @@ Page({
     productname: "",
     totalfee: 0,
     database: "",
+    consumepoints: 0,
     inviterpoints: 0,
     indirectinviterpoints: 0,
     tempinviterbalance: 0,
@@ -67,7 +68,7 @@ Page({
           success: (res) => {
             console.log('支付成功', res);
             that.setData({
-              payalready:true
+              payalready: true
             })
             that._orderupdate();
             that._pointsupdate();
@@ -83,10 +84,11 @@ Page({
         console.error(err);
       });
   },
-// 测试函数
-// bvTest(){
-//   this._balanceupdate()
-// },
+  // 测试支付成功的函数
+  // bvTest(){
+  //   this._balanceupdate()
+  // },
+
   _orderupdate() {
     const db = wx.cloud.database()
     db.collection(this.data.database).where({
@@ -130,7 +132,7 @@ Page({
     }
   },
   _balanceupdate() {
-    let that=this
+    let that = this
     if (this.data.database == "ORDER") {
       const db = wx.cloud.database()
       let p1 = new Promise((resolve, reject) => {
@@ -140,10 +142,11 @@ Page({
           success: res => {
             console.log(res.data[0].InviterPoints)
             this.setData({
+              consumepoints: res.data[0].ConsumePoints,
               inviterpoints: res.data[0].InviterPoints,
               indirectinviterpoints: res.data[0].IndirectInviterPoints,
             })
-            resolve(this.data.inviterpoints,this.data.indirectinviterpoints);
+            resolve(this.data.inviterpoints, this.data.indirectinviterpoints);
             console.log(this.data.indirectinviterpoints)
           }
         })
@@ -180,8 +183,18 @@ Page({
         that.setData({
           inviterbalance: that.data.tempinviterbalance + that.data.inviterpoints,
           indirectinviterbalance: that.data.tempindirectinviterbalance + that.data.indirectinviterpoints,
-        }) 
-
+        })
+        const db = wx.cloud.database()
+        db.collection('USER').where({
+          _openid: app.globalData.Gopenid
+        }).update({
+          data: {
+            Balance: app.globalData.Gbalance - that.data.consumepoints,
+          },
+          success(res) {
+            console.log("个人积分更新成功")
+          }
+        })
         wx.cloud.callFunction({
           // 要调用的云函数名称
           name: 'BalanceUpdate',
