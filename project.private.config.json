@@ -8,8 +8,9 @@
         {
           "name": "pages/index/index",
           "pathName": "pages/index/index",
-          "query": "",
-          "scene": 1011
+          "query": "userid=oa1De5G404TbDrFGtCingTlGFQVQ",
+          "launchMode": "default",
+          "scene": 1000
         },
         {
           "name": "pages/mine/mine",

@@ -3,6 +3,7 @@ Page({
   data: {
     //inviterid接收传入的参数
     inviterid: "",
+    tempinviterid: "",
     indirectinviterid: "",
     invitercompanyname: "",
     inviterusername: "",
@@ -10,7 +11,30 @@ Page({
     userinfo: [],
   },
   onLoad: function (options) {
-
+    // 接收参数方法一开始
+    if (options.userid) {
+      console.log("if操作执行了")
+      this.setData({
+        tempinviterid: options.userid,
+      })
+      console.log("方法一如果参数以userid=格式存在，则显示接收到的参数", this.data.tempinviterid);
+      // 接收参数方法一结束
+    } else if (options.scene) {
+      console.log("elseif操作执行了")
+      // 接收参数方法二开始，scene中只有参数值
+      let scene = decodeURIComponent(options.scene);
+      //可以连接多个参数值，&是我们定义的参数链接方式
+      // let inviterid = scene.split('&')[0];
+      // let userId = scene.split("&")[1];
+      this.setData({
+        tempinviterid: scene.split('&')[0],
+      })
+      console.log("扫码参数:", this.data.tempinviterid);
+    } else {
+      // 两种都不带参数，则是自主搜索小程序进入，推荐人指定为开发人
+      this.data.tempinviterid = "oa1De5G404TbDrFGtCingTlGFQVQ"
+      console.log("搜索进入参数:", this.data.tempinviterid);
+    }
     //准备调用云数据库
     if (!wx.cloud) {
       wx.redirectTo({
@@ -105,44 +129,22 @@ Page({
           app.globalData.Gbalance = res.data[0].Balance
           this._olduser()
         }
-
       }
     })
   },
   _newuser() {
     console.log("新用户操作执行了")
     // 如果是新用户，检查是否有传递过来的推荐人id
-    // 接收参数方法一开始
-    if (options.userid) {
-      this.setData({
-        inviterid: options.userid,
-      })
-      app.globalData.Ginviterid = options.userid;
-      console.log("方法一如果参数以userid=格式存在，则显示接收到的参数", this.data.inviterid);
-      // 接收参数方法一结束
-    } else if (options.scene) {
-      // 接收参数方法二开始，scene中只有参数值
-      let scene = decodeURIComponent(options.scene);
-      //可以连接多个参数值，&是我们定义的参数链接方式
-      // let inviterid = scene.split('&')[0];
-      // let userId = scene.split("&")[1];
-      this.setData({
-        inviterid: scene.split('&')[0],
-      })
-      // this.data.inviterid = scene.split('&')[0];
-      app.globalData.Ginviterid = scene.split('&')[0];
-      console.log("扫码参数:", this.data.inviterid);
-    } else {
-      // 两种都不带参数，则是自主搜索小程序进入，推荐人指定为开发人
-      this.data.inviterid = "oa1De5G404TbDrFGtCingTlGFQVQ"
-      app.globalData.Ginviterid = "oa1De5G404TbDrFGtCingTlGFQVQ"
-      console.log("搜索进入参数:", this.data.inviterid);
-    }
+    this.setData({
+      inviterid: this.data.tempinviterid
+    })
+    app.globalData.Ginviterid = this.data.tempinviterid
     app.globalData.Gusertype = "client"
     app.globalData.Gdiscountlevel = "DL4"
     app.globalData.Gpromoterlevel = "null"
     app.globalData.Gbalance = 0
     // 在USER数据库中新增用户信息
+    const db = wx.cloud.database()
     db.collection("USER").add({
       data: {
         SysAddDate: new Date().getTime(),
