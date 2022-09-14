@@ -37,6 +37,7 @@ Page({
         if (res.errMsg == 'shareAppMessage:ok') {
           console.log(this.data.path.value)
         }
+
       },
       fail: function () {
         // 转发失败之后的回调
@@ -47,13 +48,14 @@ Page({
         }
       },
     }
+
   },
   // 分享到朋友圈
-  onShareTimeline: function(){
+  onShareTimeline: function () {
     return {
-    title: '真的有宝哦，快来体验代理代办小程序！',
-    query: '/pages/index/index?userid=' + app.globalData.Gopenid,
-    imageUrl: 'https://636c-cloud1-2gn7aud7a22c693c-1312824882.tcb.qcloud.la/setting/image/sharepic.png?sign=85d87b923b700905106df5d4d1813858&t=1657616944', //封面
+      title: '真的有宝哦，快来体验代理代办小程序！',
+      query: '/pages/index/index?userid=' + app.globalData.Gopenid,
+      imageUrl: 'https://636c-cloud1-2gn7aud7a22c693c-1312824882.tcb.qcloud.la/setting/image/sharepic.png?sign=85d87b923b700905106df5d4d1813858&t=1657616944', //封面
     }
   },
   getUserProfile: function (e) {
@@ -65,8 +67,8 @@ Page({
           avatarUrl: res.userInfo.avatarUrl,
           nickName: res.userInfo.nickName
         })
-        app.globalData.GavatarUrl=res.userInfo.avatarUrl
-        app.globalData.GnickName=res.userInfo.nickName
+        app.globalData.GavatarUrl = res.userInfo.avatarUrl
+        app.globalData.GnickName = res.userInfo.nickName
         // 获取数据库引用
         const db = wx.cloud.database()
         // 更新数据
@@ -85,7 +87,7 @@ Page({
         })
         // 以上更新数据结束
         wx.showToast({
-          icon:'success',
+          icon: 'success',
           title: '登录成功',
         })
         return;
@@ -139,17 +141,17 @@ Page({
       }
     })
 
-        // 通过传递来的参数查询推荐人信息
-        db.collection('USER').where({
-          _openid: app.globalData.Gindirectinviterid
-        }).get({
-          success: res => {
-            console.log(res)
-            wx.setStorageSync('LIndirectInviter', res.data[0]);
-            app.globalData.Gindirectinviterpromoterlevel = res.data[0].PromoterLevel;
-            app.globalData.Gindirectinviterbalance = res.data[0].Balance;
-          }
-        })
+    // 通过传递来的参数查询推荐人信息
+    db.collection('USER').where({
+      _openid: app.globalData.Gindirectinviterid
+    }).get({
+      success: res => {
+        console.log(res)
+        wx.setStorageSync('LIndirectInviter', res.data[0]);
+        app.globalData.Gindirectinviterpromoterlevel = res.data[0].PromoterLevel;
+        app.globalData.Gindirectinviterbalance = res.data[0].Balance;
+      }
+    })
   },
   IndirectUserQuery: function (options) {
     // 从本地存储中读取
@@ -190,7 +192,7 @@ Page({
       avatarUrl: app.globalData.GavatarUrl,
       nickName: app.globalData.GnickName,
       image: app.globalData.Gimagearray,
-      promoterlevel:app.globalData.Gpromoterlevel
+      promoterlevel: app.globalData.Gpromoterlevel
     })
   },
 

@@ -40,7 +40,7 @@ Page({
   },
   bvSubMessage(e) {
     wx.requestSubscribeMessage({ //获取下发权限
-      tmplIds: ['iy3UdrGZA0baP3tG-vhbC033PAYeBfrXjLFjtfbr0yE','0P7fUWm2nH9s4SJXtiibQ3LpU3ecsiqSKRFPRmBQugo'], 
+      tmplIds: ['iy3UdrGZA0baP3tG-vhbC033PAYeBfrXjLFjtfbr0yE','Z1znM-MaX0eQKsXJNJxuu4oetRGDnTXM4AiO6AR0Rww'], 
       success: (res) => {
 
       }

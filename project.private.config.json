@@ -8,7 +8,7 @@
         {
           "name": "pages/index/index",
           "pathName": "pages/index/index",
-          "query": "userid=oa1De5G404TbDrFGtCingTlGFQVQ",
+          "query": "",
           "launchMode": "default",
           "scene": 1000
         },
