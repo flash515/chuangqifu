@@ -4,11 +4,12 @@
 <l-tabs bind:linchange="changeTabs">
   <l-tabpanel tab="地址服务" key="one" slot="one">
     <view>
-      <l-button data-id="" bind:lintap="bvAddProduct" >新增产品</l-button>
+      <l-button data-id="" bind:lintap="bvAddProduct">新增产品</l-button>
     </view>
-    <view wx:for="{{array1}}" wx:key="key">
+    <view wx:for="{{array1}}" wx:key="key" wx:for-index="index">
       <l-card type="primary" plaintext="{{true}}">
         <view class="content">
+          <view>序号：{{index}}</view>
           <view>数据ID：{{item._id}}</view>
           <view>提交日期：{{item.AddDate}}</view>
           <view>产品状态：{{item.Status}}</view>
@@ -46,8 +47,7 @@
           <label>其他资料：</label>
           <view wx:for="{{item.AttachmentImage}}" wx:for-item="value" wx:for-index="key" wx:key="key">
             <label>{{key}}</label>
-            <image src="{{value}}" mode='aspectFit' bindtap="enlarge" data-list="{{item.AttachmentImage}}"
-              data-src="{{value}}">
+            <image src="{{value}}" mode='aspectFit' bindtap="enlarge" data-list="{{item.AttachmentImage}}" data-src="{{value}}">
             </image>
           </view>
           <!-- 附件下载 -->
@@ -56,19 +56,21 @@
           </view>
           <text>\n</text>
           <view>
-            <l-button data-id="_id={{item._id}}" bind:lintap="bvEditProduct" >产品编辑</l-button>
+            <l-button data-id="_id={{item._id}}" bind:lintap="bvEditProduct">产品编辑</l-button>
           </view>
         </view>
       </l-card>
+      <text>\n</text>
     </view>
   </l-tabpanel>
   <l-tabpanel tab="工商代办" key="two" slot="two" bind:linchange="changeGT">
     <view>
       <l-button data-id="" bind:lintap="bvAddProduct">新增产品</l-button>
     </view>
-    <view wx:for="{{array2}}" wx:key="key">
+    <view wx:for="{{array2}}" wx:key="key" wx:for-index="index">
       <l-card type="primary" plaintext="{{true}}">
         <view class="content">
+          <view>序号：{{index}}</view>
           <view>数据ID：{{item._id}}</view>
           <view>提交日期：{{item.AddDate}}</view>
           <view>产品状态：{{item.Status}}</view>
@@ -107,8 +109,7 @@
           <view wx:for="{{item.AttachmentImage}}" wx:for-item="value" wx:for-index="key" wx:key="key">
             <label>{{key}}</label>
             <!-- <l-button data-id="{{value}}" bind:lintap="bvAttImgDown" plain="{{true}}">{{key}}</l-button> -->
-            <image src="{{value}}" mode='aspectFit' bindtap="enlarge" data-list="{{item.AttachmentImage}}"
-              data-src="{{value}}">
+            <image src="{{value}}" mode='aspectFit' bindtap="enlarge" data-list="{{item.AttachmentImage}}" data-src="{{value}}">
             </image>
           </view>
           <!-- 附件下载 -->
@@ -117,19 +118,21 @@
           </view>
           <text>\n</text>
           <view>
-            <l-button data-id="_id={{item._id}}" bind:lintap="bvEditProduct" >产品编辑</l-button>
+            <l-button data-id="_id={{item._id}}" bind:lintap="bvEditProduct">产品编辑</l-button>
           </view>
         </view>
       </l-card>
+      <text>\n</text>
     </view>
   </l-tabpanel>
   <l-tabpanel tab="银行代办" key="three" slot="three" bind:linchange="changeGT">
     <view>
-      <l-button data-id="" bind:lintap="bvAddProduct" >新增产品</l-button>
+      <l-button data-id="" bind:lintap="bvAddProduct">新增产品</l-button>
     </view>
-    <view wx:for="{{array3}}" wx:key="key">
+    <view wx:for="{{array3}}" wx:key="key" wx:for-index="index">
       <l-card type="primary" plaintext="{{true}}">
         <view class="content">
+          <view>序号：{{index}}</view>
           <view>数据ID：{{item._id}}</view>
           <view>提交日期：{{item.AddDate}}</view>
           <view>产品状态：{{item.Status}}</view>
@@ -168,8 +171,7 @@
           <view wx:for="{{item.AttachmentImage}}" wx:for-item="value" wx:for-index="key" wx:key="key">
             <label>{{key}}</label>
             <!-- <l-button data-id="{{value}}" bind:lintap="bvAttImgDown" plain="{{true}}">{{key}}</l-button> -->
-            <image src="{{value}}" mode='aspectFit' bindtap="enlarge" data-list="{{item.AttachmentImage}}"
-              data-src="{{value}}">
+            <image src="{{value}}" mode='aspectFit' bindtap="enlarge" data-list="{{item.AttachmentImage}}" data-src="{{value}}">
             </image>
           </view>
           <!-- 附件下载 -->
@@ -178,19 +180,21 @@
           </view>
           <text>\n</text>
           <view>
-            <l-button data-id="_id={{item._id}}" bind:lintap="bvEditProduct" >产品编辑</l-button>
+            <l-button data-id="_id={{item._id}}" bind:lintap="bvEditProduct">产品编辑</l-button>
           </view>
         </view>
       </l-card>
+      <text>\n</text>
     </view>
   </l-tabpanel>
   <l-tabpanel tab="财税服务" key="four" slot="four" bind:linchange="changeGS">
     <view>
-      <l-button data-id="" bind:lintap="bvAddProduct" >新增产品</l-button>
+      <l-button data-id="" bind:lintap="bvAddProduct">新增产品</l-button>
     </view>
-    <view wx:for="{{array4}}" wx:key="key">
+    <view wx:for="{{array4}}" wx:key="key" wx:for-index="index">
       <l-card type="primary" plaintext="{{true}}">
         <view class="content">
+          <view>序号：{{index}}</view>
           <view>数据ID：{{item._id}}</view>
           <view>提交日期：{{item.AddDate}}</view>
           <view>产品状态：{{item.Status}}</view>
@@ -227,8 +231,7 @@
           <!-- 附件展示 -->
           <label>其他资料：</label>
           <view wx:for="{{item.AttachmentImage}}" wx:for-item="value" wx:for-index="key" wx:key="key">
-            <image src="{{value}}" mode='aspectFit' bindtap="enlarge" data-list="{{item.AttachmentImage}}"
-              data-src="{{value}}">
+            <image src="{{value}}" mode='aspectFit' bindtap="enlarge" data-list="{{item.AttachmentImage}}" data-src="{{value}}">
             </image>
           </view>
           <!-- 附件下载 -->
@@ -237,19 +240,21 @@
           </view>
           <text>\n</text>
           <view>
-            <l-button data-id="_id={{item._id}}" bind:lintap="bvEditProduct" >产品编辑</l-button>
+            <l-button data-id="_id={{item._id}}" bind:lintap="bvEditProduct">产品编辑</l-button>
           </view>
         </view>
       </l-card>
+      <text>\n</text>
     </view>
   </l-tabpanel>
   <l-tabpanel tab="企业托管" key="five" slot="five" bind:linchange="changeGS">
     <view>
-      <l-button data-id="" bind:lintap="bvAddProduct" >新增产品</l-button>
+      <l-button data-id="" bind:lintap="bvAddProduct">新增产品</l-button>
     </view>
-    <view wx:for="{{array5}}" wx:key="key">
+    <view wx:for="{{array5}}" wx:key="key" wx:for-index="index">
       <l-card type="primary" plaintext="{{true}}">
         <view class="content">
+          <view>序号：{{index}}</view>
           <view>数据ID：{{item._id}}</view>
           <view>提交日期：{{item.AddDate}}</view>
           <view>产品状态：{{item.Status}}</view>
@@ -286,8 +291,7 @@
           <!-- 附件展示 -->
           <label>其他资料：</label>
           <view wx:for="{{item.AttachmentImage}}" wx:for-item="value" wx:for-index="key" wx:key="key">
-            <image src="{{value}}" mode='aspectFit' bindtap="enlarge" data-list="{{item.AttachmentImage}}"
-              data-src="{{value}}">
+            <image src="{{value}}" mode='aspectFit' bindtap="enlarge" data-list="{{item.AttachmentImage}}" data-src="{{value}}">
             </image>
           </view>
           <!-- 附件下载 -->
@@ -296,19 +300,21 @@
           </view>
           <text>\n</text>
           <view>
-            <l-button data-id="_id={{item._id}}" bind:lintap="bvEditProduct" >产品编辑</l-button>
+            <l-button data-id="_id={{item._id}}" bind:lintap="bvEditProduct">产品编辑</l-button>
           </view>
         </view>
       </l-card>
+      <text>\n</text>
     </view>
   </l-tabpanel>
   <l-tabpanel tab="资质代办" key="six" slot="six" bind:linchange="changeGS">
     <view>
-      <l-button data-id="" bind:lintap="bvAddProduct" >新增产品</l-button>
+      <l-button data-id="" bind:lintap="bvAddProduct">新增产品</l-button>
     </view>
-    <view wx:for="{{array6}}" wx:key="key">
+    <view wx:for="{{array6}}" wx:key="key" wx:for-index="index">
       <l-card type="primary" plaintext="{{true}}">
         <view class="content">
+          <view>序号：{{index}}</view>
           <view>数据ID：{{item._id}}</view>
           <view>提交日期：{{item.AddDate}}</view>
           <view>产品状态：{{item.Status}}</view>
@@ -345,8 +351,7 @@
           <!-- 附件展示 -->
           <label>其他资料：</label>
           <view wx:for="{{item.AttachmentImage}}" wx:for-item="value" wx:for-index="key" wx:key="key">
-            <image src="{{value}}" mode='aspectFit' bindtap="enlarge" data-list="{{item.AttachmentImage}}"
-              data-src="{{value}}">
+            <image src="{{value}}" mode='aspectFit' bindtap="enlarge" data-list="{{item.AttachmentImage}}" data-src="{{value}}">
             </image>
           </view>
           <!-- 附件下载 -->
@@ -355,10 +360,11 @@
           </view>
           <text>\n</text>
           <view>
-            <l-button data-id="_id={{item._id}}" bind:lintap="bvEditProduct" >产品编辑</l-button>
+            <l-button data-id="_id={{item._id}}" bind:lintap="bvEditProduct">产品编辑</l-button>
           </view>
         </view>
       </l-card>
+      <text>\n</text>
     </view>
   </l-tabpanel>
 </l-tabs>

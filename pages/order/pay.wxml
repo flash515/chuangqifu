@@ -27,8 +27,6 @@
   <l-button class="mainbtn" width="600" shape="semicircle" plain="true" disabled="{{true}}">已支付</l-button>
 </view>
 </view>
-<!-- <l-button class="mainbtn" width="600" shape="semicircle" plain="true" bind:lintap="bvTest">测试按键</l-button> -->
-    <!-- 2022年12月31日前不加税款<text>注明：以上费用为不含税费用，如需开票，须额外支付3%增值税款。</text> -->
 </l-card>
 <text>\n</text>
 <view hidden="{{onlinehidden}}">

@@ -1,4 +1,7 @@
 const app = getApp()
+const {
+  dateLater
+} = require("../../utils/getDates.js")
 Page({
 
   /**
@@ -10,15 +13,14 @@ Page({
     startdate1: "",
     startdate2: "",
     startdate3: "",
-    plstartdate: "",
     promoterlevel: "",
-    promotername: "",
-    // paymentid: "",
+
     productname: "",
     phone:"",
     orderid:"",
     orderlevel:"",
     orderstartdate:"",
+    orderenddate:"",
     orderfee:"",
     ordername:"",
     applysublock: false,
@@ -42,16 +44,19 @@ Page({
   bvStartDate1(e) {
     this.setData({
       startdate1: e.detail.value,
+      enddate1: dateLater(e.detail.value, 364).year + '-' + dateLater(e.detail.value, 364).newdates
     })
   },
   bvStartDate2(e) {
     this.setData({
       startdate2: e.detail.value,
+      enddate2: dateLater(e.detail.value, 364).year + '-' + dateLater(e.detail.value, 364).newdates
     })
   },
   bvStartDate3(e) {
     this.setData({
       startdate3: e.detail.value,
+      enddate3: dateLater(e.detail.value, 364).year + '-' + dateLater(e.detail.value, 364).newdates
     })
   },
   bvPhoneUpdate(){
@@ -60,7 +65,7 @@ Page({
     })
   },
   bvApply(e) {
-    if (this.data.orderstartdate == "" || this.data.orderstartdate == 'undefined') {
+    if (e.currentTarget.dataset.startdate == "" || e.currentTarget.dataset.startdate == 'undefined') {
       // 如果没有选择生效日期则提示
       wx.showToast({
         title: '请选择生效日期',
@@ -72,9 +77,10 @@ Page({
         // 确认不是重复提交
     this.setData({
       orderlevel: e.currentTarget.dataset.level,
-      orderstartdate: e.currentTarget.dataset.startdate,
-      orderfee: e.currentTarget.dataset.price,
       ordername: e.currentTarget.dataset.name,
+      orderstartdate: e.currentTarget.dataset.startdate,
+      orderenddate: e.currentTarget.dataset.enddate,
+      orderfee: e.currentTarget.dataset.price,
                 // 生成订单号
       orderid:this._getGoodsRandomNumber(),
     })
@@ -102,6 +108,7 @@ Page({
             PromoterLevel: this.data.orderlevel,
             PromoterName: this.data.ordername,
             PLStartDate: this.data.orderstartdate,
+            PLEndDate: this.data.orderenddate,
             TotalFee: this.data.orderfee,
             AddDate: new Date().toLocaleDateString(),
             SysAddDate: new Date().getTime(),
@@ -301,8 +308,7 @@ Page({
         phone: res.data.UserPhone,
         phonehidden:true
         })
-        // 进一步查询推广等级
-        this._plcheck()
+
       }else{
         this.setData({
           promotername: "普客",
@@ -311,45 +317,7 @@ Page({
     }
     })
   },
-  // 查询推广等级
-  _plcheck(){
-    let that=this
-    const db = wx.cloud.database()
-    const _ = db.command
-    db.collection('PROMOTERORDER').where({
-      _openid: app.globalData.Gopenid,
-      PaymentStatus: "checked",
-      OrderStatus: "checked",
-    }).orderBy('SysAddDate', 'desc').limit(1).get({
-      success: res => {
-        console.log(res.data.length)
-        if (res.data.length != 0) {
-          this.setData({
-            adddate: res.data[0].AddDate,
-            plstartdate: res.data[0].PLStartDate,
-            promoterlevel: res.data[0].PromoterLevel,
-            paymentstatus: res.data[0].PaymentStatus,
-            orderstatus: res.data[0].OrderStatus,
-            promotername: res.data[0].PromoterName,
-          })
-        } else {
-          this.setData({
-            promotername: "会员",
-          })
-          console.log("会员执行了")
-        }
-      // 进一步查询是否符合新条件
-      this._condition()
-      },
-      fail: res => {
-        wx.showToast({
-          title: '查询失败请刷新',
-          icon: 'error',
-          duration: 2000 //持续的时间
-        })
-      }
-    })
-  },
+
   // 有效推广用户数量
 _condition(){
   console.log("condition执行了")

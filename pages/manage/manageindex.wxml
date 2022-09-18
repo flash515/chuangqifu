@@ -12,7 +12,6 @@
   <l-list title="待办事项" icon="setting" url="../manage/pending" />
   <l-list title="用户管理" icon="setting" url="../manage/userview" />
   <l-list title="产品管理" icon="setting" url="../manage/productview" />
-  <l-list title="数据库管理" icon="setting" url="../manage/databass" />
   <l-list title="管理员订阅消息管理" icon="notification" bind:lintap="bvSubMessage"/>
   <l-list title="客户订阅消息发送" icon="setting" url="../manage/messgae" />
 </l-card>       

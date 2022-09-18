@@ -55,10 +55,13 @@
     </l-tabpanel>
     <l-tabpanel tab="邀请人信息" key="two" slot="two">
       <view>
-        <l-input type="text" label="邀请企业：" value="{{invitercompanyname}}" disabled="{{true}}"></l-input>
+        <l-input type="text" label="邀请人昵称：" value="{{inviternickname}}" disabled="{{true}}"></l-input>
       </view>
       <view>
-        <l-input type="text" label="邀请人：" value="{{inviterusername}}" disabled="{{true}}"></l-input>
+        <l-input type="text" label="邀请人姓名：" value="{{inviterusername}}" disabled="{{true}}"></l-input>
+      </view>
+      <view>
+        <l-input type="text" label="邀请人企业：" value="{{invitercompanyname}}" disabled="{{true}}"></l-input>
       </view>
     </l-tabpanel>
   </l-tabs>

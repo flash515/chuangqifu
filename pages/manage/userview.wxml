@@ -1,0 +1,23 @@
+<!--产品管理页面-->
+<view class="title">用户总览</view>
+<text>\n</text>
+
+<view wx:for="{{userarray}}" wx:key="key" wx:for-index="index">
+  <l-card type="primary" plaintext="{{true}}">
+    <view class="content">
+      <view>序号：{{index}}</view>
+      <view>首登日期：{{item.AddDate}}</view>
+      <view>用户姓名：{{item.UserName}}</view>
+      <view>微信昵称：{{item.nickName}}</view>
+      <view>用户手机：{{item.UserPhone}}</view>
+      <view>用户类型：{{item.UserType}}</view>
+      <view>积分余额：{{item.Balance}}</view>
+      <view>优惠等级：{{item.DiscountLevel}}</view>
+      <view>推广等级：{{item.PromoterLevel}}</view>
+      <view>用户来源：{{item.Remark}}</view>
+      <view>推荐人公司：{{item.InviterCompanyName}}</view>
+      <view>推荐人姓名：{{item.InviterUserName}}</view>
+    </view>
+  </l-card>
+  <text>\n</text>
+</view>

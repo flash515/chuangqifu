@@ -10,15 +10,10 @@
   </swiper>
 </view>
 <view class="title">
-  <text>价格政策</text>
+  <text>价格优惠政策</text>
 </view>
 <view class="mainframe">
-  <l-card type="primary" plaintext="{{true}}">
-    <text>当前价格类型：{{dlname}}</text>
-    <text>卡券购买日期：{{adddate}}</text>
-    <text>卡券生效日期：{{dlstartdate}}</text>
-    <text>卡券失效日期：{{dlenddate}}</text>
-  </l-card>
+
   <text>\n</text>
   <l-collapse>
     <l-collapse-item title="价格优惠政策说明">
@@ -69,13 +64,13 @@
           </picker>
           <text class="text" style="color:blue">卡券失效日期：{{dl3_90enddate}}</text>
           <l-button slot="more" size="mini" type="default" bind:lintap="bvBuy" data-level="DL3" data-id="DL3_90"
-            data-name="折扣季卡" data-startdate="{{dl3_90startdate}}" data-enddate="{{dl3_90enddate}}" data-totalfee="300" data-type="Period"
+            data-name="折扣季卡" data-startdate="{{dl3_90startdate}}" data-enddate="{{dl3_90enddate}}" data-price="300" data-type="Period"
             shape="semicircle" plain="true">现在购买</l-button>
         </l-card>
         <text>\n</text>
         <l-card type="avatar" plaintext="{{true}}" title="折扣价半年卡">
           <text>有效期：180天</text>
-          <text>购卡费用：400元</text>
+          <text>购卡费用：450元</text>
           <picker mode="date" value="{{dl3_180startdate}}" start="{{startdate}}" bindchange="bvDL3_180">
             <view class="picker">
               <text class="text" style="color:blue">选择生效日期：{{dl3_180startdate}}</text>

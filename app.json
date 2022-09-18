@@ -14,11 +14,11 @@
     "pages/product/productdetail",
     "pages/manage/productedit",
     "pages/manage/productview",
+    "pages/manage/userview",
     "pages/manage/manageindex",
     "pages/manage/messgae",
     "pages/manage/pending",
     "pages/manage/providerindex",
-    "pages/manage/databass",
     "pages/order/neworder",
     "pages/order/orderdetail",
     "pages/order/orderhistory",
@@ -40,10 +40,7 @@
     "pages/tools/meetingroom/meetingroom2",
     "pages/tools/meetingroom/meetingroom3",
     "pages/tools/meetingroom/meetingroom4",
-    "pages/tools/sort",
-    "pages/tools/shuizhengchaxun",
-    "pages/tools/test/meetingroom",
-    "pages/tools/test/meetingroom1"
+    "pages/tools/test/databass"
   ],
   "permission": {
     "scope.userLocation": {

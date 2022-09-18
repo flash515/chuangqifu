@@ -8,14 +8,10 @@
   </swiper>
 </view>
 <view class="title">
-  <text>推广政策</text>
+  <text>推广奖励政策</text>
 </view>
 <view class="mainframe">
-  <l-card type="primary" plaintext="{{true}}">
-    <text>当前推广资格：{{promotername}}</text>
-    <text>资格申请日期：{{adddate}}</text>
-    <text>资格生效日期：{{plstartdate}}</text>
-  </l-card>
+
   <view hidden="{{phonehidden}}">
     <text>\n</text>
     <l-card type="primary" plaintext="{{true}}">
@@ -25,14 +21,15 @@
   </view>
   <view hidden="{{btn1hidden}}">
     <l-card type="primary" plaintext="{{true}}">
-      <text>可申请资格：白银推广大使</text>
+      <text>当前可申请资格：白银推广大使</text>
       <picker mode="date" value="{{startdate1}}" start="{{startdate}}" bindchange="bvStartDate1">
         <view class="picker">
           <text class="text" style="color:blue">选择生效日期：{{startdate1}}</text>
         </view>
       </picker>
+      <text class="text" style="color:blue">资格失效日期：{{enddate1}}</text>
       <view hidden="{{applyhidden}}">
-        <l-button size="mini" type="default" bind:lintap="bvApply" data-level="sliver" data-name="白银推广大使" data-startdate="{{startdate1}}" data-price="1" shape="semicircle" plain="true">现在申请</l-button>
+        <l-button size="mini" type="default" bind:lintap="bvApply" data-level="sliver" data-name="白银推广大使" data-startdate="{{startdate1}}" data-enddate="{{enddate1}}" data-price="1" shape="semicircle" plain="true">现在申请</l-button>
       </view>
       <view hidden="{{paymenthidden}}">
         <l-button size="mini" type="default" bind:lintap="bvWXPay" shape="semicircle" plain="true">微信即时支付</l-button>
@@ -45,14 +42,15 @@
   <view hidden="{{btn2hidden}}">
     <text>\n</text>
     <l-card type="primary" plaintext="{{true}}">
-      <text>可申请资格：黄金推广大使</text>
+      <text>当前可申请资格：黄金推广大使</text>
       <picker mode="date" value="{{startdate2}}" start="{{startdate}}" bindchange="bvStartDate2">
         <view class="picker">
           <text class="text" style="color:blue">选择生效日期：{{startdate2}}</text>
         </view>
       </picker>
+      <text class="text" style="color:blue">资格失效日期：{{enddate2}}</text>
       <view hidden="{{applyhidden}}">
-        <l-button size="mini" type="default" bind:lintap="bvApply" data-level="gold" data-name="黄金推广大使" data-startdate="{{startdate2}}" data-price="1" shape="semicircle" plain="true">现在申请</l-button>
+        <l-button size="mini" type="default" bind:lintap="bvApply" data-level="gold" data-name="黄金推广大使" data-startdate="{{startdate2}}" data-enddate="{{enddate2}}" data-price="5" shape="semicircle" plain="true">现在申请</l-button>
       </view>
       <view hidden="{{paymenthidden}}">
         <l-button size="mini" type="default" bind:lintap="bvWXPay" shape="semicircle" plain="true">微信即时支付</l-button>
@@ -64,14 +62,15 @@
   <view hidden="{{btn3hidden}}">
     <text>\n</text>
     <l-card type="primary" plaintext="{{true}}">
-      <text>可申请资格：铂金推广大使</text>
+      <text>当前可申请资格：铂金推广大使</text>
       <picker mode="date" value="{{startdate3}}" start="{{startdate}}" bindchange="bvStartDate3">
         <view class="picker">
           <text class="text" style="color:blue">选择生效日期：{{startdate3}}</text>
         </view>
       </picker>
+      <text class="text" style="color:blue">资格失效日期：{{enddate3}}</text>
       <view hidden="{{applyhidden}}">
-        <l-button size="mini" type="default" bind:lintap="bvApply" data-level="platinum" data-name="铂金推广大使" data-startdate="{{startdate3}}" data-price="1" shape="semicircle" plain="true">现在申请
+        <l-button size="mini" type="default" bind:lintap="bvApply" data-level="platinum" data-name="铂金推广大使" data-startdate="{{startdate3}}" data-enddate="{{enddate3}}" data-price="10" shape="semicircle" plain="true">现在申请
         </l-button>
       </view>
       <view hidden="{{paymenthidden}}">
@@ -110,6 +109,7 @@
             <text decode='true'>1、用户符合会员资格；</text>
             <text decode='true'>2、有效直接推广用户≥1人；</text>
             <text decode='true'>3、申请并支付1元获得白银推广大使资格；</text>
+            <text decode='true'>4、资格有效期12个月，到期后可再次申请；</text>
           </l-card>
           <l-card type="primary" plaintext="{{true}}" title="白银推广大使推广积分奖励">
             <text decode='true'>1、直接推广奖励：按推广的第一级用户在创企服中实际消费金额的数值计算积分奖励；</text>
@@ -121,7 +121,8 @@
           <l-card type="primary" plaintext="{{true}}" title="黄金推广大使资格">
             <text decode='true'>1、用户符合会员资格；</text>
             <text decode='true'>2、有效直接推广用户≥100人；</text>
-            <text decode='true'>3、申请并支付1元获得黄金推广大使资格；</text>
+            <text decode='true'>3、申请并支付5元获得黄金推广大使资格；</text>
+            <text decode='true'>4、资格有效期12个月，到期后可再次申请；</text>
           </l-card>
           <l-card type="primary" plaintext="{{true}}" title="黄金推广大使推广积分奖励">
             <text decode='true'>1、直接推广奖励：按推广的第一级用户在创企服中实际消费金额数值的2倍计算积分奖励；</text>
@@ -133,7 +134,8 @@
           <l-card type="primary" plaintext="{{true}}" title="铂金推广大使资格">
             <text decode='true'>1、用户符合会员资格；</text>
             <text decode='true'>2、有效直接推广用户≥300人；</text>
-            <text decode='true'>3、申请并支付1元获得铂金推广大使资格；</text>
+            <text decode='true'>3、申请并支付10元获得铂金推广大使资格；</text>
+            <text decode='true'>4、资格有效期12个月，到期后可再次申请；</text>
           </l-card>
           <l-card type="primary" plaintext="{{true}}" title="铂金推广大使推广积分奖励">
             <text decode='true'>1、直接推广奖励：按推广的第一级用户在创企服中实际消费金额数值的2倍计算直接积分奖励；</text>

@@ -7,7 +7,7 @@ Page({
   data: {
     avatarUrl: "",
     nickName: "",
-    balance: 0,
+balance:0,
     personalhistory:[],
     inviterhistory:[],
     indirectinviterhistory:[],
@@ -99,7 +99,7 @@ Page({
   onLoad: function (options) {
     this.setData({
       image: app.globalData.Gimagearray,
-      balance:app.globalData.Gbalance,
+      balance: app.globalData.Gbalance,
     })
   wx.cloud.callFunction({
     name: "NormalQuery",

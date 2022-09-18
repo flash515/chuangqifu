@@ -23,6 +23,7 @@ Page({
     nextMargin: 0,
     invitercompanyname: "",
     inviterusername: "",
+    inviternickname: "",
     companyname: "",
     companyid: "",
     businessscope: "",
@@ -146,6 +147,7 @@ Page({
         this.setData({
           invitercompanyname: res.data.CompanyName,
           inviterusername: res.data.UserName,
+          inviternickname:res.data.nickName,
         })
       }
     })

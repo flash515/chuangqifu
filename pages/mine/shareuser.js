@@ -5,7 +5,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-promoterlevel:"",
+    promoterlevel: "",
     // 全部直接推荐人数
     directuser: [],
     // 直接推荐用户数组
@@ -60,7 +60,7 @@ promoterlevel:"",
             direct1yearfliter.push(this.data.directvaliduser[i]);
           }
         }
-        app.globalData.Gdirect1yearvaliduser=direct1yearfliter.length
+        app.globalData.Gdirect1yearvaliduser = direct1yearfliter.length
         console.log("3  一年有效用户人数", app.globalData.Gdirect1yearvaliduser);
         wx.setStorageSync('LDirect1YearValidUser', direct1yearfliter);
       }

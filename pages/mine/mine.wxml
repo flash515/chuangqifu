@@ -1,7 +1,5 @@
 <view>
-  <swiper class="swiper" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" circular="{{circular}}"
-    vertical="{{vertical}}" interval="{{interval}}" duration="{{duration}}" previous-margin="{{previousMargin}}px"
-    next-margin="{{nextMargin}}px">
+  <swiper class="swiper" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" circular="{{circular}}" vertical="{{vertical}}" interval="{{interval}}" duration="{{duration}}" previous-margin="{{previousMargin}}px" next-margin="{{nextMargin}}px">
     <block wx:for="{{image}}" wx:for-index="index" wx:key="key">
       <swiper-item>
         <image src="{{item}}" class="swiper image" mode="scaleToFill" />
@@ -9,15 +7,18 @@
     </block>
   </swiper>
 </view>
-<l-grid show-border="true" row-num="2">
-  <l-grid-item key="one" slot="one" >
-  <navigator url="../mine/shareuser">
-      <l-icon name="user" />
-      <view class="text">推广人数</view>
+<l-grid show-border="true" row-num="3">
+  <l-grid-item key="one" slot="one">
+    <view class="num">{{balance}}分</view>
+    <view class="text">积分余额</view>
+  </l-grid-item>
+  <l-grid-item key="two" slot="two">
+    <navigator url="../mine/shareuser">
+      <view class="num">{{directvaliduser.length}}人</view>
+      <view class="text">有效推广人数</view>
     </navigator>
   </l-grid-item>
-
-  <l-grid-item key="two" slot="two">
+  <l-grid-item key="three" slot="three">
     <l-button special="{{true}}" open-type="contact">
       <l-icon name="customer-service" /></l-button>
       <l-button special="{{true}}" open-type="contact">
@@ -26,16 +27,30 @@
   </l-grid-item>
 </l-grid>
 <l-card type="primary" plaintext="{{true}}">
-<l-list title="我的信息" icon="user" url="../mine/userinfo" />
-<l-list title="推广等级" icon="setting" url="../mine/promoterpolicy"/>
-<l-list title="价格优惠" icon="setting" url="../mine/pricepolicy"/>
-<l-list title="消息订阅" icon="notification" bind:lintap="bvSubMessage"/>
-<l-list title="小程序码" icon="picture" url="../mine/minicode" />
-<l-list title="我的海报" icon="picture" url="../mine/poster" />
-<view wx:if="{{usertype == 'provider'}}">
-  <l-list title="服务商功能" icon="setting" url="../manage/providerindex" />
-</view>
-<view wx:if="{{usertype == 'admin'}}">
-  <l-list title="管理员功能" icon="setting" url="../manage/manageindex" />
-</view>
+  <text>当前优惠级别：{{dlname}}</text>
+  <text>卡券购买日期：{{dladddate}}</text>
+  <text>卡券生效日期：{{dlstartdate}}</text>
+  <text>卡券失效日期：{{dlenddate}}</text>
+</l-card>
+<l-card type="primary" plaintext="{{true}}">
+  <text>当前推广资格：{{promotername}}</text>
+  <text>资格申请日期：{{pladddate}}</text>
+  <text>资格生效日期：{{plstartdate}}</text>
+  <text>资格失效日期：{{plenddate}}</text>
+</l-card>
+
+<l-card type="primary" plaintext="{{true}}">
+  <l-list title="我的信息" icon="user" url="../mine/userinfo" />
+  <l-list title="推广奖励级别" icon="setting" url="../mine/promoterpolicy" />
+  <l-list title="价格优惠级别" icon="setting" url="../mine/pricepolicy" />
+  <l-list title="小程序消息订阅" icon="notification" bind:lintap="bvSubMessage" />
+  <l-list title="小程序推广码" icon="picture" url="../mine/minicode" />
+  <l-list title="我的推广海报" icon="picture" url="../mine/poster" />
+  <l-list title="推广详情" icon="user" url="../mine/shareuser" />
+  <view wx:if="{{usertype == 'provider'}}">
+    <l-list title="服务商功能" icon="setting" url="../manage/providerindex" />
+  </view>
+  <view wx:if="{{usertype == 'admin'}}">
+    <l-list title="管理员功能" icon="setting" url="../manage/manageindex" />
+  </view>
 </l-card>

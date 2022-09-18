@@ -16,24 +16,24 @@
 <view class="mainframe">
 <l-grid row-num="2">
   <l-grid-item key="one" slot="one">
-    <view class="num">{{directvaliduser.length}}人</view>
-    <view class="text">直接推广有效人数</view>
-  </l-grid-item>
-  <l-grid-item key="two" slot="two">
     <view class="num">{{directuser.length}}人</view>
     <view class="text">直接推广总人数</view>
+  </l-grid-item>
+  <l-grid-item key="two" slot="two">
+    <view class="num">{{directvaliduser.length}}人</view>
+    <view class="text">直接推广有效人数</view>
   </l-grid-item>
 </l-grid>
 <!-- 间接分享 -->
 <view wx:if="{{promoterlevel=='platinum'}}">
 <l-grid row-num="2">
-  <l-grid-item key="one" slot="one" bind:linitemtap="IndirectUser">
-    <view class="num">{{indirectvaliduser.length}}人</view>
-    <view class="text">间接推广有效人数</view>
-  </l-grid-item>
-  <l-grid-item key="two" slot="two" bind:linitemtap="Indirect30User">
+  <l-grid-item key="one" slot="one">
     <view class="num">{{indirectuser.length}}人</view>
     <view class="text">间接推广总人数</view>
+  </l-grid-item>
+  <l-grid-item key="two" slot="two">
+    <view class="num">{{indirectvaliduser.length}}人</view>
+    <view class="text">间接推广有效人数</view>
   </l-grid-item>
 </l-grid>
 </view>

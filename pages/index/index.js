@@ -4,9 +4,11 @@ Page({
     //inviterid接收传入的参数
     inviterid: "",
     tempinviterid: "",
+    remark: "",
     indirectinviterid: "",
     invitercompanyname: "",
     inviterusername: "",
+    inviternickname: "",
     tempimage: [],
     userinfo: [],
   },
@@ -32,7 +34,8 @@ Page({
       console.log("扫码参数:", this.data.tempinviterid);
     } else {
       // 两种都不带参数，则是自主搜索小程序进入，推荐人指定为开发人
-      this.data.tempinviterid = "oa1De5G404TbDrFGtCingTlGFQVQ"
+      this.data.tempinviterid = "oa1De5G404TbDrFGtCingTlGFQVQ",
+      this.data.remark="无参数进入"
       console.log("搜索进入参数:", this.data.tempinviterid);
     }
     //准备调用云数据库
@@ -152,11 +155,13 @@ Page({
         InviterOpenId: this.data.inviterid,
         InviterCompanyName: this.data.invitercompanyname,
         InviterUserName: this.data.inviterusername,
+        InviternickName: this.data.inviternickname,
         UserType: "client",
         UserPhone: "",
         DiscountLevel: "DL4",
         PromoterLevel: "normal",
-        Balance: 0
+        Balance: 0,
+        Remark:this.data.remark
       },
       success: res => {
         // 调用云函数发信息给推荐人
@@ -243,6 +248,7 @@ Page({
         this.setData({
           invitercompanyname: res.data[0].CompanyName,
           inviterusername: res.data[0].UserName,
+          inviternickname: res.data[0].nickName,
           indirectinviterid: res.data[0].InviterOpenId
         })
         app.globalData.Gindirectinviterid = res.data[0].InviterOpenId;
