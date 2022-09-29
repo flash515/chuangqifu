@@ -23,6 +23,14 @@
     </view>
     <l-button size="mini" shape="semicircle" plain="{{true}}" icon="share" icon-clolr="blue" open-type="share">点击分享创企服</l-button>
   </view>
+  <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center;font-size:12px">
+<view>选择所在区域：</view>
+  <picker mode="region" bindchange="bindRegionChange" value="{{region}}" custom-item="{{customItem}}">
+    <view class="picker">
+     {{region[1]}}/{{region[2]}}
+    </view>
+  </picker>
+</view>
   <l-list title="代理代办服务" icon="notification" right-desc="更多" tag-position="right" url="../product/allproduct"/>
   <l-grid row-num="4">
     <l-grid-item key='one' slot='one'>
@@ -62,26 +70,39 @@
       </navigator>
     </l-grid-item>
   </l-grid>
+  <l-list title="辅助工具" icon="notification"/>
+  <l-grid>
+      <l-grid-item key='one' slot='one'>
+        <navigator url='../tools/meetingroom/meetingroom'>
+          <l-icon name='comment' />
+          <view class="text">快捷会议室</view>
+        </navigator>
+      </l-grid-item>
+    </l-grid>
   <l-list title="精选服务" icon="notification"/>
   <l-grid row-num="2">
     <l-grid-item key='one' slot='one'>
       <navigator url='../product/dizhi'>
-      <image style="width: 120px; height: 50px; background-color: #eeeeee;" mode="{{item.mode}}" src="cloud://cloud1-2gn7aud7a22c693c.636c-cloud1-2gn7aud7a22c693c-1312824882/setting/image/地址服务.jpg"></image>
+      <image style="width: 120px; height: 50px; background-color: #eeeeee;border-radius: 5px;overflow: hidden;" mode="{{item.mode}}" src="cloud://cloud1-2gn7aud7a22c693c.636c-cloud1-2gn7aud7a22c693c-1312824882/setting/image/地址服务.jpg"></image>
+      <view class="text">地址挂靠</view>
       </navigator>
     </l-grid-item>
     <l-grid-item key='two' slot='two'>
       <navigator url='../product/gongshang'>
-        <image style="width: 120px; height: 50px; background-color: #eeeeee;" mode="{{item.mode}}" src="cloud://cloud1-2gn7aud7a22c693c.636c-cloud1-2gn7aud7a22c693c-1312824882/setting/image/工商代办.jpg"></image>
+        <image style="width: 120px; height: 50px; background-color: #eeeeee;border-radius: 5px;overflow: hidden;" mode="{{item.mode}}" src="cloud://cloud1-2gn7aud7a22c693c.636c-cloud1-2gn7aud7a22c693c-1312824882/setting/image/工商代办.jpg"></image>
+        <view class="text">工商代办</view>
       </navigator>
     </l-grid-item>
     <l-grid-item key='three' slot='three'>
       <navigator url='../product/tuoguan'>
-        <image style="width: 120px; height: 50px; background-color: #eeeeee;" mode="{{item.mode}}" src="cloud://cloud1-2gn7aud7a22c693c.636c-cloud1-2gn7aud7a22c693c-1312824882/setting/image/企业托管.jpg"></image>
+        <image style="width: 120px; height: 50px; background-color: #eeeeee;border-radius: 5px;overflow: hidden;" mode="{{item.mode}}" src="cloud://cloud1-2gn7aud7a22c693c.636c-cloud1-2gn7aud7a22c693c-1312824882/setting/image/企业托管.jpg"></image>
+        <view class="text">企业托管</view>
       </navigator>
     </l-grid-item>
     <l-grid-item key='four' slot='four'>
-      <navigator url='../product/caishui'>
-        <image style="width: 120px; height: 50px; background-color: #eeeeee;" mode="{{item.mode}}" src="cloud://cloud1-2gn7aud7a22c693c.636c-cloud1-2gn7aud7a22c693c-1312824882/setting/image/资质代办.jpg"></image>
+      <navigator url='../product/zizhi'>
+        <image style="width: 120px; height: 50px; background-color: #eeeeee;border-radius: 5px;overflow: hidden;" mode="{{item.mode}}" src="cloud://cloud1-2gn7aud7a22c693c.636c-cloud1-2gn7aud7a22c693c-1312824882/setting/image/资质代办.jpg"></image>
+        <view class="text">资质代办</view>
       </navigator>
     </l-grid-item>
 
@@ -90,12 +111,6 @@
     <l-list title="会员专享服务" icon="notification" right-desc="更多" tag-position="right" />
     <l-grid>
       <l-grid-item key='one' slot='one'>
-        <navigator url='../tools/meetingroom/meetingroom'>
-          <l-icon name='comment' />
-          <view class="text">快捷会议室</view>
-        </navigator>
-      </l-grid-item>
-      <l-grid-item key='two' slot='two'>
       <navigator url='../product/caishui?key=four'>
         <l-icon name='order' />
         <view class="text">财税服务</view>

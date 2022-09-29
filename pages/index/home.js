@@ -6,6 +6,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    region: [],
     avatarUrl: "",
     nickName: "",
     promoterlevel: "",
@@ -21,7 +22,20 @@ Page({
     previousMargin: 0,
     nextMargin: 0
   },
-
+  bindRegionChange: function (e) {
+    console.log('picker发送选择改变，携带值为', e.detail.value)
+    this.setData({
+      region: e.detail.value
+    })
+    const db = wx.cloud.database()
+    db.collection('USER').where({
+      _openid: app.globalData.Gopenid,
+    }).update({
+      data:{
+        Region:this.data.region
+      }
+    })
+  },
   // 转发小程序功能
   onShareAppMessage: function (res) {
     if (res.from === 'button') {
@@ -112,7 +126,9 @@ Page({
    * 生命周期函数--监听页面加载
   //  */
   onLoad: function (options) {
-
+    this.setData({
+      region:app.globalData.Gregion
+    })
     const db = wx.cloud.database()
     db.collection('notice').get({
       success: res => {

@@ -130,6 +130,7 @@ Page({
           app.globalData.Gusertype = res.data[0].UserType
           app.globalData.Gpromoterlevel = res.data[0].PromoterLevel
           app.globalData.Gbalance = res.data[0].Balance
+          app.globalData.Gregion = res.data[0].Region
           this._olduser()
         }
       }
@@ -146,6 +147,7 @@ Page({
     app.globalData.Gdiscountlevel = "DL4"
     app.globalData.Gpromoterlevel = "null"
     app.globalData.Gbalance = 0
+    app.globalData.Gregion =["广东省", "深圳市", "福田区"]
     // 在USER数据库中新增用户信息
     const db = wx.cloud.database()
     db.collection("USER").add({
@@ -161,6 +163,7 @@ Page({
         DiscountLevel: "DL4",
         PromoterLevel: "normal",
         Balance: 0,
+        Region:["广东省", "深圳市", "福田区"],
         Remark:this.data.remark
       },
       success: res => {
