@@ -4,9 +4,11 @@
     vertical="{{vertical}}" interval="{{interval}}" duration="{{duration}}" previous-margin="{{previousMargin}}px"
     next-margin="{{nextMargin}}px">
     <block wx:for="{{image}}" wx:for-index="index" wx:key="key">
+      <navigator url="{{item.link}}">
       <swiper-item>
-        <image src="{{item}}" class="swiper image" mode="scaleToFill" />
+        <image src="{{item.image_url}}" class="swiper image" mode="scaleToFill" />
       </swiper-item>
+    </navigator>
     </block>
   </swiper>
 </view>
@@ -90,7 +92,7 @@ size="50"
       </l-card>
     </view>
   </view>
-  <view wx:else text-align:center>尚未获得铂金推广大使资格</view>
+  <view wx:else text-align:center>尚未获得铂金推广会员资格</view>
 
   </l-tabpanel>
   <l-tabpanel tab="间接推广\n企业注册明细" key="four" slot="four">
@@ -103,7 +105,7 @@ size="50"
       </l-card>
     </view>
   </view>
-  <view wx:else text-align:center>尚未获得铂金推广大使资格</view>
+  <view wx:else text-align:center>尚未获得铂金推广会员资格</view>
   </l-tabpanel>
 </l-tabs>
 </view>

@@ -3,9 +3,11 @@
     vertical="{{vertical}}" interval="{{interval}}" duration="{{duration}}" previous-margin="{{previousMargin}}px"
     next-margin="{{nextMargin}}px">
     <block wx:for="{{image}}" wx:for-index="index" wx:key="key">
+      <navigator url="{{item.link}}">
       <swiper-item>
-        <image src="{{item}}" class="swiper image" mode="scaleToFill" />
+        <image src="{{item.image_url}}" class="swiper image" mode="scaleToFill" />
       </swiper-item>
+    </navigator>
     </block>
   </swiper>
 </view>
@@ -13,7 +15,7 @@
   <text>预约管理</text>
 </view>
 
-<l-button class="mainbtn" icon="add" icon-color="blue" type="default" shape="semicircle" plain="{{true}}" width="600"
+<l-button class="mainbtn" icon="add" icon-color="#3683d6" type="default" shape="semicircle" plain="{{true}}" width="600"
   bind:lintap="bvNewBooking">新增预约</l-button>
 
 <view wx:for="{{bookingarray}}" wx:key="key">

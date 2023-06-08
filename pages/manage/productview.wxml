@@ -1,370 +1,77 @@
-<!--产品管理页面-->
-<view class="title">产品总览</view>
-<text>\n</text>
-<l-tabs bind:linchange="changeTabs">
-  <l-tabpanel tab="地址服务" key="one" slot="one">
-    <view>
-      <l-button data-id="" bind:lintap="bvAddProduct">新增产品</l-button>
+<!--商品管理页面-->
+<view class="title">商品总览</view>
+<view>
+  <text>\n</text>
+  <l-search-bar placeholder="模糊搜索办理地、服务类型、服务状态" bind:linconfirm="onSearch" />
+</view>
+<view>
+  <text>\n</text>
+  <l-button data-id="" bind:lintap="bvAddProduct">新增商品</l-button>
+
+</view>
+
+<view style="display: flex;flex-direction: column;height: {{windowH}}rpx; margin-left: 25rpx;margin-right: 25rpx; box-sizing:border-box;">
+
+  <scroll-view scroll-x="true" style="white-space: nowrap;display: flex;flex-direction: row; width: 100%; height: 80rpx;box-sizing: border-box;align-items:center;border-bottom:1rpx solid burlywood;">
+    <view wx:for="{{sortarray}}" wx:key="key" wx:for-index="index" wx:for-item="item" style="display: inline-block;">
+      <button style="border-top:1rpx solid burlywood;line-height: 80rpx;border-bottom: white;border-left: white;border-right: white;font-size:35rpx;margin-left: 10rpx;margin-right: 10rpx;" data-name="{{item}}" bindtap="bvSortChange" shape="circle" data-index="{{index}}" class="{{ currentTab == index ? 'active' : '' }}">{{item}}</button>
     </view>
-    <view wx:for="{{array1}}" wx:key="key" wx:for-index="index">
-      <l-card type="primary" plaintext="{{true}}">
-        <view class="content">
-          <view>序号：{{index}}</view>
-          <view>数据ID：{{item._id}}</view>
-          <view>提交日期：{{item.AddDate}}</view>
-          <view>产品状态：{{item.Status}}</view>
-          <view>产品编号：{{item.ProductId}}</view>
-          <view>产品一级分类：{{item.Category1}}</view>
-          <view>产品二级分类：{{item.Category2}}</view>
-          <view>产品三级分类：{{item.Category3}}</view>
-          <view>产品名称：{{item.ProductName}}</view>
-          <view>产品概要：{{item.Outline}}</view>
-          <view>产品说明：{{item.Description}}</view>
-          <view>办理地点：{{item.IssuedPlace}}</view>
-          <view>代开部门：{{item.IssuedBy}}</view>
-          <view>办理时长：{{item.ProcessingTime}}</view>
-          <view>资料清单：{{item.DocList}}</view>
-          <view>适用情况：{{item.Situation}}</view>
-          <view>限制性事项：{{item.Forbid}}</view>
-          <view>税收奖励：{{item.Reward}}</view>
-          <view>奖励周期：{{item.RewardTime}}</view>
-          <view>服务商：{{item.Provider}}</view>
-          <view>服务商报价：{{item.ProviderPrice}}</view>
-          <view>服务商计算费率：{{item.ProviderCountPrice}}</view>
-          <view>PL1价格：{{item.Price1}}</view>
-          <view>PL1计算费率：{{item.Price1Count}}</view>
-          <view>PL2价格：{{item.Price2}}</view>
-          <view>PL2计算费率：{{item.Price2Count}}</view>
-          <view>PL3价格：{{item.Price3}}</view>
-          <view>PL3计算费率：{{item.Price3Count}}</view>
-          <view>PL4价格：{{item.Price4}}</view>
-          <view>PL4计算费率：{{item.Price4Count}}</view>
-          <view>起售时间：{{item.StartDate}}</view>
-          <view>止售时间：{{item.EndDate}}</view>
-          <view>推荐程度：{{item.Score}}</view>
-          <view>更新时间：{{item.UpdateDate}}</view>
-          <!-- 附件展示 -->
+  </scroll-view>
+
+  <scroll-view scroll-y="true" enable-flex="true" style="display: flex;flex-direction:column; width: 100%;height: 850rpx; box-sizing: border-box;">
+
+    <view wx:for="{{productarray}}" wx:key="_id" wx:for-index="index" wx:for-item="item" style="font-size: 28rpx;">
+      <l-card type="primary" plaintext="{{true}}" full="{{true}}">
+        <view class="title1">序号：{{index}}</view>
+        <view class="title1">{{item.ProductName}}</view>
+        <view>数据ID：{{item._id}}</view>
+        <view>提交日期：{{item.AddDate}}</view>
+        <view>商品状态：{{item.Status}}</view>
+        <view>商品一级分类：{{item.Category1}}</view>
+        <view>商品二级分类：{{item.Category2}}</view>
+        <view>商品二级分类：{{item.Category3}}</view>
+        <view>商品概要：{{item.Outline}}</view>
+        <view wx:if="{{item.Description}}">商品说明：{{item.Description}}</view>
+        <view wx:if="{{item.IssuedPlace}}">办理地点：{{item.IssuedPlace}}</view>
+        <view wx:if="{{item.IssuedBy}}">办理部门：{{item.IssuedBy}}</view>
+        <view wx:if="{{item.ProcessingTime}}">办理时长：{{item.ProcessingTime}}</view>
+        <view wx:if="{{item.DocList}}">资料清单：{{item.DocList}}</view>
+        <view wx:if="{{item.Situation}}">适用情况：{{item.Situation}}</view>
+        <view wx:if="{{item.Forbid}}">限制性事项：{{item.Forbid}}</view>
+        <view wx:if="{{item.Reward}}">税收奖励：{{item.Reward}}</view>
+        <view wx:if="{{item.RewardTime}}">奖励周期：{{item.RewardTime}}</view>
+        <view wx:if="{{item.Provider}}">服务商：{{item.Provider}}</view>
+        <view wx:if="{{item.ProviderPrice}}">服务商报价：{{item.ProviderPrice}}</view>
+        <view wx:if="{{item.ProviderCountPrice}}">服务商计算费率：{{item.ProviderCountPrice}}</view>
+        <view wx:if="{{item.Price1}}">PL1员工价格：{{item.Price1}}</view>
+        <view wx:if="{{item.Price1Count}}">PL1计算费率：{{item.Price1Count}}</view>
+        <view wx:if="{{item.Price2}}">PL2渠道价格：{{item.Price2}}</view>
+        <view wx:if="{{item.Price2Count}}">PL2计算费率：{{item.Price2Count}}</view>
+        <view wx:if="{{item.Price3}}">PL3折扣价格：{{item.Price3}}</view>
+        <view wx:if="{{item.Price3Count}}">PL3计算费率：{{item.Price3Count}}</view>
+        <view wx:if="{{item.Price4}}">PL4普客价格：{{item.Price4}}</view>
+        <view wx:if="{{item.Price4Count}}">PL4计算费率：{{item.Price4Count}}</view>
+        <view wx:if="{{item.StartDate}}">起售时间：{{item.StartDate}}</view>
+        <view wx:if="{{item.EndDate}}">止售时间：{{item.EndDate}}</view>
+        <view wx:if="{{item.Score}}">推荐程度：{{item.Score}}</view>
+        <view wx:if="{{item.UpdateDate}}">更新时间：{{item.UpdateDate}}</view>
+        <!-- 附件展示 -->
+        <view wx:if="{{item.ProductImage}}">
           <label>其他资料：</label>
-          <view wx:for="{{item.AttachmentImage}}" wx:for-item="value" wx:for-index="key" wx:key="key">
-            <label>{{key}}</label>
-            <image src="{{value}}" mode='aspectFit' bindtap="enlarge" data-list="{{item.AttachmentImage}}" data-src="{{value}}">
-            </image>
-          </view>
-          <!-- 附件下载 -->
+          <l-image-picker size="4" count="4" remove="false" urls="{{item.ProductImage}}" />
+        </view>
+        <!-- 附件下载 -->
+        <view wx:if="{{item.AttachmentFile}}">
           <view wx:for="{{item.AttachmentFile}}" wx:for-item="value" wx:for-index="key" wx:key="key">
             <l-button data-link="{{value}}" bind:lintap="bvCopyDownLink" plain="{{true}}" shape="semicircle">{{key}}</l-button>
           </view>
-          <text>\n</text>
-          <view>
-            <l-button data-id="_id={{item._id}}" bind:lintap="bvEditProduct">产品编辑</l-button>
-          </view>
+        </view>
+        <text>\n</text>
+        <view>
+          <l-button data-id="{{item._id}}" bind:lintap="bvEditProduct">商品编辑</l-button>
         </view>
       </l-card>
-      <text>\n</text>
+      <view class="line"></view>
     </view>
-  </l-tabpanel>
-  <l-tabpanel tab="工商代办" key="two" slot="two" bind:linchange="changeGT">
-    <view>
-      <l-button data-id="" bind:lintap="bvAddProduct">新增产品</l-button>
-    </view>
-    <view wx:for="{{array2}}" wx:key="key" wx:for-index="index">
-      <l-card type="primary" plaintext="{{true}}">
-        <view class="content">
-          <view>序号：{{index}}</view>
-          <view>数据ID：{{item._id}}</view>
-          <view>提交日期：{{item.AddDate}}</view>
-          <view>产品状态：{{item.Status}}</view>
-          <view>产品编号：{{item.ProductId}}</view>
-          <view>产品一级分类：{{item.Category1}}</view>
-          <view>产品二级分类：{{item.Category2}}</view>
-          <view>产品三级分类：{{item.Category3}}</view>
-          <view>产品名称：{{item.ProductName}}</view>
-          <view>产品概要：{{item.Outline}}</view>
-          <view>产品说明：{{item.Description}}</view>
-          <view>办理地点：{{item.IssuedPlace}}</view>
-          <view>代开部门：{{item.IssuedBy}}</view>
-          <view>办理时长：{{item.ProcessingTime}}</view>
-          <view>资料清单：{{item.DocList}}</view>
-          <view>适用情况：{{item.Situation}}</view>
-          <view>限制性事项：{{item.Forbid}}</view>
-          <view>税收奖励：{{item.Reward}}</view>
-          <view>奖励周期：{{item.RewardTime}}</view>
-          <view>服务商：{{item.Provider}}</view>
-          <view>服务商报价：{{item.ProviderPrice}}</view>
-          <view>服务商计算费率：{{item.ProviderCountPrice}}</view>
-          <view>PL1价格：{{item.Price1}}</view>
-          <view>PL1计算费率：{{item.Price1Count}}</view>
-          <view>PL2价格：{{item.Price2}}</view>
-          <view>PL2计算费率：{{item.Price2Count}}</view>
-          <view>PL3价格：{{item.Price3}}</view>
-          <view>PL3计算费率：{{item.Price3Count}}</view>
-          <view>PL4价格：{{item.Price4}}</view>
-          <view>PL4计算费率：{{item.Price4Count}}</view>
-          <view>起售时间：{{item.StartDate}}</view>
-          <view>止售时间：{{item.EndDate}}</view>
-          <view>推荐程度：{{item.Score}}</view>
-          <view>更新时间：{{item.UpdateDate}}</view>
-          <!-- 附件展示 -->
-          <label>其他资料：</label>
-          <view wx:for="{{item.AttachmentImage}}" wx:for-item="value" wx:for-index="key" wx:key="key">
-            <label>{{key}}</label>
-            <!-- <l-button data-id="{{value}}" bind:lintap="bvAttImgDown" plain="{{true}}">{{key}}</l-button> -->
-            <image src="{{value}}" mode='aspectFit' bindtap="enlarge" data-list="{{item.AttachmentImage}}" data-src="{{value}}">
-            </image>
-          </view>
-          <!-- 附件下载 -->
-          <view wx:for="{{item.AttachmentFile}}" wx:for-item="value" wx:for-index="key" wx:key="key">
-            <l-button data-link="{{value}}" bind:lintap="bvCopyDownLink" plain="{{true}}" shape="semicircle">{{key}}</l-button>
-          </view>
-          <text>\n</text>
-          <view>
-            <l-button data-id="_id={{item._id}}" bind:lintap="bvEditProduct">产品编辑</l-button>
-          </view>
-        </view>
-      </l-card>
-      <text>\n</text>
-    </view>
-  </l-tabpanel>
-  <l-tabpanel tab="银行代办" key="three" slot="three" bind:linchange="changeGT">
-    <view>
-      <l-button data-id="" bind:lintap="bvAddProduct">新增产品</l-button>
-    </view>
-    <view wx:for="{{array3}}" wx:key="key" wx:for-index="index">
-      <l-card type="primary" plaintext="{{true}}">
-        <view class="content">
-          <view>序号：{{index}}</view>
-          <view>数据ID：{{item._id}}</view>
-          <view>提交日期：{{item.AddDate}}</view>
-          <view>产品状态：{{item.Status}}</view>
-          <view>产品编号：{{item.ProductId}}</view>
-          <view>产品一级分类：{{item.Category1}}</view>
-          <view>产品二级分类：{{item.Category2}}</view>
-          <view>产品三级分类：{{item.Category3}}</view>
-          <view>产品名称：{{item.ProductName}}</view>
-          <view>产品概要：{{item.Outline}}</view>
-          <view>产品说明：{{item.Description}}</view>
-          <view>办理地点：{{item.IssuedPlace}}</view>
-          <view>代开部门：{{item.IssuedBy}}</view>
-          <view>办理时长：{{item.ProcessingTime}}</view>
-          <view>资料清单：{{item.DocList}}</view>
-          <view>适用情况：{{item.Situation}}</view>
-          <view>限制性事项：{{item.Forbid}}</view>
-          <view>税收奖励：{{item.Reward}}</view>
-          <view>奖励周期：{{item.RewardTime}}</view>
-          <view>服务商：{{item.Provider}}</view>
-          <view>服务商报价：{{item.ProviderPrice}}</view>
-          <view>服务商计算费率：{{item.ProviderCountPrice}}</view>
-          <view>PL1价格：{{item.Price1}}</view>
-          <view>PL1计算费率：{{item.Price1Count}}</view>
-          <view>PL2价格：{{item.Price2}}</view>
-          <view>PL2计算费率：{{item.Price2Count}}</view>
-          <view>PL3价格：{{item.Price3}}</view>
-          <view>PL3计算费率：{{item.Price3Count}}</view>
-          <view>PL4价格：{{item.Price4}}</view>
-          <view>PL4计算费率：{{item.Price4Count}}</view>
-          <view>起售时间：{{item.StartDate}}</view>
-          <view>止售时间：{{item.EndDate}}</view>
-          <view>推荐程度：{{item.Score}}</view>
-          <view>更新时间：{{item.UpdateDate}}</view>
-          <!-- 附件展示 -->
-          <label>其他资料：</label>
-          <view wx:for="{{item.AttachmentImage}}" wx:for-item="value" wx:for-index="key" wx:key="key">
-            <label>{{key}}</label>
-            <!-- <l-button data-id="{{value}}" bind:lintap="bvAttImgDown" plain="{{true}}">{{key}}</l-button> -->
-            <image src="{{value}}" mode='aspectFit' bindtap="enlarge" data-list="{{item.AttachmentImage}}" data-src="{{value}}">
-            </image>
-          </view>
-          <!-- 附件下载 -->
-          <view wx:for="{{item.AttachmentFile}}" wx:for-item="value" wx:for-index="key" wx:key="key">
-            <l-button data-link="{{value}}" bind:lintap="bvCopyDownLink" plain="{{true}}" shape="semicircle">{{key}}</l-button>
-          </view>
-          <text>\n</text>
-          <view>
-            <l-button data-id="_id={{item._id}}" bind:lintap="bvEditProduct">产品编辑</l-button>
-          </view>
-        </view>
-      </l-card>
-      <text>\n</text>
-    </view>
-  </l-tabpanel>
-  <l-tabpanel tab="财税服务" key="four" slot="four" bind:linchange="changeGS">
-    <view>
-      <l-button data-id="" bind:lintap="bvAddProduct">新增产品</l-button>
-    </view>
-    <view wx:for="{{array4}}" wx:key="key" wx:for-index="index">
-      <l-card type="primary" plaintext="{{true}}">
-        <view class="content">
-          <view>序号：{{index}}</view>
-          <view>数据ID：{{item._id}}</view>
-          <view>提交日期：{{item.AddDate}}</view>
-          <view>产品状态：{{item.Status}}</view>
-          <view>产品编号：{{item.ProductId}}</view>
-          <view>产品一级分类：{{item.Category1}}</view>
-          <view>产品二级分类：{{item.Category2}}</view>
-          <view>产品三级分类：{{item.Category3}}</view>
-          <view>产品名称：{{item.ProductName}}</view>
-          <view>产品概要：{{item.Outline}}</view>
-          <view>产品说明：{{item.Description}}</view>
-          <view>办理地点：{{item.IssuedPlace}}</view>
-          <view>代开部门：{{item.IssuedBy}}</view>
-          <view>办理时长：{{item.ProcessingTime}}</view>
-          <view>资料清单：{{item.DocList}}</view>
-          <view>适用情况：{{item.Situation}}</view>
-          <view>限制性事项：{{item.Forbid}}</view>
-          <view>税收奖励：{{item.Reward}}</view>
-          <view>奖励周期：{{item.RewardTime}}</view>
-          <view>服务商：{{item.Provider}}</view>
-          <view>服务商报价：{{item.ProviderPrice}}</view>
-          <view>服务商计算费率：{{item.ProviderCountPrice}}</view>
-          <view>PL1价格：{{item.Price1}}</view>
-          <view>PL1计算费率：{{item.Price1Count}}</view>
-          <view>PL2价格：{{item.Price2}}</view>
-          <view>PL2计算费率：{{item.Price2Count}}</view>
-          <view>PL3价格：{{item.Price3}}</view>
-          <view>PL3计算费率：{{item.Price3Count}}</view>
-          <view>PL4价格：{{item.Price4}}</view>
-          <view>PL4计算费率：{{item.Price4Count}}</view>
-          <view>起售时间：{{item.StartDate}}</view>
-          <view>止售时间：{{item.EndDate}}</view>
-          <view>推荐程度：{{item.Score}}</view>
-          <view>更新时间：{{item.UpdateDate}}</view>
-          <!-- 附件展示 -->
-          <label>其他资料：</label>
-          <view wx:for="{{item.AttachmentImage}}" wx:for-item="value" wx:for-index="key" wx:key="key">
-            <image src="{{value}}" mode='aspectFit' bindtap="enlarge" data-list="{{item.AttachmentImage}}" data-src="{{value}}">
-            </image>
-          </view>
-          <!-- 附件下载 -->
-          <view wx:for="{{item.AttachmentFile}}" wx:for-item="value" wx:for-index="key" wx:key="key">
-            <l-button data-link="{{value}}" bind:lintap="bvCopyDownLink" plain="{{true}}" shape="semicircle">{{key}}</l-button>
-          </view>
-          <text>\n</text>
-          <view>
-            <l-button data-id="_id={{item._id}}" bind:lintap="bvEditProduct">产品编辑</l-button>
-          </view>
-        </view>
-      </l-card>
-      <text>\n</text>
-    </view>
-  </l-tabpanel>
-  <l-tabpanel tab="企业托管" key="five" slot="five" bind:linchange="changeGS">
-    <view>
-      <l-button data-id="" bind:lintap="bvAddProduct">新增产品</l-button>
-    </view>
-    <view wx:for="{{array5}}" wx:key="key" wx:for-index="index">
-      <l-card type="primary" plaintext="{{true}}">
-        <view class="content">
-          <view>序号：{{index}}</view>
-          <view>数据ID：{{item._id}}</view>
-          <view>提交日期：{{item.AddDate}}</view>
-          <view>产品状态：{{item.Status}}</view>
-          <view>产品编号：{{item.ProductId}}</view>
-          <view>产品一级分类：{{item.Category1}}</view>
-          <view>产品二级分类：{{item.Category2}}</view>
-          <view>产品三级分类：{{item.Category3}}</view>
-          <view>产品名称：{{item.ProductName}}</view>
-          <view>产品概要：{{item.Outline}}</view>
-          <view>产品说明：{{item.Description}}</view>
-          <view>办理地点：{{item.IssuedPlace}}</view>
-          <view>代开部门：{{item.IssuedBy}}</view>
-          <view>办理时长：{{item.ProcessingTime}}</view>
-          <view>资料清单：{{item.DocList}}</view>
-          <view>适用情况：{{item.Situation}}</view>
-          <view>限制性事项：{{item.Forbid}}</view>
-          <view>税收奖励：{{item.Reward}}</view>
-          <view>奖励周期：{{item.RewardTime}}</view>
-          <view>服务商：{{item.Provider}}</view>
-          <view>服务商报价：{{item.ProviderPrice}}</view>
-          <view>服务商计算费率：{{item.ProviderCountPrice}}</view>
-          <view>PL1价格：{{item.Price1}}</view>
-          <view>PL1计算费率：{{item.Price1Count}}</view>
-          <view>PL2价格：{{item.Price2}}</view>
-          <view>PL2计算费率：{{item.Price2Count}}</view>
-          <view>PL3价格：{{item.Price3}}</view>
-          <view>PL3计算费率：{{item.Price3Count}}</view>
-          <view>PL4价格：{{item.Price4}}</view>
-          <view>PL4计算费率：{{item.Price4Count}}</view>
-          <view>起售时间：{{item.StartDate}}</view>
-          <view>止售时间：{{item.EndDate}}</view>
-          <view>推荐程度：{{item.Score}}</view>
-          <view>更新时间：{{item.UpdateDate}}</view>
-          <!-- 附件展示 -->
-          <label>其他资料：</label>
-          <view wx:for="{{item.AttachmentImage}}" wx:for-item="value" wx:for-index="key" wx:key="key">
-            <image src="{{value}}" mode='aspectFit' bindtap="enlarge" data-list="{{item.AttachmentImage}}" data-src="{{value}}">
-            </image>
-          </view>
-          <!-- 附件下载 -->
-          <view wx:for="{{item.AttachmentFile}}" wx:for-item="value" wx:for-index="key" wx:key="key">
-            <l-button data-link="{{value}}" bind:lintap="bvCopyDownLink" plain="{{true}}" shape="semicircle">{{key}}</l-button>
-          </view>
-          <text>\n</text>
-          <view>
-            <l-button data-id="_id={{item._id}}" bind:lintap="bvEditProduct">产品编辑</l-button>
-          </view>
-        </view>
-      </l-card>
-      <text>\n</text>
-    </view>
-  </l-tabpanel>
-  <l-tabpanel tab="资质代办" key="six" slot="six" bind:linchange="changeGS">
-    <view>
-      <l-button data-id="" bind:lintap="bvAddProduct">新增产品</l-button>
-    </view>
-    <view wx:for="{{array6}}" wx:key="key" wx:for-index="index">
-      <l-card type="primary" plaintext="{{true}}">
-        <view class="content">
-          <view>序号：{{index}}</view>
-          <view>数据ID：{{item._id}}</view>
-          <view>提交日期：{{item.AddDate}}</view>
-          <view>产品状态：{{item.Status}}</view>
-          <view>产品编号：{{item.ProductId}}</view>
-          <view>产品一级分类：{{item.Category1}}</view>
-          <view>产品二级分类：{{item.Category2}}</view>
-          <view>产品三级分类：{{item.Category3}}</view>
-          <view>产品名称：{{item.ProductName}}</view>
-          <view>产品概要：{{item.Outline}}</view>
-          <view>产品说明：{{item.Description}}</view>
-          <view>办理地点：{{item.IssuedPlace}}</view>
-          <view>代开部门：{{item.IssuedBy}}</view>
-          <view>办理时长：{{item.ProcessingTime}}</view>
-          <view>资料清单：{{item.DocList}}</view>
-          <view>适用情况：{{item.Situation}}</view>
-          <view>限制性事项：{{item.Forbid}}</view>
-          <view>税收奖励：{{item.Reward}}</view>
-          <view>奖励周期：{{item.RewardTime}}</view>
-          <view>服务商：{{item.Provider}}</view>
-          <view>服务商报价：{{item.ProviderPrice}}</view>
-          <view>服务商计算费率：{{item.ProviderCountPrice}}</view>
-          <view>PL1价格：{{item.Price1}}</view>
-          <view>PL1计算费率：{{item.Price1Count}}</view>
-          <view>PL2价格：{{item.Price2}}</view>
-          <view>PL2计算费率：{{item.Price2Count}}</view>
-          <view>PL3价格：{{item.Price3}}</view>
-          <view>PL3计算费率：{{item.Price3Count}}</view>
-          <view>PL4价格：{{item.Price4}}</view>
-          <view>PL4计算费率：{{item.Price4Count}}</view>
-          <view>起售时间：{{item.StartDate}}</view>
-          <view>止售时间：{{item.EndDate}}</view>
-          <view>推荐程度：{{item.Score}}</view>
-          <view>更新时间：{{item.UpdateDate}}</view>
-          <!-- 附件展示 -->
-          <label>其他资料：</label>
-          <view wx:for="{{item.AttachmentImage}}" wx:for-item="value" wx:for-index="key" wx:key="key">
-            <image src="{{value}}" mode='aspectFit' bindtap="enlarge" data-list="{{item.AttachmentImage}}" data-src="{{value}}">
-            </image>
-          </view>
-          <!-- 附件下载 -->
-          <view wx:for="{{item.AttachmentFile}}" wx:for-item="value" wx:for-index="key" wx:key="key">
-            <l-button data-link="{{value}}" bind:lintap="bvCopyDownLink" plain="{{true}}" shape="semicircle">{{key}}</l-button>
-          </view>
-          <text>\n</text>
-          <view>
-            <l-button data-id="_id={{item._id}}" bind:lintap="bvEditProduct">产品编辑</l-button>
-          </view>
-        </view>
-      </l-card>
-      <text>\n</text>
-    </view>
-  </l-tabpanel>
-</l-tabs>
+  </scroll-view>
+</view>

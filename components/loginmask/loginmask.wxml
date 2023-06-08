@@ -1,0 +1,19 @@
+<l-card type="primary" plaintext="{{true}}" l-title-class="logincardtitle" l-class="logincard" title="请输入手机号码登录">
+    <text>\r\n</text>
+    <view class="logininputbox" style="justify-content:flex-start;">
+      <view style="padding: 10rpx;">手机号：</view>
+      <input style="width: 200rpx;" type="number" bindinput="bvInputPhone" maxlength="11" value="{{inputphone}}" disabled="{{getnumbersuccess}}"/>
+      <button plain open-type="getPhoneNumber" bindgetphonenumber="onGetPhoneNumber">获取手机号</button>
+    </view>
+    <view wx:if="{{!getnumbersuccess}}" class="logininputbox" style="justify-content:space-between;">
+      <view style="padding: 10rpx;">验证码：</view>
+      <input style="width: 200rpx;" type="number" bindinput="bvPhoneCode" maxlength="6" />
+      <button plain bindtap="bvSendCode" disabled='{{disabledstatus}}'>{{time}}</button>
+    </view>
+    <text>\r\n</text>
+    <view class="loginbtnbox">
+      <l-button shape="semicircle" plain="{{true}}" bind:lintap="onHideMaskTap" size="mini">取消登录</l-button>
+      <l-button shape="semicircle" plain="{{true}}" bind:lintap="bvLogin" size="mini">验证并登录</l-button>
+    </view>
+  </l-card>
+

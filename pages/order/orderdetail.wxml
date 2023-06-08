@@ -1,24 +1,15 @@
-<!-- <text>订单页面</text> -->
-<view>
-  <swiper class="swiper" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" circular="{{circular}}" vertical="{{vertical}}" interval="{{interval}}" duration="{{duration}}" previous-margin="{{previousMargin}}px" next-margin="{{nextMargin}}px">
-    <block wx:for="{{image}}" wx:for-index="index" wx:key="key">
-      <swiper-item>
-        <image src="{{item}}" class="swiper image" mode="scaleToFill" />
-        <!-- <view class="swiper-item {{item.url}}"></view> -->
-      </swiper-item>
-    </block>
-  </swiper>
-</view>
+<!-- 轮播头图 -->
+<Swiper class="swiper" image="{{image}}"></Swiper>
 <view class="mainframe">
-  <!-- 传入的产品信息 -->
+  <!-- 传入的商品信息 -->
   <view class="title">
     <text>订单详情</text>
   </view>
 
   <view wx:for="{{orderdetail}}" wx:key="key">
 
-    <l-input label="产品编号：" type="text" label-layout="left" label-width="270" placeholder="{{item.ProductId}}" disabled="{{true}}" />
-    <l-input label="产品名称：" type="text" label-layout="left" label-width="270" placeholder="{{item.ProductName}}" disabled="{{true}}" />
+    <l-input label="商品编号：" type="text" label-layout="left" label-width="270" placeholder="{{item.ProductId}}" disabled="{{true}}" />
+    <l-input label="商品名称：" type="text" label-layout="left" label-width="270" placeholder="{{item.ProductName}}" disabled="{{true}}" />
     <l-input label="办理费用：" type="text" label-layout="left" label-width="270" placeholder="{{item.OrderPrice}}" disabled="{{true}}" />
     <l-input label="办理数量：" type="text" label-layout="left" label-width="270" placeholder="{{item.Count}}" disabled="{{true}}" />
     <l-input label="订单总额（元）：" type="text" placeholder="{{item.TempTotalFee}}" label-layout="left" label-width="270" disabled="{{true}}" />

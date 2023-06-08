@@ -1,0 +1,33 @@
+<view>
+  <swiper class="swiper" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" circular="{{circular}}" vertical="{{vertical}}" interval="{{interval}}" duration="{{duration}}" previous-margin="{{previousMargin}}px" next-margin="{{nextMargin}}px">
+    <block wx:for="{{image}}" wx:for-index="index" wx:key="key">
+      <navigator url="{{item.link}}">
+      <swiper-item>
+        <image src="{{item.image_url}}" class="swiper image" mode="scaleToFill" />
+      </swiper-item>
+    </navigator>
+    </block>
+  </swiper>
+</view>
+<view class="mainframe">
+  <view class="title">
+    <text>申请成为服务商</text>
+  </view>
+  <text>\n</text>
+<!-- wxif多个条件判断的写法 -->
+  <view wx:if="{{companyname=='' || companyid=='' ||businessscope=='' ||address==''}}">
+    <label class="labal">请完善以下信息：</label>
+  </view>
+  <l-input type="text" label="企业名称：" value="{{companyname}}" bind:lininput="bvCompanyName"></l-input>
+  <l-input type="text" label="企业代码：" value="{{companyid}}" bind:lininput="bvCompanyId"></l-input>
+  <l-input type="text" label="企业地址：" value="{{address}}" bind:lininput="bvAddress"></l-input>
+  <label class="labal">企业简介：</label>
+  <l-textarea type="text" indicator="{{true}}" maxlength="140" auto-height="{{true}}" value="{{businessscope}}" bind:lininput="bvBusinessScope"></l-textarea>
+  <text>\n</text>
+  <l-radio-group bind:linchange="bvContractCheck">
+    <l-radio key="1">我已阅读并接受<button class="button" bind:tap="previewFile" plain="true">《服务商协议》</button>的条款</l-radio>
+  </l-radio-group>
+  <text>\n</text>
+
+  <l-button class="mainbtn" width="600" bind:lintap="bvProviderApply" shape="semicircle" plain="{{true}}">申请成为服务商</l-button>
+</view>

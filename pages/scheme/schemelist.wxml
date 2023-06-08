@@ -1,16 +1,5 @@
-<!--pages/scheme/schemelist.wxml-->
 <!-- 轮播头图 -->
-<view>
-  <swiper class="swiper" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" circular="{{circular}}"
-    vertical="{{vertical}}" interval="{{interval}}" duration="{{duration}}" previous-margin="{{previousMargin}}px"
-    next-margin="{{nextMargin}}px">
-    <block wx:for="{{image}}" wx:for-index="index" wx:key="key">
-      <swiper-item>
-        <image src="{{item}}" class="swiper image" mode="scaleToFill" />
-      </swiper-item>
-    </block>
-  </swiper>
-</view>
+<Swiper class="swiper" image="{{image}}"></Swiper>
 <view class="mainframe">
 <l-tabs equal-width="{{false}}" scrollable="{{true}}">
   <l-tabpanel tab="增值税" key="one" slot="one">
@@ -25,7 +14,7 @@
         <view>
           <text space="emsp" decode="{{true}}">{{item.Scheme}}</text>
         </view>
-        <view class="title1">产品推荐</view>
+        <view class="title1">商品推荐</view>
         <view>
           <text space="emsp" decode="{{true}}">{{item.RefProduct}}</text>
         </view>
@@ -51,7 +40,7 @@
               bind:lininput="bvQuestion1"></l-textarea>
           </view>
           <view>
-            <l-button icon="to-top" icon-color="blue" size="medium" shape="semicircle" plain="{{true}}" bind:lintap='bvSubmit1' >发送留言</l-button>
+            <l-button icon="to-top" icon-color="#3683d6" size="medium" shape="semicircle" plain="{{true}}" bind:lintap='bvSubmit1' >发送留言</l-button>
           </view>
         </l-collapse-item>
       </l-collapse>
@@ -70,7 +59,7 @@
         <view>
           <text space="emsp" decode="{{true}}">{{item.Scheme}}</text>
         </view>
-        <view class="title1">产品推荐</view>
+        <view class="title1">商品推荐</view>
         <view>
           <text space="emsp" decode="{{true}}">{{item.RefProduct}}</text>
         </view>
@@ -95,7 +84,7 @@
               bind:lininput="bvQuestion2"></l-textarea>
           </view>
           <view>
-            <l-button icon="to-top" icon-color="blue" size="medium" shape="semicircle" plain="{{true}}" bind:lintap='bvSubmit2'>发送留言</l-button>
+            <l-button icon="to-top" icon-color="#3683d6" size="medium" shape="semicircle" plain="{{true}}" bind:lintap='bvSubmit2'>发送留言</l-button>
           </view>
         </l-collapse-item>
       </l-collapse>
@@ -113,7 +102,7 @@
         <view>
           <text space="emsp" decode="{{true}}">{{item.Scheme}}</text>
         </view>
-        <view class="title1">产品推荐</view>
+        <view class="title1">商品推荐</view>
         <view>
           <text space="emsp" decode="{{true}}">{{item.RefProduct}}</text>
         </view>
@@ -138,7 +127,7 @@
               bind:lininput="bvQuestion3"></l-textarea>
           </view>
           <view>
-            <l-button icon="to-top" icon-color="blue" size="medium" shape="semicircle" plain="{{true}}" bind:lintap='bvSubmit3'>发送留言</l-button>
+            <l-button icon="to-top" icon-color="#3683d6" size="medium" shape="semicircle" plain="{{true}}" bind:lintap='bvSubmit3'>发送留言</l-button>
           </view>
         </l-collapse-item>
       </l-collapse>
@@ -156,7 +145,7 @@
         <view>
           <text space="emsp" decode="{{true}}">{{item.Scheme}}</text>
         </view>
-        <view class="title1">产品推荐</view>
+        <view class="title1">商品推荐</view>
         <view>
           <text space="emsp" decode="{{true}}">{{item.RefProduct}}</text>
         </view>
@@ -182,7 +171,7 @@
               bind:lininput="bvQuestion4"></l-textarea>
           </view>
           <view>
-            <l-button icon="to-top" icon-color="blue" shape="semicircle" plain="{{true}}" bind:lintap='bvSubmit4'>发送留言</l-button>
+            <l-button icon="to-top" icon-color="#3683d6" shape="semicircle" plain="{{true}}" bind:lintap='bvSubmit4'>发送留言</l-button>
           </view>
         </l-collapse-item>
       </l-collapse>

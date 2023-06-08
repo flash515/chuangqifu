@@ -9,7 +9,7 @@ Page({
   },
   bvSubMessage(e) {
     wx.requestSubscribeMessage({ //获取下发权限
-      tmplIds: ['Z1znM-MaX0eQKsXJNJxuu4oetRGDnTXM4AiO6AR0Rww','YwHrEpHzfQKHEWc-qUZS1VYwYsjb4fFTmY1PPetetQQ','G4Z_yV8lDPWkG6T3NCAQj_EtPcoSMm-b2kXkovBCvkM'], 
+      tmplIds: ['FZCOVekfZayJruqd5W5FazMZ8o4OidK-ZDXGulCswRg','WKThYCNZRZ4yOlxQVOZljN0EAXX42_fH9vCgqVoYKnw'], 
       success: (res) => {
 
       }
@@ -32,8 +32,10 @@ Page({
   /**
    * 生命周期函数--监听页面显示
    */
+    	// 点击 tab 时用此方法触发埋点
+	onTabItemTap: () => startToTrack(),
   onShow: function () {
-
+    startToTrack()
   },
 
   /**
@@ -46,8 +48,8 @@ Page({
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function () {
-
+    onUnload: function () {
+    startByBack()
   },
 
   /**

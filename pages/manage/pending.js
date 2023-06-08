@@ -121,7 +121,7 @@ Page({
     wx.cloud.callFunction({
       name: "NormalQuery",
       data: {
-        collectionName: "PROMOTERORDER",
+        collectionName: "PROMOTEORDER",
         command: "or",
         where: [{
           PaymentStatus: "unchecked"
@@ -183,8 +183,10 @@ Page({
   /**
    * 生命周期函数--监听页面显示
    */
+    	// 点击 tab 时用此方法触发埋点
+	onTabItemTap: () => startToTrack(),
   onShow: function () {
-
+    startToTrack()
   },
 
   /**
@@ -197,8 +199,8 @@ Page({
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function () {
-
+    onUnload: function () {
+    startByBack()
   },
 
   /**

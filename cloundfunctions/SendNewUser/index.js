@@ -1,7 +1,7 @@
 // 云函数入口文件
 const cloud = require('wx-server-sdk')
 cloud.init({
-  env: 'cloud1-2gn7aud7a22c693c',
+  env: 'xsbmain-9gvsp7vo651fd1a9',
   traceUser: true,
 })
 
@@ -14,14 +14,17 @@ exports.main = async (event, context) => {
       page: '../../pages/index/index',
       lang: 'zh_CN',
       data: {
-        thing1: {
-          value: event.thing1
+        date1: {
+          value: event.date1
         },
-        time2: {
-          value: event.time2
+        phrase2: {
+          value: event.phrase2
         },
+        thing3: {
+          value: event.thing3
+        }
       },
-      templateId: 'Z1znM-MaX0eQKsXJNJxuu4oetRGDnTXM4AiO6AR0Rww',
+      templateId: 'Ap6SsQZ-fj8SZkyVv9ZvIg8EcJ5b1jgmMQko_o4LyAw',
       miniprogramState: 'developer'
     })
 

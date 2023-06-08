@@ -1,0 +1,31 @@
+<view class="top">
+  <view style="display:flex; flex-direction:column; justify-content: center;align-items: center; margin-top:80rpx">
+    <image style="height: 380rpx;width: 380rpx; " src="https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/oo7kw5rohI15ogf6TCX_SGAxYUao/tempqrcode.png?sign=5df7c945cbc9d3d5b6ea48984c884041&t=1682238026"></image>
+    <view wx:if="{{loginshow}}" style="display:flex; flex-direction:column; margin-top: 200rpx;">
+
+      <view style="display:flex; flex-direction:row;">
+        <label class="labal">手机号：</label>
+        <input class="input" type="number" bindinput="bvInputPhone" value="{{inputphone}}" maxlength="11" disabled="{{getnumbersuccess}}" />
+        <button class="codebtn" open-type="getPhoneNumber" bindgetphonenumber="onGetPhoneNumber"><text class="codebtntext">获取手机号</text></button>
+      </view>
+      <text>\r\n</text>
+      <view wx:if="{{!getnumbersuccess}}" style="display:flex; flex-direction:row;">
+        <label class="labal">验证码：</label>
+        <input class="input" type="number" bindinput="bvPhoneCode" maxlength="6"/>
+        <button class="codebtn" bindtap="bvSendCode" disabled="{{disabledstatus}}">
+          <text class="codebtntext">{{time}}</text></button>
+      </view>
+      <text>\r\n</text>
+      <text>\r\n</text>
+      <text>\r\n</text>
+      <button class="btn-open" bindtap="bvLogin">
+        <text>用户登记</text>
+      </button>
+    </view>
+    <view wx:else class="packettext" style="display:flex; flex-direction:column;margin-top: 320rpx;">
+        <view><text>用户</text></view>
+        <view><text>{{userphone}}</text></view>
+        <view><text>{{statusinfo}}</text></view>
+    </view>
+  </view>
+</view>

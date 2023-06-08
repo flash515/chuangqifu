@@ -1,61 +1,15 @@
-/**app.wxss**/
-.userinfo, .uploader, .tunnel {
-  margin-top: 0rpx;
-  height: 140rpx;
-  width: 100%;
-  background: #fff;
-  border: 0px solid rgb(255, 255, 255);
-  border-left: none;
-  border-right: none;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  transition: all 300ms ease;
-}
+/* 轮播图样式 */
+@import './utils/iconfont.wxss';
 
-.userinfo-avatar {
-  width: 100rpx;
-  height: 100rpx;
-  margin: 20rpx;
-  border-radius: 50%;
-  background-size: cover;
-  background-color: white;
-}
-
-.userinfo-avatar:after {
-  border: none;
-}
-
-.userinfo-nickname {
-  font-size: 32rpx;
-  color: #007aff;
-  background-color: white;
-  background-size: cover;
-}
-
-.userinfo-nickname::after {
-  border: none;
-}
-.container {
-  height: 100%;
-  display: flex; 
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  padding: 200rpx 0;
-  box-sizing: border-box;
-} 
 .swiper {
-  height: 100px;
+  height: 240rpx;
   width: 100%;
 }
-.swiper image {
-  height: 100px;
-  width: 100%;
-}
+
+
 .title
 {color: black;
-font-size: 20px;
+font-size: 40rpx;
 font-weight: bold;
 padding-top: 10px;
 text-align:center
@@ -63,8 +17,8 @@ text-align:center
 .title1
 {
   color: black;
-  text-align: left
-font-size：16px;
+  text-align: left;
+font-size:35rpx;
 font-weight: bold;
 }
 .body{
@@ -72,17 +26,9 @@ font-weight: bold;
   padding:10rpx;
   line-height: 2;
 }
-.flex-row{
-  display: flex;
-  align-items: center;
-}
-.flex-column{
-  display: flex;
-  align-items: center;
-}
+
 .mainframe{
-  margin:20rpx 20rpx;
-  padding:10rpx
+  margin:20rpx 25rpx;
 }
 .mainbtn {
   margin: 0 auto;
@@ -90,6 +36,10 @@ font-weight: bold;
   justify-content: center;
   align-items: center;
 }
+.boldtext {
+  font-size: 28rpx;
+  font-weight: bold;
+}
 .text {
-  font-size: 14px;
+  font-size: 28rpx;
 }

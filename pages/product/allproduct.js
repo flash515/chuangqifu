@@ -1,168 +1,80 @@
 const app = getApp()
+const track = require("../../utils/track");
 Page({
   data: {
-    array1: [],
-    array2: [],
-    array3: [],
-    array4: [],
-    array5: [],
-    promoterlevel:"",
-    productarray: [],
-    usertype: "",
-    discountlevel: "",
-    priceshow: "",
-    avatarUrl: "",
-    nickName: "",
+    currentTab:0,
+    key1: 0,
+    // 计算屏幕滚动窗口的高度
+    windowH: "",
+    url: "",
+    sortarray: [],
+    array: [],
+
     // 轮播参数
     image: [],
-    indicatorDots: true,
-    vertical: false,
-    autoplay: true,
-    circular: true,
-    interval: 4000,
-    duration: 500,
-    previousMargin: 0,
-    nextMargin: 0
   },
-  getUserProfile: function (e) {
-    wx.getUserProfile({
-      desc: "登录创企服以查看更多信息",
-      success: res => {
-        console.log("获得的用户微信信息", res)
+  bvSortChange(e) {
+    console.log(e.currentTarget.dataset.name)
+    console.log(e.currentTarget.dataset.index)
+    track.startByClick(e.currentTarget.dataset.name)
+    this.setData({
+      currentTab: e.currentTarget.dataset.index,   //按钮CSS变化
+    })
+    var category = e.currentTarget.dataset.name
+    this._setarray(category)
+    console.log(category)
+  },
+  _setarray(category) {
+    console.log(category)
+    for (let i = 0; i < this.data.sortarray.length; i++) {
+      if (this.data.sortarray[i].Category1Name == category) {
         this.setData({
-          avatarUrl: res.userInfo.avatarUrl,
-          nickName: res.userInfo.nickName
+          array: this.data.sortarray[i].Category2Array
         })
-        app.globalData.GavatarUrl = res.userInfo.avatarUrl
-        app.globalData.GnickName = res.userInfo.nickName
-        // 获取数据库引用
-        const db = wx.cloud.database()
-        // 更新数据
-        db.collection('USER').where({
-          _openid: app.globalData.Gopenid
-        }).update({
-          data: {
-            avatarUrl: res.userInfo.avatarUrl,
-            city: res.userInfo.city,
-            country: res.userInfo.country,
-            gender: res.userInfo.gender,
-            language: res.userInfo.language,
-            nickName: res.userInfo.nickName,
-            province: res.userInfo.province
-          },
-        })
-        // 以上更新数据结束
-        wx.showToast({
-          icon: 'success',
-          title: '登录成功',
-        })
-        return;
-      },
-      fail: res => {
-        //拒绝授权
-        wx.showToast({
-          icon: 'error',
-          title: '您拒绝了请求',
-        })
-        return;
       }
+    }
+    console.log(this.data.array)
+
+  },
+  bvTagClick(e){
+    console.log(e.currentTarget.dataset.name)
+    track.startByClick(e.currentTarget.dataset.name)
+    wx.navigateTo({
+      url: "../product/productview?"+"category3=" + e.currentTarget.dataset.name
     })
   },
+
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
-
-    // 从本地存储中读取产品
-    wx.getStorage({
-      key: 'LProductList',
-      success: res => {
-        console.log("打印调用本地产品列表反回结果", res)
-        this.setData({
-          productarray: res.data
-        })
-        console.log("产品数组", this.data.productarray)
-        // 筛选自然人代开
-        var fliter1 = [];
-        for (var i = 0; i < this.data.productarray.length; i++) {
-          if (this.data.productarray[i].Category1 == "地址服务") {
-            fliter1.push(this.data.productarray[i]);
-          }
-        }
-        console.log(fliter1);
-        // 筛选个体工商
-        var fliter2 = [];
-        for (var i = 0; i < this.data.productarray.length; i++) {
-          if (this.data.productarray[i].Category1 == "工商代办") {
-            fliter2.push(this.data.productarray[i]);
-          }
-        }
-        console.log(fliter2);
-        // 筛选个独/合伙企业
-        var fliter3 = [];
-        for (var i = 0; i < this.data.productarray.length; i++) {
-          if (this.data.productarray[i].Category1 == "银行代办") {
-            fliter3.push(this.data.productarray[i]);
-          }
-        }
-        console.log(fliter3);
-        // 筛选有限公司
-        var fliter4 = [];
-        for (var i = 0; i < this.data.productarray.length; i++) {
-          if (this.data.productarray[i].Category1 == "财税服务") {
-            fliter4.push(this.data.productarray[i]);
-          }
-        }
-        console.log(fliter4);
-                // 筛选开票申请
-                var fliter5 = [];
-                for (var i = 0; i < this.data.productarray.length; i++) {
-                  if (this.data.productarray[i].Category1 == "企业托管") {
-                    fliter5.push(this.data.productarray[i]);
-                  }
-                }
-                console.log(fliter5);
-                                // 筛选开票申请
-                                var fliter6 = [];
-                                for (var i = 0; i < this.data.productarray.length; i++) {
-                                  if (this.data.productarray[i].Category1 == "企业托管") {
-                                    fliter5.push(this.data.productarray[i]);
-                                  }
-                                }
-                                console.log(fliter6);
-        this.setData({
-          array1: fliter1,
-          array2: fliter2,
-          array3: fliter3,
-          array4: fliter4,
-          array5: fliter5,
-          array6: fliter6,
-        })
-        // 打印数组
-        console.log("记账报税", this.data.array1)
-        console.log("税种核定", this.data.array2)
-        console.log("领票购票", this.data.array3)
-        console.log("开票申请", this.data.array4)
-        console.log("有限公司", this.data.array5)
-      }
-
+    this.setData({
+      image: app.globalData.Gimagearray,
+      windowH: (app.globalData.Gsysteminfo.windowHeight - 100) * 750 / app.globalData.Gsysteminfo.windowWidth
     })
-    //括号1结束
+
+    //获取小程序全局设置
+    let that = this
+    const db = wx.cloud.database()
+    db.collection('setting')
+      .where({
+        CurrentStatus: "effect"
+      })
+      .get({
+        success: res => {
+          app.globalData.Gsortarray = res.data[0].ProductSort;
+          that.setData({
+            sortarray: res.data[0].ProductSort
+          })
+          var category = res.data[0].ProductSort[0].Category1Name
+          that._setarray(category)
+          console.log(category)
+          console.log(that.data.sortarray)
+        }
+      })
 
   },
-  bvProductDetail(e) {
-    console.log(e.currentTarget.dataset.id)
-    wx.navigateTo({
-      url: '../product/productdetail?' + e.currentTarget.dataset.id
-    })
-  },
-  bvNewOrder(e) {
-    console.log(e.currentTarget.dataset.id);
-    wx.navigateTo({
-      url: '../order/neworder?' + e.currentTarget.dataset.id
-    })
-  },
+
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
@@ -174,16 +86,12 @@ Page({
   /**
    * 生命周期函数--监听页面显示
    */
+  // 点击 tab 时用此方法触发埋点
+  onTabItemTap: () => track.startToTrack(),
+  handlerClick(e) {track.startByClick(e.currentTarget.id);},
+
   onShow: function () {
-    this.setData({
-      image: app.globalData.Gimagearray,
-      usertype: app.globalData.Gusertype,
-      promoterlevel: app.globalData.Gpromoterlevel,
-      discountlevel: app.globalData.Gdiscountlevel,
-      priceshow: app.globalData.Gpriceshow,
-      avatarUrl: app.globalData.GavatarUrl,
-      nickName: app.globalData.GnickName,
-    })
+    track.startToTrack()
   },
 
   /**
@@ -197,7 +105,7 @@ Page({
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-
+    track.startByBack()
   },
 
   /**
@@ -214,10 +122,4 @@ Page({
 
   },
 
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
-  }
 })

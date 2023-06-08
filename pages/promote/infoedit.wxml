@@ -1,0 +1,55 @@
+<view class="mainframe">
+  <label class="labal">已发布的资讯：</label>
+  <view class="line"></view>
+  <scroll-view scroll-y="true" style="display: flex;flex-direction:column; width: 100%;height: 650rpx; box-sizing: border-box;padding-left: 20rpx;padding-right: 20rpx;">
+    <l-radio-group placement="column" bind:linchange="bvInfoShareSelect">
+      <block wx:for="{{infomations}}" wx:key="key">
+        <l-radio placement="left" color="black" select-color="green" size="40" key="{{index+1}}" cell="{{infomations[index]}}" l-class="radio">
+          <view style="display: flex;flex-direction: column;justify-content: space-between;width: 100%;">
+            <view><text>{{infomations[index].InfoContent}}</text></view>
+            <view style="display: flex;flex-direction: row;align-items:center;justify-content: space-between;">
+              <view style="color:#3683d6;"><text decode="{{true}}" space="emsp">信息类型：{{infomations[index].InfomationType}}</text></view>
+              <view style="color:#3683d6;">
+                <view wx:if="{{infomations[index].InfoStatus=='checked'}}"><text decode="{{true}}" space="emsp">状态：已审核</text></view>
+                <view wx:else><text decode="{{true}}" space="emsp">状态：待审核</text></view>
+              </view>
+              <view>
+                <l-button size="mini" plain="{{true}}" data-index="{{index}}" data-id="{{infomations[index].InfoId}}" bind:lintap="bvDelInfo">删除</l-button>
+              </view>
+            </view>
+          </view>
+
+        </l-radio>
+      </block>
+    </l-radio-group>
+  </scroll-view>
+  <view class="line"></view>
+  <text>\n</text>
+
+  <view style="display: flex;flex-direction:column;">
+    <view style="display: flex;flex-direction:row;">
+      <label class="labal">信息类型：</label>
+      <l-radio-group none-checked="{{false}}" placement="row" current="1" bind:linchange="bvInfomationType">
+        <l-radio key="1" placement="right"> <label class="labal">供应</label></l-radio>
+        <l-radio key="2" placement="right"> <label class="labal">求购</label></l-radio>
+      </l-radio-group>
+    </view>
+    <label class="labal">供求信息：</label>
+    <l-textarea indicator="{{true}}" maxlength="80" type="text" placeholder="请在这里填写供求信息" value="{{infocontent}}" bind:lininput="bvInfoContent">
+    </l-textarea>
+
+  </view>
+  <text>\n</text>
+  <view style="display:flex; flex-direction:row; justify-content:space-between;align-items: center;">
+    <view style="width: 60rpx;">
+      <button class="avatarBtn" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
+        <image class="avatar" src="{{avatarurl}}"></image>
+      </button>
+    </view>
+    <input class="nicknameinput" type="nickname" value="{{nickname}}" placeholder="点击获取昵称" bindinput="bvNickName" bindblur="bvUploadNickName" />
+    <text space="emsp" decode="{{true}}" style="font-size: 28rpx;">{{creatorphone}} </text>
+    <l-button size="mini" shape="semicircle" icon="checked" icon-color="#3683d6" plain="{{true}}" bind:lintap="bvPublish">发布信息
+    </l-button>
+  </view>
+
+</view>

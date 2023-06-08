@@ -1,0 +1,27 @@
+<view wx:if="{{!errorshow}}">
+  <view class="container" wx:if="{{nickName}}">
+  <meetingroom style="width: 100%; height: 100%" envId="{{chatRoomEnvId}}" chatheight="{{chatheight}}" collection="{{chatRoomCollection}}" groupId="{{chatRoomGroupId}}" groupName="{{chatRoomGroupName}}" getOpenID="{{getOpenID}}" avatarUrl="{{avatarUrl}}" nickName="{{nickName}}"></meetingroom>
+</view>
+
+<view style="margin-top: 200rpx;" wx:if="{{!nickName}}">
+  <form bindsubmit="formsumit">
+    <view style="display:flex; flex-direction:column; justify-content:center;align-items:center">
+      <view>
+        <button class="avatarBtn" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
+          <image class="avatarImg" src="{{avatarUrl}}"></image>
+        </button>
+      </view>
+      <view>
+        <input type="text" style="text-align:center; margin-top: 50rpx;height: 100rpx;width: 500rpx;" name="nickname" type="nickname" placeholder="点击获取昵称" placeholder-class="center"/>
+      </view>
+    </view>
+    <view style="display:flex; flex-direction:row; justify-content:space-between;align-items:center">
+      <button class="button" form-type="submit">进入快捷会议室</button>
+    </view>
+  </form>
+</view>
+</view>
+<view wx:else="{{errorshow}}" style="display:flex; flex-direction:column; justify-content:space-between;align-items:center">
+<text>\n</text>
+<text>会议已结束或邀请链接已过期</text>
+</view>

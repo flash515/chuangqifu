@@ -1,0 +1,35 @@
+<!--pages/manage/userview.wxml-->
+<view class="title">评论总览</view>
+<text>\n</text>
+<view class="mainframe">
+  <view wx:for="{{comments}}" wx:key="key" wx:for-index="index" style="font-size: 28rpx;">
+
+    <view>序号：{{index}}</view>
+    <view>资讯ID：{{item.InfoId}}</view>
+    <!-- <view>作者微信昵称：{{item.nickName}}</view>
+    <view>作者微信头像：<image class="avatar" src="{{item.avatarUrl}}"></image></view> -->
+    <view>评论日期：{{item.PublishDate}}</view>
+    <view>用户ID：{{item.UserId}}</view>
+    <view>用户微信昵称：{{item.nickName}}</view>
+    <view>用户微信头像：<image class="avatar" src="{{item.avatarUrl}}"></image>
+    </view>
+    <view>评论：{{item.Comment}}</view>
+    <view>评论状态：{{item.Status}}</view>
+    <view class="video-right-icon">
+      <l-button special="{{true}}" bind:lintap="bvCheck" data-id="{{item._id}}" data-key="Status">
+        <l-icon name='setting'/>
+      </l-button>
+    </view>
+    <view class="video-right-text">审核</view>
+    <view wx:if="{{item.ReplyDate}}">回复时间：{{item.ReplyDate}}</view>
+    <view wx:if="{{item.Reply}}">回复：{{item.Reply}}</view>
+    <view wx:if="{{item.ReplyStatus}}">回复状态：{{item.ReplyStatus}}</view>
+    <view class="video-right-icon">
+      <l-button special="{{true}}" bind:lintap="bvCheck" data-id="{{item._id}}" data-key="ReplyStatus">
+        <l-icon name='setting' />
+      </l-button>
+    </view>
+    <view class="video-right-text">审核</view>
+    <text>\n</text>
+  </view>
+</view>

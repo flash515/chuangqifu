@@ -1,11 +1,11 @@
 const app = getApp()
+const utils = require("../../utils/utils")
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    onlinehidden: false,
     payalready: false,
     booklock: false,
     address: "",
@@ -28,14 +28,6 @@ Page({
     openSettingBtnHidden: true,
     // 轮播头图
     image: [],
-    indicatorDots: true,
-    vertical: false,
-    autoplay: true,
-    circular: true,
-    interval: 4000,
-    duration: 500,
-    previousMargin: 0,
-    nextMargin: 0
   },
   // 点击支付按钮,发起支付
   bvWXPay(event) {
@@ -49,15 +41,15 @@ Page({
   _callWXPay(body, goodsnum, subMchId, payVal) {
     let that = this
     wx.cloud.callFunction({
-      name: 'WXPay',
-      data: {
-        // 需要将data里面的参数传给WXPay云函数
-        body,
-        goodsnum, // 商品订单号不能重复
-        subMchId, // 子商户号,微信支付商户号,必填
-        payVal, // 这里必须整数,不能是小数,而且类型是number,否则就会报错
-      },
-    })
+        name: 'WXPay',
+        data: {
+          // 需要将data里面的参数传给WXPay云函数
+          body,
+          goodsnum, // 商品订单号不能重复
+          subMchId, // 子商户号,微信支付商户号,必填
+          payVal, // 这里必须整数,不能是小数,而且类型是number,否则就会报错
+        },
+      })
       .then((res) => {
         console.log(res);
         const payment = res.result.payment;
@@ -73,7 +65,23 @@ Page({
             that._orderupdate();
             that._pointsupdate();
             that._discountupdate();
-            that._balanceupdate()
+            that._balanceupdate();
+            // 调用云函数发短信给管理员
+            var tempmobile = [18954744612]
+            wx.cloud.callFunction({
+              name: 'sendsms',
+              data: {
+                templateId: "1569097",
+                nocode: true,
+                mobile: tempmobile
+              },
+              success: res => {
+                console.log(res)
+              },
+              fail: res => {
+                console.log(res)
+              },
+            })
           },
           fail: (err) => {
             console.error('支付失败', err);
@@ -99,8 +107,8 @@ Page({
         OrderStatus: "checked",
         Available: true,
       },
-      success(res) {
-        console.log("产品订单更新成功")
+      success: res => {
+        console.log("商品订单更新成功")
       }
     })
   },
@@ -113,7 +121,7 @@ Page({
         PaymentStatus: "checked",
         PointsStatus: "checked",
       },
-      success(res) {
+      success: res => {
         console.log("积分状态更新成功")
       },
     })
@@ -153,12 +161,12 @@ Page({
       });
       let p2 = new Promise((resolve, reject) => {
         db.collection('USER').where({
-          _openid: app.globalData.Ginviterid
+          UserId: app.globalData.Ginviterid
         }).get({
           success: res => {
             console.log(res)
             this.setData({
-              tempinviterbalance: res.data[0].Balance,
+              tempinviterbalance: res.data[0].TradeInfo.Balance,
             })
             resolve(this.data.tempinviterbalance);
             console.log(this.data.tempinviterbalance)
@@ -167,7 +175,7 @@ Page({
       });
       let p3 = new Promise((resolve, reject) => {
         db.collection('USER').where({
-          _openid: app.globalData.Gindirectinviterid
+          UserId: app.globalData.Gindirectinviterid
         }).get({
           success: res => {
             console.log(res)
@@ -186,12 +194,12 @@ Page({
         })
         const db = wx.cloud.database()
         db.collection('USER').where({
-          _openid: app.globalData.Gopenid
+          UserId: app.globalData.Guserid
         }).update({
           data: {
-            Balance: app.globalData.Gbalance - that.data.consumepoints,
+            Balance: app.globalData.Guserdata.UserInfo.Balance - that.data.consumepoints,
           },
-          success(res) {
+          success: res => {
             console.log("个人积分更新成功")
           }
         })
@@ -224,73 +232,7 @@ Page({
       });
     }
   },
-  // 保存到手机
-  saveImage: function (event) {
-    let that = this
-    wx.getImageInfo({
-      src: event.currentTarget.dataset.src,
-      success: (res) => {
-        wx.saveImageToPhotosAlbum({
-          filePath: res.path,
-          success: (res) => {
-            wx.showToast({
-              title: '支付码保存成功，请从手机相册打开并扫码支付',
-              duration: 2000
-            })
-          },
-          fail: (err) => {
-            console.log(err);
-            if (err.errMsg === 'saveImageToPhotosAlbum:fail auth deny') {
-              // this.openSettingBtnHidden = false
-              that.setData({
-                openSettingBtnHidden: false
-              })
-              wx.showToast({
-                title: '缺少授权，请点击授权',
-                icon: 'none',
-                duration: 2000
-              })
-              // this.$apply()
-            } else if (err.errMsg === 'saveImageToPhotosAlbum:fail cancel') {
-              // this.openSettingBtnHidden = false
-              that.setData({
-                openSettingBtnHidden: true
-              })
-              wx.showToast({
-                title: '取消保存',
-                icon: 'none',
-                duration: 2000
-              })
-              // this.$apply()
-            } else if (err.errMsg === 'saveImageToPhotosAlbum:fail:auth denied') {
-              // this.openSettingBtnHidden = false
-              that.setData({
-                openSettingBtnHidden: false
-              })
-              wx.showToast({
-                title: '已拒绝授权，请点击重新授权',
-                icon: 'none',
-                duration: 2000
-              })
-            }
-          }
-        })
-      }
-    })
-  },
-  //图片点击事件
-  enlarge: function (event) {
-    var src = event.currentTarget.dataset.src; //获取data-src
-    var imgList = [
-      'cloud://cloud1-2gn7aud7a22c693c.636c-cloud1-2gn7aud7a22c693c-1312824882/setting/image/微信收款码.jpg',
-      'cloud://cloud1-2gn7aud7a22c693c.636c-cloud1-2gn7aud7a22c693c-1312824882/setting/image/支付宝收款码.jpg'
-    ]
-    //图片预览
-    wx.previewImage({
-      current: src, // 当前显示图片的http链接
-      urls: imgList // 需要预览的图片http链接列表
-    })
-  },
+
   bvTime(e) {
     this.setData({
       time: e.detail.value,
@@ -320,50 +262,34 @@ Page({
     // 判断是否重复提交
     if (this.data.booklock) {
       // 锁定时很执行
-      wx.showToast({
-        title: '请勿重复提交',
-        icon: 'error',
-        duration: 2000 //持续的时间
-      })
+      utils._ErrorToast("请勿重复提交")
     } else {
       if (this.data.address == "" || this.data.phone == "" || this.data.contacts == "" || this.data.date == "" || this.data.time == "") {
-        wx.showToast({
-          title: '请提供详细信息',
-          icon: 'error',
-          duration: 2000 //持续的时间
-        })
+        utils._ErrorToast("请提供详细信息")
       } else {
         // 未锁定时执行
         // 获取数据库引用
         const db = wx.cloud.database()
         db.collection('BOOKING').add({
-          data: {
-            Address: this.data.address,
-            Phone: this.data.phone,
-            Contacts: this.data.contacts,
-            BookingDate: this.data.date,
-            BookingTime: this.data.time,
-            BookingContent: "上门取款服务",
-            BookingStatus: "unchecked",
-            AddDate: new Date().toLocaleDateString()
-          },
-          success(res) {
-            console.log('预约提交成功', res.data)
-            wx.showToast({
-              title: '预约提交成功',
-              icon: 'success',
-              duration: 2000 //持续的时间
-            })
-          },
-          fail(res) {
-            console.log("提交失败", res)
-            wx.showToast({
-              title: '预约提交失败',
-              icon: 'error',
-              duration: 2000 //持续的时间
-            })
-          }
-        }),
+            data: {
+              Address: this.data.address,
+              Phone: this.data.phone,
+              Contacts: this.data.contacts,
+              BookingDate: this.data.date,
+              BookingTime: this.data.time,
+              BookingContent: "上门取款服务",
+              BookingStatus: "unchecked",
+              AddDate: new Date().toLocaleString('chinese',{ hour12: false })
+            },
+            success: res => {
+              console.log('预约提交成功', res.data)
+              utils._SuccessToast("预约提交成功")
+            },
+            fail: res => {
+              console.log("提交失败", res)
+              utils._ErrorToast("预约提交失败")
+            }
+          }),
           this.data.booklock = true // 修改上传状态为锁定
       }
     }
@@ -372,18 +298,19 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    var str = new Date()
-    // 订单编号orderid、产品编号productid、产品名称productname、订单总费用totalfee、订单数据库database、微信即时支付是否隐藏onlinehidden
+    // 订单编号orderid、商品编号productid、商品名称productname、订单总费用totalfee、订单数据库database
+    wx.showLoading({
+      title: '加载中',
+    })
     this.setData({
       orderid: options.orderid,
       productid: options.productid,
       productname: options.productname,
       totalfee: options.totalfee,
       database: options.database,
-      onlinehidden: options.onlinehidden,
       image: app.globalData.Gimagearray,
-      // startdate: str.getFullYear() + "-" + (str.getMonth() + 1) + "-" + str.getDate()
     })
+    wx.hideLoading()
   },
 
   /**
@@ -396,6 +323,7 @@ Page({
   /**
    * 生命周期函数--监听页面显示
    */
+
   onShow: function () {
 
   },

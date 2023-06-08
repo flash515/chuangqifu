@@ -1,0 +1,63 @@
+<!-- 登录层 -->
+<l-mask show="{{loginshow}}" center="true">
+  <loginmask bind:myevent="onLogin"></loginmask>
+</l-mask>
+<!-- 背景层 -->
+<image class="bgimage" src="{{cardinfo.CardBg}}" mode="scaleToFill" />
+<!-- 名片层 -->
+<view class="uplayout">
+  <view class="namecard">
+    <view class="companyname">{{cardinfo.CompanyName}}</view>
+    <view class="user">
+      <view style="display:flex;flex-direction:column;justify-content:flex-start;">
+        <text>\n</text>
+        <view><text class="username">{{cardinfo.UserName}}</text><text space="emsp" decode='true' class="title"> {{cardinfo.Title}}</text></view>
+        <text>\n</text>
+        <view wx:if="{{cardinfo.Handphone}}" class="handphone" bindlongpress="bvPhoneNumTap">手机：{{cardinfo.Handphone}}</view>
+        <view wx:if="{{cardinfo.WeChat}}" class="wechat">微信：{{cardinfo.WeChat}}</view>
+        <view wx:if="{{cardinfo.Telephone}}" class="telephone">座机：{{cardinfo.Telephone}}</view>
+      </view>
+      <image class="companylogo" src="{{cardinfo.CompanyLogo}}"></image>
+    </view>
+    <view>
+      <view wx:if="{{cardinfo.Email}}" class="email">邮箱：{{cardinfo.Email}}</view>
+      <view wx:if="{{cardinfo.Website}}" class="website">网站：{{cardinfo.Website}}</view>
+      <view wx:if="{{cardinfo.Address}}" class="address">地址：{{cardinfo.Address}}</view>
+    </view>
+  </view>
+</view>
+<view wx:if="{{cardinfo.CardImages}}" wx:for="{{cardinfo.CardImages}}" wx:key="key">
+  <image style="display: block;width: 100%;" src="{{item}}" mode="scaleToFill" />
+</view>
+<view class="mainframe">
+  <view wx:if="{{cardinfo.BusinessScope}}" style="display:flex;flex-direction:column;justify-content:flex-start;">
+    <label class="text">企业简介：</label>
+    <text space="emsp" decode='true' class="text">{{cardinfo.BusinessScope}}</text>
+  </view>
+  <text>\n</text>
+
+  <view wx:if="{{tempinviterid}}" style="display:flex; flex-direction:row; justify-content:space-between;">
+    <l-button size="mini" shape="semicircle" plain="{{true}}" icon="edit" icon-color="#3683d6" bind:lintap="bvEdit">制作名片</l-button>
+    <l-button size="mini" shape="semicircle" plain="{{true}}" icon="down" icon-color="#3683d6" catchtap='addContact' bind:lintap="bvSave">收存名片</l-button>
+    <l-button size="mini" shape="semicircle" plain="{{true}}" icon="share" icon-color="#3683d6" open-type="share">转发名片</l-button>
+  </view>
+  <view wx:else style="display:flex; flex-direction:row; justify-content:space-between;">
+    <l-button size="mini" shape="semicircle" plain="{{true}}" icon="eye" icon-color="#3683d6" bind:lintap="bvViewed">{{cardinfo.View}}</l-button>
+    <l-button size="mini" shape="semicircle" plain="{{true}}" icon="edit" icon-color="#3683d6" bind:lintap="bvEdit">编辑名片</l-button>
+    <l-button size="mini" shape="semicircle" plain="{{true}}" icon="share" icon-color="#3683d6" open-type="share">派发名片</l-button>
+  </view>
+  <view wx:if="{{viewed[0]}}">
+    <scroll-view scroll-y="true" style="display: flex;flex-direction:column; width: 100%;height: 400rpx; box-sizing: border-box;font-size: 28rpx;">
+      <view style="display: flex;flex-direction: column;justify-content:left;" wx:for="{{viewed}}" wx:key="key">
+        <text>\n</text>
+        <view><text>序号：{{viewed.length-index}}</text></view>
+        <view wx:if="{{item.AddDate}}"><text>日期：{{item.AddDate}}</text></view>
+        <view wx:if="{{item.ViewerCompany}}"><text>公司：{{item.ViewerCompany}}</text></view>
+        <view wx:if="{{item.ViewerName}}"><text>姓名：{{item.ViewerName}}</text></view>
+        <view wx:if="{{item.ViewerTitle}}"><text>职位：{{item.ViewerTitle}}</text></view>
+        <view wx:if="{{item.ViewerHandPhone}}"><text>手机：{{item.ViewerHandPhone}}</text></view>
+      </view>
+    </scroll-view>
+  </view>
+  <text>\n</text>
+</view>

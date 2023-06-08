@@ -56,7 +56,7 @@ Page({
           id: e.currentTarget.dataset.id,
           answer: that.data.answer,
           status: "onshow",
-          updatedate: new Date().toLocaleDateString()
+          updatedate: new Date().toLocaleString('chinese',{ hour12: false })
         },
         success: res => {
           console.log(res)
@@ -78,7 +78,7 @@ Page({
           date6: e.currentTarget.dataset.adddate,
           thing4: e.currentTarget.dataset.question,
           thing2: this.data.answer,
-          name1: "创企服客服"
+          name1: "小税宝客服"
         },
         success: res => {
           console.log(res)
@@ -152,8 +152,10 @@ Page({
   /**
    * 生命周期函数--监听页面显示
    */
+    	// 点击 tab 时用此方法触发埋点
+	onTabItemTap: () => startToTrack(),
   onShow: function () {
-
+    startToTrack()
   },
 
   /**
@@ -166,8 +168,8 @@ Page({
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function () {
-
+    onUnload: function () {
+    startByBack()
   },
 
   /**

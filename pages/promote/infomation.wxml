@@ -1,0 +1,132 @@
+<!-- 登录层 -->
+<l-mask show="{{loginshow}}" center="true">
+  <loginmask bind:myevent="onLogin"></loginmask>
+</l-mask>
+<!-- 轮播头图 -->
+<Swiper class="swiper" image="{{image}}"></Swiper>
+
+<!-- 内容层 -->
+<view class="mainframe">
+  <view class="title">
+  <text>供求信息</text>
+</view>
+  <view wx:if="{{loginbtnshow}}" style="display:flex; justify-content:center;">
+    <l-button size="large" shape="semicircle" plain="{{true}}" bind:lintap="bvLoginShow">查看信息发布人联系方式请登录</l-button>
+  </view>
+<l-tabs bind:linchange="changeTabs">
+  <l-tabpanel tab="全部信息" key="one" slot="one">
+    <scroll-view scroll-y="true" style="display: flex;flex-direction:column; width: 100%;height: 650rpx; box-sizing: border-box;padding-left: 20rpx;padding-right: 20rpx;font-size: 28rpx;">
+      <view wx:for="{{infomations}}" wx:key="key" style="display: flex;flex-direction: column;justify-content: space-between;width: 100%;">
+        <view style="display: flex;flex-direction: row;align-items:center;justify-content: space-between;">
+          <view>
+            <image class="avatar" src="{{item.avatarUrl}}"></image>
+          </view>
+          <view class="nickname">{{item.nickName}}</view>
+          <view wx:if="{{!loginbtnshow}}" style="color:#3683d6;"><text decode="{{true}}" space="emsp">手机：{{item.CreatorPhone}}</text></view>
+          <view style="color:#3683d6;"><text decode="{{true}}" space="emsp">日期：{{item.PublishDate}}</text></view>
+        </view>
+        <view><text>{{item.InfoContent}}</text></view>
+        <view>
+          <l-button size="mini" plain="{{true}}" data-index="{{index}}" data-id="{{infomations[index].InfoId}}" bind:lintap="bvCommentShow">留言</l-button>
+        </view>
+      </view>
+    </scroll-view>
+  </l-tabpanel>
+  <l-tabpanel tab="供应信息" key="two" slot="two">
+    <scroll-view scroll-y="true" style="display: flex;flex-direction:column; width: 100%;height: 650rpx; box-sizing: border-box;padding-left: 20rpx;padding-right: 20rpx;font-size: 28rpx;">
+      <view wx:for="{{sales}}" wx:key="key" style="display: flex;flex-direction: column;justify-content: space-between;width: 100%;">
+        <view style="display: flex;flex-direction: row;align-items:center;justify-content: space-between;">
+          <view>
+            <image class="avatar" src="{{item.avatarUrl}}"></image>
+          </view>
+          <view class="nickname">{{item.nickName}}</view>
+          <view wx:if="{{!loginbtnshow}}" style="color:#3683d6;"><text decode="{{true}}" space="emsp">手机：{{item.CreatorPhone}}</text></view>
+          <view style="color:#3683d6;"><text decode="{{true}}" space="emsp">日期：{{item.PublishDate}}</text></view>
+        </view>
+        <view><text>{{item.InfoContent}}</text></view>
+        <view>
+          <l-button size="mini" plain="{{true}}" data-index="{{index}}" data-id="{{infomations[index].InfoId}}" bind:lintap="bvCommentShow">留言</l-button>
+        </view>
+      </view>
+    </scroll-view>
+  </l-tabpanel>
+  <l-tabpanel tab="求购信息" key="three" slot="three">
+    <scroll-view scroll-y="true" style="display: flex;flex-direction:column; width: 100%;height: 650rpx; box-sizing: border-box;padding-left: 20rpx;padding-right: 20rpx;">
+      <view wx:for="{{purchases}}" wx:key="key" style="display: flex;flex-direction: column;justify-content: space-between;width: 100%;font-size: 28rpx;">
+        <view style="display: flex;flex-direction: row;align-items:center;justify-content: space-between;">
+          <view>
+            <image class="avatar" src="{{item.avatarUrl}}"></image>
+          </view>
+          <view class="nickname">{{item.nickName}}</view>
+          <view wx:if="{{!loginbtnshow}}" style="color:#3683d6;"><text decode="{{true}}" space="emsp">手机：{{item.CreatorPhone}}</text></view>
+          <view style="color:#3683d6;"><text decode="{{true}}" space="emsp">日期：{{item.PublishDate}}</text></view>
+        </view>
+        <view><text>{{item.InfoContent}}</text></view>
+        <view>
+          <l-button size="mini" plain="{{true}}" data-index="{{index}}" data-id="{{infomations[index].InfoId}}" bind:lintap="bvCommentShow">留言</l-button>
+        </view>
+      </view>
+    </scroll-view>
+  </l-tabpanel>
+</l-tabs>
+<text>\n</text>
+<l-button plain="{{true}}" shape="semicircle" size="large" bind:lintap="bvEditInfomation">创建供求信息</l-button>
+</view>
+<!-- 评论层 -->
+<l-popup show="{{commentshow}}" content-align="bottom">
+  <l-card full="{{true}}" plaintext="{{true}}">
+    <label style="display: flex; width: 100%;font-size: 20rpx;justify-content: center;">{{comments.length}}条留言</label>
+    <scroll-view scroll-y="true" enable-flex="true" style="display: flex;flex-direction:column; width: 100%;height: 500rpx; box-sizing: border-box;">
+      <view wx:for="{{comments}}" wx:key="index">
+        <view style="display: flex; flex-direction: row;margin-top: 10rpx;">
+          <view>
+            <image class="avatar" src="{{item.avatarUrl}}"></image>
+          </view>
+          <view style="display: flex;flex-direction: column;width: 100%;">
+            <view style="display: flex;flex-direction: row; justify-content: space-between;">
+              <view class="nickname">{{item.nickName}}</view>
+              <view class="nickname"><text decode='true' space="emsp"> 发表于 {{item.PublishDate}}</text></view>
+            </view>
+            <view class="comment"><text decode='true' space="emsp">{{item.Comment}}</text></view>
+            <view wx:if="{{item.Reply}}" style="display: flex;flex-direction: column;width: 100%;">
+              <view style="display: flex;flex-direction: row; justify-content: space-between;">
+                <view class="nickname">作者</view>
+                <view class="nickname"><text decode='true' space="emsp">回复于 {{item.ReplyDate}}</text></view>
+              </view>
+              <view class="comment"><text decode='true' space="emsp">{{item.Reply}}</text></view>
+            </view>
+            <view wx:else>
+              <view wx:if="{{userid==creatorid}}">
+                <l-collapse>
+                  <l-collapse-item l-body-class="l-body-class" l-title-class="l-title-class" customTitle="{{true}}">
+                    <!--自定义标题-->
+                    <view class="nickname" slot="title">回复
+                      <l-icon name="down" size="16" color="#999" />
+                    </view>
+                    <l-textarea type='text' auto-height="{{true}}" placeholder="请输入回复内容" maxlength='30' bind:lininput="bvReplyContent"></l-textarea>
+                    <l-button size="mini" data-id="{{item._id}}" bind:lintap='bvReplySend' plain="{{true}}">发送回复</l-button>
+                  </l-collapse-item>
+                </l-collapse>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </scroll-view>
+
+    <!-- 留言模块 -->
+    <view wx:if="{{userid!=creatorid}}" style="display: flex;flex-direction:column;">
+      <l-textarea type='text' auto-height="{{true}}" placeholder="善语结善缘，恶言伤人心" maxlength='30' bind:lininput="bvComment"></l-textarea>
+      <view style="display: flex;flex-direction: row;justify-content: space-between;">
+        <view style="width: 60rpx;">
+          <button class="avatarBtn" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
+            <image class="avatar" src="{{avatarurl}}"></image>
+          </button>
+        </view>
+        <input class="nicknameinput" type="nickname" value="{{nickname}}" placeholder="点击获取昵称" bindinput="bvNickName" />
+        <l-button size="mini" bind:lintap='bvPublishComment' plain="{{true}}">发送留言</l-button>
+
+      </view>
+    </view>
+  </l-card>
+</l-popup>

@@ -1,0 +1,36 @@
+<view class="top">
+  <view style="display:flex; flex-direction:column;">
+    <view class="packettext" style="margin-top: 140rpx;">
+      <text>恭喜您获得</text>
+    </view>
+    <view class="packettext">
+      <text>{{doneepoints}}积分</text>
+    </view>
+    <view wx:if="{{loginshow}}" style="display:flex; flex-direction:column; ">
+      <text>\r\n</text>
+    <text>\r\n</text>
+      <view style="display:flex; flex-direction:row;">
+        <label class="labal">手机号：</label>
+        <input class="input" type="number"  bindinput="bvInputPhone" value="{{inputphone}}" maxlength="11" disabled="{{getnumbersuccess}}"/>
+        <button class="codebtn" open-type="getPhoneNumber" bindgetphonenumber="onGetPhoneNumber"><text class="codebtntext">获取手机号</text></button>
+      </view>
+      <view style="display:flex; flex-direction:row;">
+        <label class="labal">验证码：</label>
+        <input class="input" type="number" bindinput="bvPhoneCode" maxlength="6"/>
+        <button class="codebtn" bindtap="bvSendCode" disabled="{{disabledstatus}}">
+        <text class="codebtntext">{{time}}</text></button>
+      </view>
+      <text>\r\n</text>
+      <button class="btn-open" bindtap="bvLogin">
+        <text>登录领取</text>
+      </button>
+    </view>
+    <view wx:else>
+      <button class="btn-open" style="margin-top: 300rpx;" bindtap="bvAccept">
+        <text>开心收下</text>
+      </button>
+    </view>
+  </view>
+  <text>\n</text>
+
+</view>

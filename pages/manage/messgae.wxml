@@ -4,9 +4,9 @@
 <view>\n</view>
 <l-label class="title1">新商品上线通知</l-label>
 <l-card type="primary" plaintext="{{true}}">
-  <l-input type="text" name="producttype" label="产品类别" placeholder="{{producttype}}" bind:lininput="bvProductType"></l-input>
-  <l-input type="text" name="productname" label="产品名称" placeholder="{{productname}}" bind:lininput="bvProductName"></l-input>
-  <l-input type="text" name="price" label="产品价格" placeholder="{{price}}" bind:lininput="bvPrice"></l-input>
+  <l-input type="text" name="producttype" label="商品类别" placeholder="{{producttype}}" bind:lininput="bvProductType"></l-input>
+  <l-input type="text" name="productname" label="商品名称" placeholder="{{productname}}" bind:lininput="bvProductName"></l-input>
+  <l-input type="text" name="price" label="商品价格" placeholder="{{price}}" bind:lininput="bvPrice"></l-input>
   <l-input type="text" name="remark" label="备注" placeholder="{{remark}}" bind:lininput="bvRemark"></l-input>
 </l-card>
 <l-button type="default" bindtap="bvSaveProductMessage">暂存</l-button>
@@ -15,9 +15,9 @@
   <text>\r\n\r\n</text>
 <l-label class="title1">新项目上线通知</l-label>
 <l-card type="primary" plaintext="{{true}}">
-  <l-input type="text" name="producttype" label="产品类别" placeholder="{{producttype}}" bind:lininput="bvProductType"></l-input>
-  <l-input type="text" name="productname" label="产品名称" placeholder="{{productname}}" bind:lininput="bvProductName"></l-input>
-  <l-input type="text" name="price" label="产品价格" placeholder="{{price}}" bind:lininput="bvPrice"></l-input>
+  <l-input type="text" name="producttype" label="商品类别" placeholder="{{producttype}}" bind:lininput="bvProductType"></l-input>
+  <l-input type="text" name="productname" label="商品名称" placeholder="{{productname}}" bind:lininput="bvProductName"></l-input>
+  <l-input type="text" name="price" label="商品价格" placeholder="{{price}}" bind:lininput="bvPrice"></l-input>
   <l-input type="text" name="remark" label="备注" placeholder="{{remark}}" bind:lininput="bvRemark"></l-input>
 </l-card>
 <l-button type="default" bindtap="bvSaveProductMessage">暂存</l-button>

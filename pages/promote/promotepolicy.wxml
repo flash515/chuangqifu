@@ -1,0 +1,141 @@
+<!-- 轮播头图 -->
+<Swiper class="swiper" image="{{image}}"></Swiper>
+<view class="title">
+  <text>推广奖励</text>
+</view>
+<view class="mainframe">
+  <l-card type="primary" plaintext="{{true}}">
+    <text class="maintext">当前推广资格：{{plname}}</text>
+    <text class="maintext">资格起始时间：{{plstartdate}}</text>
+  </l-card>
+  <text>\n</text>
+  <view class="maincontent">
+  <text space="emsp" decode='true' class="maintext">  小税宝为协助推广的会员用户提供了推广积分奖励与消费积分奖励方案，推广积分可转让或用于购买小税宝商品时按实际价值抵减费用，消费积分可兑换推广积分或按实际价值折现。</text>
+</view>
+  <view hidden="{{phonehidden}}">
+      <text>\n</text>
+    <l-card type="primary" plaintext="{{true}}">
+      <text>可申请资格：会员</text>
+      <l-button size="mini" type="default" bind:lintap="bvPhoneUpdate" shape="semicircle" plain="true">前往验证手机号码</l-button>
+    </l-card>
+  </view>
+  <view hidden="{{btn1hidden}}">
+    <l-card type="primary" plaintext="{{true}}">
+      <text>可申请资格：白银会员</text>
+      <picker mode="date" value="{{startdate1}}" start="{{startdate}}" bindchange="bvStartDate1">
+        <view class="picker">
+          <text class="text" style="color:#3683d6">选择生效日期：{{startdate1}}</text>
+        </view>
+      </picker>
+      <view hidden="{{applyhidden}}">
+        <l-button size="mini" type="default" bind:lintap="bvApply" data-level="silver" data-name="白银会员" data-startdate="{{startdate1}}" data-price="1" shape="semicircle" plain="true">现在申请</l-button>
+      </view>
+      <view hidden="{{paymenthidden}}">
+        <l-button size="mini" type="default" bind:lintap="bvWXPay" shape="semicircle" plain="true">微信即时支付</l-button>
+        <text decode="{{true}}">&emsp;</text>
+        <l-button size="mini" type="default" bind:lintap="bvOtherPay" shape="semicircle" plain="true">其他方式支付</l-button>
+      </view>
+    </l-card>
+  </view>
+
+  <view hidden="{{btn2hidden}}">
+    <text>\n</text>
+    <l-card type="primary" plaintext="{{true}}">
+      <text>可申请资格：黄金会员</text>
+      <picker mode="date" value="{{startdate2}}" start="{{startdate}}" bindchange="bvStartDate2">
+        <view class="picker">
+          <text class="text" style="color:#3683d6">选择生效日期：{{startdate2}}</text>
+        </view>
+      </picker>
+      <view hidden="{{applyhidden}}">
+        <l-button size="mini" type="default" bind:lintap="bvApply" data-level="gold" data-name="黄金会员" data-startdate="{{startdate2}}" data-price="1" shape="semicircle" plain="true">现在申请</l-button>
+      </view>
+      <view hidden="{{paymenthidden}}">
+        <l-button size="mini" type="default" bind:lintap="bvWXPay" shape="semicircle" plain="true">微信即时支付</l-button>
+        <text decode="{{true}}">&emsp;</text>
+        <l-button size="mini" type="default" bind:lintap="bvOtherPay" shape="semicircle" plain="true">其他方式支付</l-button>
+      </view>
+    </l-card>
+  </view>
+  <view hidden="{{btn3hidden}}">
+    <text>\n</text>
+    <l-card type="primary" plaintext="{{true}}">
+      <text>可申请资格：铂金会员</text>
+      <picker mode="date" value="{{startdate3}}" start="{{startdate}}" bindchange="bvStartDate3">
+        <view class="picker">
+          <text class="text" style="color:#3683d6">选择生效日期：{{startdate3}}</text>
+        </view>
+      </picker>
+      <view hidden="{{applyhidden}}">
+        <l-button size="mini" type="default" bind:lintap="bvApply" data-level="platinum" data-name="铂金会员" data-startdate="{{startdate3}}" data-price="1" shape="semicircle" plain="true">现在申请
+        </l-button>
+      </view>
+      <view hidden="{{paymenthidden}}">
+        <l-button size="mini" type="default" bind:lintap="bvWXPay" shape="semicircle" plain="true">微信即时支付</l-button>
+        <text decode="{{true}}">&emsp;</text>
+        <l-button size="mini" type="default" bind:lintap="bvOtherPay" shape="semicircle" plain="true">其他方式支付</l-button>
+      </view>
+    </l-card>
+  </view>
+  <text>\n</text>
+  <l-collapse>
+    <l-collapse-item title="会员">
+      <l-card type="primary" plaintext="{{true}}" title="会员资格">
+        <text decode='true'>1、普通用户在填写手机号码并通过认证后成为会员。</text>
+        <view hidden="{{phonehidden}}">
+          <l-button size="mini" type="default" bind:lintap="bvPhoneUpdate" shape="semicircle" plain="true">前往验证手机号码</l-button>
+        </view>
+      </l-card>
+      <l-card type="primary" plaintext="{{true}}" title="会员权益">
+        <text decode='true'>1、推广积分：会员本人在首次手机号认证后可获得30积分奖励。且</text>
+        <text decode='true'>2、推广积分：会员可获得直接推广（第一级）普通用户5积分/人，直接推广（第一级）有效用户（会员）20积分/人。</text>
+      </l-card>
+    </l-collapse-item>
+  </l-collapse>
+  <l-collapse>
+    <l-collapse-item title="白银会员">
+      <l-card type="primary" plaintext="{{true}}" title="白银会员资格">
+        <text decode='true'>1、用户本人已成为会员；且</text>
+        <text decode='true'>2、成为会员后直接推广（第一级）有效用户（会员）≥10人；且</text>
+        <text decode='true'>3、申请并支付1元获得白银会员资格。</text>
+        <text decode='true'>4、取得资格之日起每十二个月内直接推广（第一级）有效用户（会员）≥2人可维持白银会员资格；</text>
+        <text decode='true'>5、失去白银会员资格后将转为普通会员资格和权益，未使用的推广积分和消费积分将清零并重新累积；</text>
+      </l-card>
+      <l-card type="primary" plaintext="{{true}}" title="白银会员权益">
+        <text decode='true'>1、推广积分：白银会员可获得直接推广（第一级）普通用户5积分/人，直接推广（第一级）有效用户（会员）20积分/人，间接推广（第二级）有效用户（会员）10积分/人。且</text>
+        <text decode='true'>2、消费积分：白银会员可获得直接推广（第一级）用户在小税宝中实际消费金额的有效数值计算积分奖励。</text>
+      </l-card>
+    </l-collapse-item>
+  </l-collapse>
+  <l-collapse>
+    <l-collapse-item title="黄金会员">
+      <l-card type="primary" plaintext="{{true}}" title="黄金会员资格">
+        <text decode='true'>1、用户本人已成为白银会员；且</text>
+        <text decode='true'>2、成为会员后直接推广（第一级）有效用户（会员）≥100人；且</text>
+        <text decode='true'>3、申请并支付1元获得黄金会员资格。</text>
+        <text decode='true'>4、取得资格之日起每十二个月内直接推广（第一级）有效用户（会员）≥20人可维持黄金会员资格；</text>
+        <text decode='true'>5、失去黄金会员资格后将转为会员资格和权益，未使用的推广积分和消费积分将清零并重新累积；</text>
+      </l-card>
+      <l-card type="primary" plaintext="{{true}}" title="黄金会员权益">
+        <text decode='true'>1、推广积分：黄金会员可获得直接推广（第一级）普通用户5积分/人，直接推广（第一级）有效用户（会员）20积分/人，间接推广（第二级）有效用户（会员）10积分/人。且</text>
+        <text decode='true'>2、消费积分：黄金会员可获得直接推广（第一级）用户在小税宝中实际消费金额的有效数值的2倍计算积分奖励。</text>
+      </l-card>
+    </l-collapse-item>
+  </l-collapse>
+  <l-collapse>
+    <l-collapse-item title="铂金会员">
+      <l-card type="primary" plaintext="{{true}}" title="铂金会员资格">
+        <text decode='true'>1、用户本人已成为黄金会员；且</text>
+        <text decode='true'>2、成为会员后直接推广（第一级）有效用户（会员）≥300人；且</text>
+        <text decode='true'>3、申请并支付1元获得铂金会员资格。</text>
+        <text decode='true'>4、取得资格之日起每十二个月内直接推广（第一级）有效用户（会员）≥60人可维持铂金会员资格；</text>
+        <text decode='true'>5、失去铂金会员资格后将转为会员资格和权益，未使用的推广积分和消费积分将清零并重新累积；</text>
+      </l-card>
+      <l-card type="primary" plaintext="{{true}}" title="铂金会员权益">
+        <text decode='true'>1、推广积分：铂金会员可获得直接推广（第一级）普通用户5积分/人，直接推广（第一级）有效用户（会员）20积分/人，间接推广（第二级）有效用户（会员）10积分/人。且</text>
+        <text decode='true'>2、消费积分：铂金会员可获得直接推广（第一级）用户在小税宝中实际消费金额的有效数值的2倍计算积分奖励；间接推广（第二级）用户在小税宝中实际消费金额的有效数值计算积分奖励。</text>
+      </l-card>
+    </l-collapse-item>
+  </l-collapse>
+
+</view>

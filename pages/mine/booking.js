@@ -1,4 +1,5 @@
 const app = getApp()
+
 Page({
 
   /**
@@ -64,7 +65,7 @@ wx.navigateTo({
     })
     const db = wx.cloud.database()
     db.collection('BOOKING').where({
-      _openid: app.globalData.Gopenid,
+      UserId: app.globalData.Guserid,
     }).get({
       success: res => {
         this.setData({
@@ -84,6 +85,7 @@ wx.navigateTo({
   /**
    * 生命周期函数--监听页面显示
    */
+
   onShow: function () {
 
   },
@@ -98,7 +100,7 @@ wx.navigateTo({
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function () {
+    onUnload: function () {
 
   },
 
@@ -108,7 +110,7 @@ wx.navigateTo({
   onPullDownRefresh: function () {
     const db = wx.cloud.database()
     db.collection('BOOKING').where({
-      _openid: app.globalData.Gopenid,
+      UserId: app.globalData.Guserid,
     }).get({
       success: res => {
         this.setData({

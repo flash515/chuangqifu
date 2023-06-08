@@ -1,0 +1,101 @@
+.bgimage {
+  width: 750rpx;
+  height: 600rpx;
+  position: absolute;
+  z-index: -1;
+  background-color: aquamarine;
+}
+
+.uplayout {
+  width: 750rpx;
+  height: 600rpx;
+  position: relative;
+  top: 0rpx;
+  left: 0rpx;
+  margin: 0rpx;
+}
+
+.namecard {
+  padding: 60rpx 30rpx 0rpx 30rpx;
+}
+
+.user {
+  width: 690rpx;
+  display:flex; 
+  flex-direction:row;
+  align-items:flex-end;
+  justify-content:space-between;
+  margin-left: 0rpx;
+  margin-right: 0rpx;
+  padding-left: 0rpx;
+  padding-right: 0rpx;
+}
+
+.companyname {
+  width: 690rpx;
+  font-size: 55rpx;
+  font-weight: bold;
+  color: rgb(0, 0, 0);
+  text-align: center;
+}
+
+.companylogo {
+  width : 180rpx;
+  height : 180rpx; 
+}
+
+.username {
+  font-size: 45rpx;
+  font-weight: bold;
+  color: rgb(0, 0, 0);
+}
+
+.title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: rgb(0, 0, 0);
+}
+
+.handphone {
+  font-size: 32rpx;
+  color: rgb(0, 0, 0);
+}
+
+.wechat {
+  font-size: 32rpx;
+  color: rgb(0, 0, 0);
+}
+
+.email {
+  font-size: 32rpx;
+  color: rgb(0, 0, 0);
+}
+
+.telephone {
+  font-size: 32rpx;
+  color: rgb(0, 0, 0);
+}
+
+.website {
+  font-size: 32rpx;
+  color: rgb(0, 0, 0);
+}
+
+.address {
+  font-size: 32rpx;
+  color: rgb(0, 0, 0);
+}
+
+.text {
+  font-size: 32rpx;
+  color: rgb(0, 0, 0);
+}
+
+
+.line {
+  margin-left: 0rpx;
+  margin-right: 0rpx;
+  height: 0.5px;
+  background-color: #f3f3f3;
+
+}

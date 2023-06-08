@@ -1,7 +1,7 @@
 /* pages/product/product.wxss */
 .title
 {color: black;
-font-size: 20px;
+font-size: 40rpx;
 font-weight: bold;
 padding-top: 10px;
 
@@ -10,7 +10,7 @@ padding-top: 10px;
 {
   color: black;
   text-align: left；
-font-size：16px;
+font-size：35rpx;
 font-weight: bold;
 }
 .body{
@@ -26,4 +26,8 @@ height: 100px;}
   color: #007aff;
   background-color: white;
   background-size: cover;
+}
+.active{
+  background-color:gainsboro;
+
 }

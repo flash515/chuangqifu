@@ -1,0 +1,49 @@
+
+.content {
+  font-size: 28rpx;
+}
+
+
+.avatar {
+  width: 60rpx;
+  height: 60rpx;
+  border: none;
+  padding: 0;
+  background-size: cover;
+  background-color: white;
+}
+.avatarBtn {
+  width: 60rpx;
+  height: 60rpx;
+  border: none;
+  padding: 0;
+  background-color: white;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+.labal {
+  font-size: 28rpx;
+  color: rgb(0, 0, 0);
+  margin-left: 25rpx;
+}
+
+.nickname {
+  font-size: 28rpx;
+  height: 30rpx;
+  color: #3683d6;
+}
+.nicknameinput {
+  font-size: 28rpx;
+  height: 60rpx;
+  color: #3683d6;
+}
+
+.commentscard {
+  height: 500rpx;
+}
+.comment {
+  font-size: 28rpx;
+  height: 30rpx;
+}

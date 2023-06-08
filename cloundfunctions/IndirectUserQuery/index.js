@@ -1,7 +1,7 @@
     // 云函数入口文件
     const cloud = require('wx-server-sdk')
     cloud.init({
-      env: 'cloud1-2gn7aud7a22c693c',
+      env: 'xsbmain-9gvsp7vo651fd1a9',
       traceUser: true,
     })
     const db = cloud.database()
@@ -10,7 +10,7 @@
 var temp = []
 for (let i = 0; i < event.userarray.length; i++) {
   let promise = db.collection('USER').where({
-    InviterOpenId:event.userarray[i]._openid,
+    InviterOpenId:event.userarray[i].UserId,
   }).get()
      temp=temp.concat((await promise).data)
 }

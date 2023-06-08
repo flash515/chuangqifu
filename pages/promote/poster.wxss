@@ -1,0 +1,19 @@
+/* pages/mine/poster.wxss */
+.btn {
+  background: #EC6128;
+  height: 100rpx;
+  width: 600rpx;
+  border-radius: 20rpx;
+  margin: 0 auto;
+  margin-top: 20rpx;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.canvas {
+  position: fixed;
+  left: -1500px;
+  top: 0;
+}

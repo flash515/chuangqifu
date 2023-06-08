@@ -1,63 +1,60 @@
-<!-- <text>订单页面</text> -->
-<view>
-  <swiper class="swiper" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" circular="{{circular}}"
-    vertical="{{vertical}}" interval="{{interval}}" duration="{{duration}}" previous-margin="{{previousMargin}}px"
-    next-margin="{{nextMargin}}px">
-    <block wx:for="{{image}}" wx:for-index="index" wx:key="key">
-      <swiper-item>
-        <image src="{{item}}" class="swiper image" mode="scaleToFill" />
-        <!-- <view class="swiper-item {{item.url}}"></view> -->
-      </swiper-item>
-    </block>
-  </swiper>
-</view>
+<!-- 轮播头图 -->
+<Swiper class="swiper" image="{{image}}"></Swiper>
+
 <view class="mainframe">
-  <!-- 传入的产品信息 -->
+  <!-- 传入的商品信息 -->
   <view class="title">
-  <text>订单信息</text>
-</view>
-<view>
-      <l-input label="产品编号：" type="text" label-layout="left" label-width="270"
-        placeholder="{{productid}}" disabled="{{true}}" />
-      <l-input label="产品名称：" type="text" label-layout="left" label-width="270"
-        placeholder="{{productname}}" disabled="{{true}}" />
-      <l-input label="办理费用：" type="text" label-layout="left" label-width="270"
-        placeholder="{{orderprice}}" disabled="{{true}}" />
-  <view class="flex-row">
-  <view>    <l-input label="办理数量：" label-layout="left" label-width="270" disabled="{{true}}" /></view>
-  <view>    <l-counter count="1" min="1" bind:lintap="bvCount" disabled="{{submitted}}"/></view>
-  </view>
-<view>
-  <l-input label="订单总费用（元）：" placeholder="{{temptotalfee}}" type="number" label-layout="left"
-          label-width="270" disabled="{{true}}" />
-</view>
-<view>    <l-input label="可用积分：" placeholder="{{balance}}" label-layout="left" label-width="270" disabled="{{true}}" /></view>
-  <view class="flex-row">
-  <view>    <l-input label="本次使用积分：" label-layout="left" label-width="270" disabled="{{true}}" /></view>
-  <view>    <l-counter count="{{consumepoints}}" min="0" step="10" max="{{balance}}" bind:lintap="bvConsumePoints" disabled="{{submitted}}"/></view>
+    <text>订单信息</text>
   </view>
   <view>
-  <l-input label="实际支付费用（元）：" placeholder="{{totalfee}}" type="number" label-layout="left"
-          label-width="270" disabled="{{true}}" />
-</view>
-  <text>\n</text>
-</view>
+    <l-input label="商品编号：" type="text" label-layout="left" label-width="270" placeholder="{{productid}}" disabled="{{true}}" />
+    <l-input label="商品名称：" type="text" label-layout="left" label-width="270" placeholder="{{productname}}" disabled="{{true}}" />
+    <l-input label="办理费用：" type="text" label-layout="left" label-width="270" placeholder="{{orderprice}}" disabled="{{true}}" />
+    <view class="flex-row">
+      <view>
+        <l-input label="办理数量：" label-layout="left" label-width="270" disabled="{{true}}" />
+      </view>
+      <view>
+        <l-counter count="1" min="1" bind:lintap="bvCount" disabled="{{submitted}}" />
+      </view>
+      <view class="line"></view>
+    </view>
+    <view>
+      <l-input label="订单总费用（元）：" placeholder="{{temptotalfee}}" type="number" label-layout="left" label-width="270" disabled="{{true}}" />
+    </view>
+    <view>
+      <l-input label="我的积分：" placeholder="{{balance}}" label-layout="left" label-width="270" disabled="{{true}}" />
+    </view>
+    <view>
+      <l-input label="本次可用积分：" placeholder="{{maxpoints}}" label-layout="left" label-width="270" disabled="{{true}}" />
+    </view>
+    <view class="flex-row">
+      <view>
+        <l-input label="本次使用积分：" label-layout="left" label-width="270" disabled="{{true}}" />
+      </view>
+      <view>
+        <l-counter round-float="true" count="{{consumepoints}}" min="0" step="10" max="{{maxpoints}}" bind:lintap="bvConsumePoints" disabled="{{submitted}}" />
+      </view>
+      <view class="line"></view>
+    </view>
+    <view>
+      <l-input label="实际支付费用（元）：" placeholder="{{totalfee}}" type="number" label-layout="left" label-width="270" disabled="{{true}}" />
+    </view>
+    <text>\n</text>
+  </view>
   <!-- 以下管理员显示内容 -->
   <view wx:if="{{usertype == 'admin'}}">
-    <l-input name="fee" label="净服务费（元）：" type="number" label-layout="left" label-width="270" placeholder="{{fee}}"
-      disabled="{{true}}" />
-    <l-input name="charge1" label="直接推荐奖励（元）：" type="number" label-layout="left" label-width="270"
-      placeholder="{{charge1}}" disabled="{{true}}" />
-    <l-input name="charge2" label="间接推荐奖励（元）" type="number" label-layout="left" label-width="270"
-      placeholder="{{charge2}}" disabled="{{true}}" />
+    <l-input name="fee" label="净服务费（元）：" type="number" label-layout="left" label-width="270" placeholder="{{fee}}" disabled="{{true}}" />
+    <l-input name="charge1" label="直接推荐奖励（元）：" type="number" label-layout="left" label-width="270" placeholder="{{charge1}}" disabled="{{true}}" />
+    <l-input name="charge2" label="间接推荐奖励（元）" type="number" label-layout="left" label-width="270" placeholder="{{charge2}}" disabled="{{true}}" />
   </view>
   <text>\n</text>
 
-    <view wx:if="{{!submitted}}">
+  <view wx:if="{{!submitted}}">
     <l-button type="default" bind:lintap="bvSubmit" icon="to-top" icon-color="white" shape="semicircle">提交订单</l-button>
     <view><text space="emsp" decode="{{true}}">&emsp;</text></view>
   </view>
-<view wx:else>
-  <l-button type="default" bindtap="bvPay" icon="cart" icon-color="white" shape="semicircle">支付费用</l-button>
-</view>
+  <view wx:else>
+    <l-button type="default" bindtap="bvPay" icon="cart" icon-color="white" shape="semicircle">支付费用</l-button>
+  </view>
 </view>

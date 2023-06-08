@@ -1,21 +1,11 @@
 var app = getApp()
+const track = require("../../utils/track");
 Page({
   data: {
     usertype: "",
-    balance: 0,
+    userphone:"",
     direct30user: [],
     directuser: [],
-    //用于展示当前优惠折扣的变量
-    dlname: "",
-    dladddate: "",
-    dlstartdate: "",
-    dlenddate: "",
-    // 展示优惠级别的变量
-    promotername: "",
-    pladddate: "",
-    plstartdate: "",
-    plenddate: "",
-
     // 轮播头图
     image: [],
     indicatorDots: true,
@@ -25,34 +15,36 @@ Page({
     interval: 4000,
     duration: 500,
     previousMargin: 0,
-    nextMargin: 0
+    nextMargin: 0,
+    // 管理员数据
+    productarray:[],
+    productcheck:[],
+    producqatarray:[],
+    producqatcheck:[],
+    orderarray:[],
+    ordercheck:[],
+    discountarray:[],
+    discountcheck:[],
+    promotearray:[],
+    promotecheck:[],
+    bookingarray:[],
+    bookingcheck:[],
+    paymentarray:[],
+    paymentcheck:[],
+    userarray:[],
+    memberarray:[],
+    inofsharearray:[],
+    inofsharecheck:[],
+    inofarray:[],
+    inofcheck:[],
+    commentarray:[],
+    commentcheck:[],
+    namecardarray:[],
   },
 
-  bvGoToShareValue() {
-    if (app.globalData.Gpromoterlevel == "normal") {
-      wx.showModal({
-        title: '提示',
-        content: '您尚未取得推广大使资格，是否转到资格购买页面？',
-        success: function (res) {
-          if (res.confirm) {
-            console.log('确定')
-            wx.navigateTo({
-              url: '../mine/promoterorder',
-            })
-          } else if (res.cancel) {
-            console.log('取消')
-          }
-        }
-      })
-    } else {
-      wx.navigateTo({
-        url: '../mine/sharevalue',
-      })
-    }
-  },
   bvSubMessage(e) {
     wx.requestSubscribeMessage({ //获取下发权限
-      tmplIds: ['iy3UdrGZA0baP3tG-vhbC033PAYeBfrXjLFjtfbr0yE', 'Z1znM-MaX0eQKsXJNJxuu4oetRGDnTXM4AiO6AR0Rww'],
+      tmplIds: ['Ap6SsQZ-fj8SZkyVv9ZvIg8EcJ5b1jgmMQko_o4LyAw', 'H4fK4iyDUqkVVxrd7RWuDQh5DOhoChTn8phqFGlfwRU', 'tXhFEK36Dqkasd9Cmmuh5EKZ6LZycrWfgn4xqBreQz4'],
       success: (res) => {
 
       }
@@ -61,12 +53,12 @@ Page({
   onLoad: function (options) {
     this.setData({
       image: app.globalData.Gimagearray,
-      usertype: app.globalData.Gusertype,
-      balance: app.globalData.Gbalance,
+      usertype: app.globalData.Guserdata.UserInfo.UserType,
+      userphone:app.globalData.Guserdata.UserInfo.UserPhone
     })
     wx.getSetting({
       withSubscriptions: true,
-      success(res) {
+      success: res => {
         console.log(res.authSetting)
         // res.authSetting = {
         //   "scope.userInfo": true,
@@ -84,130 +76,295 @@ Page({
         // }
       }
     })
-    //查询直接用户及30天内直接用户
-    wx.getStorage({
-      key: 'LDirectUser',
-      success: res => {
-        this.setData({
-          directuser: res.data,
-        })
-        var directvalidfliter = [];
-        for (var i = 0; i < this.data.directuser.length; i++) {
-          if (this.data.directuser[i].avatarUrl != "" && this.data.directuser[i].avatarUrl != undefined) {
-            directvalidfliter.push(this.data.directuser[i]);
-          }
-        }
-        this.setData({
-          directvaliduser: directvalidfliter,
-        })
-      }
-    }),
-    // 查询优惠等级
-    this._dlcheck()
-    // 查询推广级别
-    this._plcheck()
-  },
-  _dlcheck() {
-    const db = wx.cloud.database()
-    const _ = db.command
-    db.collection('DISCOUNTORDER').where({
-      _openid: app.globalData.Gopenid,
-      PaymentStatus: "checked",
-      OrderStatus: "checked",
-      Available: true
-    }).orderBy('OrderId', 'desc').get({
-      success: res => {
-        console.log(res)
-        if (res.data.length != 0) {
-          var tempfliter = []
-          for (var i = 0; i < res.data.length; i++) {
-            if (new Date(res.data[i].DLStartDate).getTime() <= new Date().getTime() && new Date(res.data[i].DLEndDate).getTime() >= new Date().getTime()) {
-              tempfliter.push(res.data[i]);
-            }
-          }
-          if (tempfliter.length != 0 && tempfliter.length != undefined) {
-            console.log(tempfliter)
-            this.setData({
-              dladddate: tempfliter[0].AddDate,
-              dlstartdate: tempfliter[0].DLStartDate,
-              dlenddate: tempfliter[0].DLEndDate,
-              paymentstatus: tempfliter[0].PaymentStatus,
-              orderstatus: tempfliter[0].OrderStatus,
-            })
-            if (tempfliter[0].DiscountLevel == "DL1") {
-              this.setData({
-                dlname: "特惠折扣价"
-              })
-            } else if (tempfliter[0].DiscountLevel == "DL2") {
-              this.setData({
-                dlname: "巨惠折扣价"
-              })
-            } else if (tempfliter[0].DiscountLevel == "DL3") {
-              this.setData({
-                dlname: "折扣价"
-              })
-            } else if (tempfliter[0].DiscountLevel == "DL4") {
-              this.setData({
-                dlname: "原价"
-              })
-            }
-          } else {
-            //卡券已过期
-            this.setData({
-              dlname: "原价"
-            })
-          }
-        } else {
-          //没有卡券
-          this.setData({
-            dlname: "原价",
-          })
+    // 管理员执行以下操作
+if(app.globalData.Guserdata.UserInfo.UserType=="admin"){
+  wx.cloud.callFunction({
+    name: "NormalQuery",
+    data: {
+      collectionName: "PAYMENT",
+      command: "",
+      where: [{}],
+      orderbykey:"AddDate",
+      orderby:"desc",
+    },
+    success: res => {
+      var fliter1 = []
+      for (let i = 0; i < res.result.data.length; i++) {
+        if (res.result.data[i].PaymentStatus == 'unchecked') {
+          fliter1.push(res.result.data[i])
         }
       }
-    })
+      this.setData({
+        paymentarray: res.result.data,
+        paymentcheck:fliter1
+      })
+      console.log("全部用户",this.data.paymentarray)
+    }
+  })
 
-  },
-  // 查询推广等级
-  _plcheck() {
-    let that = this
-    const db = wx.cloud.database()
-    const _ = db.command
-    db.collection('PROMOTERORDER').where({
-      _openid: app.globalData.Gopenid,
-      PaymentStatus: "checked",
-      OrderStatus: "checked",
-    }).orderBy('OrderId', 'desc').limit(1).get({
-      success: res => {
-        console.log(res.data.length)
-        if (res.data.length != 0) {
-          this.setData({
-            pladddate: res.data[0].AddDate,
-            plstartdate: res.data[0].PLStartDate,
-            plenddate: res.data[0].PLEndDate,
-            promoterlevel: res.data[0].PromoterLevel,
-            paymentstatus: res.data[0].PaymentStatus,
-            orderstatus: res.data[0].OrderStatus,
-            promotername: res.data[0].PromoterName,
-          })
-        } else {
-          this.setData({
-            promotername: "会员",
-          })
-          console.log("会员执行了")
+  wx.cloud.callFunction({
+    name: "NormalQuery",
+    data: {
+      collectionName: "ORDER",
+      command: "",
+      where: [{}],
+      orderbykey:"AddDate",
+      orderby:"desc",
+    },
+    success: res => {
+      var fliter2 = []
+      for (let i = 0; i < res.result.data.length; i++) {
+        if (res.result.data[i].OrderStatus == 'unchecked') {
+          fliter2.push(res.result.data[i])
         }
-        // 进一步查询是否符合新条件
-        this._condition()
-      },
-      fail: res => {
-        wx.showToast({
-          title: '查询失败请刷新',
-          icon: 'error',
-          duration: 2000 //持续的时间
-        })
       }
-    })
+      this.setData({
+        orderarray: res.result.data,
+        ordercheck:fliter2
+      })
+      console.log("全部订单",this.data.orderarray)
+    }
+  })
+  wx.cloud.callFunction({
+    name: "NormalQuery",
+    data: {
+      collectionName: "DISCOUNTORDER",
+      command: "",
+      where: [{}],
+      orderbykey:"AddDate",
+      orderby:"desc",
+    },
+    success: res => {
+      var fliter3 = []
+      for (let i = 0; i < res.result.data.length; i++) {
+        if (res.result.data[i].OrderStatus == 'unchecked') {
+          fliter3.push(res.result.data[i])
+        }
+      }
+      this.setData({
+        discountarray: res.result.data,
+        discountcheck:fliter3
+      })
+      console.log("全部折扣订单",this.data.discountarray)
+    }
+  })
+  wx.cloud.callFunction({
+    name: "NormalQuery",
+    data: {
+      collectionName: "PROMOTEORDER",
+      command: "",
+      where: [{}],
+      orderbykey:"AddDate",
+      orderby:"desc",
+    },
+    success: res => {
+      var fliter4 = []
+      for (let i = 0; i < res.result.data.length; i++) {
+        if (res.result.data[i].OrderStatus == 'unchecked') {
+          fliter4.push(res.result.data[i])
+        }
+      }
+      this.setData({
+        promotearray: res.result.data,
+        promotecheck:fliter4
+      })
+      console.log("全部用户",this.data.promotearray)
+    }
+  })
+
+  // 查询用户
+  wx.cloud.callFunction({
+    name: "NormalQuery",
+    data: {
+      collectionName: "USER",
+      command: "",
+      where: [{["UserInfo.UserType"]:"client"}],
+      orderbykey:"SysAddDate",
+      orderby:"desc",
+    },
+    success: res => {
+      console.log("全部用户",  res)
+      var fliter5 = []
+      for (let i = 0; i < res.result.data.length; i++) {
+        if (res.result.data[i].UserInfo.UserPhone != '') {
+          fliter5.push(res.result.data[i])
+        }
+      }
+      this.setData({
+        userarray: res.result.data,
+        memberarray:fliter5
+      })
+      console.log("全部用户",this.data.userarray)
+    }
+  })
+  wx.cloud.callFunction({
+    name: "NormalQuery",
+    data: {
+      collectionName: "BOOKING",
+      command: "",
+      where: [{}],
+      orderbykey:"AddDate",
+      orderby:"desc",
+    },
+    success: res => {
+      var fliter6 = []
+      for (let i = 0; i < res.result.data.length; i++) {
+        if (res.result.data[i].BookingStatus == 'unchecked') {
+          fliter6.push(res.result.data[i])
+        }
+      }
+      this.setData({
+        bookingarray: res.result.data,
+        bookingcheck:fliter6
+      })
+      console.log("全部预约",this.data.bookingarray)
+    }
+  })
+  // 查询资讯
+  wx.cloud.callFunction({
+    name: "NormalQuery",
+    data: {
+      collectionName: "INFOSHARE",
+      command: "",
+      where: [{}],
+      orderbykey:"PublishDate",
+      orderby:"desc",
+    },
+    success: res => {
+      var fliter71temp = []
+      var fliter72temp = []
+      var fliter71 = []
+      var fliter72 = []
+      for (let i = 0; i < res.result.data.length; i++) {
+        if (res.result.data[i].InfoType == 'Media') {
+          fliter71temp.push(res.result.data[i])
+        }else if(res.result.data[i].InfoType == 'Simple'){
+          fliter72temp.push(res.result.data[i])
+        }
+      }
+      for (let i = 0; i < fliter71temp.length; i++) {
+        if (fliter71temp[i].InfoStatus == 'unchecked') {
+          fliter71.push(fliter71temp[i])
+        }
+      }
+      for (let i = 0; i < fliter72temp.length; i++) {
+        if (fliter72temp[i].InfoStatus == 'unchecked') {
+          fliter72.push(fliter72temp[i])
+        }
+      }
+      this.setData({
+        infosharearray: fliter71temp,
+        infosharecheck:fliter71,
+        infoarray: fliter72temp,
+        infocheck:fliter72
+      })
+      console.log("全部资讯",this.data.infoarray)
+    }
+  })
+  wx.cloud.callFunction({
+    name: "NormalQuery",
+    data: {
+      collectionName: "InfoShareComment",
+      command: "",
+      where: [{}],
+      orderbykey:"AddDate",
+      orderby:"desc",
+    },
+    success: res => {
+      var fliter8 = []
+      for (let i = 0; i < res.result.data.length; i++) {
+        if (res.result.data[i].Status == 'unchecked') {
+          fliter8.push(res.result.data[i])
+        }
+      }
+      this.setData({
+        commentarray: res.result.data,
+        commentcheck:fliter8
+      })
+      console.log("全部用户",this.data.commentarray)
+    }
+  })
+  
+  // 查询产品
+  wx.cloud.callFunction({
+    name: "NormalQuery",
+    data: {
+      collectionName: "PRODUCT",
+      command: "",
+      where: [{}],
+      orderbykey:"AddDate",
+      orderby:"desc",
+    },
+    success: res => {
+      var fliter9 = []
+      for (let i = 0; i < res.result.data.length; i++) {
+        if (res.result.data[i].Status == '在售') {
+          fliter9.push(res.result.data[i])
+        }
+      }
+      this.setData({
+        productarray: res.result.data,
+        productcheck:fliter9
+      })
+      console.log("全部产品",this.data.productarray)
+    }
+  })
+
+  // 查询产品问答
+  wx.cloud.callFunction({
+    name: "NormalQuery",
+    data: {
+      collectionName: "PRODUCTQA",
+      command: "",
+      where: [{}],
+      orderbykey:"AddDate",
+      orderby:"desc",
+    },
+    success: res => {
+      var fliter10 = []
+      for (let i = 0; i < res.result.data.length; i++) {
+        if (res.result.data[i].Status == 'unchecked') {
+          fliter10.push(res.result.data[i])
+        }
+      }
+      this.setData({
+        productqaarray: res.result.data,
+        producqatcheck:fliter10
+      })
+      console.log("全部问答",this.data.productqaarray)
+    }
+  })
+
+
+
+  wx.cloud.callFunction({
+    name: "NormalQuery",
+    data: {
+      collectionName: "NAMECARD",
+      command: "",
+      where: [{}],
+      orderbykey:"PublishDate",
+      orderby:"desc",
+    },
+    success: res => {
+      this.setData({
+        namecardarray: res.result.data,
+      })
+      console.log("全部用户",this.data.namecardarray)
+    }
+  })
+}
   },
+      	// 点击 tab 时用此方法触发埋点
+	onTabItemTap: () => track.startToTrack(),
   onShow: function () {
-
+    track.startToTrack()
+  },
+  handlerClick(e) {track.startByClick(e.currentTarget.id);},
+  /**
+   * 生命周期函数--监听页面卸载
+   */
+  onUnload: function () {
+    track.startByBack()
   },
 })

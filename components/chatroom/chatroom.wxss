@@ -11,7 +11,7 @@
   flex-direction: row;
   border-bottom: 1px solid #ddd;
   padding: 20rpx 0 30rpx;
-  font-size: 30rpx;
+  font-size: 28rpx;
   /* background: rgb(34, 187, 47);
   color: rgba(255, 255, 255, 1) */
   /* font-family: 'Microsoft YaHei' */
@@ -31,7 +31,7 @@
 }
 
 .chatroom .body {
-  flex: 2;
+
   display: flex;
   flex-direction: column;
   background: rgb(237,237,237);
@@ -80,7 +80,7 @@
   background-color: #fff;
   margin: 2px 0 0 0;
   padding: 4px 10px;
-  font-size: 30rpx;
+  font-size: 28rpx;
   display: inline-block;
 }
 
@@ -134,7 +134,7 @@
 
 .message-sender .text-input {
   flex: 1;
-  font-size: 16px;
+  font-size: 35rpx;
   border: 1px solid transparent;
   border-radius: 5px;
   padding: 3px 6px;
@@ -148,14 +148,14 @@
   align-self: center;
 }
 
-button {
-  font-size: 30rpx;
+.button {
+  font-size: 28rpx;
 }
 
-button.userinfo {
+.button.userinfo {
   background: darkturquoise;
   color: aliceblue;
   padding: 0 100rpx;
   border: 1px solid #ddd;
-  border-radius: 20px;
+  border-radius: 40rpx;
 }

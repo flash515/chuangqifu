@@ -1,23 +1,49 @@
-<!--用户管理页面-->
+<!--pages/manage/userview.wxml-->
 <view class="title">用户总览</view>
 <text>\n</text>
-
-<view wx:for="{{userarray}}" wx:key="key" wx:for-index="index">
+<view class="mainframe">
+<view wx:for="{{userarray}}" wx:key="key" wx:for-index="index" style="font-size: 28rpx;">
   <l-card type="primary" plaintext="{{true}}">
-    <view class="content">
-      <view>序号：{{index}}</view>
-      <view>首登日期：{{item.AddDate}}</view>
-      <view>用户姓名：{{item.UserName}}</view>
-      <view>微信昵称：{{item.nickName}}</view>
-      <view>用户手机：{{item.UserPhone}}</view>
-      <view>用户类型：{{item.UserType}}</view>
-      <view>积分余额：{{item.Balance}}</view>
-      <view>优惠等级：{{item.DiscountLevel}}</view>
-      <view>推广等级：{{item.PromoterLevel}}</view>
-      <view>用户来源：{{item.Remark}}</view>
-      <view>推荐人公司：{{item.InviterCompanyName}}</view>
-      <view>推荐人姓名：{{item.InviterUserName}}</view>
-    </view>
-  </l-card>
+    <view>序号：{{userarray.length-index}}</view>
+    <view>首登日期：{{item.AddDate}}</view>
+    <view wx:if="{{item.NameCard.UserName}}">用户姓名：{{item.NameCard.UserName}}</view>
+    <view wx:if="{{item.NameCard.CompanyName}}">用户公司：{{item.NameCard.CompanyName}}</view>
+    <view wx:if="{{item.UserInfo.nickName}}">用户微信昵称：{{item.UserInfo.nickName}}</view>
+    <view wx:if="{{item.UserInfo.avatarUrl}}">用户微信头像：<image class="avatar" src="{{item.UserInfo.avatarUrl}}"></image></view>
+    <view wx:if="{{item.UserInfo.UserPhone}}">用户手机：{{item.UserInfo.UserPhone}}</view>
+    <view wx:if="{{item.UserInfo.UserType}}">用户类型：{{item.UserInfo.UserType}}</view>
+    <view wx:if="{{item.TradeInfo.TradeBalance}}">消费积分余额：{{item.TradeInfo.TradeBalance}}</view>
+    <view wx:if="{{item.TradeInfo.PromoteBalance}}">推广积分余额：{{item.TradeInfo.PromoteBalance}}</view>
+    <view wx:if="{{item.TradeInfo.BalanceUpdateTime}}">积分更新时间：{{item.TradeInfo.BalanceUpdateTime}}</view>
+    <view wx:if="{{item.TradeInfo.DiscountLevel}}">优惠等级：{{item.TradeInfo.DiscountLevel}}</view>
+    <view wx:if="{{item.TradeInfo.DLStartDate}}">优惠起始日期：{{item.TradeInfo.DLStartDate}}</view>
+    <view wx:if="{{item.TradeInfo.DLEndDate}}">优惠终止日期：{{item.TradeInfo.DLEndDate}}</view>
+    <view wx:if="{{item.TradeInfo.DLUpdateTime}}">优惠更新时间：{{item.TradeInfo.DLUpdateTime}}</view>
+    <view wx:if="{{item.TradeInfo.PromoteLevel}}">会员推广等级：{{item.TradeInfo.PromoteLevel}}</view>
+    <view wx:if="{{item.TradeInfo.PLUpdateTime}}">推广更新时间：{{item.TradeInfo.PLUpdateTime}}</view>
+    <view wx:if="{{item.Params}}">首次登录参数：{{item.Params}}</view>
+    <view wx:if="{{item.Remark}}">用户备注：{{item.Remark}}</view>
+    <view wx:if="{{item.UserInfo.InviterAvatar}}">推荐人头像：<image class="avatar" src="{{item.UserInfo.InviterAvatar}}"></image></view>
+    <view wx:if="{{item.UserInfo.InviterNickName}}">推荐人昵称：{{item.UserInfo.InviterNickName}}</view>
+
+  <!-- 具有经典借鉴的多级展示 -->
+  <l-collapse>
+    <l-collapse-item title="上次登录浏览记录">
+      <view wx:for="{{item.Track}}" wx:for-index="key1" wx:for-item="array1" wx:key="key" style="margin-top: 10rpx;">
+        <view wx:for="{{array1}}" wx:for-index="key2" wx:for-item="array2" wx:key="key">
+          <view>{{key2}}</view>
+          <view> time:{{array2[0].time}}</view>
+          <view wx:for="{{array2}}" wx:for-index="key3" wx:for-item="array3" wx:key="key">
+            <view wx:for="{{array3.click}}" wx:for-index="key4" wx:for-item="array4" wx:key="key">
+              <view>点击事件:{{array4.id}}</view>
+              <view>点击次数:{{array4.num}}</view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </l-collapse-item>
+  </l-collapse>
+</l-card>
   <text>\n</text>
+</view>
 </view>

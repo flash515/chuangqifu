@@ -1,0 +1,26 @@
+/* pages/order/paymenthistory.wxss */
+.labal {
+  font-size: 32rpx;
+  color: #3683d6;
+  align-items:center;
+}
+.line {
+  margin-left: 0rpx;
+  margin-right: 0rpx;
+  height: 0.5px;
+  background-color: #f3f3f3;
+
+}
+.card{
+  font-size:28rpx;
+  border:0.5rpx solid #3683d6;
+}
+.cardtitle{
+  font-size:32rpx !important;
+}
+.input {
+  font-size: 32rpx;
+  height: 50rpx;
+  width: 100rpx;
+  border-bottom:0.5rpx solid #f3f3f3;
+}

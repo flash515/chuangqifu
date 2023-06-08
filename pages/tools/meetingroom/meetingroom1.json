@@ -1,5 +1,5 @@
 {
   "usingComponents": {
-    "chatroom": "/components/chatroom/chatroom"
+    "meetingroom": "/components/meetingroom/meetingroom"
   }
 }

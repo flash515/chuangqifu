@@ -1,7 +1,7 @@
 /* pages/order/product.wxss */
 .title
 {color: black;
-font-size: 20px;
+font-size: 40rpx;
 font-weight: bold;
 padding-top: 10px;
 
@@ -10,7 +10,7 @@ padding-top: 10px;
 {
   color: black;
   text-align: left；
-font-size：16px;
+font-size：35rpx;
 font-weight: bold;
 }
 .body{

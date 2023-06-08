@@ -1,0 +1,30 @@
+<!--pages/manage/sortedit.wxml-->
+<text>pages/manage/sortedit.wxml</text>
+<!--pages/manage/sortedit.wxml-->
+<text>pages/manage/sortedit.wxml</text>
+
+
+<view style="display: flex;flex-direction: column;">
+  <text>\n</text>
+  <view wx:for="{{sortarray}}" wx:key="key" wx:for-index="key1" wx:for-item="sort1">
+    <view style="padding-left: 50rpx;">
+      <input data-index="key1" value="{{sort1.Category1Code}}" bindinput="bvCategory1Code" /><input data-index="key1" value="{{sort1.Category1Name}}" bindinput="bvCategory1Name" />
+    </view>
+    <view wx:for="{{sort1.Category2Array}}" wx:key="key" wx:for-index="key2" wx:for-item="sort2">
+      <view style="padding-left: 150rpx;">
+        <input data-index="key2" value="{{sort2.Category2Code}}" bindinput="bvCategory2Code" /><input data-index="key2" value="{{sort2.Category2Name}}" bindinput="bvCategory2Name" />
+      </view>
+      <view wx:for="{{sort2.Category3Array}}" wx:key="key" wx:for-index="key3" wx:for-item="sort3">
+        <view style="padding-left: 250rpx;">
+          <input data-index="key3" value="{{sort3.Category3Code}}" bindinput="bvCategory3Code" /><input data-index="key3" value="{{sort3.Category3Name}}" bindinput="bvCategory3Name" />
+        </view>
+      </view>
+    </view>
+  </view>
+
+</view>
+<text>\n</text>
+
+<l-button bg-color="#06c05f" bind:lintap="ProductSortUpdate">更新产品类别</l-button>
+<text>\n</text>
+<l-button bg-color="#06c05f" bind:lintap="BusinessSortUpdate">更新行业类别</l-button>

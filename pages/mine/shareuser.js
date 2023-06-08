@@ -1,51 +1,41 @@
-// pages/mine/userlist.js
+const utils = require("../../utils/utils");
 var app = getApp()
 Page({
   /**
    * 页面的初始数据
    */
   data: {
-    promoterlevel: "",
+    promotelevel: "",
     // 全部直接推荐人数
     directuser: [],
     // 直接推荐用户数组
     // 30天直接推荐人数
     direct30user: [],
     directvaliduser: [],
+    
+    indirectvaliduser:[],
     // 直接推荐价值
     indirectuser: [],
     indirect30user: [],
     dotbadge: "true",
     // 轮播头图
     image: [],
-    indicatorDots: true,
-    vertical: false,
-    autoplay: true,
-    circular: true,
-    interval: 4000,
-    duration: 500,
-    previousMargin: 0,
-    nextMargin: 0
-
   },
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
+  onLoad: async function (options) {
     this.setData({
       image: app.globalData.Gimagearray,
-      promoterlevel: app.globalData.Gpromoterlevel,
+      promotelevel: app.globalData.Guserdata.TradeInfo.PromoteLevel,
     })
-    //查询直接用户及30天内直接用户
-    wx.getStorage({
-      key: 'LDirectUser',
-      success: res => {
+    // 查询直接推广用户与间接推广用户
         this.setData({
-          directuser: res.data,
+          directuser:await utils._directuser(app.globalData.Guserid),
         })
         var directvalidfliter = [];
         for (var i = 0; i < this.data.directuser.length; i++) {
-          if (this.data.directuser[i].avatarUrl != "" && this.data.directuser[i].avatarUrl != undefined) {
+          if (this.data.directuser[i].UserInfo.UserPhone != "" && this.data.directuser[i].UserInfo.UserPhone != undefined) {
             directvalidfliter.push(this.data.directuser[i]);
           }
         }
@@ -61,43 +51,36 @@ Page({
           }
         }
         app.globalData.Gdirect1yearvaliduser = direct1yearfliter.length
-        console.log("3  一年有效用户人数", app.globalData.Gdirect1yearvaliduser);
-        wx.setStorageSync('LDirect1YearValidUser', direct1yearfliter);
-      }
-    })
+        console.log("3  一年直接推广有效用户人数", app.globalData.Gdirect1yearvaliduser);
+   
+
     //查询间接用户及30天内间接用户，放在分享数量页面onload
-    // 从本地存储中读取
-    wx.getStorage({
-      key: 'LIndirectUser',
-      success: res => {
-        this.setData({
-          indirectuser: res.data,
+       this.setData({
+          indirectuser: await utils._indirectuser(app.globalData.Guserid),
         })
         // *直接查询结果
         console.log("间接用户人数", res.data.length);
         var indirectvalidfliter = [];
         for (var i = 0; i < this.data.indirectuser.length; i++) {
-          if (this.data.indirectuser[i].avatarUrl != "" && this.data.indirectuser[i].avatarUrl != undefined) {
+          if (this.data.indirectuser[i].UserPhone != "" && this.data.indirectuser[i].UserPhone != undefined) {
             indirectvalidfliter.push(this.data.indirectuser[i]);
           }
         }
         this.setData({
           indirectvaliduser: indirectvalidfliter,
         })
-        // 筛选特定时间注册人数
+        // 筛选30天内有效间接注册人数
         var indirect30fliter = [];
-        for (var i = 0; i < res.data.length; i++) {
+        for (var i = 0; i < this.data.indirectvaliduser.length; i++) {
           if (res.data[i].SysAddDate > (new Date().getTime() - 30 * 86400000)) {
-            indirect30fliter.push(res.data[i]);
+            indirect30fliter.push(this.data.indirectvaliduser[i]);
           }
         }
         this.setData({
           indirect30user: indirect30fliter
         })
         console.log("3  30天内分享的间接用户人数", indirect30fliter.length);
-        wx.setStorageSync('LIndirect30User', indirect30fliter);
-      }
-    })
+
 
   },
 
@@ -112,9 +95,8 @@ Page({
   /**
    * 生命周期函数--监听页面显示
    */
+
   onShow: function () {
-
-
 
   },
 

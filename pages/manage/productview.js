@@ -1,17 +1,53 @@
 const app = getApp()
-Page({
 
-  /**
-   * 页面的初始数据
-   */
+Page({
   data: {
+    productlist:"",
+    currentTab: 0,
+    index: 0,
+    sortarray: [],
     productarray: [],
-    array1: [],
-    array2: [],
-    array3: [],
-    array4: [],
-    array5: [],
-    array6: [],
+    category:"",
+    categoryname:""
+  },
+  onSearch(e) {
+    const db = wx.cloud.database()
+    const _ = db.command
+    db.collection('PRODUCT').where(_.and([{
+        UserId: app.globalData.Guserid
+      },
+      _.or([{
+          IssuedBy: {
+            $regex: '.*' + e.detail.value,
+            $options: 'i'
+          }
+        },
+        {
+          ProductType: {
+            $regex: '.*' + e.detail.value,
+            $options: 'i'
+          }
+        },
+        {
+          Status: {
+            $regex: '.*' + e.detail.value,
+            $options: 'i'
+          }
+        }
+      ])
+    ])).get({
+      success: res => {
+        this.setData({
+          productarray: res.data,
+        })
+        if (res.data.length > 1) {
+          this.setData({
+            recordcontral: true
+          })
+        }
+        this.setcurrentdata()
+      }
+    })
   },
   bvAddProduct(e) {
     wx.navigateTo({
@@ -21,103 +57,74 @@ Page({
   bvEditProduct(e) {
     console.log(e.currentTarget.dataset.id);
     wx.navigateTo({
-      url: '../manage/productedit?' + e.currentTarget.dataset.id
+      url: '../manage/productedit?id=' + e.currentTarget.dataset.id
     })
   },
-    //复制下载链接
-    bvCopyDownLink(e) {
-      var url = e.currentTarget.dataset.link; //获取data-link中的值
-      // var url=this.data.url;
-      wx.setClipboardData({
-        data: url,
-        success: function (res) {
-          // self.setData({copyTip:true}),
-          wx.hideToast();
-          wx.showModal({
-            title: '提示',
-            content: '该文件下载链接已复制到剪贴板，请打开手机浏览器，在手机浏览器地址栏中粘贴下载链接并下载、保存文件',
-            success: function (res) {
-              if (res.confirm) {
-                console.log('确定')
-              } else if (res.cancel) {
-                console.log('取消')
-              }
-            }
-          })
-  
-        }
-      })
-    },
-  onLoad: function (options) {
-    // 查询本人提交的全部产品
-    const db = wx.cloud.database()
-    db.collection('PRODUCT').where({
-      _openid:app.globalData.Gopenid
-    }).get({
-      success: res => {
-        wx.setStorageSync('LPersonalProduct', res.data);
-        //括号1开始
-        this.setData({
-          productarray: res.data,
-        })
-        console.log("本人产品数组", this.data.productarray)
-        // 筛选地址服务
-        var fliter1 = [];
-        for (var i = 0; i < this.data.productarray.length; i++) {
-          if (this.data.productarray[i].Category1 == "地址服务") {
-            fliter1.push(this.data.productarray[i]);
-          }
-        }
-
-        // 筛选工商代办
-        var fliter2 = [];
-        for (var i = 0; i < this.data.productarray.length; i++) {
-          if (this.data.productarray[i].Category1 == "工商代办") {
-            fliter2.push(this.data.productarray[i]);
-          }
-        }
-
-        // 筛选银行代办
-        var fliter3 = [];
-        for (var i = 0; i < this.data.productarray.length; i++) {
-          if (this.data.productarray[i].Category1 == "银行代办") {
-            fliter3.push(this.data.productarray[i]);
-          }
-        }
-
-        // 筛选财税服务
-        var fliter4 = [];
-        for (var i = 0; i < this.data.productarray.length; i++) {
-          if (this.data.productarray[i].Category1 == "财税服务") {
-            fliter4.push(this.data.productarray[i]);
-          }
-        }
-        // 筛选企业托管
-        var fliter5 = [];
-        for (var i = 0; i < this.data.productarray.length; i++) {
-          if (this.data.productarray[i].Category1 == "企业托管") {
-            fliter5.push(this.data.productarray[i]);
-          }
-        }
-                // 筛选资质代办
-                var fliter6 = [];
-                for (var i = 0; i < this.data.productarray.length; i++) {
-                  if (this.data.productarray[i].Category1 == "资质代办") {
-                    fliter6.push(this.data.productarray[i]);
-                  }
-                }
-        this.setData({
-          array1: fliter1,
-          array2: fliter2,
-          array3: fliter3,
-          array4: fliter4,
-          array5: fliter5,
-          array6: fliter6,
-
-        })
-
-      },
+  bvSortChange(e) {
+    console.log(e.currentTarget.dataset.name)
+    console.log(e.currentTarget.dataset.index)
+    this.setData({
+      currentTab: e.currentTarget.dataset.index, //按钮CSS变化
+      categoryname: e.currentTarget.dataset.name,
+      category:e.currentTarget.dataset.name
     })
+    // this.data.categoryname = e.currentTarget.dataset.name
+    // var category = e.currentTarget.dataset.name
+    this._setproductarray()
+  },
+  _setproductarray() {
+    console.log(this.data.category)
+    var fliter = []
+    for (let i = 0; i < app.globalData.Gproductlist.length; i++) {
+      if (app.globalData.Gproductlist[i].Category1 == this.data.category) {
+        fliter.push(app.globalData.Gproductlist[i])
+      }
+    }
+    this.setData({
+      productarray: fliter
+    })
+    console.log(this.data.productarray)
+
+  },
+  /**
+   * 生命周期函数--监听页面加载
+   */
+  onLoad: function (options) {
+    console.log(options)
+    wx.cloud.callFunction({
+      name: "NormalQuery",
+      data: {
+        collectionName: "PRODUCT",
+        command: "or",
+        where: [{
+            Status: "在售"
+          },
+          {
+            Status: "停售"
+          }
+        ]
+      },
+      success: res => {
+        this.setData({
+          productlist: res.result.data,
+        })
+        app.globalData.Gproductlist=res.result.data
+        console.log("商品数组", this.data.productlist)
+        var tempsort = []
+        for (let i = 0; i < app.globalData.Gsetting.ProductSort.length; i++) {
+          tempsort.push(app.globalData.Gsetting.ProductSort[i].Category1Name)
+        }
+        this.setData({
+          sortarray: tempsort,
+          // SortArray是静态数组，不需要重新排序，直接以下标就可以确定首位key
+          category:tempsort[0].Category1Name
+        })
+        console.log(this.data.sortarray)
+
+        this._setproductarray()
+      }
+    })
+
   },
 
   /**
@@ -125,11 +132,13 @@ Page({
    */
   onReady: function () {
 
+
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
+
   onShow: function () {
 
   },

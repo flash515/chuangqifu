@@ -1,31 +1,36 @@
-const app = getApp()
+const app = getApp();
+// 有几个..取决于当前页面的层级，层级越多..越多
+var utils = require("../../../utils/utils");
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    Setting:[],
+
+    usertype: "client",
     room1key: "",
     room2key: "",
     room3key: "",
-    room4key: "",
+
     room1clean: "",
     room2clean: "",
     room3clean: "",
-    room4clean: "",
+
     room1password: "",
     room2password: "",
     room3password: "",
     room4password: "",
-    room1status: "",
-    room2status: "",
-    room3status: "",
-    room4status: "",
+    room1available: "",
+    room2available: "",
+    room3available: "",
+
     room1time: "",
     room2time: "",
     room3time: "",
-    room4time: "",
+
+    expressroomavailable: false,
+    expressroomtime: "",
 
     // 轮播参数
     image: [],
@@ -41,287 +46,376 @@ Page({
   },
   Room1Password(e) {
     this.setData({
-      room1password:e.detail.value
+      room1password: e.detail.value
     })
   },
   Room2Password(e) {
     this.setData({
-      room2password:e.detail.value
+      room2password: e.detail.value
     })
   },
   Room3Password(e) {
     this.setData({
-      room3password:e.detail.value
+      room3password: e.detail.value
     })
   },
-  Room4Password(e) {
-    this.setData({
-      room4password:e.detail.value
-    })
-  },
+
   Room1Key(e) {
     this.setData({
-      room1key:e.detail.value
+      room1key: e.detail.value
     })
 
   },
   Room2Key(e) {
     this.setData({
-      room2key:e.detail.value
+      room2key: e.detail.value
     })
 
   },
   Room3Key(e) {
     this.setData({
-      room3key:e.detail.value
+      room3key: e.detail.value
     })
 
   },
-  Room4Key(e) {
-    this.setData({
-      room4key:e.detail.value
-    })
 
-  },
   Room1Clean(e) {
     this.setData({
-      room1clean:e.detail.value
+      room1clean: e.detail.value
     })
 
   },
   Room2Clean(e) {
     this.setData({
-      room2clean:e.detail.value
+      room2clean: e.detail.value
     })
 
   },
   Room3Clean(e) {
     this.setData({
-      room3clean:e.detail.value
+      room3clean: e.detail.value
     })
 
   },
-  Room4Clean(e) {
-    this.setData({
-      room4clean:e.detail.value
-    })
 
-  },
-  RoomApply(e) {
+  Room1Apply(e) {
     // 调用云函数
-    if (e.target.dataset.value1 == "") {
-      wx.showToast({
-        title: '请设置密码',
-        icon: 'error',
-        duration: 2000 //持续的时间
-      })
+    if (this.data.room1password == "") {
+      utils._ErrorToast("请设置密码")
     } else {
-          if (e.target.dataset.key1 == "Room1Password") {
-            this.setData({
-              room1status: true,
-              room1time:Date.parse(new Date()),
-            })
-            console.log(this.data.room1time)
-            this.data.Setting.Room1Password=this.data.room1password
-            this.data.Setting.Room1Status=this.data.room1status
-            this.data.Setting.Room1Time=this.data.room1time
-            this._storgeupdate()
-            // this._settingupdate()
-          } else if (e.target.dataset.key1 == "Room2Password") {
-            this.setData({
-              room2status: true,
-              room2time:Date.parse(new Date()),
-            })
-            console.log(this.data.room2time)
-            this.data.Setting.Room2Password=this.data.room2password
-            this.data.Setting.Room2Status=this.data.room2status
-            this.data.Setting.Room2Time=this.data.room2time
-            this._storgeupdate()
-          } else if (e.target.dataset.key1 == "Room3Password") {
-            this.setData({
-              room3status: true,
-              room3time:Date.parse(new Date()),
-            })
-            console.log(this.data.room3time)
-            this.data.Setting.Room3Password=this.data.room3password
-            this.data.Setting.Room3Status=this.data.room3status
-            this.data.Setting.Room3Time=this.data.room3time
-            this._storgeupdate()
-          } else if (e.target.dataset.key1 == "Room4Password") {
-            this.setData({
-              room4status: true,
-              room4time:Date.parse(new Date()),
-            })
-            console.log(this.data.room4time)
-            this.data.Setting.Room4Password=this.data.room4password
-            this.data.Setting.Room4Status=this.data.room4status
-            this.data.Setting.Room4Time=this.data.room4time
-            this._storgeupdate()
+      this.setData({
+        room1available: false,
+      })
+      this.data.room1time = Date.parse(new Date()),
+
+        wx.cloud.callFunction({
+          name: 'MeetingRoomSetting',
+          data: {
+            key1: "MeetingRoom.0.Room1Password",
+            value1: this.data.room1password,
+            key2: "MeetingRoom.0.Room1Available",
+            value2: this.data.room1available,
+            key3: "MeetingRoom.0.Room1Time",
+            value3: this.data.room1time,
+          },
+          success: res => {
+            console.log("执行了")
           }
-          wx.cloud.callFunction({
-            name: 'MeetingRoomSetting',
-            data: {
-              key1: e.target.dataset.key1,
-              value1: e.target.dataset.value1,
-              key2: e.target.dataset.key2,
-              value2: e.target.dataset.value2,
-              key3: e.target.dataset.key3,
-              value3: e.target.dataset.value3,
-            },
-            success: res => {
-              console.log("执行了")
-            }
-          })
-        }
-  },
-  _storgeupdate(){
-    wx.setStorageSync("LSetting",this.data.Setting)
-    console.log("执行了")
-  },
-  Roomlogin(e) {
-    console.log(e.target.dataset.value)
-    console.log(e.target.dataset.password)
-    if (e.target.dataset.value == "") {
-      wx.showToast({
-        title: '请输入密码',
-        icon: 'error',
-        duration: 2000 //持续的时间
-      })
-    }else{
-    if (e.target.dataset.value == e.target.dataset.password) {
-      wx.navigateTo({
-        url: e.target.dataset.url,
-      })
-    } else {
-      wx.showToast({
-        title: '密码不正确',
-        icon: 'error',
-        duration: 2000 //持续的时间
-      })
+        })
     }
-  }
   },
-  RoomClean(e) {
-    var that=this
-    if (e.target.dataset.value == "") {
-      wx.showToast({
-        title: '请输入密码',
-        icon: 'error',
-        duration: 2000 //持续的时间
+  Room2Apply(e) {
+    // 调用云函数
+    if (this.data.room2password == "") {
+      utils._ErrorToast("请设置密码")
+    } else {
+      this.setData({
+        room2available: false,
       })
-    }else{
-    if (e.target.dataset.value == e.target.dataset.password) {
-      if (e.target.dataset.room == "MeetingRoom1") {
-        this.setData({
-          room1password:"",
-          room1key:"",
-          room1time:"",
-          room1clean:"",
-          room1status: false,
+      this.data.room2time = Date.parse(new Date()),
+
+        wx.cloud.callFunction({
+          name: 'MeetingRoomSetting',
+          data: {
+            key1: "MeetingRoom.1.Room2Password",
+            value1: this.data.room2password,
+            key2: "MeetingRoom.1.Room2Available",
+            value2: this.data.room2available,
+            key3: "MeetingRoom.1.Room2Time",
+            value3: this.data.room2time,
+          },
+          success: res => {
+            console.log("执行了")
+          }
         })
-        this.data.Setting.Room1Password=this.data.room1password
-        this.data.Setting.Room1Time=this.data.room1time
-        this.data.Setting.Room1Status=this.data.room1status
-        this._storgeupdate()
-      }else if(e.target.dataset.room == "MeetingRoom2"){
-        this.setData({
-          room2password:"",
-          room2key:"",
-          room2time:"",
-          room2clean:"",
-          room2status: false,
+    }
+  },
+  Room3Apply(e) {
+    // 调用云函数
+    if (this.data.room3password == "") {
+      utils._ErrorToast("请设置密码")
+    } else {
+      this.setData({
+        room3available: false,
+      })
+      this.data.room3time = Date.parse(new Date()),
+
+        wx.cloud.callFunction({
+          name: 'MeetingRoomSetting',
+          data: {
+            key1: "MeetingRoom.2.Room3Password",
+            value1: this.data.room3password,
+            key2: "MeetingRoom.2.Room3Available",
+            value2: this.data.room3available,
+            key3: "MeetingRoom.2.Room3Time",
+            value3: this.data.room3time,
+          },
+          success: res => {
+            console.log("执行了")
+          }
         })
-        this.data.Setting.Room2Password=this.data.room2password
-        this.data.Setting.Room2Time=this.data.room2time
-        this.data.Setting.Room2Status=this.data.room2status
-        this._storgeupdate()
-      }else if(e.target.dataset.room == "MeetingRoom3"){
-        this.setData({
-          room3password:"",
-          room3key:"",
-          room3time:"",
-          room3clean:"",
-          room3status: false,
+    }
+  },
+
+  bvRoom1login(e) {
+    if (this.data.room1key == "") {
+      utils._ErrorToast("请输入密码")
+    } else {
+      if (this.data.room1key == this.data.room1password) {
+        wx.navigateTo({
+          url: '../meetingroom/meetingroom1?starttime=' + this.data.room1time,
         })
-        this.data.Setting.Room3Password=this.data.room3password
-        this.data.Setting.Room3Time=this.data.room3time
-        this.data.Setting.Room3Status=this.data.room3status
-        this._storgeupdate()
-      }else if(e.target.dataset.room == "MeetingRoom4"){
-        this.setData({
-          room4password:"",
-          room4key:"",
-          room4time:"",
-          room4clean:"",
-          room4status: false,
-        })
-        this.data.Setting.Room4Password=this.data.room4password
-        this.data.Setting.Room4Time=this.data.room4time
-        this.data.Setting.Room4Status=this.data.room4status
-        this._storgeupdate()
+      } else {
+        utils._ErrorToast("密码不正确")
       }
-      // 调用云函数
+    }
+  },
+  bvRoom2login(e) {
+    if (this.data.room2key == "") {
+      utils._ErrorToast("请输入密码")
+    } else {
+      if (this.data.room2key == this.data.room2password) {
+        wx.navigateTo({
+          url: '../meetingroom/meetingroom2?starttime=' + this.data.room2time,
+        })
+      } else {
+        utils._ErrorToast("密码不正确")
+      }
+    }
+  },
+  bvRoom3login(e) {
+    if (this.data.room3key == "") {
+      utils._ErrorToast("请输入密码")
+    } else {
+      if (this.data.room3key == this.data.room3password) {
+        wx.navigateTo({
+          url: '../meetingroom/meetingroom3?starttime=' + this.data.room3time,
+        })
+      } else {
+        utils._ErrorToast("密码不正确")
+      }
+    }
+  },
+  bvExpressRoomApply(e) {
+    this.setData({
+      expressroomavailable:false
+    })
+    this.data.expressroomtime = Date.parse(new Date()),
       wx.cloud.callFunction({
-        name: 'MeetingRoomClean',
+        name: 'MeetingRoomSetting',
         data: {
-          collection: e.target.dataset.room
+          key1: "MeetingRoom.3.ExpressRoomAvailable",
+          value1: this.data.expressroomavailable,
+          key2: "MeetingRoom.3.ExpressRoomTime",
+          value2: this.data.expressroomtime,
         },
         success: res => {
-          wx.cloud.callFunction({
-            name: 'MeetingRoomSetting',
-            data: {
-              key1: e.target.dataset.key1,
-              value1: "",
-              key2: e.target.dataset.key2,
-              value2: "",
-              key3: e.target.dataset.key3,
-              value3: false,
-            },
-            success: res => {
-              wx.showToast({
-                title: '内容清除成功',
-                icon: 'success',
-                duration: 2000 //持续的时间
-              })
-
-            }
-          })
+          console.log("执行了")
         }
       })
-    } else {
-      wx.showToast({
-        title: '密码不正确',
-        icon: 'error',
-        duration: 2000 //持续的时间
-      })
-    }
-  }
+  },
+  bvExpressRoomlogin(e) {
+    wx.navigateTo({
+      url: '../meetingroom/expressmeeting',
+    })
   },
 
+  bvRoom1End(e) {
+    var that = this
+    if (this.data.room1clean == "") {
+      utils._ErrorToast("请输入密码")
+    } else {
+      if (this.data.room1clean == this.data.room1password) {
+
+
+
+        // 调用云函数
+        wx.cloud.callFunction({
+          name: 'MeetingRoomClean',
+          data: {
+            collection: "MeetingRoom1"
+          },
+          success: res => {
+            wx.cloud.callFunction({
+              name: 'MeetingRoomSetting',
+              data: {
+                key1: "MeetingRoom.0.Room1Password",
+                value1: "",
+                key2: "MeetingRoom.0.Room1Available",
+                value2: true,
+                key3: "MeetingRoom.0.Room1Time",
+                value3: "",
+              },
+              success: res => {
+                utils._SuccessToast("会议室已重置")
+                this.setData({
+                  room1password: "",
+                  room1key: "",
+                  room1time: "",
+                  room1clean: "",
+                  room1available: true,
+                })
+              }
+            })
+          }
+        })
+      } else {
+        utils._ErrorToast("密码不正确")
+      }
+    }
+  },
+  bvRoom2End(e) {
+    var that = this
+    if (this.data.room2clean == "") {
+      utils._ErrorToast("请输入密码")
+    } else {
+      if (this.data.room2clean == this.data.room2password) {
+        // 调用云函数
+        wx.cloud.callFunction({
+          name: 'MeetingRoomClean',
+          data: {
+            collection: "MeetingRoom2"
+          },
+          success: res => {
+            wx.cloud.callFunction({
+              name: 'MeetingRoomSetting',
+              data: {
+                key1: "MeetingRoom.1.Room2Password",
+                value1: "",
+                key2: "MeetingRoom.1.Room2Available",
+                value2: true,
+                key3: "MeetingRoom.1.Room2Time",
+                value3: "",
+              },
+              success: res => {
+                utils._SuccessToast("会议室已重置")
+                this.setData({
+                  room2password: "",
+                  room2key: "",
+                  room2time: "",
+                  room2clean: "",
+                  room2available: true,
+                })
+              }
+            })
+          }
+        })
+      } else {
+        utils._ErrorToast("密码不正确")
+      }
+    }
+  },
+  bvRoom3End(e) {
+    var that = this
+    if (this.data.room3clean == "") {
+      utils._ErrorToast("请输入密码")
+    } else {
+      if (this.data.room3clean == this.data.room3password) {
+        // 调用云函数
+        wx.cloud.callFunction({
+          name: 'MeetingRoomClean',
+          data: {
+            collection: "MeetingRoom3"
+          },
+          success: res => {
+            wx.cloud.callFunction({
+              name: 'MeetingRoomSetting',
+              data: {
+                key1: "MeetingRoom.2.Room3Password",
+                value1: "",
+                key2: "MeetingRoom.2.Room3Available",
+                value2: true,
+                key3: "MeetingRoom.2.Room3Time",
+                value3: "",
+              },
+              success: res => {
+                utils._SuccessToast("会议室已重置")
+                this.setData({
+                  room3password: "",
+                  room3key: "",
+                  room3time: "",
+                  room3clean: "",
+                  room3available: true,
+                })
+              }
+            })
+          }
+        })
+      } else {
+        utils._ErrorToast("密码不正确")
+      }
+    }
+  },
+  bvExpressEnd() {
+    // 调用云函数
+    wx.cloud.callFunction({
+      name: 'MeetingRoomClean',
+      data: {
+        collection: "ExpressMeeting"
+      },
+      success: res => {
+        wx.cloud.callFunction({
+          name: 'MeetingRoomSetting',
+          data: {
+            key1: "MeetingRoom.3.ExpressRoomAvailable",
+            value1: true,
+            key2: "MeetingRoom.3.ExpressRoomTime",
+            value2: "",
+          },
+          success: res => {
+            app.globalData.Gsetting.MeetingRoom[3].ExpressRoomTime=""
+            app.globalData.Gsetting.MeetingRoom[3].ExpressRoomAvailable=true
+            this.setData({
+              expressroomtime: "",
+              expressroomavailable:true,
+            })
+            utils._SuccessToast("会议室已重置")
+            console.log(app.globalData.Gsetting)
+          }
+        })
+      }
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
     this.setData({
       image: app.globalData.Gimagearray,
-      Setting:wx.getStorageSync("LSetting"),
+      usertype: app.globalData.Guserdata.UserInfo.UserType,
+      room1password: app.globalData.Gsetting.MeetingRoom[0].Room1Password,
+      room1time: app.globalData.Gsetting.MeetingRoom[0].Room1Time,
+      room1available: app.globalData.Gsetting.MeetingRoom[0].Room1Available,
+      room2password: app.globalData.Gsetting.MeetingRoom[1].Room2Password,
+      room2time: app.globalData.Gsetting.MeetingRoom[1].Room2Time,
+      room2available: app.globalData.Gsetting.MeetingRoom[1].Room2Available,
+      room3password: app.globalData.Gsetting.MeetingRoom[2].Room3Password,
+      room3time: app.globalData.Gsetting.MeetingRoom[2].Room3Time,
+      room3available: app.globalData.Gsetting.MeetingRoom[2].Room3Available,
+      expressroomtime: app.globalData.Gsetting.MeetingRoom[3].ExpressRoomTime,
+      expressroomavailable: app.globalData.Gsetting.MeetingRoom[3].ExpressRoomAvailable,
     })
-    this.setData({
-      room1password:this.data.Setting.Room1Password,
-      room1time:this.data.Setting.Room1Time,
-      room1status:this.data.Setting.Room1Status,
-      room2password:this.data.Setting.Room2Password,
-      room2time:this.data.Setting.Room2Time,
-      room2status:this.data.Setting.Room2Status,
-      room3password:this.data.Setting.Room3Password,
-      room3time:this.data.Setting.Room3Time,
-      room3status:this.data.Setting.Room3Status,
-      room4password:this.data.Setting.Room4Password,
-      room4time:this.data.Setting.Room4Time,
-      room4status:this.data.Setting.Room4Status,
-    })
-    console.log(this.data.Setting)
-    console.log(this.data.Setting.Room1Password)
+
   },
 
   /**
@@ -334,6 +428,7 @@ Page({
   /**
    * 生命周期函数--监听页面显示
    */
+
   onShow: function () {
 
   },
@@ -369,7 +464,8 @@ Page({
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
+  onShareAppMessage: function (res) {
 
-  }
+  },
+
 })

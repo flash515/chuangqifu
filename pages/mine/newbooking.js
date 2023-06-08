@@ -1,4 +1,6 @@
 const app = getApp()
+const { startToTrack, startByClick, startByBack } = require("../../utils/track");
+const track = require("../../utils/track");
 Page({
 
   /**
@@ -77,9 +79,9 @@ Page({
             BookingTime: this.data.time,
             BookingContent: this.data.content,
             BookingStatus: "unchecked",
-            AddDate: new Date().toLocaleDateString()
+            AddDate: new Date().toLocaleString('chinese',{ hour12: false })
           },
-          success(res) {
+          success: res => {
             console.log('预约提交成功', res.data)
             wx.showToast({
               title: '预约提交成功',
@@ -87,7 +89,7 @@ Page({
               duration: 2000 //持续的时间
             })
           },
-          fail(res) {
+          fail: res => {
             console.log("提交失败", res)
             wx.showToast({
               title: '预约提交失败',
@@ -110,9 +112,9 @@ Page({
           BookingDate: this.data.date,
           BookingTime: this.data.time,
           BookingStatus: "unchecked",
-          UpdateDate: new Date().toLocaleDateString()
+          UpdateDate: new Date().toLocaleString('chinese',{ hour12: false })
         },
-        success(res) {
+        success: res => {
           console.log('预约更新成功', res.data)
           wx.showToast({
             title: '预约更新成功',
@@ -120,7 +122,7 @@ Page({
             duration: 2000 //持续的时间
           })
         },
-        fail(res) {
+        fail: res => {
           console.log("更新失败", res)
           wx.showToast({
             title: '预约更新失败',
@@ -175,8 +177,10 @@ Page({
   /**
    * 生命周期函数--监听页面显示
    */
+    	// 点击 tab 时用此方法触发埋点
+	onTabItemTap: () => startToTrack(),
   onShow: function () {
-
+    startToTrack()
   },
 
   /**
@@ -189,8 +193,8 @@ Page({
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function () {
-
+    onUnload: function () {
+    startByBack()
   },
 
   /**

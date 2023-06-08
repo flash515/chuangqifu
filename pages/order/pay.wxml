@@ -1,58 +1,23 @@
-<!--pages/order/pay.wxml-->
 <!-- 轮播头图 -->
-<view>
-  <swiper class="swiper" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" circular="{{circular}}"
-    vertical="{{vertical}}" interval="{{interval}}" duration="{{duration}}" previous-margin="{{previousMargin}}px"
-    next-margin="{{nextMargin}}px">
-    <block wx:for="{{image}}" wx:for-index="index" wx:key="key">
-      <swiper-item>
-        <image src="{{item}}" class="swiper image" mode="scaleToFill" />
-      </swiper-item>
-    </block>
-  </swiper>
+<Swiper class="swiper" image="{{image}}"></Swiper>
+<view class="title">
+  <text>订单付款</text>
 </view>
-
-<text>\n\n</text>
+<view class="mainframe">
 <l-card type="primary" plaintext="{{true}}">
 <view style="display:flex; flex-direction:row; justify-content:space-between">
   <label class="title1">订单总金额:</label>
   <l-price size="50" color="#3963bc" unit="￥" value='{{totalfee}}' reserve-digit="2" autofix='true'></l-price>
 </view>
-<text>\n</text>
-<view hidden="{{onlinehidden}}">
+  <text>\n</text>
+
   <view wx:if="{{payalready==false}}">
   <l-button class="mainbtn" width="600" bind:lintap="bvWXPay" shape="semicircle" plain="true">微信即时支付</l-button>
 </view>
   <view wx:elif="{{payalready==true}}">
   <l-button class="mainbtn" width="600" shape="semicircle" plain="true" disabled="{{true}}">已支付</l-button>
 </view>
-</view>
 </l-card>
-<text>\n</text>
-<view hidden="{{onlinehidden}}">
-<l-collapse>
-  <l-collapse-item title="扫码支付">
-    <l-card type="primary" position="left" image="cloud://cloud1-2gn7aud7a22c693c.636c-cloud1-2gn7aud7a22c693c-1312824882/setting/image/微信收款码.jpg">
-      <view class="content" hidden="{{openSettingBtnHidden==false}}">请先保存微信付款码到手机相册后，用微信扫一扫打开相册图片，扫码付款 </view>
-      <l-button shape="semicircle" plain="{{true}}" bind:lintap="saveImage" data-src="cloud://cloud1-2gn7aud7a22c693c.636c-cloud1-2gn7aud7a22c693c-1312824882/setting/image/微信收款码.jpg">保存到相册</l-button>
-      <view class="content"  hidden="{{openSettingBtnHidden}}">
-        请前往设置页面授权保存到相册，然后保存付款码到手机相册后，用微信扫一扫打开相册图片，扫码付款 
-    <l-button open-type="openSetting" size="medium" shape="semicircle" plain="{{true}}" bind:lintap="saveImage" >前往设置页面</l-button>
-      </view>    
-    </l-card>
-    <text>\n</text>
-    <l-card type="primary" position="left" image="cloud://cloud1-2gn7aud7a22c693c.636c-cloud1-2gn7aud7a22c693c-1312824882/setting/image/支付宝收款码.jpg">
-      <view class="content" hidden="{{openSettingBtnHidden==false}}">请先保存支付宝付款码到手机相册后，用支付宝扫一扫打开相册图片，扫码付款 </view>
-      <l-button shape="semicircle" plain="{{true}}" bind:lintap="saveImage" data-src="cloud://cloud1-2gn7aud7a22c693c.636c-cloud1-2gn7aud7a22c693c-1312824882/setting/image/支付宝收款码.jpg">保存到相册</l-button>
-      <view class="content"  hidden="{{openSettingBtnHidden}}">
-        请前往设置页面授权保存到相册，然后保存付款码到手机相册后，用支付宝扫一扫打开相册图片，扫码付款 
-    <l-button open-type="openSetting" size="medium" shape="semicircle" plain="{{true}}" bind:lintap="saveImage" >前往设置页面</l-button>
-      </view>  
-    </l-card>
-  </l-collapse-item>
-</l-collapse>
-
-</view>
 <text>\n</text>
 <l-collapse>
   <l-collapse-item title="银行转账支付">
@@ -70,7 +35,7 @@
   <l-collapse-item title="预约当面转账">
     <l-card type="cover" plaintext="{{true}}">
       <view>
-        <text space="emsp" decode="{{true}}">  超过一千元的款项创企服可提供当面转账服务，目前仅支持粤港澳大湾区范围，客户如需当面转账服务，请提供联系人详细地址信息并预约时间。</text>
+        <text space="emsp" decode="{{true}}">  超过一千元的款项小税宝可提供当面转账服务，目前仅支持粤港澳大湾区范围，客户如需当面转账服务，请提供联系人详细地址信息并预约时间。</text>
       </view>
     </l-card>
       <l-card type="cover" plaintext="{{true}}">
@@ -80,6 +45,7 @@
             <text class="text">预约见面日期：{{date}}</text>
           </view>
         </picker>
+        <text>\n</text>
         <picker mode="time" value="{{time}}" start="10:00" end="17:00" bindchange="bvTime">
           <view class="picker">
             <text class="text">预约见面时间：{{time}}</text>
@@ -89,7 +55,8 @@
         <l-input type="text" label="联系电话：" value="{{phone}}" bind:lininput="bvPhone"></l-input>
         <l-input type="text" label="预约地点：" value="{{address}}" bind:lininput="bvAddress"></l-input>
       </view>
-      <l-button type="default" icon="success" icon-color="blue" bindtap="bvBooking" size="mini" shape="semicircle" plain="{{true}}">预约确定</l-button>
+      <l-button type="default" icon="success" icon-color="#3683d6" bindtap="bvBooking" size="mini" shape="semicircle" plain="{{true}}">预约确定</l-button>
     </l-card>
   </l-collapse-item>
 </l-collapse>
+</view>

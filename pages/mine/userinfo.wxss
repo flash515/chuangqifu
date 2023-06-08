@@ -1,1 +1,35 @@
 /* pages/mine/userinfo.wxss */
+.avatar {
+  width: 80rpx;
+  height: 80rpx;
+  border: none;
+  background-size: cover;
+  background-color: white;
+}
+.avatarBtn {
+  width: 80rpx;
+  height: 80rpx;
+  border: 0.5;
+  padding: 0;
+  background-color: white;
+}
+.labal {
+  font-size: 28rpx;
+  color: rgb(0, 0, 0);
+  margin-left: 25rpx;
+}
+
+.input {
+  font-size: 28rpx;
+  height: 80rpx;
+}
+.text {
+  font-size: 28rpx;
+  color: rgb(0, 0, 0);
+}
+.line {
+  margin-left: 0rpx;
+  margin-right: 0rpx;
+  height: 0.5px;
+  background-color: #f3f3f3;
+}

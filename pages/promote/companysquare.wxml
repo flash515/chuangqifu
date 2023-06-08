@@ -1,0 +1,79 @@
+<!-- 登录层 -->
+<l-mask show="{{loginshow}}" center="true">
+  <loginmask bind:myevent="onLogin"></loginmask>
+</l-mask>
+<!-- 轮播头图 -->
+<Swiper class="swiper" image="{{image}}"></Swiper>
+<view class="mainframe">
+  <view class="title">
+    <text>企业广场</text>
+  </view>
+
+  <view wx:if="{{loginbtnshow}}" style="display:flex; justify-content:center;">
+    <l-button size="large" shape="semicircle" plain="{{true}}" bind:lintap="bvLoginShow">请登录并发布本人名片后才可浏览</l-button>
+  </view>
+  <!-- 搜索栏 -->
+  <view>
+    <l-search-bar placeholder="关键词搜索" bind:linconfirm="onSearch" />
+  </view>
+
+  <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
+    <label class="label">行业分类搜索：</label>
+  </view>
+  <view>
+    <view class="sortinput" bindtap="getbox" wx:if="{{inputShow}}" style="color: #999;">【{{category1name}}】 / 【{{category2name}}】 / 【{{category3name}}】</view>
+    <view class="sortinput" bindtap="getbox" wx:if="{{!inputShow}}">【{{category1}}】 / 【{{category2}}】 / 【{{category3}}】</view>
+    <!-- 三级分类弹框 -->
+    <view class="box" wx:if="{{boxShow}}">
+      <!-- 阴影 -->
+      <view class="black" bindtap="hidebox"></view>
+      <!-- 内容 -->
+      <view class="nr">
+        <view class="item">
+          <l-button plain="{{true}}" bind:lintap="hidebox">取消</l-button>
+          <l-button bg-color="#06c05f" bind:lintap="confirm">确认</l-button>
+        </view>
+        <view style="display:flex;width: 100%;height: 300rpx;">
+          <picker-view indicator-style="height: 100rpx;" style="width: 100%;height: 300rpx;font-size: 28rpx; text-align: center;" value="{{pIndex}}" bindchange="changeCategory1">
+            <picker-view-column>
+              <view wx:for="{{businesssortarray}}" wx:key="Category1Name" style="line-height: 100rpx;">{{item.Category1Name}}</view>
+            </picker-view-column>
+          </picker-view>
+          <picker-view indicator-style="height: 100rpx;" style="width: 100%;height: 300rpx;font-size: 28rpx; text-align: center" value="{{cIndex}}" bindchange="changeCategory2">
+            <picker-view-column>
+              <view wx:for="{{businesssortarray[pIndex].Category2Array}}" wx:key="Category2Name" style="line-height: 100rpx">{{item.Category2Name}}</view>
+            </picker-view-column>
+          </picker-view>
+          <picker-view indicator-style="height: 100rpx;" style="width: 100%;height: 300rpx;font-size: 28rpx; text-align: center" value="{{aIndex}}" bindchange="changeCategory3">
+            <picker-view-column>
+              <view wx:for="{{businesssortarray[pIndex].Category2Array[cIndex].Category3Array}}" wx:key="Category3Name" style="line-height: 100rpx">{{item.Category3Name}}</view>
+            </picker-view-column>
+          </picker-view>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view wx:if="{{cards[0]}}">
+    <label class="label">共有{{cards.length}}条搜索结果：</label>
+    <scroll-view scroll-y="true" style="display: flex;flex-direction:column; width: 100%;height: 400rpx; box-sizing: border-box;padding-left: 20rpx;padding-right: 20rpx;">
+      <view style="display: flex;flex-direction: row;align-items: center;justify-content:space-between;">
+        <l-radio-group placement="column" bind:linchange="bvNameCardSelect">
+          <block wx:for="{{cards}}" wx:key="key">
+            <l-radio placement="left" color="black" select-color="green" size="40" key="{{index+1}}" cell="{{cards[index]}}" l-class="radio">
+              <text>{{cards[index].CompanyName}}</text>
+            </l-radio>
+          </block>
+        </l-radio-group>
+      </view>
+    </scroll-view>
+    <view wx:if="{{namecard.CompanyName}}">公司：{{namecard.CompanyName}}</view>
+    <view wx:if="{{namecard.UserName}}">姓名：{{namecard.UserName}}</view>
+    <view wx:if="{{namecard.WeChat}}">职务：{{namecard.WeChat}}</view>
+    <view wx:if="{{namecard.Handphone}}" bindlongpress="bvPhoneNumTap">手机：{{namecard.Handphone}}</view>
+    <view wx:if="{{namecard.WeChat}}">微信：{{namecard.WeChat}}</view>
+    <view wx:if="{{namecard.Telephone}}">座机：{{namecard.Telephone}}</view>
+    <view wx:if="{{namecard.Email}}">邮箱：{{namecard.Email}}</view>
+    <view wx:if="{{namecard.Website}}">网站：{{namecard.Website}}</view>
+    <view wx:if="{{namecard.Address}}">地址：{{namecard.Address}}</view>
+  </view>
+</view>

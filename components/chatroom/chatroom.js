@@ -3,15 +3,17 @@ const SETDATA_SCROLL_TO_BOTTOM = {
   scrollTop: 100000,
   scrollWithAnimation: true,
 }
-    // 子组件在自己的JS中properties接收父组件传过来的值，定义好type属性和value为[]，即为默认值（父组件传过来的值）
-Component({
-  properties: {
 
+Component({
+  //properties为接收父组件传过来的参数
+  properties: {
     envId: String,
     collection: String,
     groupId: String,
     groupName: String,
     userInfo: Object,
+    avatarUrl:String,
+    nickName:String,
     onGetUserInfo: {
       type: Function,
     },
@@ -30,36 +32,51 @@ Component({
     scrollTop: 0,
     scrollToMessage: '',
     hasKeyboard: false,
+    userInfo:"",
+
   },
-// 自定义的方法
+
   methods: {
     onGetUserInfo(e) {
       // this.properties.onGetUserInfo(e)
-        wx.getUserInfo({
-          success: res => {
-            this.setData({
-              avatarUrl: res.userInfo.avatarUrl,
-              userInfo: res.userInfo
-            })
-          }
-        })
+      // 20221108后发布的小程序新版本，通过 wx.getUserInfo 接口获取用户头像将统一返回默认灰色头像，昵称将统一返回 “微信用户”。
+      // wx.getUserInfo({
+      //   success: res => {
+      //     this.setData({
+      //       avatarUrl: res.userInfo.avatarUrl,
+      //       userInfo: res.userInfo
+      //     })
+      //   }
+      // })
+      wx.getUserProfile({
+        desc:"便于参会人员识别",
+        success: res => {
+          this.setData({
+            avatarUrl: res.userInfo.avatarUrl,
+            nickName:res.userInfo.nickName,
+            userInfo: res.userInfo
+          })
+        }
+      })
+    
     },
-
+    getuserprofile(){
+            // 20221108后发布的小程序新版本，通过 wx.getUserProfile 接口获取用户头像将统一返回默认灰色头像，昵称将统一返回 “微信用户”。
+      wx.getUserProfile({
+        desc:"便于参会人员识别",
+        success: res => {
+          this.setData({
+            avatarUrl: res.userInfo.avatarUrl,
+            nickName:res.userInfo.nickName,
+            userInfo: res.userInfo
+          })
+        }
+      })
+    },
     getOpenID() { 
       return this.properties.getOpenID() 
     },
 
-  getuserprofile(){
-    wx.getUserProfile({
-      desc:"便于参会人员识别",
-      success: res => {
-        this.setData({
-          avatarUrl: res.userInfo.avatarUrl,
-          userInfo: res.userInfo
-        })
-      }
-    })
-  },
     mergeCommonCriteria(criteria) {
       return {
         groupId: this.data.groupId,
@@ -187,8 +204,8 @@ Component({
         const doc = {
           _id: `${Math.random()}_${Date.now()}`,
           groupId: this.data.groupId,
-          avatar: this.data.userInfo.avatarUrl,
-          nickName: this.data.userInfo.nickName,
+          avatar: this.properties.avatarUrl,
+          nickName: this.properties.nickName,
           msgType: 'text',
           textContent: e.detail.value,
           sendTime: new Date(),
@@ -234,8 +251,8 @@ Component({
           const doc = {
             _id: `${Math.random()}_${Date.now()}`,
             groupId: this.data.groupId,
-            avatar: this.data.userInfo.avatarUrl,
-            nickName: this.data.userInfo.nickName,
+            avatar: this.properties.avatarUrl,
+            nickName: this.properties.nickName,
             msgType: 'image',
             sendTime: new Date(),
             sendTimeTS: Date.now(), // fallback

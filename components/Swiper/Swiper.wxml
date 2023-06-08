@@ -1,0 +1,9 @@
+<swiper class="swiper" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" circular="{{circular}}" vertical="{{vertical}}" interval="{{interval}}" duration="{{duration}}" previous-margin="{{previousMargin}}px" next-margin="{{nextMargin}}px">
+    <block wx:for="{{image}}" wx:for-index="index" wx:key="key">
+      <navigator url="{{item.link}}">
+        <swiper-item>
+          <image class="swiper" mode="scaleToFill" src="{{item.image_url}}"  />
+        </swiper-item>
+      </navigator>
+    </block>
+  </swiper>

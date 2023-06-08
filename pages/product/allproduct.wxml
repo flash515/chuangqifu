@@ -1,148 +1,28 @@
-<view>
-  <swiper class="swiper" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" circular="{{circular}}" vertical="{{vertical}}" interval="{{interval}}" duration="{{duration}}" previous-margin="{{previousMargin}}px" next-margin="{{nextMargin}}px">
-    <block wx:for="{{image}}" wx:for-index="index" wx:key="key">
-      <swiper-item>
-        <image src="{{item}}" class="swiper image" mode="scaleToFill" />
-        <!-- <view class="swiper-item {{item.url}}"></view> -->
-      </swiper-item>
-    </block>
-  </swiper>
-</view>
-<view class="mainframe">
-  <l-tabs placement="left">
-    <l-tabpanel tab="地址服务" key="one" slot="one">
-      <l-grid row-num="3">
-        <l-grid-item key='one' slot='one'>
-          <navigator url='../product/dizhi?key=one'>
-            <l-icon name='order' />
-            <view class="text">深圳地址</view>
-          </navigator>
-        </l-grid-item>
-        <l-grid-item key='two' slot='two'>
-          <navigator url='../product/dizhi?key=two'>
-            <l-icon name='order' />
-            <view class="text">广州地址</view>
-          </navigator>
-        </l-grid-item>
-        <l-grid-item key='three' slot='three'>
-          <navigator url='../product/dizhi?key=three'>
-            <l-icon name='order' />
-            <view class="text">东莞地址</view>
-          </navigator>
-        </l-grid-item>
-      </l-grid>
-    </l-tabpanel>
-    <l-tabpanel tab="工商代办" key="two" slot="two">
-      <l-grid row-num="3">
-        <l-grid-item key='one' slot='one'>
-          <navigator url='../product/gongshang?key=one'>
-            <l-icon name='order' />
-            <view class="text">工商注册</view>
-          </navigator>
-        </l-grid-item>
-        <l-grid-item key='two' slot='two'>
-          <navigator url='../product/gongshang?key=two'>
-            <l-icon name='order' />
-            <view class="text">工商变更</view>
-          </navigator>
-        </l-grid-item>
-        <l-grid-item key='three' slot='three'>
-          <navigator url='../product/gongshang?key=three'>
-            <l-icon name='order' />
-            <view class="text">工商注销</view>
-          </navigator>
-        </l-grid-item>
-      </l-grid>
-    </l-tabpanel>
-    <l-tabpanel tab="银行代办" key="three" slot="three">
-      <l-grid row-num="3">
-        <l-grid-item key='one' slot='one'>
-          <navigator url='../product/yinhang?key=one'>
-            <l-icon name='order' />
-            <view class="text">银行开户</view>
-          </navigator>
-        </l-grid-item>
-        <l-grid-item key='two' slot='two'>
-          <navigator url='../product/yinhang?key=two'>
-            <l-icon name='order' />
-            <view class="text">调整额度</view>
-          </navigator>
-        </l-grid-item>
-        <l-grid-item key='three' slot='three'>
-          <navigator url='../product/yinhang?key=three'>
-            <l-icon name='order' />
-            <view class="text">银行销户</view>
-          </navigator>
-        </l-grid-item>
-      </l-grid>
-    </l-tabpanel>
-    <l-tabpanel tab="财税服务" key="four" slot="four">
-      <l-grid row-num="3">
-        <l-grid-item key='one' slot='one'>
-          <navigator url='../product/caishui?key=one'>
-            <l-icon name='order' />
-            <view class="text">记账报税</view>
-          </navigator>
-        </l-grid-item>
-        <l-grid-item key='two' slot='two'>
-          <navigator url='../product/caishui?key=two'>
-            <l-icon name='order' />
-            <view class="text">税种核定</view>
-          </navigator>
-        </l-grid-item>
-        <l-grid-item key='three' slot='three'>
-          <navigator url='../product/caishui?key=three'>
-            <l-icon name='order' />
-            <view class="text">领票购票</view>
-          </navigator>
-        </l-grid-item>
-        <l-grid-item key='four' slot='four'>
-        <view wx:if="{{promoterlevel=='member' || promoterlevel=='sliver'|| promoterlevel=='gold' || promoterlevel=='platinum'}}">
-          <navigator url='../product/caishui?key=four'>
-            <l-icon name='order' />
-            <view class="text">开票代办</view>
-          </navigator>
+<!-- 轮播头图 -->
+<Swiper class="swiper" image="{{image}}"></Swiper>
+
+  <view style="display: flex;flex-direction: row;height: {{windowH}}rpx;margin-left: 25rpx;margin-right: 25rpx;box-sizing: border-box;">
+
+    <view style="display: flex;flex-direction: column; width: 25%; height: 100%;box-sizing: border-box;">
+      <text>\n</text>
+      <view wx:for="{{sortarray}}" wx:key="key" wx:for-index="key1" wx:for-item="sort1">
+      <button style="width: 100%;height: 80rpx;border-left:1rpx solid burlywood;border-bottom: white;border-top: white;border-right: white; font-size: 28rpx;padding-left: 25rpx;padding-right: 25rpx;margin-bottom: 10rpx;line-height: 80rpx;" data-name="{{sort1.Category1Name}}" data-index="{{key1}}" class="{{ currentTab == key1 ? 'active' : '' }}" bindtap="bvSortChange">{{sort1.Category1Name}}</button>
+      </view>
+    </view>
+
+    <scroll-view scroll-y="true" enable-flex="true" style=" display: flex;flex-direction: column; width: 75%;height: 100%; padding-left:25rpx;" scroll-top="{{scrollTop}}">
+      <text>\n</text>
+        <view wx:for="{{array}}" wx:key="key" wx:for-index="key2" wx:for-item="sort2">
+
+          <view style="display: flex; font-size: 28rpx;font-weight: 900;margin-top: 10rpx;margin-bottom: 10rpx;">{{sort2.Category2Name}}</view>
+
+          <view style="display: flex;flex-direction:row; flex-wrap:wrap; ">
+            <view wx:for="{{sort2.Category3Array}}" wx:key="key" wx:for-index="key2" wx:for-item="sort2" style="margin-right: 20rpx;margin-bottom: 10rpx;">
+                <l-tag shape="square" data-name="{{sort2.Category3Name}}" bg-color="#f3f3f3" font-color="#333" type="touch" bind:lintap="bvTagClick">{{sort2.Category3Name}}</l-tag>
+          </view>
         </view>
-      </l-grid-item>
-      </l-grid>
-    </l-tabpanel>
-    <l-tabpanel tab="企业托管" key="five" slot="five">
-      <l-grid row-num="3">
-        <l-grid-item key='one' slot='one'>
-          <navigator url='../product/tuoguan?key=one'>
-            <l-icon name='order' />
-            <view class="text">南昌托管</view>
-          </navigator>
-        </l-grid-item>
-        <l-grid-item key='two' slot='two'>
-          <navigator url='../product/tuoguan?key=two'>
-            <l-icon name='order' />
-            <view class="text">西安托管</view>
-          </navigator>
-        </l-grid-item>
-        <l-grid-item key='three' slot='three'>
-          <navigator url='../product/tuoguan?key=three'>
-            <l-icon name='order' />
-            <view class="text">明光托管</view>
-          </navigator>
-        </l-grid-item>
-      </l-grid>
-    </l-tabpanel>
-    <l-tabpanel tab="资质代办" key="six" slot="six">
-      <l-grid row-num="3">
-        <l-grid-item key='one' slot='one'>
-          <navigator url='../product/zizhi?key=one'>
-            <l-icon name='order' />
-            <view class="text">食品经营许可证</view>
-          </navigator>
-        </l-grid-item>
-        <l-grid-item key='two' slot='two'>
-          <navigator url='../product/zizhi?key=two'>
-            <l-icon name='order' />
-            <view class="text">道路运输许可证</view>
-          </navigator>
-        </l-grid-item>
-      </l-grid>
-    </l-tabpanel>
-  </l-tabs>
-</view>
+        </view>
+
+    </scroll-view> 
+
+  </view>

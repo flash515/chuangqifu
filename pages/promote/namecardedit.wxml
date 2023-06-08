@@ -1,0 +1,149 @@
+<!-- 背景层 -->
+<image class="bgimage" src="{{cardbg}}" mode="scaleToFill" />
+<!-- 名片层 -->
+<view class="uplayout">
+  <view class="namecard">
+    <view class="companyname">{{companyname}}</view>
+    <view class="user">
+      <view style="display:flex;flex-direction:column;justify-content:flex-start;">
+        <text>\n</text>
+        <view><text class="username">{{username}}</text><text space="emsp" decode='true' class="title"> {{title}}</text></view>
+        <text>\n</text>
+        <view wx:if="{{handphone}}" class="handphone">手机：{{handphone}}</view>
+        <view wx:if="{{wechat}}" class="wechat">微信：{{wechat}}</view>
+        <view wx:if="{{telephone}}" class="telephone">座机：{{telephone}}</view>
+      </view>
+      <image class="companylogo" src="{{companylogo}}"></image>
+    </view>
+    <view>
+      <view wx:if="{{email}}" class="email">邮箱：{{email}}</view>
+      <view wx:if="{{website}}" class="website">网站：{{website}}</view>
+      <view wx:if="{{address}}" class="address">地址：{{address}}</view>
+    </view>
+  </view>
+</view>
+<view wx:if="{{cardimages}}" wx:for="{{cardimages}}" wx:key="key">
+  <image style="display: block;width: 100%;" src="{{item}}" mode="scaleToFill" />
+</view>
+<view class="mainframe">
+  <l-tabs>
+    <l-tabpanel tab="名片信息" key="one" slot="one">
+      <l-input label="企业名称：" value="{{companyname}}" bind:lininput="bvCompanyName" />
+      <l-input label="姓名：" value="{{username}}" bind:lininput="bvUserName" />
+      <l-input label="职位：" value="{{title}}" bind:lininput="bvTitle" />
+      <l-input label="手机：" value="{{handphone}}" bind:lininput="bvHandPhone" />
+      <l-input label="微信：" value="{{wechat}}" bind:lininput="bvWeChat" />
+      <l-input label="座机：" value="{{telephone}}" bind:lininput="bvTelePhone" />
+      <l-input label="邮箱：" value="{{email}}" bind:lininput="bvEmail" />
+      <l-input label="网站：" value="{{website}}" bind:lininput="bvWebsite" />
+      <l-input label="地址：" value="{{address}}" bind:lininput="bvAddress" />
+
+      <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
+        <label class="label">行业分类：</label>
+      </view>
+      <view>
+        <view class="sortinput" bindtap="getbox" wx:if="{{inputShow}}" style="color: #999;">【{{category1name}}】 / 【{{category2name}}】 / 【{{category3name}}】</view>
+        <view class="sortinput" bindtap="getbox" wx:if="{{!inputShow}}">【{{category1}}】 / 【{{category2}}】 / 【{{category3}}】</view>
+        <!-- 三级分类弹框 -->
+        <view class="box" wx:if="{{boxShow}}">
+          <!-- 阴影 -->
+          <view class="black" bindtap="hidebox"></view>
+          <!-- 内容 -->
+          <view class="nr">
+            <view class="item">
+              <l-button plain="{{true}}" bind:lintap="hidebox">取消</l-button>
+              <l-button bg-color="#06c05f" bind:lintap="confirm">确认</l-button>
+            </view>
+            <view style="display:flex;width: 100%;height: 300rpx;">
+              <picker-view indicator-style="height: 100rpx;" style="width: 100%;height: 300rpx;font-size: 28rpx; text-align: center;" value="{{pIndex}}" bindchange="changeCategory1">
+                <picker-view-column>
+                  <view wx:for="{{businesssortarray}}" wx:key="Category1Name" style="line-height: 100rpx;">{{item.Category1Name}}</view>
+                </picker-view-column>
+              </picker-view>
+              <picker-view indicator-style="height: 100rpx;" style="width: 100%;height: 300rpx;font-size: 28rpx; text-align: center" value="{{cIndex}}" bindchange="changeCategory2">
+                <picker-view-column>
+                  <view wx:for="{{businesssortarray[pIndex].Category2Array}}" wx:key="Category2Name" style="line-height: 100rpx">{{item.Category2Name}}</view>
+                </picker-view-column>
+              </picker-view>
+              <picker-view indicator-style="height: 100rpx;" style="width: 100%;height: 300rpx;font-size: 28rpx; text-align: center" value="{{aIndex}}" bindchange="changeCategory3">
+                <picker-view-column>
+                  <view wx:for="{{businesssortarray[pIndex].Category2Array[cIndex].Category3Array}}" wx:key="Category3Name" style="line-height: 100rpx">{{item.Category3Name}}</view>
+                </picker-view-column>
+              </picker-view>
+            </view>
+          </view>
+        </view>
+      </view>
+      <label class="label">搜索关键词：</label>
+      <l-textarea type="text" indicator="{{true}}" maxlength="40" auto-height="{{true}}" value="{{keywords}}" bind:lininput="bvKeyWords"></l-textarea>
+      <label class="label">企业简介：</label>
+      <l-textarea type="text" indicator="{{true}}" maxlength="140" auto-height="{{true}}" value="{{businessscope}}" bind:lininput="bvBusinessScope"></l-textarea>
+    </l-tabpanel>
+
+    <l-tabpanel tab="名片背景" key="two" slot="two">
+      <label class="label">系统背景：</label>
+      <scroll-view scroll-y="true" style="display: flex;flex-direction:column; width: 100%;height: 400rpx; box-sizing: border-box;padding-left: 20rpx;padding-right: 20rpx;">
+        <l-radio-group placement="column" bind:linchange="bvBgSelect">
+          <block wx:for="{{cardbgarray}}" wx:key="key">
+            <l-radio placement="left" color="black" select-color="green" size="40" key="{{item}}" l-class="radio">
+              <image class="bgarray" src="{{item}}" />
+            </l-radio>
+          </block>
+        </l-radio-group>
+      </scroll-view>
+      <!-- 图片编辑 -->
+      <label class="label">自选背景：</label>
+      <l-image-picker count="1" bind:linchange="bvChooseBg" bind:linremove="bvRemoveBg" urls="{{tempbg}}">
+        <view>
+          <image class="companylogo" src="https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/setting/namecard/%E5%90%8D%E7%89%87%E8%83%8C%E6%99%AF.png?sign=fab490b454f8e1bc5f9d1fec8999a5b9&t=1682560242" />
+        </view>
+      </l-image-picker>
+      <l-image-clipper width="750" height="600" check-image="{{false}}" lock-ratio="{{false}}" show="{{bgclipershow}}" image-url="{{bgedit}}" bindlinclip="linclip">
+        <l-image-clipper-tools />
+      </l-image-clipper>
+      <view wx:if="{{bgcliperbtn}}" style="display: flex;flex-direction: row;justify-content: space-between;">
+        <l-button size="mini" shape="semicircle" icon="checked" icon-color="#3683d6" plain="{{true}}" bind:lintap="bvClipBg">裁剪背景
+        </l-button>
+        <l-button size="mini" shape="semicircle" icon="checked" icon-color="#3683d6" plain="{{true}}" bind:lintap="bvUploadBg">上传背景
+        </l-button>
+        <l-button size="mini" shape="semicircle" icon="checked" icon-color="#3683d6" plain="{{true}}" bind:lintap="bvDeleteBg">删除背景
+        </l-button>
+      </view>
+    </l-tabpanel>
+
+    <l-tabpanel tab="公司LOGO" key="three" slot="three">
+      <label class="label">选择公司LOGO：</label>
+      <l-image-picker count="1" bind:linchange="bvChooseLogo" bind:linremove="bvRemoveLogo" urls="{{templogo}}">
+        <view>
+          <image class="companylogo" src="https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/setting/namecard/%E9%80%89%E6%8B%A9logo.png?sign=def8ff07d55c4bfed15b3045d31ae164&t=1682560126" />
+        </view>
+      </l-image-picker>
+
+      <l-image-clipper width="750" height="600" check-image="{{false}}" lock-ratio="{{false}}" show="{{logoclipershow}}" image-url="{{logoedit}}" bindlinclip="linclipLogo">
+        <l-image-clipper-tools />
+      </l-image-clipper>
+      <view wx:if="{{logocliperbtn}}" style="display: flex;flex-direction: row;justify-content: space-between;">
+        <l-button size="mini" shape="semicircle" icon="checked" icon-color="#3683d6" plain="{{true}}" bind:lintap="bvClipLogo">裁剪LOGO
+        </l-button>
+        <l-button size="mini" shape="semicircle" icon="checked" icon-color="#3683d6" plain="{{true}}" bind:lintap="bvUploadLogo">上传LOGO
+        </l-button>
+        <l-button size="mini" shape="semicircle" icon="checked" icon-color="#3683d6" plain="{{true}}" bind:lintap="bvDeleteLogo">删除LOGO
+        </l-button>
+      </view>
+    </l-tabpanel>
+
+    <l-tabpanel tab="其他图片" key="four" slot="four">
+      <label class="label">选择其他图片资料：</label>
+      <l-image-picker count="4" bind:linchange="bvChooseImage" bind:linremove="bvRemoveImage" urls="{{tempimages}}">
+        <view>
+          <image class="companylogo" src="https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/setting/namecard/%E5%85%B6%E4%BB%96%E5%9B%BE%E7%89%87.png?sign=1ee0fe0b796001e62e5d4677fdcad93b&t=1682560204" />
+        </view>
+      </l-image-picker>
+    </l-tabpanel>
+  </l-tabs>
+  <text>\n</text>
+
+  <l-button size="long" shape="semicircle" plain="{{true}}" icon="share" icon-color="#3683d6" bind:lintap="bvPublish">发布名片</l-button>
+
+  <text>\n</text>
+</view>

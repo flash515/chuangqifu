@@ -1,56 +1,138 @@
-<view>
-  <swiper class="swiper" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" circular="{{circular}}" vertical="{{vertical}}" interval="{{interval}}" duration="{{duration}}" previous-margin="{{previousMargin}}px" next-margin="{{nextMargin}}px">
-    <block wx:for="{{image}}" wx:for-index="index" wx:key="key">
-      <swiper-item>
-        <image src="{{item}}" class="swiper image" mode="scaleToFill" />
-      </swiper-item>
-    </block>
-  </swiper>
-</view>
-<l-grid show-border="true" row-num="3">
+<!-- 轮播头图 -->
+<Swiper class="swiper" image="{{image}}"></Swiper>
+<!-- 用户提示信息 -->
+<l-grid show-border="true" row-num="2">
   <l-grid-item key="one" slot="one">
-    <view class="num">{{balance}}分</view>
-    <view class="text">积分余额</view>
+    <navigator url="../mine/shareuser">
+      <l-icon name="user" />
+      <view class="text">推广详情</view>
+    </navigator>
+  </l-grid-item>
+
+  <l-grid-item key="two" slot="two">
+    <l-button special="{{true}}" open-type="contact">
+      <l-icon name="customer-service" />
+    </l-button>
+
+    <view class="text">
+      <l-button special="{{true}}" open-type="contact">
+        联系客服</l-button>
+    </view>
+  </l-grid-item>
+</l-grid>
+<!-- 管理员提示信息 -->
+<view wx:if="{{usertype=='admin'}}">
+<l-grid show-border="true" row-num="4">
+  <l-grid-item key="one" slot="one">
+    <navigator url="">
+      <view class="num">{{paymentcheck.length}}/{{paymentarray.length}}</view>
+      <view class="text">待付/支付</view>
+    </navigator>
   </l-grid-item>
   <l-grid-item key="two" slot="two">
-    <navigator url="../mine/shareuser">
-      <view class="num">{{directvaliduser.length}}人</view>
-      <view class="text">有效推广人数</view>
+    <navigator url="">
+      <view class="num">{{ordercheck.length}}/{{orderarray.length}}</view>
+      <view class="text">待审/订单</view>
+
     </navigator>
   </l-grid-item>
   <l-grid-item key="three" slot="three">
-    <l-button special="{{true}}" open-type="contact">
-      <l-icon name="customer-service" /></l-button>
-      <l-button special="{{true}}" open-type="contact">
-        联系客服</l-button>
-    <view class="text"></view>
+    <navigator url="">
+      <view class="num">{{discountcheck.length}}/{{discountarray.length}}</view>
+      <view class="text">待审/折扣</view>
+    </navigator>
+  </l-grid-item>
+  <l-grid-item key="four" slot="four">
+    <navigator url="">
+      <view class="num">{{promotecheck.length}}/{{promotearray.length}}</view>
+      <view class="text">待审/推广</view>
+    </navigator>
+  </l-grid-item>
+  <l-grid-item key="five" slot="five">
+    <navigator url="../manage/userview">
+      <view class="num">{{memberarray.length}}/{{userarray.length}}</view>
+      <view class="text">会员/用户</view>
+    </navigator>
+  </l-grid-item>
+  <l-grid-item key="six" slot="six">
+    <navigator url="">
+      <view class="num">{{bookingcheck.length}}/{{bookingarray.length}}</view>
+      <view class="text">待审/预约</view>
+    </navigator>
+  </l-grid-item>
+  <l-grid-item key="seven" slot="seven">
+    <navigator url="../manage/infomanage">
+      <view class="num">{{infosharecheck.length}}/{{infosharearray.length}}</view>
+      <view class="text">待审/分享</view>
+    </navigator>
+  </l-grid-item>
+  <l-grid-item key="eight" slot="eight">
+    <navigator url="../manage/commentmanage">
+      <view class="num">{{commentcheck.length}}/{{commentarray.length}}</view>
+      <view class="text">待审/评论</view>
+    </navigator>
+  </l-grid-item>
+  <l-grid-item key="nine" slot="nine">
+    <navigator url="../manage/productview">
+      <view class="num">{{productcheck.length}}/{{productarray.length}}</view>
+      <view class="text">在售/产品</view>
+    </navigator>
+  </l-grid-item>
+  <l-grid-item key="ten" slot="ten">
+    <navigator url="../manage/productview">
+      <view class="num">{{producqatcheck.length}}/{{producqatarray.length}}</view>
+      <view class="text">待审/问答</view>
+    </navigator>
+  </l-grid-item>
+  <l-grid-item key="eleven" slot="eleven">
+    <navigator url="../promote/companysquare">
+      <view class="num">{{namecardarray.length}}</view>
+      <view class="text">名片</view>
+    </navigator>
+  </l-grid-item>
+  <l-grid-item key="twelve" slot="twelve">
+    <navigator url="../manage/infomanage">
+      <view class="num">{{infocheck.length}}/{{infoarray.length}}</view>
+      <view class="text">待审/信息</view>
+    </navigator>
   </l-grid-item>
 </l-grid>
+</view>
 <l-card type="primary" plaintext="{{true}}">
-  <text>当前优惠级别：{{dlname}}</text>
-  <text>卡券购买日期：{{dladddate}}</text>
-  <text>卡券生效日期：{{dlstartdate}}</text>
-  <text>卡券失效日期：{{dlenddate}}</text>
-</l-card>
-<l-card type="primary" plaintext="{{true}}">
-  <text>当前推广资格：{{promotername}}</text>
-  <text>资格申请日期：{{pladddate}}</text>
-  <text>资格生效日期：{{plstartdate}}</text>
-  <text>资格失效日期：{{plenddate}}</text>
-</l-card>
-
-<l-card type="primary" plaintext="{{true}}">
-  <l-list title="我的信息" icon="user" url="../mine/userinfo" />
-  <l-list title="推广奖励级别" icon="setting" url="../mine/promoterpolicy" />
-  <l-list title="价格优惠级别" icon="setting" url="../mine/pricepolicy" />
-  <l-list title="小程序消息订阅" icon="notification" bind:lintap="bvSubMessage" />
-  <l-list title="小程序推广码" icon="picture" url="../mine/minicode" />
-  <l-list title="我的推广海报" icon="picture" url="../mine/poster" />
-  <l-list title="推广详情" icon="user" url="../mine/shareuser" />
-  <view wx:if="{{usertype == 'provider'}}">
-    <l-list title="服务商功能" icon="setting" url="../manage/providerindex" />
-  </view>
-  <view wx:if="{{usertype == 'admin'}}">
-    <l-list title="管理员功能" icon="setting" url="../manage/manageindex" />
+  <l-list id="我的信息" bind:lintap="handlerClick" title="我的信息" icon="user" url="../mine/userinfo" />
+  <l-list id="小程序消息订阅" bind:lintap="handlerClick" title="小程序消息订阅" icon="notification" bind:lintap="bvSubMessage" />
+  <view wx:if="{{userphone != ''}}">
+    <l-list id="推广详情" bind:lintap="handlerClick" title="推广详情" icon="user" url="../mine/shareuser" />
+    <l-list id="成为服务商" bind:lintap="handlerClick" title="成为服务商" icon="setting" url="../mine/providerapply" />
+    <l-list id="成为代理商" bind:lintap="handlerClick" title="成为代理商" icon="setting" url="../mine/agentapply" />
   </view>
 </l-card>
+<view wx:if="{{usertype == 'provider'}}">
+  <text>\n</text>
+  <l-card type="primary" plaintext="{{true}}">
+    <l-list id="服务商功能" bind:lintap="handlerClick" title="服务商功能" icon="notification" right-desc="" tag-position="right" />
+    <l-list id="税筹项目管理" bind:lintap="handlerClick" title="税筹项目管理" icon="setting" url="../manage/scheme" />
+    <l-list id="商品管理" bind:lintap="handlerClick" title="商品管理" icon="setting" url="../manage/productview" />
+  </l-card>
+</view>
+<view wx:if="{{usertype == 'admin'}}">
+  <l-card type="primary" plaintext="{{true}}">
+    <l-list title="管理员功能" icon="notification" right-desc="" tag-position="right" />
+    <l-list title="快捷会议室" icon="user" url="../tools/meetingroom/expressmeeting" />
+    <l-list title="快捷推广" icon="user" url="../promote/express" />
+    <l-list title="待办事项" icon="setting" url="../manage/pending" />
+    <l-list title="用户管理" icon="setting" url="../manage/userview" />
+    <l-list title="资讯分享管理" icon="setting" url="../manage/infomanage" />
+    <l-list title="资讯管理" icon="setting" url="../manage/infomanage" />
+    <l-list title="评论管理" icon="setting" url="../manage/commentmanage" />
+    <l-list title="税筹项目管理" icon="setting" url="../manage/scheme" />
+    <l-list title="商品类别管理" icon="setting" url="../manage/sortedit" />
+    <l-list title="商品管理" icon="setting" url="../manage/productview" />
+    <l-list title="管理员订阅消息管理" icon="notification" bind:lintap="bvSubMessage" />
+    <l-list title="客户订阅消息发送" icon="setting" url="../manage/messgae" />
+    <l-list title="名片编辑" icon="user" url="../promote/namecardedit" />
+    <l-list title="资讯编辑" icon="user" url="../promote/infoshareedit" />
+    <l-list title="供求信息编辑" icon="user" url="../promote/infoedit" />
+    <l-list title="测试页面" icon="address" url="../test/test1" />
+  </l-card>
+</view>

@@ -1,4 +1,6 @@
 const app = getApp()
+const { startToTrack, startByClick, startByBack } = require("../../utils/track");
+const track = require("../../utils/track");
 Page({
   data: {
     schemearray:[],
@@ -22,14 +24,6 @@ Page({
 
     // 轮播参数
     image: [],
-    indicatorDots: true,
-    vertical: false,
-    autoplay: true,
-    circular: true,
-    interval: 4000,
-    duration: 500,
-    previousMargin: 0,
-    nextMargin: 0
   },
   bvQuestion1(e) {
     
@@ -73,9 +67,9 @@ Page({
             SchemeType: "增值税",
             Question: this.data.question1,
             Status: "",
-            AddDate: new Date().toLocaleDateString()
+            AddDate: new Date().toLocaleString('chinese',{ hour12: false })
           },
-          success(res) {
+          success: res => {
             wx.showToast({
               title: '留言发送成功',
               icon: 'none',
@@ -83,7 +77,7 @@ Page({
             })
 
           },
-          fail(res) {
+          fail: res => {
             console.log("留言发送失败", res)
             wx.showToast({
               title: '留言发送失败',
@@ -116,16 +110,16 @@ Page({
             SchemeType: "企业所得税",
             Question: this.data.question2,
             Status: "",
-            AddDate: new Date().toLocaleDateString()
+            AddDate: new Date().toLocaleString('chinese',{ hour12: false })
           },
-          success(res) {
+          success: res => {
             wx.showToast({
               title: '留言发送成功',
               icon: 'none',
               duration: 2000 //持续的时间
             })
           },
-          fail(res) {
+          fail: res => {
             console.log("留言发送失败", res)
             wx.showToast({
               title: '留言发送失败',
@@ -158,16 +152,16 @@ Page({
             SchemeType: "个人所得税",
             Question: this.data.question3,
             Status: "",
-            AddDate: new Date().toLocaleDateString()
+            AddDate: new Date().toLocaleString('chinese',{ hour12: false })
           },
-          success(res) {
+          success: res => {
             wx.showToast({
               title: '留言发送成功',
               icon: 'none',
               duration: 2000 //持续的时间
             })
           },
-          fail(res) {
+          fail: res => {
             console.log("留言发送失败", res)
             wx.showToast({
               title: '留言发送失败',
@@ -200,16 +194,16 @@ Page({
             SchemeType: "股权转让个税",
             Question: this.data.question4,
             Status: "",
-            AddDate: new Date().toLocaleDateString()
+            AddDate: new Date().toLocaleString('chinese',{ hour12: false })
           },
-          success(res) {
+          success: res => {
             wx.showToast({
               title: '留言发送成功',
               icon: 'none',
               duration: 2000 //持续的时间
             })
           },
-          fail(res) {
+          fail: res => {
             console.log("留言发送失败", res)
             wx.showToast({
               title: '留言发送失败',
@@ -231,10 +225,10 @@ Page({
     this.setData({
       image:app.globalData.Gimagearray
     })
-        // 查询在售的产品并存入本地
+        // 查询在售的商品并存入本地
         const db = wx.cloud.database()
         db.collection('SCHEME').where({
-          // 状态为在售的产品
+          // 状态为在售的商品
           Status: "onshow"
         }).get({
           success: res => {
@@ -281,7 +275,7 @@ Page({
         })
       }
     })
-    // 查询产品的QA内容
+    // 查询商品的QA内容
 
     const _ = db.command
     db.collection('SCHEMEQA').where({
@@ -344,8 +338,10 @@ Page({
   /**
    * 生命周期函数--监听页面显示
    */
+    	// 点击 tab 时用此方法触发埋点
+	onTabItemTap: () => startToTrack(),
   onShow: function () {
-
+    startToTrack()
   },
 
   /**
@@ -358,8 +354,8 @@ Page({
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function () {
-
+    onUnload: function () {
+    startByBack()
   },
 
   /**

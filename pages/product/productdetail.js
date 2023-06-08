@@ -1,24 +1,38 @@
 const app = getApp()
+const utils = require("../../utils/utils")
 Page({
   /**
    * 页面的初始数据
    */
   data: {
+    // 初始化相关
+    params: {},
+    tempinviterid: "",
+    remark: "",
+    // 登录框相关变量
+    loginshow: false,
+    loginbtnshow: false,
+    time: "获取验证码",
+
+    //通过对页面内容分区域设置隐藏，达到分栏显示效果,hidden要反着写，显示的值为false,不显示的值为true
+    DetailHidden: false,
+    Hidden: true,
+    AttachmentHidden: true,
     pageParam: [],
-    usertype: "",
-    discountlevel:"",
-    procudtarray: [],
-    procudtdetail: [],
+    productid: "",
+    usertype: "client",
+    discountlevel: "",
+    product: [],
     array: [],
     qaarray: [],
     question: "",
     answer: "",
     sublock: false,
     replylock: false,
-    avatarUrl:"",
-    nickName:"",
-    // 轮播参数
-    image: [],
+    tempimage: [],
+    // 产品轮播参数
+    swiperData: [],
+    swiperHeight: "", // swiper的高度
     indicatorDots: true,
     vertical: false,
     autoplay: true,
@@ -28,50 +42,54 @@ Page({
     previousMargin: 0,
     nextMargin: 0
   },
-  getUserProfile: function (e) {
-    wx.getUserProfile({
-      desc: "登录创企服以查看更多信息",
-      success: res => {
-        console.log("获得的用户微信信息", res)
-        this.setData({
-          avatarUrl: res.userInfo.avatarUrl,
-          nickName: res.userInfo.nickName
-        })
-        app.globalData.GavatarUrl=res.userInfo.avatarUrl
-        app.globalData.GnickName=res.userInfo.nickName
-        // 获取数据库引用
-        const db = wx.cloud.database()
-        // 更新数据
-        db.collection('USER').where({
-          _openid: app.globalData.Gopenid
-        }).update({
-          data: {
-            avatarUrl: res.userInfo.avatarUrl,
-            city: res.userInfo.city,
-            country: res.userInfo.country,
-            gender: res.userInfo.gender,
-            language: res.userInfo.language,
-            nickName: res.userInfo.nickName,
-            province: res.userInfo.province
-          },
-        })
-        // 以上更新数据结束
-        wx.showToast({
-          icon:'success',
-          title: '登录成功',
-        })
-        return;
-      },
-      fail: res => {
-        //拒绝授权
-        wx.showToast({
-          icon: 'error',
-          title: '您拒绝了请求',
-        })
-        return;
-      }
+  bvLoginShow: function (e) {
+    this.setData({
+      loginshow: true
     })
   },
+
+  onLogin(e){
+    this.setData({
+      loginshow:e.detail.loginshow,
+      loginbtnshow:e.detail.loginbtnshow,
+      userphone:e.detail.userphone,
+    })
+  },
+
+  computeImgHeight(e) {
+    var winWid = wx.getSystemInfoSync().windowWidth; //获取当前屏幕的宽度
+    var imgh = e.detail.height; //图片高度
+    var imgw = e.detail.width;
+    var swiperH = winWid * imgh / imgw + "px" //等比设置swiper的高度。  
+    //即 屏幕宽度 / swiper高度 = 图片宽度 / 图片高度  -->  swiper高度 = 屏幕宽度 * 图片高度 / 图片宽度
+    this.setData({
+      swiperHeight: swiperH //设置swiper高度
+    })
+
+  },
+
+  bvDetailView() {
+    this.setData({
+      DetailHidden: false,
+      QAHidden: true,
+      AttachmentHidden: true,
+    })
+  },
+  bvQAView() {
+    this.setData({
+      DetailHidden: true,
+      QAHidden: false,
+      AttachmentHidden: true,
+    })
+  },
+  bvAttachmentView() {
+    this.setData({
+      DetailHidden: true,
+      QAHidden: true,
+      AttachmentHidden: false,
+    })
+  },
+
   bvQuestion(e) {
     this.setData({
       question: e.detail.value
@@ -130,11 +148,8 @@ Page({
     // 判断是否重复提交
     if (this.data.replylock) {
       // 锁定时很执行
-      wx.showToast({
-        title: '请勿重复提交',
-        icon: 'none',
-        duration: 2000 //持续的时间
-      })
+      utils._ErrorToast("请勿重复提交")
+
     } else {
       // 未锁定时执行
       wx.cloud.callFunction({
@@ -145,15 +160,13 @@ Page({
           id: e.currentTarget.dataset.id,
           answer: that.data.answer,
           status: "onshow",
-          updatedate: new Date().toLocaleDateString()
+          updatedate: new Date().toLocaleString('chinese', {
+            hour12: false
+          })
         },
         success: res => {
           console.log(res)
-          wx.showToast({
-            title: '回复信息发送成功',
-            icon: 'none',
-            duration: 2000 //持续的时间
-          })
+          utils._SuccessToast("信息发送成功")
         },
       })
 
@@ -167,15 +180,11 @@ Page({
           date6: e.currentTarget.dataset.adddate,
           thing4: e.currentTarget.dataset.question,
           thing2: this.data.answer,
-          name1: "创企服客服"
+          name1: "小税宝客服"
         },
         success: res => {
           console.log(res)
-          wx.showToast({
-            title: '订阅消息发送成功',
-            icon: 'none',
-            duration: 2000 //持续的时间
-          })
+          utils._SuccessToast("消息发送成功")
         },
         fail: err => {
           console.log(err)
@@ -193,37 +202,45 @@ Page({
     // 判断是否重复提交
     if (this.data.sublock) {
       // 锁定时很执行
-      wx.showToast({
-        title: '请勿重复提交',
-        icon: 'none',
-        duration: 2000 //持续的时间
-      })
+      utils._ErrorToast("请勿重复提交")
+
     } else {
       // 未锁定时执行
       // 获取数据库引用
       const db = wx.cloud.database()
       db.collection('PRODUCTQA').add({
           data: {
-            Produce_id: this.data.pageParam._id,
+            DataId: this.data.pageParam.productid,
+            ProductId: this.data.pageParam.productid,
             Question: this.data.question,
-            Status: "",
-            AddDate: new Date().toLocaleDateString()
+            Status: "unchecked",
+            AddDate: new Date().toLocaleString('chinese', {
+              hour12: false
+            })
           },
-          success(res) {
+          success: res => {
             console.log('留言发送成功', res.data)
-            wx.showToast({
-              title: '留言发送成功',
-              icon: 'success',
-              duration: 2000 //持续的时间
+            utils._SuccessToast("留言发送成功")
+            var tempmobile = [18954744612]
+            // 调用云函数发短信给推荐人和管理员
+            wx.cloud.callFunction({
+              name: 'sendsms',
+              data: {
+                templateId: "1569089",
+                nocode: true,
+                mobile: tempmobile
+              },
+              success: res => {
+                console.log(res)
+              },
+              fail: res => {
+                console.log(res)
+              },
             })
           },
-          fail(res) {
+          fail: res => {
             console.log("留言发送失败", res)
-            wx.showToast({
-              title: '留言发送失败',
-              icon: 'none',
-              duration: 2000 //持续的时间
-            })
+            utils._ErrorToast("留言发送失败")
           }
         }),
         this.data.sublock = true // 修改上传状态为锁定
@@ -235,49 +252,70 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
-    var that = this;
-    this.setData({
-      pageParam: options,
-    })
-    console.log("pageParam", this.data.pageParam._id);
 
-    // 从本地存储中读取
-    wx.getStorage({
-      key: 'LProductList',
-      success: res => {
-        this.setData({
-          productarray: res.data
-        })
-        console.log("产品数组", this.data.productarray) //Object {errMsg: "getStorage:ok", data: "value1"}
-        // 筛选指定记录
-        var fliter = [];
-        // var _this = this
-        for (var i = 0; i < this.data.productarray.length; i++) {
-          if (this.data.productarray[i]._id == this.data.pageParam._id) {
-            fliter.push(this.data.productarray[i]);
-          }
-        }
-        console.log(fliter);
-        this.setData({
-          productdetail: fliter
-        })
-      },
+  _productfliter() {
+    // 筛选指定记录
+    var fliter = [];
+    // var _this = this
+    for (var i = 0; i < app.globalData.Gproduct.length; i++) {
+      if (app.globalData.Gproduct[i]._id == this.data.pageParam.productid) {
+        fliter.push(app.globalData.Gproduct[i]);
+      }
+    }
+    console.log(fliter);
+    this.setData({
+      product: fliter[0],
+      swiperData: fliter[0].ProductImage
     })
-    // 查询产品的QA内容
-    const db = wx.cloud.database()
-    const _ = db.command
-    db.collection('PRODUCTQA').where({
-      Product_id: this.data.pageParam._id
-    }).get({
+  },
+  _productQA() {
+    // 云函数查询商品的QA内容
+    wx.cloud.callFunction({
+      name: "NormalQuery",
+      data: {
+        collectionName: "PRODUCTQA",
+        command: "and",
+        where: [{
+          DataId: this.data.pageParam.productid
+        }]
+      },
       success: res => {
-        console.log("查询QA结果", res);
+        console.log(res)
         this.setData({
           qaarray: res.data
         })
-
       }
     })
+  },
+  onLoad: async function (options) {
+    console.log("页面接收参数", options)
+    this.setData({
+      image:app.globalData.Gimagearray,
+      pageParam: options,
+    })
+    wx.showLoading({
+      title: '加载中',
+    })
+    //如果通过分享链接进入没有产品数据，则查询产品数据
+    if (app.globalData.Gproduct == undefined) {
+      await utils._productcheck()
+    }
+
+    if (options.userid) {
+      // 如果是通过链接打开
+      this.data.params = options
+      this.data.tempinviterid = options.userid
+      this.data.remark = "通过小税宝用户分享链接进入"
+      console.log("通过链接打开接收到的参数", this.data.tempinviterid)
+      await utils.UserLogon(this.data.tempinviterid, this.data.params, this.data.remark)
+    }
+    this._productfliter()
+    this._productQA()
+    this.setData({
+      usertype: app.globalData.Guserdata.UserInfo.UserType,
+      discountlevel: app.globalData.Guserdata.TradeInfo.DiscountLevel,
+    })
+    wx.hideLoading()
   },
 
   /**
@@ -290,19 +328,15 @@ Page({
   /**
    * 生命周期函数--监听页面显示
    */
+
   onShow: function () {
-    this.setData({
-      usertype: app.globalData.Gusertype,
-      discountlevel:app.globalData.Gdiscountlevel,
-      image:app.globalData.Gimagearray,
-      avatarUrl: app.globalData.GavatarUrl,
-      nickName: app.globalData.GnickName,
-    })
+
+
   },
   bvNewOrder(e) {
-    console.log(e.currentTarget.dataset.id);
+    console.log(e.currentTarget.dataset.params);
     wx.navigateTo({
-      url: '../order/neworder?' + e.currentTarget.dataset.id
+      url: "../order/neworder?" + e.currentTarget.dataset.params
     })
   },
   /**
@@ -336,7 +370,31 @@ Page({
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
+  onShareAppMessage: function (res) {
+    if (res.from === 'button') {
+      // 来自页面内转发按钮
+      console.log(res.target)
+    }
+    return {
+      title: app.globalData.Guserdata.UserInfo.nickName + '推荐给您：',
+      path: '/pages/product/productdetail?userid=' + app.globalData.Guserid + '&productid=' + this.data.pageParam.productid,
+      imageUrl: '', //封面，留空自动抓取500*400生成图片
+      success: function (res) {
+        // 转发成功之后的回调
+        if (res.errMsg == 'shareAppMessage:ok') {
+          console.log(this.data.path.value)
+        }
+      },
+      fail: function () {
+        // 转发失败之后的回调
+        if (res.errMsg == 'shareAppMessage:fail cancel') {
+          // 用户取消转发
+        } else if (res.errMsg == 'shareAppMessage:fail') {
+          // 转发失败，其中 detail message 为详细失败信息
+        }
+      },
+    }
+  },
 
-  }
+
 })

@@ -1,106 +1,94 @@
 <view>
-  <swiper class="swiper" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" circular="{{circular}}"
-    vertical="{{vertical}}" interval="{{interval}}" duration="{{duration}}" previous-margin="{{previousMargin}}px"
-    next-margin="{{nextMargin}}px">
+  <swiper class="swiper" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" circular="{{circular}}" vertical="{{vertical}}" interval="{{interval}}" duration="{{duration}}" previous-margin="{{previousMargin}}px" next-margin="{{nextMargin}}px">
     <block wx:for="{{image}}" wx:for-index="index" wx:key="key">
+      <navigator url="{{item.link}}">
       <swiper-item>
-        <image src="{{item}}" class="swiper image" mode="scaleToFill" />
+        <image src="{{item.image_url}}" class="swiper image" mode="scaleToFill" />
       </swiper-item>
+    </navigator>
     </block>
   </swiper>
 </view>
 <view class="title">
-  <text>价格优惠政策</text>
+  <text>价格优惠</text>
 </view>
 <view class="mainframe">
-
+  <l-card type="primary" plaintext="{{true}}">
+    <text class="maintext">当前价格类型：{{dlname}}</text>
+    <text class="maintext">卡券购买日期：{{adddate}}</text>
+    <text class="maintext">卡券生效日期：{{dlstartdate}}</text>
+    <text class="maintext">卡券失效日期：{{dlenddate}}</text>
+  </l-card>
   <text>\n</text>
-  <l-collapse>
-    <l-collapse-item title="价格优惠政策说明">
-      <l-card type="primary" plaintext="{{true}}">
-        <text space="emsp" decode='true'>  创企服产品售价体系：普客价&gt;折扣价\n</text>
-        <text space="emsp" decode='true'>  例如注册及托管小规模企业的价格为：\n</text>
-        <text space="emsp" decode='true'>  普客价：7000元/年\n</text>
-        <text space="emsp" decode='true'>  折扣价：6000元/年\n</text>
-        <text space="emsp" decode='true'>  创企服提供了根据用户业务量调整报价的方式，只需具备相应的业务量即可在当前订单获得价格优惠；\n</text>
-        <text space="emsp" decode='true'>  同时，创企服也提供了用户购买折扣卡即可获得在一定期间内价格优惠的方式。\n</text>
-      </l-card>
-    </l-collapse-item>
-  </l-collapse>
-  <l-collapse>
-    <l-collapse-item title="一、根据业务量获得价格优惠政策">
-      <l-card type="primary" plaintext="{{true}}" title="业务量符合以下任一条件可享折扣价">
-        <text decode='true'>前溯一年内办理自然人代开票金额≥100万；或</text>
-        <text decode='true'>前溯一年内办理企业注册数量≥1家；或</text>
-        <text decode='true'>前溯一年内推广有效用户数量≥100人；</text>
-      </l-card>
-    </l-collapse-item>
-  </l-collapse>
-  <!-- 如果有订单则隐藏折扣卡列表，此处待改进 -->
-  <view hidden="{{orderhidden==false}}">
-    <l-collapse>
-      <l-collapse-item title="二、购买折扣卡获得价格优惠政策">
-        <l-card type="avatar" plaintext="{{true}}" title="单次折扣价体验卡">
-          <text>有效期：限30天内单次使用</text>
-          <text>购卡费用：50元</text>
-          <picker mode="date" value="{{dl3_30startdate}}" start="{{startdate}}" bindchange="bvDL3_30">
-            <view class="picker">
-              <text class="text" style="color:blue">选择生效日期：{{dl3_30startdate}}</text>
-            </view>
-          </picker>
-          <text class="text" style="color:blue">卡券失效日期：{{dl3_30enddate}}</text>
-          <l-button slot="more" size="mini" type="default" bind:lintap="bvBuy" data-level="DL3" data-id="DL3_Single"
-            data-name="单次折扣体验卡" data-startdate="{{dl3_30startdate}}" data-enddate="{{dl3_30enddate}}" data-price="50" data-type="Single"
-            shape="semicircle" plain="true">现在购买</l-button>
-        </l-card>
-        <text>\n</text>
-        <l-card type="avatar" plaintext="{{true}}" title="折扣价季卡">
-          <text>有效期：90天</text>
-          <text>购卡费用：300元</text>
-          <picker mode="date" value="{{dl3_90startdate}}" start="{{startdate}}" bindchange="bvDL3_90">
-            <view class="picker">
-              <text class="text" style="color:blue">选择生效日期：{{dl3_90startdate}}</text>
-            </view>
-          </picker>
-          <text class="text" style="color:blue">卡券失效日期：{{dl3_90enddate}}</text>
-          <l-button slot="more" size="mini" type="default" bind:lintap="bvBuy" data-level="DL3" data-id="DL3_90"
-            data-name="折扣季卡" data-startdate="{{dl3_90startdate}}" data-enddate="{{dl3_90enddate}}" data-price="300" data-type="Period"
-            shape="semicircle" plain="true">现在购买</l-button>
-        </l-card>
-        <text>\n</text>
-        <l-card type="avatar" plaintext="{{true}}" title="折扣价半年卡">
-          <text>有效期：180天</text>
-          <text>购卡费用：450元</text>
-          <picker mode="date" value="{{dl3_180startdate}}" start="{{startdate}}" bindchange="bvDL3_180">
-            <view class="picker">
-              <text class="text" style="color:blue">选择生效日期：{{dl3_180startdate}}</text>
-            </view>
-          </picker>
-          <text class="text" style="color:blue">卡券失效日期：{{dl3_180enddate}}</text>
-          <l-button slot="more" size="mini" type="default" bind:lintap="bvBuy" data-level="DL3" data-id="DL3_180"
-            data-name="折扣半年卡" data-startdate="{{dl3_180startdate}}" data-enddate="{{dl3_180enddate}}" data-price="450" data-type="Period"
-            shape="semicircle" plain="true">现在购买</l-button>
-        </l-card>
-        <text>\n</text>
-        <l-card type="avatar" plaintext="{{true}}" title="折扣价年卡">
-          <text>有效期：360天</text>
-          <text>购卡费用：600元</text>
-          <picker mode="date" value="{{dl3_360startdate}}" start="{{startdate}}" bindchange="bvDL3_360">
-            <view class="picker">
-              <text class="text" style="color:blue">选择生效日期：{{dl3_360startdate}}</text>
-            </view>
-          </picker>
-          <text class="text" style="color:blue">卡券失效日期：{{dl3_360enddate}}</text>
-          <l-button slot="more" size="mini" type="default" bind:lintap="bvBuy" data-level="DL3" data-id="DL3_360"
-            data-name="折扣年卡" data-startdate="{{dl3_360startdate}}" data-enddate="{{dl3_360enddate}}" data-price="600" data-type="Period"
-            shape="semicircle" plain="true">现在购买</l-button>
-        </l-card>
-      </l-collapse-item>
-    </l-collapse>
+  <view class="maincontent">
+    <text space="emsp" decode='true' class="maintext"> 创企服提供了根据用户过往业务量调整报价的方式，用户在前溯一年内具备相应的业务量即可在当前订单获得价格优惠；\n</text>
+    <text space="emsp" decode='true' class="maintext"> 同时，创企服也提供了用户购买折扣卡即可获得在一定期间内价格优惠的方式。\n</text>
   </view>
+  <text>\n</text>
+  <view class="maincontent">
+    <text space="emsp" decode='true' class="maintext">一、根据业务量获得价格优惠</text>
+  </view>
+  <l-card type="primary" plaintext="{{true}}" title="业务量符合以下任一条件可享折扣价">
+    <text>\n</text>
+    <text decode='true' class="normalcard">1、前溯一年内办理自然人税票金额≥100万；或</text>
+    <text decode='true' class="normalcard">2、前溯一年内办理企业注册数量≥2家；或</text>
+    <text decode='true' class="normalcard">3、前溯一年内推广有效用户数量≥100人。</text>
+  </l-card>
+  <text>\n</text>
+  <view class="maincontent">
+    <text space="emsp" decode='true' class="maintext">二、购买折扣卡获得价格优惠</text>
+  </view>
+  <l-card type="avatar" l-class="discountcard" l-title-class="cardtitle" plaintext="{{true}}" title="单次折扣价体验卡" >
+    <text>有效期：限30天内单次使用</text>
+    <text>购卡费用：80元</text>
+    <picker mode="date" value="{{dl3_30startdate}}" start="{{startdate}}" bindchange="bvDL3_30">
+      <view class="picker">
+        <text class="text" style="color:#3683d6">选择生效日期：{{dl3_30startdate}}</text>
+      </view>
+    </picker>
+    <text class="text" style="color:#3683d6">卡券失效日期：{{dl3_30enddate}}</text>
+    <l-button slot="more" size="mini" type="default" bind:lintap="bvBuy" data-level="DL3" data-id="DL3_Single" data-name="单次折扣体验卡" data-startdate="{{dl3_30startdate}}" data-enddate="{{dl3_30enddate}}" data-price="80" data-type="Single" shape="semicircle" plain="true">现在购买</l-button>
+  </l-card>
+  <text>\n</text>
+  <l-card type="avatar" l-class="discountcard" l-title-class="cardtitle" plaintext="{{true}}" title="折扣价季卡" >
+    <text>有效期：90天</text>
+    <text>购卡费用：200元</text>
+    <picker mode="date" value="{{dl3_90startdate}}" start="{{startdate}}" bindchange="bvDL3_90">
+      <view class="picker">
+        <text class="text" style="color:#3683d6">选择生效日期：{{dl3_90startdate}}</text>
+      </view>
+    </picker>
+    <text class="text" style="color:#3683d6">卡券失效日期：{{dl3_90enddate}}</text>
+    <l-button slot="more" size="mini" type="default" bind:lintap="bvBuy" data-level="DL3" data-id="DL3_90" data-name="折扣季卡" data-startdate="{{dl3_90startdate}}" data-enddate="{{dl3_90enddate}}" data-price="200" data-type="Period" shape="semicircle" plain="true">现在购买</l-button>
+  </l-card>
+  <text>\n</text>
+  <l-card type="avatar" l-class="discountcard" l-title-class="cardtitle" plaintext="{{true}}" title="折扣价半年卡" >
+    <text>有效期：180天</text>
+    <text>购卡费用：300元</text>
+    <picker mode="date" value="{{dl3_180startdate}}" start="{{startdate}}" bindchange="bvDL3_180">
+      <view class="picker">
+        <text class="text" style="color:#3683d6">选择生效日期：{{dl3_180startdate}}</text>
+      </view>
+    </picker>
+    <text class="text" style="color:#3683d6">卡券失效日期：{{dl3_180enddate}}</text>
+    <l-button slot="more" size="mini" type="default" bind:lintap="bvBuy" data-level="DL3" data-id="DL3_180" data-name="折扣半年卡" data-startdate="{{dl3_180startdate}}" data-enddate="{{dl3_180enddate}}" data-price="300" data-type="Period" shape="semicircle" plain="true">现在购买</l-button>
+  </l-card>
+  <text>\n</text>
+  <l-card type="avatar" l-class="discountcard" l-title-class="cardtitle" plaintext="{{true}}" title="折扣价年卡" >
+    <text>有效期：360天</text>
+    <text>购卡费用：450元</text>
+    <picker mode="date" value="{{dl3_360startdate}}" start="{{startdate}}" bindchange="bvDL3_360">
+      <view class="picker">
+        <text class="text" style="color:#3683d6">选择生效日期：{{dl3_360startdate}}</text>
+      </view>
+    </picker>
+    <text class="text" style="color:#3683d6">卡券失效日期：{{dl3_360enddate}}</text>
+    <l-button slot="more" size="mini" type="default" bind:lintap="bvBuy" data-level="DL3" data-id="DL3_360" data-name="折扣年卡" data-startdate="{{dl3_360startdate}}" data-enddate="{{dl3_360enddate}}" data-price="450" data-type="Period" shape="semicircle" plain="true">现在购买</l-button>
+  </l-card>
+
   <!-- 当前有待完成的订单时显示订单信息 -->
   <view hidden="{{orderhidden}}">
-    <l-card type="avatar" plaintext="{{true}}" title="折扣卡订单详情">
+    <l-card type="avatar" l-class="discountcard" l-title-class="cardtitle" plaintext="{{true}}" title="折扣卡订单详情" >
       <text>折扣卡券名称：{{discountname}}</text>
       <text>卡券购买费用：{{discounttotalfee}}元</text>
       <text>卡券生效日期：{{discountstartdate}}</text>
@@ -110,7 +98,7 @@
         <l-button size="mini" type="default" bind:lintap="bvWXPay" shape="semicircle" plain="true">微信即时支付</l-button>
       </view>
       <text decode="{{true}}">&emsp;</text>
-        <l-button size="mini" type="default" bind:lintap="bvOtherPay" shape="semicircle" plain="true">其他方式支付</l-button>
+      <l-button size="mini" type="default" bind:lintap="bvOtherPay" shape="semicircle" plain="true">其他方式支付</l-button>
     </l-card>
   </view>
   <text>\n</text>

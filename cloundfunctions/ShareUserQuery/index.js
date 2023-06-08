@@ -1,7 +1,7 @@
 // 云函数入口文件
 const cloud = require('wx-server-sdk')
 cloud.init({
-  env: 'cloud1-2gn7aud7a22c693c',
+  env: 'xsbmain-9gvsp7vo651fd1a9',
   traceUser: true,
 })
 const db = cloud.database()
@@ -11,7 +11,7 @@ exports.main = async (event, context) => {
   //先取符合条件的记录总数
   const countResult = await db.collection('USER').where({
     //传入的条件参数
-    InviterOpenId:event.userid,
+    ["UserInfo.InviterId"]:event.userid,
   }).count()
   const total = countResult.total
   // 计算需分几次取
@@ -21,7 +21,7 @@ const tasks = []
 for (let i = 0; i < batchTimes; i++) {
   const promise = db.collection('USER').where({
     //传入的条件参数
-    InviterOpenId:event.userid,
+    ["UserInfo.InviterId"]:event.userid,
   }).skip(i * MAX_LIMIT).limit(MAX_LIMIT).get()
   tasks.push(promise)
 }

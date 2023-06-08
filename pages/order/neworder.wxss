@@ -11,3 +11,18 @@
   background-color: white;
   background-size: cover;
 }
+.line {
+  margin-left: 0rpx;
+  margin-right: 0rpx;
+  height: 0.5px;
+  background-color: #f3f3f3;
+
+}
+.flex-row{
+  display: flex;
+  align-items: center;
+}
+.flex-column{
+  display: flex;
+  align-items: center;
+}

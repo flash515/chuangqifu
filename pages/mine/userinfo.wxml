@@ -1,70 +1,68 @@
 <!-- 轮播头图 -->
-<view>
-  <swiper class="swiper" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" circular="{{circular}}"
-    vertical="{{vertical}}" interval="{{interval}}" duration="{{duration}}" previous-margin="{{previousMargin}}px"
-    next-margin="{{nextMargin}}px">
-    <block wx:for="{{image}}" wx:for-index="index" wx:key="key">
-      <swiper-item>
-        <image src="{{item}}" class="swiper image" mode="scaleToFill" />
-      </swiper-item>
-    </block>
-  </swiper>
-</view>
+<Swiper class="swiper" image="{{image}}"></Swiper>
+
 <view class="mainframe">
-  <l-tabs bind:linchange="changeTabs">
+  <l-tabs>
     <l-tabpanel tab="本人信息" key="one" slot="one">
+      <view style="display:flex; flex-direction:row; justify-content:flex-start;align-items:center">
+        <label class="labal">手机号：</label>
+        <view style="padding-left: 50rpx;">
+          <input class="input" type="number" value="{{userphone}}" placeholder="请输入手机号" bindinput="bvInputPhone" />
+        </view>
+      </view>
+      <view class="line"></view>
+      <view style="display:flex; flex-direction:row; justify-content:flex-start;align-items:center">
+        <label class="labal">验证码：</label>
+        <view style="padding-left: 50rpx;">
+          <input class="input" type="number" bindinput="bvPhoneCode" />
+        </view>
+        <l-button shape="semicircle" plain="{{true}}" bind:lintap="bvSendCode" size="mini" disabled='{{disabledstatus}}'>{{time}}</l-button>
+      </view>
+      <view class="line"></view>
+
+        <view style="display:flex; flex-direction:row; justify-content:flex-start;align-items:center">
+          <label class="labal">微信头像：</label>
+          <view style="padding-left: 50rpx;">
+            <button class="avatarBtn" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
+              <image class="avatar" src="{{avatarurl}}"></image>
+            </button>
+          </view>
+        </view>
+        <view class="line"></view>
+        <view style="display:flex; flex-direction:row; justify-content:flex-start;align-items:center">
+          <label class="labal">微信昵称：</label>
+          <view style="padding-left: 50rpx;">
+            <input class="input" type="nickname" value="{{nickname}}" placeholder="点击获取昵称" bindinput="bvNickName" />
+          </view>
+        </view>
+        <view class="line"></view>
+
       <view>
         <l-input type="text" label="注册日期：" value="{{adddate}}" disabled="{{true}}"></l-input>
       </view>
       <view>
         <l-input type="text" label="更新日期：" value="{{updatedate}}" disabled="{{true}}"></l-input>
       </view>
-      <view>
-        <l-input type="text" label="我的姓名：" value="{{username}}" bind:lininput="bvUserName" required="{{true}}">
-        </l-input>
-      </view>
-      <view style="display:flex; flex-direction:row; justify-content:space-between;align-items:center">
-        <l-input type="number" label="我的手机：" value="{{userphone}}" bind:lininput="bvUserPhone" required="{{true}}">
-        </l-input>
-        <l-button shape="semicircle" plain="{{true}}" bind:lintap="bvSendCode" size="mini" disabled='{{disabled}}'>{{time}}</l-button>
-      </view>
-      <view>
-        <l-input type="number" label="验证码：" value="{{phonecode}}" bind:lininput="bvPhoneCode" required="{{true}}">
-        </l-input>
-      </view>
-      <view>
-        <l-input type="text" label="企业名称：" value="{{companyname}}" bind:lininput="bvCompanyName"></l-input>
-      </view>
-      <view>
-        <l-input type="text" label="企业代码：" value="{{companyid}}" bind:lininput="bvCompanyId"></l-input>
-      </view>
-      <view>
-        <l-input type="text" label="主营业务：" value="{{businessscope}}" bind:lininput="bvBusinessScope"></l-input>
-      </view>
-      <view>
-        <l-input type="text" label="企业规模：" value="{{companyscale}}" bind:lininput="bvCompanyScale"></l-input>
-      </view>
       <text>\n</text>
-  <view hidden="{{btnhidden}}">
-    <l-button type="default" bind:lintap="UpdateData" shape="semicircle" icon="to-top" icon-color="white">更新信息
-    </l-button>
-    <text space="emsp" decode="{{true}}">&emsp;</text>
-    <l-button type="default" bind:lintap="RefreshData" shape="semicircle" icon="loading" icon-color="white">刷新信息
-    </l-button>
-  </view>
+      <view style="display:flex; justify-content:center;padding: 0rpx;">
+      <l-button size="large" shape="semicircle" plain="{{true}}" bind:lintap="bvUpdateData">更新账号信息</l-button>
+      </view>
     </l-tabpanel>
     <l-tabpanel tab="邀请人信息" key="two" slot="two">
-      <view>
-        <l-input type="text" label="邀请人昵称：" value="{{inviternickname}}" disabled="{{true}}"></l-input>
-      </view>
-      <view>
-        <l-input type="text" label="邀请人姓名：" value="{{inviterusername}}" disabled="{{true}}"></l-input>
-      </view>
-      <view>
-        <l-input type="text" label="邀请人企业：" value="{{invitercompanyname}}" disabled="{{true}}"></l-input>
-      </view>
+      <view style="display:flex; flex-direction:row; justify-content:flex-start;align-items:center">
+          <label class="labal">邀请人头像：</label>
+          <view style="padding-left: 50rpx;">
+              <image class="avatar" src="{{inviteravatar}}"></image>
+          </view>
+        </view>
+        <view class="line"></view>
+        <view style="display:flex; flex-direction:row; justify-content:flex-start;align-items:center">
+          <label class="labal">邀请人昵称：</label>
+          <view style="padding-left: 50rpx;">
+            <input class="input" value="{{inviternickname}}" disabled="{{true}}"/>
+          </view>
+        </view>
+        <view class="line"></view>
     </l-tabpanel>
   </l-tabs>
-
-
 </view>

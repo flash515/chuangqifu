@@ -1,6 +1,6 @@
 const cloud = require('wx-server-sdk')
 cloud.init({
-  env: 'cloud1-2gn7aud7a22c693c',
+  env: 'xsbmain-9gvsp7vo651fd1a9',
 })
 exports.main = async (event, context) => {
   try {
@@ -11,7 +11,7 @@ exports.main = async (event, context) => {
         // "expireType": 1,
         // "expireInterval": 365,
         // "cloudBase": {
-        //   "env": 'cloud1-2gn7aud7a22c693c',
+        //   "env": 'xsbmain-9gvsp7vo651fd1a9',
         //   "domain": 'xxx.xx',
         //   "path": '/jump-wxa.html',
         //   "query": 'a=1&b=2'

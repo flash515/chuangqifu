@@ -1,182 +1,358 @@
-<!--产品新增页面-->
-<view class="title">产品新增/编辑</view>
+<!--商品新增页面-->
+<view class="title">商品新增/编辑</view>
 <text>\n</text>
-<l-search-bar placeholder="模糊搜索办理地、产品类型、产品状态" bind:linconfirm="onSearch" />
-<text>\n</text>
-<view>
-  <l-input type="text" placeholder="{{adddate}}" label="录入日期:" disabled="{{true}}"></l-input>
-</view>
-<view>
-  <l-input type="text" label="更新日期:" placeholder="{{updatedate}}" disabled="{{true}}"></l-input>
-</view>
-<view>
-  <l-list title="当前产品展示状态：" is-link="{{false}}" gap="20">
-    <view slot="right-section">
-      <switch checked="{{onsalechecked}}" bindchange="onsaleChange" style='zoom:.6;' />
+
+<wxs module="v1">
+  var include = function (array, value) {
+    var has = false;
+    for (var i = 0; i < array.length; ++i) {
+      if (array[i] == value) {
+        has = true;
+        return has
+      }
+    }
+    return has;
+  }
+  module.exports.include = include;
+</wxs>
+
+<view style="padding-left: 25rpx;padding-right: 25rpx;">
+
+  <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
+    <label class="text">1.录入日期：</label>
+
+  </view>
+  <view>
+    <input class="input" placeholder="{{adddate}}" disabled="true" />
+  </view>
+
+  <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
+    <label class="text">2.更新日期:</label>
+
+  </view>
+  <view>
+    <input class="input" placeholder="{{updatedate}}" disabled="true" />
+  </view>
+
+  <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
+    <label class="text">3.商品名称：</label>
+
+  </view>
+  <view>
+    <input class="input" bindblur="bvProductName" bindfocus="bvProductName" placeholder="商品名称不超12个字" maxlength="12" value="{{productname}}" />
+  </view>
+
+  <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
+    <label class="text">4.商品分类：</label>
+  </view>
+  <view>
+    <view class="input" bindtap="getbox" wx:if="{{inputShow}}" style="color: #999;">{{category1name}}/{{category2name}}/{{category3name}}</view>
+    <view class="input" bindtap="getbox" wx:if="{{!inputShow}}">{{category1}}/{{category2}}/{{category3}}</view>
+    <!-- 三级分类弹框 -->
+    <view class="box" wx:if="{{boxShow}}">
+      <!-- 阴影 -->
+      <view class="black" bindtap="hidebox"></view>
+      <!-- 内容 -->
+      <view class="nr">
+        <view class="item">
+          <l-button plain="{{true}}" bind:lintap="hidebox">取消</l-button>
+          <l-button bg-color="#06c05f" bind:lintap="confirm">确认</l-button>
+        </view>
+        <view style="display:flex;width: 100%;height: 300rpx;">
+          <picker-view indicator-style="height: 100rpx;" style="width: 100%;height: 300rpx;text-align: center;" value="{{pIndex}}" bindchange="changeCategory1">
+            <picker-view-column>
+              <view wx:for="{{sortarray}}" wx:key="Category1Name" style="line-height: 100rpx;">{{item.Category1Name}}</view>
+            </picker-view-column>
+          </picker-view>
+          <picker-view indicator-style="height: 100rpx;" style="width: 100%;height: 300rpx;text-align: center" value="{{cIndex}}" bindchange="changeCategory2">
+            <picker-view-column>
+              <view wx:for="{{sortarray[pIndex].Category2Array}}" wx:key="Category2Name" style="line-height: 100rpx">{{item.Category2Name}}</view>
+            </picker-view-column>
+          </picker-view>
+          <picker-view indicator-style="height: 100rpx;" style="width: 100%;height: 300rpx;text-align: center" value="{{aIndex}}" bindchange="changeCategory3">
+            <picker-view-column>
+              <view wx:for="{{sortarray[pIndex].Category2Array[cIndex].Category3Array}}" wx:key="Category3Name" style="line-height: 100rpx">{{item.Category3Name}}</view>
+            </picker-view-column>
+          </picker-view>
+        </view>
+      </view>
     </view>
-   </l-list>
-</view>
-<view>
-  <l-input type="number" label="产品推荐程度:" value="{{score}}" bind:lininput="bvChangeScore"></l-input>
-</view>
-<view>
-  <l-input type="text" value="{{productid}}" label="产品编号:" bind:lininput="bvProductId"></l-input>
-</view>
-
-<view>
-  <l-input type="text" value="{{category1}}" label="产品一级分类:" bind:lininput="bvCategory1"></l-input>
-</view>
-<view>
-  <l-input type="text" value="{{category2}}" label="产品二级分类:" bind:lininput="bvCategory2"></l-input>
-</view>
-<view>
-  <l-input type="text" value="{{category3}}" label="产品三级分类:" bind:lininput="bvCategory3"></l-input>
-</view>
-<view>
-  <l-input type="text" value="{{productname}}" label="产品名称:" bind:lininput="bvProductName"></l-input>
-</view>
-<view>
-  <label class="text">产品概要:</label>
-  <l-textarea type="text" name="outline" value="{{outline}}" bind:lininput="bvOutline"></l-textarea>
-</view>
-<view>
-  <label class="text">产品具体说明:</label>
-  <l-textarea type="text" value="{{description}}" bind:lininput="bvDescription"></l-textarea>
-</view>
-
-<view>
-  <label class="text">适用情况:</label>
-  <l-textarea type="text" value="{{situation}}" bind:lininput="bvSituation"></l-textarea>
-</view>
-<view>
-  <label class="text">限制性事项:</label>
-  <l-textarea type="text" value="{{forbid}}" bind:lininput="bvForbid"></l-textarea>
-</view>
-<view>
-  <label class="text">资料清单:</label>
-  <l-textarea type="text" value="{{doclist}}" bind:lininput="bvDocList"></l-textarea>
-</view>
-<view>
-  <label class="text">税收奖励:</label>
-  <l-textarea type="text" value="{{reward}}" bind:lininput="bvReward"></l-textarea>
-</view>
-<view>
-  <label class="text">奖励时间:</label>
-  <l-textarea type="text" value="{{rewardtime}}" bind:lininput="bvRewardTime"></l-textarea>
-</view>
-<view>
-  <l-input type="text" value="{{issuedplace}}" label="办理地点:" bind:lininput="bvIssuedPlace"></l-input>
-</view>
-<view>
-  <l-input type="text" label="办理部门:" value="{{issuedby}}" bind:lininput="bvIssuedBy"></l-input>
-</view>
-<view>
-  <l-input type="text" label="办理时长:" value="{{processingtime}}" bind:lininput="bvProcessingTime"></l-input>
-</view>
-<view>
-  <l-input type="text" label="服务商:" value="{{provider}}" bind:lininput="bvProvider"></l-input>
-</view>
-<view>
-  <l-input type="text" label="服务商报价:" value="{{providerprice}}" bind:lininput="bvProviderPrice"></l-input>
-</view>
-<view>
-  <l-input type="digit" label="服务商计算费率:" value="{{providercountprice}}" bind:lininput="bvProviderCountPrice"></l-input>
-</view>
-
-<view>
-  <l-input type="text" label="PL1特惠价格:" value="{{price1}}" bind:lininput="bvPrice1"></l-input>
-</view>
-<view>
-  <l-input type="digit" label="PL1特惠价计算费率:" value="{{price1count}}" bind:lininput="bvPrice1Count">
-  </l-input>
-</view>
-<view>
-  <l-input type="text" label="PL2巨惠价格:" value="{{price2}}" bind:lininput="bvPrice2"></l-input>
-</view>
-<view>
-  <l-input type="digit" label="PL2巨惠价计算费率:" value="{{price2count}}" bind:lininput="bvPrice2Count"></l-input>
-</view>
-<view>
-  <l-input type="text" label="PL3优惠价格:" value="{{price3}}" bind:lininput="bvPrice3"></l-input>
-</view>
-<view>
-  <l-input type="digit" label="PL3优惠价计算费率:" value="{{price3count}}" bind:lininput="bvPrice3Count"></l-input>
-</view>
-<view>
-  <l-input type="text" label="PL4原价格:" value="{{price4}}" bind:lininput="bvPrice4"></l-input>
-</view>
-<view>
-  <l-input type="digit" label="PL4原价计算费率:" value="{{price4count}}" bind:lininput="bvPrice4Count"></l-input>
-</view>
-<view>
-  <view class="page-section-title">代理佣金比例</view>
-  <l-radio-group current="system" none-checked="{{false}}" placement="row" bind:linchange="bvRadioChanged">
-    <l-radio key="system">系统默认比例</l-radio>
-    <l-radio key="custom">自设比例</l-radio>
-</l-radio-group>
-</view>
-<view hidden="{{commissiontype=='system'}}">
-<view>
-  <l-input type="text" label="直接推荐人奖励金额：" value="{{commission1}}" bind:lininput="bvCommission1"></l-input>
-</view>
-<view>
-  <l-input type="digit" label="直接推荐人奖励金额计算值:" value="{{commission1count}}" bind:lininput="bvCommission1Count"></l-input>
-</view>
-<view>
-  <l-input type="text" label="间接推荐人奖励金额：" value="{{commission2}}" bind:lininput="bvCommission2"></l-input>
-</view>
-<view>
-  <l-input type="digit" label="间接推荐人奖励金额计算值:" value="{{commission2count}}" bind:lininput="bvCommission2Count"></l-input>
-</view>
-</view>
-
-<picker mode="date" value="{{startdate}}" start="2015-09-01" end="2022-09-01" bindchange="bvStartDate">
-  <view class="picker">
-    <text class="text">起售日期: {{startdate}}</text>
   </view>
-</picker>
-<picker mode="date" value="{{enddate}}" start="2021-01-01" end="2021-12-31" bindchange="bvEndDate">
-  <view class="picker">
-    <text class="text">止售日期: {{enddate}}</text>
+  <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
+    <label class="text">6.商品概要:</label>
+
   </view>
-</picker>
-<!-- 附件展示 -->
-<label class="text">其他资料：</label>
+  <view style="margin-top: 10rpx;">
+    <l-textarea type="text" bind:lininput="bvOutline" value="{{outline}}"></l-textarea>
+  </view>
+
+  <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
+    <label class="text">7.商品具体说明:</label>
+
+  </view>
+  <view style="margin-top: 10rpx;">
+    <l-textarea type="text" bind:lininput="bvDescription" value="{{description}}"></l-textarea>
+  </view>
+
+  <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
+    <label class="text">8.适用情况:</label>
+
+  </view>
+  <view style="margin-top: 10rpx;">
+    <l-textarea type="text" bind:lininput="bvSituation" value="{{situation}}"></l-textarea>
+  </view>
+
+  <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
+    <label class="text">9.限制性事项:</label>
+
+  </view>
+  <view style="margin-top: 10rpx;">
+    <l-textarea type="text" bind:lininput="bvForbid" value="{{forbid}}"></l-textarea>
+  </view>
+
+  <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
+    <label class="text">10.资料清单:</label>
+
+  </view>
+  <view style="margin-top: 10rpx;">
+    <l-textarea type="text" bind:lininput="bvDocList" value="{{doclist}}"></l-textarea>
+  </view>
+
+  <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
+    <label class="text">11.税收奖励:</label>
+
+  </view>
+  <view style="margin-top: 10rpx;">
+    <l-textarea type="text" bind:lininput="bvReward" value="{{reward}}"></l-textarea>
+  </view>
+
+  <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
+    <label class="text">12.奖励时间:</label>
+
+  </view>
+  <view style="margin-top: 10rpx;">
+    <l-textarea type="text" bind:lininput="bvRewardTime" value="{{rewardtime}}"></l-textarea>
+  </view>
+
+  <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
+    <label class="text">13.服务地区：</label>
+
+  </view>
+  <view style="margin-top: 10rpx;">
+    <checkbox-group class="checkboxgroupcss" placement="row" bind:change="bvServiceArea" min-selected="{{1}}" max-selected="{{max}}" data-key="selectedArray">
+      <checkbox wx:for-items="{{items}}" wx:key="index" checked="{{v1.include(servicearea,item.value)}}" value="{{item.value}}" disabled="{{item.disabled}}">
+        {{item.value}}
+      </checkbox>
+
+    </checkbox-group>
+  </view>
+
+  <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
+    <label class="text">14.办理地点：</label>
+
+  </view>
+  <view style="margin-top: 10rpx;">
+    <picker mode="region" bindchange="bvHandlePlace" value="{{handleplace}}" custom-item="{{customItem}}">
+      <input class="input" placeholder="" value="{{handleplace[0]}}/{{handleplace[1]}}/{{handleplace[2]}}" />
+      <!-- <view class="picker">
+        {{handleplace[0]}}/{{handleplace[1]}}/{{handleplace[2]}}
+      </view> -->
+    </picker>
+  </view>
+
+
+  <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
+    <label class="text">15.办理部门:</label>
+
+  </view>
+  <view>
+    <input class="input" pleaceholder="" bindblur="bvIssuedBy" value="{{issuedby}}"></input>
+  </view>
+
+
+  <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
+    <label class="text">16.办理时长:</label>
+
+  </view>
+  <view>
+    <input class="input" bindblur="bvProcessingTime" value="{{processingtime}}"></input>
+  </view>
+
+  <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
+    <label class="text">17.服务商:</label>
+
+  </view>
+  <view>
+    <input class="input" bindblur="bvProvider" value="{{provider}}"></input>
+  </view>
+
+  <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
+    <label class="text">18.服务商报价:</label>
+
+  </view>
+  <view>
+    <input class="input" bindblur="bvProviderPrice" value="{{providerprice}}"></input>
+  </view>
+
+  <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
+    <label class="text">19.服务商计算费率:</label>
+
+  </view>
+  <view>
+    <input type="digit" class="input" bindblur="bvProviderCountPrice" value="{{providercountprice}}"></input>
+  </view>
+
+  <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
+    <label class="text">20.PL1员工价格:</label>
+
+  </view>
+  <view>
+    <input type="text" class="input" placeholder="文字形式价格说明" bindblur="bvPrice1" value="{{price1}}"></input>
+  </view>
+
+  <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
+    <label class="text">21.PL1员工价计算费率:</label>
+
+  </view>
+  <view>
+    <input type="digit" class="input" placeholder="数字形式用于系统计算" bindblur="bvPrice1Count" value="{{price1count}}"></input>
+  </view>
+
+  <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
+    <label class="text">22.PL2渠道价格:</label>
+
+  </view>
+  <view>
+    <input type="text" class="input" placeholder="文字形式价格说明" bindblur="bvPrice2" value="{{price2}}"></input>
+  </view>
+
+  <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
+    <label class="text">23.PL2渠道价计算费率:</label>
+
+  </view>
+  <view>
+    <input type="digit" class="input" placeholder="数字形式用于系统计算" bindblur="bvPrice2Count" value="{{price2count}}"></input>
+  </view>
+
+  <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
+    <label class="text">24.PL3折扣价格:</label>
+
+  </view>
+  <view>
+    <input type="text" class="input" placeholder="文字形式价格说明" bindblur="bvPrice3" value="{{price3}}"></input>
+  </view>
+
+  <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
+    <label class="text">25.PL3折扣价计算费率:</label>
+
+  </view>
+  <view>
+    <input type="digit" class="input" placeholder="数字形式用于系统计算" bindblur="bvPrice3Count" value="{{price3count}}"></input>
+  </view>
+
+  <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
+    <label class="text">26.PL4普客价格:</label>
+
+  </view>
+  <view>
+    <input type="text" class="input" placeholder="文字形式价格说明" bindblur="bvPrice4" value="{{price4}}"></input>
+  </view>
+
+  <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
+    <label class="text">27.PL4普客价计算费率:</label>
+
+  </view>
+  <view>
+    <input type="digit" class="input" placeholder="数字形式用于系统计算" bindblur="bvPrice4Count" value="{{price4count}}"></input>
+  </view>
+
+
+  <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
+    <label class="text">28.起售日期: </label>
+
+  </view>
+  <view>
+    <picker mode="date" value="{{startdate}}" start="2022-09-01" end="2023-12-31" bindchange="bvStartDate">
+      <input type="digit" class="input" value="{{startdate}}"></input>
+    </picker>
+  </view>
+
+
+  <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
+    <label class="text">29.止售日期: </label>
+
+  </view>
+  <view>
+    <picker mode="date" value="{{enddate}}" start="2022-10-01" end="2023-12-31" bindchange="bvEndDate">
+      <input type="digit" class="input" value=""></input>
+    </picker>
+  </view>
+
+
+  <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
+    <label class="text">30.推荐程度:</label>
+  </view>
+  <view>
+    <input type="number" class="input" bindblur="bvChangeScore" value="{{score}}"></input>
+  </view>
+  <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
+    <label class="text">31.商品状态:</label>
+  </view>
+  <view>
+    <input type="text" class="input" bindblur="bvChangeStatus" value="{{status}}"></input>
+  </view>
+  <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
+    <label class="text">32.录入人员:</label>
+  </view>
+  <view>
+    <input type="text" class="input" placeholder="{{user}}" disabled="true"></input>
+  </view>
+
+
+  <!-- 商品介绍图片 -->
+  <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
+    <label class="text">33.商品介绍图片：</label>
+
+  </view>
+  <view style="font-size: 28rpx;padding-left:25rpx;padding-right:25rpx; padding-top: 10rpx;">
+    <l-image-picker size="4" count="4" bind:linchange="bvChooseProductImage" bind:linremove="bvRemoveProductImage" urls="{{productview}}" />
+    <l-button plain="{{true}}" bind:lintap="bvUploadProductImage">上传图片</l-button>
+</view>
+<!-- 商品附件图片 -->
 <!-- 显示选择的图片 -->
-<view>
-  <label class="text">图片附件：</label>
-  <l-image-picker size="4" count="4" bind:linchange="onChangeTap" bind:linremove="bvRemoveImage"
-    urls="{{attachmentview}}" />
-  <l-button plain="{{true}}" bind:lintap="bvUploadImage">上传图片</l-button>
+
+<view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
+  <label class="text">35.文件附件：</label>
+
 </view>
+<view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center;flex-wrap: wrap;">
+  <view wx:for="{{attachmentfile}}" wx:for-item="cell" wx:key="key" style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
+    <view wx:for="{{cell}}" wx:for-index="key" wx:for-item="value" wx:key="key">
+      <l-button bind:lintap="bvDownloadFile" plain="{{true}}" data-link="{{value}}" data-name="{{key}}">点击下载：{{key}}</l-button>
+      <text>\t\t</text>
+      <l-button data-link="{{value}}" data-name="{{key}}" bind:lintap="bvDeleteFile" plain="{{true}}">删除文件</l-button>
+    </view>
+  </view>
+  <text>\n</text>
+  <view wx:for="{{tempFilePaths}}" wx:key="key">{{tempFilePaths[index].name}}
+  </view>
+  <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
+    <l-button bind:lintap="bvChooseFile" plain="{{true}}">选择文件</l-button>
+    <l-button bind:lintap="bvUploadFile" plain="{{true}}">上传文件</l-button>
+  </view>
+</view>
+
 
 <!-- 附件上传 -->
 <text>\n</text>
-<label class="text">文件附件：</label>
-<text>\n</text>
-<view wx:for="{{attachmentfile}}" wx:for-item="value" wx:for-index="key" wx:key="key">
-  <l-button data-link="{{value}}" bind:lintap="" plain="{{true}}">{{key}}</l-button>
+<view style="padding-left: 25rpx;padding-right: 25rpx;">
+  <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
+    <l-button type="default" bind:lintap="addData">新增信息</l-button>
+
+    <l-button type="default" bind:lintap="updateData">更新信息</l-button>
+
+    <l-button type="default" bind:lintap="delData">删除信息</l-button>
+  </view>
+
 </view>
-<text>\n</text>
-<view wx:for="{{tempFilePaths}}" wx:key="key">{{tempFilePaths[index].name}}
-</view>
-<l-button bind:lintap="bvChooseFile" plain="{{true}}">选择文件</l-button>
-<text>\t\t</text>
-<l-button bind:lintap="bvUploadFile" plain="{{true}}">上传文件</l-button>
-<view wx:for="{{item.AttachmentFile}}" wx:for-item="value" wx:for-index="key" wx:key="key">
-  <l-button data-link="{{value}}" bind:lintap="bvUploadFile" plain="{{true}}">{{key}}</l-button>
-</view>
-<text>\n\n</text>
-<view>
-  <l-button type="default" bind:lintap="addData">提交信息</l-button>
-  <text>\t\t</text>
-  <l-button type="default" bind:lintap="updateData">更新信息</l-button>
-  <text>\t\t</text>
-  <l-button type="default" bind:lintap="delData">删除信息</l-button>
-</view>
-<text>\n</text>
-<view wx:if="{{recordcontral==true}}">
-  <l-button type="default" bind:lintap="onPreviousClick" shape="circle" plain="{{true}}">上一条</l-button>
-  <text>\t\t</text>
-  <l-button type="default" bind:lintap="onNextClick" shape="circle" plain="{{true}}">下一条</l-button>
 </view>

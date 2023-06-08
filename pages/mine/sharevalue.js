@@ -31,7 +31,7 @@ Page({
   onLoad: function (options) {
     this.setData({
       image:app.globalData.Gimagearray,
-      promoterlevel:app.globalData.Gpromoterlevel
+      promoterlevel:app.globalData.Guserdata.UserInfo.PromoterLevel
     })
         // 直接分享价值查询
     // 从本地存储中读取
@@ -145,8 +145,10 @@ Page({
   /**
    * 生命周期函数--监听页面显示
    */
+    	// 点击 tab 时用此方法触发埋点
+	onTabItemTap: () => startToTrack(),
   onShow: function () {
-
+    startToTrack()
   },
 
   /**
@@ -159,8 +161,8 @@ Page({
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function () {
-
+    onUnload: function () {
+    startByBack()
   },
 
   /**

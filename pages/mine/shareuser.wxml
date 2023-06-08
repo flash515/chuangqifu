@@ -1,16 +1,5 @@
-<!--pages/mine/userlist.wxml-->
 <!-- 轮播头图 -->
-<view>
-  <swiper class="swiper" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" circular="{{circular}}"
-    vertical="{{vertical}}" interval="{{interval}}" duration="{{duration}}" previous-margin="{{previousMargin}}px"
-    next-margin="{{nextMargin}}px">
-    <block wx:for="{{image}}" wx:for-index="index" wx:key="key">
-      <swiper-item>
-        <image src="{{item}}" class="swiper image" mode="scaleToFill" />
-      </swiper-item>
-    </block>
-  </swiper>
-</view>
+<Swiper class="swiper" image="{{image}}"></Swiper>
 <!-- 页面内容 -->
 <!-- 直接分享 -->
 <view class="mainframe">
@@ -25,13 +14,13 @@
   </l-grid-item>
 </l-grid>
 <!-- 间接分享 -->
-<view wx:if="{{promoterlevel=='platinum'}}">
+<view wx:if="{{promotelevel=='platinum'}}">
 <l-grid row-num="2">
-  <l-grid-item key="one" slot="one">
+  <l-grid-item key="one" slot="one" bind:linitemtap="IndirectUser">
     <view class="num">{{indirectuser.length}}人</view>
     <view class="text">间接推广总人数</view>
   </l-grid-item>
-  <l-grid-item key="two" slot="two">
+  <l-grid-item key="two" slot="two" bind:linitemtap="Indirect30User">
     <view class="num">{{indirectvaliduser.length}}人</view>
     <view class="text">间接推广有效人数</view>
   </l-grid-item>
@@ -40,29 +29,27 @@
 <!-- 直接分享明细 -->
 
 <l-tabs bind:linchange="changeTabs">
-  <l-tabpanel tab="有效直接推广明细" key="one" slot="one" dot-badge=
+  <l-tabpanel tab="有效直接推广详情" key="one" slot="one" dot-badge=
   "true">
     <view wx:for="{{directvaliduser}}" wx:key="key">
       <l-card type="primary" plaintext="{{true}}">
         <view>日期：{{item.AddDate}}</view>
-        <view>受邀人姓名：{{item.UserName}}</view>
-        <view>受邀人昵称：{{item.nickName}}</view>
+        <view wx:if="{{item.UserInfo.nickName}}">受邀人昵称：{{item.UserInfo.nickName}}</view>
       </l-card>
     </view>
   </l-tabpanel>
 
-  <l-tabpanel tab="有效间接推广明细" key="two" slot="two">
-  <view wx:if="{{promoterlevel=='platinum'}}">
+  <l-tabpanel tab="有效间接推广详情" key="two" slot="two">
+  <view wx:if="{{promotelevel=='platinum'}}">
     <view wx:for="{{indirectvaliduser}}" wx:key="key">
       <l-card type="primary" plaintext="{{true}}">
         <view>日期：{{item.AddDate}}</view>
-        <view>受邀人姓名：{{item.UserName}}</view>
-        <view>受邀人昵称：{{item.nickName}}</view>
+        <view wx:if="{{item.UserInfo.nickName}}">受邀人昵称：{{item.UserInfo.nickName}}</view>
       </l-card>
     </view>
     </view>
     <view wx:else>
-    <view text-align:center>尚未获得铂金推广大使资格</view>
+    <view text-align:center>尚未获得铂金会员资格</view>
     </view>
   </l-tabpanel>
 </l-tabs>

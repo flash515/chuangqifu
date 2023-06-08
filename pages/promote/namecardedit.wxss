@@ -1,0 +1,190 @@
+.bgimage {
+  width: 750rpx;
+  height: 600rpx;
+  position: absolute;
+  z-index: -1;
+  background-color: aquamarine;
+}
+
+.uplayout {
+  width: 750rpx;
+  height: 600rpx;
+  position: relative;
+  z-index: 1;
+  top: 0rpx;
+  left: 0rpx;
+  margin: 0rpx;
+}
+
+.namecard {
+  padding: 60rpx 30rpx 0rpx 30rpx;
+}
+
+.user {
+  width: 690rpx;
+  display:flex; 
+  flex-direction:row;
+  align-items:flex-end;
+  justify-content:space-between;
+  margin-left: 0rpx;
+  margin-right: 0rpx;
+  padding-left: 0rpx;
+  padding-right: 0rpx;
+}
+
+.companyname {
+  width: 690rpx;
+  font-size: 55rpx;
+  font-weight: bold;
+  color: rgb(0, 0, 0);
+  text-align: center;
+  min-height: 55rpx;
+}
+.logolayout {
+  display:flex; 
+  justify-content:right;
+  position: relative;
+  z-index: 2;
+}
+
+.companylogo {
+  width : 180rpx;
+  height : 180rpx; 
+}
+
+.username {
+  font-size: 45rpx;
+  font-weight: bold;
+  color: rgb(0, 0, 0);
+}
+
+.namecardtitle {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: rgb(0, 0, 0);
+}
+
+.handphone {
+  display:flex; 
+  width: 350rpx;
+  font-size: 32rpx;
+  color: rgb(0, 0, 0);
+}
+
+.wechat {
+  display:flex;
+  width: 350rpx;
+  font-size: 32rpx;
+  color: rgb(0, 0, 0);
+}
+.telephone {
+  display:flex;
+  width: 350rpx;
+  font-size: 32rpx;
+  color: rgb(0, 0, 0);
+}
+.email {
+  display:flex; 
+  font-size: 32rpx;
+  color: rgb(0, 0, 0);
+}
+
+.website {
+  display:flex; 
+  font-size: 32rpx;
+  color: rgb(0, 0, 0);
+}
+
+.address {
+  display:flex; 
+  font-size: 32rpx;
+  color: rgb(0, 0, 0);
+}
+
+.label {
+  font-size: 28rpx;
+  margin-left: 25rpx;
+}
+
+.phonecode {
+  border: none !important;
+}
+
+.radio {
+  margin-top: 20rpx;
+  justify-content:left;
+}
+
+.bgarray {
+  width: 250rpx;
+  height: 200rpx;
+}
+
+.line {
+  margin-left: 0rpx;
+  margin-right: 0rpx;
+  height: 0.5px;
+  background-color: #f3f3f3;
+
+}
+
+/* .box{
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  overflow: hidden;
+  width: 100%;
+  height: 100vh;
+  z-index: 8;
+} */
+/* .black{
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  background: rgba(0, 0, 0, .5);
+  z-index: 10;
+} */
+/* .nr{
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 500rpx;
+  z-index: 12;
+  background: #FFF;
+} */
+.index{
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+  padding-top: 10rpx;
+  padding-bottom: 10rpx;
+  box-sizing: border-box;
+  padding-left:25rpx;
+  padding-right:25rpx;
+}
+.sortinput{
+  width: 100%;
+  height: 100rpx;
+  line-height: 50rpx;
+  border: 1px solid #d8dee5;
+  border-radius: 10rpx;
+  margin-top: 10rpx;
+  padding: 0 25rpx;
+  box-sizing: border-box;
+  font-size: 28rpx;
+}
+.item{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 100rpx;
+  line-height: 100rpx;
+  padding:20rpx 50rpx 20rpx 50rpx;
+  box-sizing: border-box;
+  border-bottom: 1px solid #EEE;
+}

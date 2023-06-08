@@ -43,11 +43,11 @@
  .back{
   text-align: center;
   color: #f7a6a2;
-  font-size: 30rpx;
+  font-size: 28rpx;
   margin: 30rpx;
  }
  .userTitle{
-  font-size: 30rpx;
+  font-size: 28rpx;
   color: #666;
   margin: 30rpx;
  }
@@ -66,13 +66,13 @@
  }
  .wishbnt{
   width: 100%;
-  font-size: 30rpx;
+  font-size: 28rpx;
   margin-bottom: 30rpx;
  }
  .wishbnt_bt{
   width: 50%;
   background-color: #f7a6a2;
   color: #fbf1e8;
-  font-size: 30rpx;
+  font-size: 28rpx;
   border: 0;
  }
