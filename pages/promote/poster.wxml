@@ -13,7 +13,7 @@
 <view class="btn" bindtap="getPicture">从相册中选取海报背景</view>
 <text>\r\n</text>
 <image src="{{tempbgpicurl}}" style='width:{{windowW}}px;height:{{windowH}}px;margin: 0 auto;padding: 0;display:block;'></image>
-<view class="btn" bindtap="drawCanvas">预览您的小税宝海报</view>
+<view class="btn" bindtap="drawCanvas">预览您的创企服海报</view>
 <text>\r\n</text>
 <text>\r\n</text>
 <view class="content">

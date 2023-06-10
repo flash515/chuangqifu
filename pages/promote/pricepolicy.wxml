@@ -12,8 +12,8 @@
   </l-card>
   <text>\n</text>
   <view class="maincontent">
-    <text space="emsp" decode='true' class="maintext"> 小税宝提供了根据用户过往业务量调整报价的方式，用户在前溯一年内具备相应的业务量即可在当前订单获得价格优惠；\n</text>
-    <text space="emsp" decode='true' class="maintext"> 同时，小税宝也提供了用户购买折扣卡即可获得在一定期间内价格优惠的方式。\n</text>
+    <text space="emsp" decode='true' class="maintext"> 创企服提供了根据用户过往业务量调整报价的方式，用户在前溯一年内具备相应的业务量即可在当前订单获得价格优惠；\n</text>
+    <text space="emsp" decode='true' class="maintext"> 同时，创企服也提供了用户购买折扣卡即可获得在一定期间内价格优惠的方式。\n</text>
   </view>
   <text>\n</text>
   <view class="maincontent">

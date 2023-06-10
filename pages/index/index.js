@@ -25,7 +25,7 @@ Page({
       // 如果是通过链接打开
       this.data.params = options
       this.data.tempinviterid = options.userid
-      this.data.remark = "通过小税宝用户分享链接进入"
+      this.data.remark = "通过创企服用户分享链接进入"
       console.log("通过链接打开接收到的参数", this.data.tempinviterid);
     } else if (options.scene) {
       // 如果是通过扫码进入（scene中只有参数值，通过&和顺序区分）
@@ -35,7 +35,7 @@ Page({
       // let userId = scene.split("&")[1];
       this.data.params = scene
       this.data.tempinviterid = scene.split('&')[0]
-      this.data.remark = "通过小税宝用户小程序码进入"
+      this.data.remark = "通过创企服用户小程序码进入"
       // openid升级unionid后的适配，老名片用完后一年后可删除
       if (this.data.tempinviterid == "omLS75Xib_obyxkVAahnBffPytcA") {
         this.data.tempinviterid = "oo7kw5rohI15ogf6TCX_SGAxYUao"
@@ -44,7 +44,7 @@ Page({
     } else {
       // 两种都不带参数，则是自主搜索小程序进入，推荐人指定为开发人
       this.data.tempinviterid = "oo7kw5rohI15ogf6TCX_SGAxYUao"
-      this.data.remark = "小税宝无参数进入"
+      this.data.remark = "创企服无参数进入"
     }
 
     // 调用方法初始化

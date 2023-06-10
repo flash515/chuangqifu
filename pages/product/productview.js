@@ -87,7 +87,7 @@ Page({
       // 如果是通过分享链接打开，需要先初始化
       this.data.params = options
       this.data.tempinviterid = options.userid
-      this.data.remark = "通过小税宝用户分享链接进入"
+      this.data.remark = "通过创企服用户分享链接进入"
       console.log("通过链接打开接收到的参数", this.data.tempinviterid)
       await utils.UserLogon(this.data.tempinviterid, this.data.params, this.data.remark)
       console.log("执行顺序测试")

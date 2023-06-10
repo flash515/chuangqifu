@@ -1,4 +1,5 @@
 const app = getApp()
+const utils = require("../../utils/utils");
 Page({
 
   /**
@@ -9,8 +10,9 @@ Page({
   },
   onLoad: function (options) {
     // 查询本人提交的全部商品
-
-    wx.cloud.callFunction({
+    let that=this
+    utils.CloudInit(function (c1) {
+    c1.callFunction({
       name: "NormalQuery",
       data: {
         collectionName: "USER",
@@ -22,13 +24,13 @@ Page({
       success: res => {
         console.log("全部用户",  res)
         //括号1开始
-        this.setData({
+        that.setData({
           userarray: res.result.data,
         })
-        console.log("全部用户",this.data.userarray)
+        console.log("全部用户",that.data.userarray)
       }
     })
-
+  })
   },
 
   /**

@@ -50,7 +50,15 @@ Page({
       }
     })
   },
-  onLoad: function (options) {
+  onLoad: async function (options) {
+    let that = this
+    var c1 = new wx.cloud.Cloud({
+      // 资源方 AppID
+      resourceAppid: 'wx810b87f0575b9a47',
+      // 资源方环境 ID
+      resourceEnv: 'xsbmain-9gvsp7vo651fd1a9',
+    })
+    await c1.init()
     this.setData({
       image: app.globalData.Gimagearray,
       usertype: app.globalData.Guserdata.UserInfo.UserType,
@@ -78,7 +86,7 @@ Page({
     })
     // 管理员执行以下操作
 if(app.globalData.Guserdata.UserInfo.UserType=="admin"){
-  wx.cloud.callFunction({
+  c1.callFunction({
     name: "NormalQuery",
     data: {
       collectionName: "PAYMENT",
@@ -102,7 +110,7 @@ if(app.globalData.Guserdata.UserInfo.UserType=="admin"){
     }
   })
 
-  wx.cloud.callFunction({
+  c1.callFunction({
     name: "NormalQuery",
     data: {
       collectionName: "ORDER",
@@ -125,7 +133,7 @@ if(app.globalData.Guserdata.UserInfo.UserType=="admin"){
       console.log("全部订单",this.data.orderarray)
     }
   })
-  wx.cloud.callFunction({
+  c1.callFunction({
     name: "NormalQuery",
     data: {
       collectionName: "DISCOUNTORDER",
@@ -148,7 +156,7 @@ if(app.globalData.Guserdata.UserInfo.UserType=="admin"){
       console.log("全部折扣订单",this.data.discountarray)
     }
   })
-  wx.cloud.callFunction({
+  c1.callFunction({
     name: "NormalQuery",
     data: {
       collectionName: "PROMOTEORDER",
@@ -173,7 +181,7 @@ if(app.globalData.Guserdata.UserInfo.UserType=="admin"){
   })
 
   // 查询用户
-  wx.cloud.callFunction({
+  c1.callFunction({
     name: "NormalQuery",
     data: {
       collectionName: "USER",
@@ -197,7 +205,7 @@ if(app.globalData.Guserdata.UserInfo.UserType=="admin"){
       console.log("全部用户",this.data.userarray)
     }
   })
-  wx.cloud.callFunction({
+  c1.callFunction({
     name: "NormalQuery",
     data: {
       collectionName: "BOOKING",
@@ -221,7 +229,7 @@ if(app.globalData.Guserdata.UserInfo.UserType=="admin"){
     }
   })
   // 查询资讯
-  wx.cloud.callFunction({
+  c1.callFunction({
     name: "NormalQuery",
     data: {
       collectionName: "INFOSHARE",
@@ -261,7 +269,7 @@ if(app.globalData.Guserdata.UserInfo.UserType=="admin"){
       console.log("全部资讯",this.data.infoarray)
     }
   })
-  wx.cloud.callFunction({
+  c1.callFunction({
     name: "NormalQuery",
     data: {
       collectionName: "InfoShareComment",
@@ -286,7 +294,7 @@ if(app.globalData.Guserdata.UserInfo.UserType=="admin"){
   })
   
   // 查询产品
-  wx.cloud.callFunction({
+  c1.callFunction({
     name: "NormalQuery",
     data: {
       collectionName: "PRODUCT",
@@ -311,7 +319,7 @@ if(app.globalData.Guserdata.UserInfo.UserType=="admin"){
   })
 
   // 查询产品问答
-  wx.cloud.callFunction({
+  c1.callFunction({
     name: "NormalQuery",
     data: {
       collectionName: "PRODUCTQA",
@@ -337,7 +345,7 @@ if(app.globalData.Guserdata.UserInfo.UserType=="admin"){
 
 
 
-  wx.cloud.callFunction({
+  c1.callFunction({
     name: "NormalQuery",
     data: {
       collectionName: "NAMECARD",

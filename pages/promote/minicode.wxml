@@ -4,7 +4,7 @@
 <view class="mainframe">
 
 
-  <view class="btn" bindtap="getUrlLink">一键生成您的专属小税宝推广链接</view>
+  <view class="btn" bindtap="getUrlLink">一键生成您的专属创企服推广链接</view>
   <text>\n</text>
   <view hidden="{{urllink.length==0}}">{{urllink}}<text decode="{{true}}">&emsp;</text>
     <l-button type="default" size="mini" shape="semicircle" plain="{{true}}" bind:lintap="bvCopy">复制链接</l-button>
@@ -19,7 +19,7 @@
     <l-input type="text" label="自定页面：" placeholder="pages/promote/namecard" bind:lininput="bvPage"></l-input>
     <l-input type="text" label="自定参数：" placeholder="三个字符以内，不能用中文" bind:lininput="bvParams"></l-input>
     <l-input type="text" label="自定颜色：" placeholder="{'r':0,'g':0,'b':0}" bind:lininput="bvColor"></l-input>
-    <view class="btn" bindtap="getQRCode">生成定制小税宝推广码</view>
+    <view class="btn" bindtap="getQRCode">生成定制创企服推广码</view>
   <view wx:if="{{tempqrcodeurl}}">
       <image style='width:{{windowW}}px;height:{{windowW}}px;' src="{{tempqrcodeurl}}"></image>
     </view>
@@ -29,7 +29,7 @@
     <image class="avatar" src="{{avatarUrl}}"></image>
   </button>
   <text>\r\n</text>
-  <view class="btn" bindtap="getUserQRCode">一键生成您的专属小税宝推广码</view>
+  <view class="btn" bindtap="getUserQRCode">一键生成您的专属创企服推广码</view>
   <text>\r\n</text>
   <view class="content">
     <canvas canvas-id='myCanvas' style='width:{{windowW}}px;height:{{windowW}}px;margin:0;padding: 0;'></canvas>

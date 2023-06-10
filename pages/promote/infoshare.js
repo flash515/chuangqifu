@@ -398,7 +398,7 @@ Page({
     if (options.infoid) {
       // 如果是通过分享链接进入
       this.data.params = options
-      this.data.remark = "通过小税宝用户分享资讯进入"
+      this.data.remark = "通过创企服用户分享资讯进入"
       this.data.tempinviterid=options.userid
 
       // 本地函数查询分享的资讯

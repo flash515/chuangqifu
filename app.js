@@ -91,7 +91,7 @@ App({
           updateManager.onUpdateReady(function () {
             wx.showModal({
               title: '更新提示',
-              content: '小税宝新版本已经准备好，请重启小程序',
+              content: '创企服新版本已经准备好，请重启小程序',
               success: function (res) {
                 console.log('success====', res)
                 // res: {errMsg: "showModal: ok", cancel: false, confirm: true}
@@ -106,7 +106,7 @@ App({
             // 新的版本下载失败
             wx.showModal({
               title: '已经有新的版本',
-              content: '小税宝新版本已经上线，请删除当前小程序，重新搜索并打开'
+              content: '创企服新版本已经上线，请删除当前小程序，重新搜索并打开'
             })
           })
         }

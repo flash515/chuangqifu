@@ -33,7 +33,7 @@ Page({
     if (app.globalData.Guserdata.UserInfo.QRCode == undefined || app.globalData.Guserdata.UserInfo.QRCode=="") {
       wx.showModal({
         title: '提示',
-        content: '您还没有专属小税宝推广码，请先到推广码页面获取吧！',
+        content: '您还没有专属创企服推广码，请先到推广码页面获取吧！',
         success: function (res) {
           if (res.confirm) {
             console.log('确定')
@@ -49,7 +49,7 @@ Page({
       this.setData({
         qrcodeurl: app.globalData.Guserdata.UserInfo.QRCode,
         headPath: app.globalData.Guserdata.UserInfo.QRCode,
-        sendName: "小税宝推广会员" + app.globalData.Guserdata.UserInfo.UserName
+        sendName: "创企服推广会员" + app.globalData.Guserdata.UserInfo.UserName
       })
       wx.chooseImage({
         count: 1,

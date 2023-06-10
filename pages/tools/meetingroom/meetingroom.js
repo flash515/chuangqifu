@@ -108,7 +108,7 @@ Page({
       })
       this.data.room1time = Date.parse(new Date()),
 
-        wx.cloud.callFunction({
+        c1.callFunction({
           name: 'MeetingRoomSetting',
           data: {
             key1: "MeetingRoom.0.Room1Password",
@@ -134,7 +134,7 @@ Page({
       })
       this.data.room2time = Date.parse(new Date()),
 
-        wx.cloud.callFunction({
+        c1.callFunction({
           name: 'MeetingRoomSetting',
           data: {
             key1: "MeetingRoom.1.Room2Password",
@@ -160,7 +160,7 @@ Page({
       })
       this.data.room3time = Date.parse(new Date()),
 
-        wx.cloud.callFunction({
+        c1.callFunction({
           name: 'MeetingRoomSetting',
           data: {
             key1: "MeetingRoom.2.Room3Password",
@@ -218,10 +218,10 @@ Page({
   },
   bvExpressRoomApply(e) {
     this.setData({
-      expressroomavailable:false
+      expressroomavailable: false
     })
     this.data.expressroomtime = Date.parse(new Date()),
-      wx.cloud.callFunction({
+      c1.callFunction({
         name: 'MeetingRoomSetting',
         data: {
           key1: "MeetingRoom.3.ExpressRoomAvailable",
@@ -246,17 +246,14 @@ Page({
       utils._ErrorToast("请输入密码")
     } else {
       if (this.data.room1clean == this.data.room1password) {
-
-
-
         // 调用云函数
-        wx.cloud.callFunction({
+        c1.callFunction({
           name: 'MeetingRoomClean',
           data: {
             collection: "MeetingRoom1"
           },
           success: res => {
-            wx.cloud.callFunction({
+            c1.callFunction({
               name: 'MeetingRoomSetting',
               data: {
                 key1: "MeetingRoom.0.Room1Password",
@@ -268,7 +265,7 @@ Page({
               },
               success: res => {
                 utils._SuccessToast("会议室已重置")
-                this.setData({
+                that.setData({
                   room1password: "",
                   room1key: "",
                   room1time: "",
@@ -291,13 +288,13 @@ Page({
     } else {
       if (this.data.room2clean == this.data.room2password) {
         // 调用云函数
-        wx.cloud.callFunction({
+        c1.callFunction({
           name: 'MeetingRoomClean',
           data: {
             collection: "MeetingRoom2"
           },
           success: res => {
-            wx.cloud.callFunction({
+            c1.callFunction({
               name: 'MeetingRoomSetting',
               data: {
                 key1: "MeetingRoom.1.Room2Password",
@@ -332,13 +329,13 @@ Page({
     } else {
       if (this.data.room3clean == this.data.room3password) {
         // 调用云函数
-        wx.cloud.callFunction({
+        c1.callFunction({
           name: 'MeetingRoomClean',
           data: {
             collection: "MeetingRoom3"
           },
           success: res => {
-            wx.cloud.callFunction({
+            c1.callFunction({
               name: 'MeetingRoomSetting',
               data: {
                 key1: "MeetingRoom.2.Room3Password",
@@ -368,13 +365,13 @@ Page({
   },
   bvExpressEnd() {
     // 调用云函数
-    wx.cloud.callFunction({
+    c1.callFunction({
       name: 'MeetingRoomClean',
       data: {
         collection: "ExpressMeeting"
       },
       success: res => {
-        wx.cloud.callFunction({
+        c1.callFunction({
           name: 'MeetingRoomSetting',
           data: {
             key1: "MeetingRoom.3.ExpressRoomAvailable",
@@ -383,11 +380,11 @@ Page({
             value2: "",
           },
           success: res => {
-            app.globalData.Gsetting.MeetingRoom[3].ExpressRoomTime=""
-            app.globalData.Gsetting.MeetingRoom[3].ExpressRoomAvailable=true
+            app.globalData.Gsetting.MeetingRoom[3].ExpressRoomTime = ""
+            app.globalData.Gsetting.MeetingRoom[3].ExpressRoomAvailable = true
             this.setData({
               expressroomtime: "",
-              expressroomavailable:true,
+              expressroomavailable: true,
             })
             utils._SuccessToast("会议室已重置")
             console.log(app.globalData.Gsetting)
@@ -399,7 +396,16 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
+  onLoad: async function (options) {
+    var c1 = new wx.cloud.Cloud({
+      // 资源方 AppID
+      resourceAppid: 'wx810b87f0575b9a47',
+      // 资源方环境 ID
+      resourceEnv: 'xsbmain-9gvsp7vo651fd1a9',
+    })
+    // 跨账号调用，必须等待 init 完成
+    // init 过程中，资源方小程序对应环境下的 cloudbase_auth 函数会被调用，并需返回协议字段（见下）来确认允许访问、并可自定义安全规则
+    await c1.init()
     this.setData({
       image: app.globalData.Gimagearray,
       usertype: app.globalData.Guserdata.UserInfo.UserType,

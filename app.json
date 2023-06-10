@@ -2,7 +2,6 @@
   "pages": [
     "pages/index/index",
     "pages/index/home",
-    "pages/index/aboutus",
     "pages/product/allproduct",
     "pages/product/productview",
     "pages/product/productdetail",
@@ -50,7 +49,6 @@
     "pages/promote/infosquare",
     "pages/promote/express",
     "pages/promote/luckydraw",
-    "pages/test/databass",
     "components/loginmask/loginmask"
   ],
   "permission": {

@@ -1,5 +1,6 @@
 const app = getApp()
 const utils = require("../utils/utils")
+
 function bvBuy(e) {
   if (e.currentTarget.dataset.startdate == "" || e.currentTarget.dataset.startdate == undefined) {
     // 未选定日期时弹窗
@@ -13,18 +14,19 @@ function bvBuy(e) {
         discountstartdate: e.currentTarget.dataset.startdate,
         discountenddate: e.currentTarget.dataset.enddate,
         discounttotalfee: e.currentTarget.dataset.price,
-        discounttype:e.currentTarget.dataset.type,
+        discounttype: e.currentTarget.dataset.type,
         // 生成订单号
-        orderid:this._getGoodsRandomNumber(),
+        orderid: this._getGoodsRandomNumber(),
       })
       this._orderadd()
       this._paymentadd()
-    }else {
+    } else {
       utils._ErrorToast("请勿重复提交")
     }
-    }
+  }
 }
-function _orderadd(){
+
+function _orderadd() {
   let that = this
   if (this.data.ordersublock) {
     that._hidden()
@@ -33,7 +35,7 @@ function _orderadd(){
     // 新增数据
     db.collection("DISCOUNTORDER").add({
       data: {
-        OrderId:this.data.orderid,
+        OrderId: this.data.orderid,
         DiscountLevel: this.data.discountlevel,
         DiscountId: this.data.discountid,
         DiscountName: this.data.discountname,
@@ -42,10 +44,12 @@ function _orderadd(){
         DLEndDate: this.data.discountenddate,
         TotalFee: this.data.discounttotalfee,
         SysAddDate: new Date().getTime(),
-        AddDate: new Date().toLocaleString('chinese',{ hour12: false }),
-        PaymentStatus:"unchecked",
-        OrderStatus:"unchecked",
-        Available:false
+        AddDate: new Date().toLocaleString('chinese', {
+          hour12: false
+        }),
+        PaymentStatus: "unchecked",
+        OrderStatus: "unchecked",
+        Available: false
       },
       success: res => {
         that.setData({
@@ -59,6 +63,7 @@ function _orderadd(){
     })
   }
 }
+
 function _paymentadd() {
   let that = this
   if (this.data.paymentsublock) {
@@ -67,13 +72,15 @@ function _paymentadd() {
     const db = wx.cloud.database()
     db.collection("PAYMENT").add({
       data: {
-        OrderId:this.data.orderid,
+        OrderId: this.data.orderid,
         ProductId: this.data.discountid,
         ProductName: this.data.discountname,
         TotalFee: this.data.discounttotalfee,
-        AddDate: new Date().toLocaleString('chinese',{ hour12: false }),
+        AddDate: new Date().toLocaleString('chinese', {
+          hour12: false
+        }),
         PaymentStatus: "unchecked",
-        Database:"DISCOUNTORDER"
+        Database: "DISCOUNTORDER"
       },
       success: res => {
         console.log("paymentadd成功")
@@ -110,18 +117,19 @@ function _getGoodsRandomNumber() {
   return `${Math.round(Math.random() * 1000)}${formateDate +
   Math.round(Math.random() * 89 + 100).toString()}`;
 }
-  // 点击支付按钮,发起支付
-  function bvWXPay(event) {
-    const goodsnum = this.data.paymentid;
-    const subMchId = '1612084242'; // 子商户号,微信支付商户号,必填
-    const body = this.data.ordername;
-    const PayVal = this.data.orderfee * 100;
-    this._callWXPay(body, goodsnum, subMchId, PayVal);
-  }
-  // 请求WXPay云函数,调用支付能力
-  function _callWXPay(body, goodsnum, subMchId, payVal) {
-    let that = this
-    wx.cloud.callFunction({
+// 点击支付按钮,发起支付
+function bvWXPay(event) {
+  const goodsnum = this.data.paymentid;
+  const subMchId = '1612084242'; // 子商户号,微信支付商户号,必填
+  const body = this.data.ordername;
+  const PayVal = this.data.orderfee * 100;
+  this._callWXPay(body, goodsnum, subMchId, PayVal);
+}
+// 请求WXPay云函数,调用支付能力
+function _callWXPay(body, goodsnum, subMchId, payVal) {
+  let that = this
+  utils.CloudInit(function (c1) {
+    c1.callFunction({
         name: 'WXPay',
         data: {
           // 需要将data里面的参数传给WXPay云函数
@@ -144,7 +152,7 @@ function _getGoodsRandomNumber() {
             that._paymentupdate();
             that._userupdate();
             that.setData({
-              paymenthidden:true
+              paymenthidden: true
             })
           },
           fail: (err) => {
@@ -155,55 +163,61 @@ function _getGoodsRandomNumber() {
       .catch((err) => {
         console.error(err);
       });
-  }
-  function _orderupdate() {
-    const db = wx.cloud.database()
-    db.collection('DISCOUNTORDER').where({
-      OrderId: this.data.orderid
-    }).update({
-      data: {
-        PaymentStatus: "checked",
-        OrderStatus: "checked",
-        Available:true
-      },
-      success: res => {
-        console.log("商品订单付款成功")
-      }
-    })
-  }
-  function _paymentupdate() {
-    const db = wx.cloud.database()
-    db.collection('PAYMENT').where({
-      OrderId: this.data.orderid
-    }).update({
-      data: {
-        PaymentStatus: "checked",
-      },
-      success: res => {
-        console.log("支付订单付款成功")
-      },
-    })
-  }
-  function _userupdate(){
-    const db = wx.cloud.database()
-    db.collection('USER').where({
-      UserId: app.globalData.Guserid
-    }).update({
-      data: {
-        ['TradeInfo.DiscountLevel']: this.data.orderlevel,
-        ['TradeInfo.DLStartDate']:this.data.orderstartdate,
-        ['TradeInfo.DLEndDate']:this.data.orderenddate,
-        ['TradeInfo.DLUpdateTime']:new Date().toLocaleString('chinese',{ hour12: false }),
-      },
-      success: res => {
-        console.log("用户信息更新成功")
-      },
-    })
-  }
-  module.exports = {
-  _getGoodsRandomNumber:_getGoodsRandomNumber,
-  _orderupdate:_orderupdate,
-  _orderupdate:  _orderupdate,
-  _paymentupdate:  _paymentupdate,
-  _userupdate:  _userupdate,
-  }
+  })
+}
+
+function _orderupdate() {
+  const db = wx.cloud.database()
+  db.collection('DISCOUNTORDER').where({
+    OrderId: this.data.orderid
+  }).update({
+    data: {
+      PaymentStatus: "checked",
+      OrderStatus: "checked",
+      Available: true
+    },
+    success: res => {
+      console.log("商品订单付款成功")
+    }
+  })
+}
+
+function _paymentupdate() {
+  const db = wx.cloud.database()
+  db.collection('PAYMENT').where({
+    OrderId: this.data.orderid
+  }).update({
+    data: {
+      PaymentStatus: "checked",
+    },
+    success: res => {
+      console.log("支付订单付款成功")
+    },
+  })
+}
+
+function _userupdate() {
+  const db = wx.cloud.database()
+  db.collection('USER').where({
+    UserId: app.globalData.Guserid
+  }).update({
+    data: {
+      ['TradeInfo.DiscountLevel']: this.data.orderlevel,
+      ['TradeInfo.DLStartDate']: this.data.orderstartdate,
+      ['TradeInfo.DLEndDate']: this.data.orderenddate,
+      ['TradeInfo.DLUpdateTime']: new Date().toLocaleString('chinese', {
+        hour12: false
+      }),
+    },
+    success: res => {
+      console.log("用户信息更新成功")
+    },
+  })
+}
+module.exports = {
+  _getGoodsRandomNumber: _getGoodsRandomNumber,
+  _orderupdate: _orderupdate,
+  _orderupdate: _orderupdate,
+  _paymentupdate: _paymentupdate,
+  _userupdate: _userupdate,
+}

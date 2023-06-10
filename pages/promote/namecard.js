@@ -23,9 +23,9 @@ Page({
       CardBg: "https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/setting/namecard/bg4.jpg?sign=d6efb4092f3b166f2dd79649a46f19a0&t=1682499042",
       CardImages: [],
       CompanyLogo: ["https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/oo7kw5rohI15ogf6TCX_SGAxYUao/%E5%B8%A6unionid%E5%8F%82%E6%95%B0%E9%80%8F%E6%98%8E.png?sign=a2fe221407105d1394df92016c9ab7b4&t=1682498686"],
-      CompanyName: "小税宝有限公司（样版）",
-      BusinessScope: "  小税宝有限公司成立于2021年，专注于收集和整理各地税务优惠政策、财政奖励政策，并为企业提供企业托管、财税相关服务。",
-      UserName: "小税宝",
+      CompanyName: "创企服有限公司（样版）",
+      BusinessScope: "  创企服有限公司成立于2021年，专注于收集和整理各地税务优惠政策、财政奖励政策，并为企业提供企业托管、财税相关服务。",
+      UserName: "创企服",
       Title: "产品经理",
       Handphone: "123456",
       WeChat: "123456",
@@ -112,7 +112,7 @@ Page({
     if (options.userid) {
       // 如果是通过分享链接进入
       this.data.params = options
-      this.data.remark = "通过小税宝用户分享名片进入"
+      this.data.remark = "通过创企服用户分享名片进入"
       this.setData({
         // 页面根据tempinviterid的值设置了显隐渲染，所以需要用setData赋值
         tempinviterid: options.userid

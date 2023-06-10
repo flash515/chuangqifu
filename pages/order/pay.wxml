@@ -35,7 +35,7 @@
   <l-collapse-item title="预约当面转账">
     <l-card type="cover" plaintext="{{true}}">
       <view>
-        <text space="emsp" decode="{{true}}">  超过一千元的款项小税宝可提供当面转账服务，目前仅支持粤港澳大湾区范围，客户如需当面转账服务，请提供联系人详细地址信息并预约时间。</text>
+        <text space="emsp" decode="{{true}}">  超过一千元的款项创企服可提供当面转账服务，目前仅支持粤港澳大湾区范围，客户如需当面转账服务，请提供联系人详细地址信息并预约时间。</text>
       </view>
     </l-card>
       <l-card type="cover" plaintext="{{true}}">
