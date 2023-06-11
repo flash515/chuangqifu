@@ -265,8 +265,8 @@ Page({
         success: res => {
           console.log("fileID", res.fileID)
           // 获取数据库引用
+          utils.CloudInit(function (c1) {
           const db = c1.database()
-          db.collection('notice').where({
           // 更新数据
           db.collection('USER').where({
             UserId: app.globalData.Guserid

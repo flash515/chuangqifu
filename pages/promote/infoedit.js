@@ -125,12 +125,17 @@ Page({
   //发布到供求信息
   async bvPublish(e) {
     let that = this
+    var c1 = new wx.cloud.Cloud({
+      // 资源方 AppID
+      resourceAppid: 'wx810b87f0575b9a47',
+      // 资源方环境 ID
+      resourceEnv: 'xsbmain-9gvsp7vo651fd1a9',
+    })
+    await c1.init()
     if (this.data.infocontent == "") {
       utils._ErrorToast("请填写信息内容")
       return
     }
-
-    utils.CloudInit(function (c1) {
       const db = c1.database()
     if (this.data.infoid != "") {
       db.collection('INFOSHARE').where({
@@ -221,7 +226,7 @@ Page({
         }
       })
     }
-  })
+
   },
 
   /**

@@ -113,7 +113,13 @@ Page({
   onLoad: async function (options) {
     console.log("传入的参数为", options)
     let that = this
-    utils.CloudInit(function (c1) {
+    var c1 = new wx.cloud.Cloud({
+      // 资源方 AppID
+      resourceAppid: 'wx810b87f0575b9a47',
+      // 资源方环境 ID
+      resourceEnv: 'xsbmain-9gvsp7vo651fd1a9',
+    })
+    await c1.init()
       const db = c1.database()
     if (options.userid) {
       // 如果是通过分享链接进入
@@ -138,7 +144,7 @@ Page({
             // 浏览人已发布的名片信息会发送给被浏览人
             if (app.globalData.Guserdata.NameCardStatus =="Published") {
               // 本地函数查询名片信息
-              const db = c1.database()
+
               db.collection('NAMECARD').where({
                 CreatorId: app.globalData.Guserid
               }).get({
@@ -171,7 +177,7 @@ Page({
       if (options.creatorid) {
         // 通过编辑之后返回打开
         // 本地函数查询名片信息
-        const db = c1.database()
+
         db.collection('NAMECARD').where({
           CreatorId: options.creatorid
         }).get({
@@ -193,7 +199,7 @@ Page({
           })
         } else {
           // 本地函数查询名片信息
-          const db = c1.database()
+
           db.collection('NAMECARD').where({
             CreatorId: app.globalData.Guserid
           }).get({
@@ -207,7 +213,6 @@ Page({
         }
       }
     }
-  })
   },
   _viewadd(creatorid) {
     utils.CloudInit(function (c1) {

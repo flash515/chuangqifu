@@ -329,93 +329,93 @@ Page({
       utils._ErrorToast("缺少搜索关键词")
       return
     }
-    let that = this
+
     utils.CloudInit(function (c1) {
-
-    if (app.globalData.Guserdata.NameCardStatus == undefined) {
-      // 首次发布新增记录
       const db = c1.database()
-      db.collection('NAMECARD').add({
-        data: {
-          PublishDate: new Date().toLocaleString('chinese', {
-            hour12: false
-          }),
-          CardBg: this.data.cardbg,
-          CompanyLogo: this.data.companylogo,
-          CardImages: this.data.cardimages,
-          UserName: this.data.username,
-          Title: this.data.title,
-          WeChat: this.data.wechat,
-          Email: this.data.email,
-          Telephone: this.data.telephone,
-          Website: this.data.website,
-          Handphone: this.data.handphone,
-          CompanyName: this.data.companyname,
-          Address: this.data.address,
-          BusinessScope: this.data.businessscope,
-          KeyWords: this.data.keywords,
-          Category1: this.data.category1,
-          Category2: this.data.category2,
-          Category3: this.data.category3,
-          View: 0,
+      if (app.globalData.Guserdata.NameCardStatus == undefined) {
+        // 首次发布新增记录
+
+        db.collection('NAMECARD').add({
+          data: {
+            PublishDate: new Date().toLocaleString('chinese', {
+              hour12: false
+            }),
+            CardBg: this.data.cardbg,
+            CompanyLogo: this.data.companylogo,
+            CardImages: this.data.cardimages,
+            UserName: this.data.username,
+            Title: this.data.title,
+            WeChat: this.data.wechat,
+            Email: this.data.email,
+            Telephone: this.data.telephone,
+            Website: this.data.website,
+            Handphone: this.data.handphone,
+            CompanyName: this.data.companyname,
+            Address: this.data.address,
+            BusinessScope: this.data.businessscope,
+            KeyWords: this.data.keywords,
+            Category1: this.data.category1,
+            Category2: this.data.category2,
+            Category3: this.data.category3,
+            View: 0,
+            CreatorId: app.globalData.Guserid
+          },
+          success: res => {
+            that.data.publishstatus = true
+            db.collection('USER').where({
+              UserId: app.globalData.Guserid
+            }).update({
+              data: {
+                ["NameCardStatus"]: "Published",
+              },
+              success: res => {
+                utils._SuccessToast("名片发布成功")
+                wx.redirectTo({
+                  url: "../promote/namecard?creatorid=" + app.globalData.Guserid
+                })
+              },
+            })
+
+          },
+        })
+      } else {
+        // 再次发布是更新
+
+        db.collection('NAMECARD').where({
           CreatorId: app.globalData.Guserid
-        },
-        success: res => {
-          that.data.publishstatus = true
-          db.collection('USER').where({
-            UserId: app.globalData.Guserid
-          }).update({
-            data: {
-              ["NameCardStatus"]: "Published",
-            },
-            success: res => {
-              utils._SuccessToast("名片发布成功")
-              wx.redirectTo({
-                url: "../promote/namecard?creatorid=" + app.globalData.Guserid
-              })
-            },
-          })
+        }).update({
+          data: {
+            PublishDate: new Date().toLocaleString('chinese', {
+              hour12: false
+            }),
+            CardBg: this.data.cardbg,
+            CompanyLogo: this.data.companylogo,
+            CardImages: this.data.cardimages,
+            UserName: this.data.username,
+            Title: this.data.title,
+            WeChat: this.data.wechat,
+            Email: this.data.email,
+            Telephone: this.data.telephone,
+            Website: this.data.website,
+            Handphone: this.data.handphone,
+            CompanyName: this.data.companyname,
+            Address: this.data.address,
+            BusinessScope: this.data.businessscope,
+            KeyWords: this.data.keywords,
+            Category1: this.data.category1,
+            Category2: this.data.category2,
+            Category3: this.data.category3,
+          },
+          success: res => {
+            utils._SuccessToast("名片发布成功")
+            wx.redirectTo({
+              url: "../promote/namecard?creatorid=" + app.globalData.Guserid
+            })
+          },
+        })
+      }
 
-        },
-      })
-    } else {
-      // 再次发布是更新
-      const db = c1.database()
-      db.collection('NAMECARD').where({
-        CreatorId: app.globalData.Guserid
-      }).update({
-        data: {
-          PublishDate: new Date().toLocaleString('chinese', {
-            hour12: false
-          }),
-          CardBg: this.data.cardbg,
-          CompanyLogo: this.data.companylogo,
-          CardImages: this.data.cardimages,
-          UserName: this.data.username,
-          Title: this.data.title,
-          WeChat: this.data.wechat,
-          Email: this.data.email,
-          Telephone: this.data.telephone,
-          Website: this.data.website,
-          Handphone: this.data.handphone,
-          CompanyName: this.data.companyname,
-          Address: this.data.address,
-          BusinessScope: this.data.businessscope,
-          KeyWords: this.data.keywords,
-          Category1: this.data.category1,
-          Category2: this.data.category2,
-          Category3: this.data.category3,
-        },
-        success: res => {
-          utils._SuccessToast("名片发布成功")
-          wx.redirectTo({
-            url: "../promote/namecard?creatorid=" + app.globalData.Guserid
-          })
-        },
-      })
-    }
-    
-  })
+    })
   },
 
   //保存名片信息
@@ -452,55 +452,55 @@ Page({
     let that = this
     utils.CloudInit(function (c1) {
       const db = c1.database()
-    db.collection('NameCardSetting').doc('0122a5876443793e098bd33e0045f553').get({
-      success: res => {
-        that.setData({
-          cardbgarray: res.data.NameCardBg,
-          businesssortarray: res.data.BusinessSortArray
+      db.collection('NameCardSetting').doc('0122a5876443793e098bd33e0045f553').get({
+        success: res => {
+          that.setData({
+            cardbgarray: res.data.NameCardBg,
+            businesssortarray: res.data.BusinessSortArray
+          })
+          console.log("行业类别更新成功")
+        }
+      })
+      if (app.globalData.Guserdata.NameCardStatus == "Published") {
+        console.log("查询执行了")
+        const db = c1.database()
+        db.collection('NAMECARD').where({
+          CreatorId: app.globalData.Guserid
+        }).get({
+          success: res => {
+            console.log("res", res)
+            that.setData({
+              cardbg: res.data[0].CardBg,
+              tempbg: [res.data[0].CardBg],
+              companylogo: res.data[0].CompanyLogo,
+              templogo: [res.data[0].CompanyLogo],
+              cardimages: res.data[0].CardImages,
+              tempimages: res.data[0].CardImages,
+              companyname: res.data[0].CompanyName,
+              username: res.data[0].UserName,
+              handphone: res.data[0].Handphone,
+              title: res.data[0].Title,
+              wechat: res.data[0].WeChat,
+              email: res.data[0].Email,
+              website: res.data[0].Website,
+              telephone: res.data[0].Telephone,
+              businessscope: res.data[0].BusinessScope,
+              address: res.data[0].Address,
+              updatedate: res.data[0].UpdateDate,
+              category1: res.data[0].Category1,
+              category2: res.data[0].Category2,
+              category3: res.data[0].Category3,
+              keywords: res.data[0].KeyWords,
+            })
+            console.log("查询到名片")
+          },
+
         })
-        console.log("行业类别更新成功")
+      } else {
+        console.log("缓存执行了")
+
       }
     })
-    if (app.globalData.Guserdata.NameCardStatus == "Published") {
-      console.log("查询执行了")
-      const db = c1.database()
-      db.collection('NAMECARD').where({
-        CreatorId: app.globalData.Guserid
-      }).get({
-        success: res => {
-          console.log("res",res)
-          that.setData({
-            cardbg: res.data[0].CardBg,
-            tempbg: [res.data[0].CardBg],
-            companylogo: res.data[0].CompanyLogo,
-            templogo:[res.data[0].CompanyLogo],
-            cardimages: res.data[0].CardImages,
-            tempimages:res.data[0].CardImages,
-            companyname: res.data[0].CompanyName,
-            username: res.data[0].UserName,
-            handphone: res.data[0].Handphone,
-            title: res.data[0].Title,
-            wechat: res.data[0].WeChat,
-            email: res.data[0].Email,
-            website: res.data[0].Website,
-            telephone: res.data[0].Telephone,
-            businessscope: res.data[0].BusinessScope,
-            address: res.data[0].Address,
-            updatedate: res.data[0].UpdateDate,
-            category1: res.data[0].Category1,
-            category2: res.data[0].Category2,
-            category3: res.data[0].Category3,
-            keywords: res.data[0].KeyWords,
-          })
-          console.log("查询到名片")
-        },
-
-      })
-    } else {
-      console.log("缓存执行了")
-
-    }
-  })
   },
 
   /**

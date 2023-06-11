@@ -47,8 +47,8 @@
     "pages/promote/companysquare",
     "pages/promote/infosquare",
     "pages/promote/express",
-    "pages/promote/luckydraw",
-    "components/loginmask/loginmask"
+    "pages/promote/luckydraw"
+
   ],
   "permission": {
     "scope.userLocation": {

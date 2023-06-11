@@ -41,57 +41,57 @@ Page({
   _callWXPay(body, goodsnum, subMchId, payVal) {
     let that = this
     utils.CloudInit(function (c1) {
-    c1.callFunction({
-        name: 'WXPay',
-        data: {
-          // 需要将data里面的参数传给WXPay云函数
-          body,
-          goodsnum, // 商品订单号不能重复
-          subMchId, // 子商户号,微信支付商户号,必填
-          payVal, // 这里必须整数,不能是小数,而且类型是number,否则就会报错
-        },
-      })
-      .then((res) => {
-        console.log(res);
-        const payment = res.result.payment;
-        console.log(payment); // 里面包含appId,nonceStr,package,paySign,signType,timeStamp这些支付参数
-        wx.requestPayment({
-          // 根据获取到的参数调用支付 API 发起支付
-          ...payment, // 解构参数appId,nonceStr,package,paySign,signType,timeStamp
-          success: (res) => {
-            console.log('支付成功', res);
-            that.setData({
-              payalready: true
-            })
-            that._orderupdate();
-            that._pointsupdate();
-            that._discountupdate();
-            that._balanceupdate();
-            // 调用云函数发短信给管理员
-            var tempmobile = [18954744612]
-            c1.callFunction({
-              name: 'sendsms',
-              data: {
-                templateId: "1569097",
-                nocode: true,
-                mobile: tempmobile
-              },
-              success: res => {
-                console.log(res)
-              },
-              fail: res => {
-                console.log(res)
-              },
-            })
+      c1.callFunction({
+          name: 'WXPay',
+          data: {
+            // 需要将data里面的参数传给WXPay云函数
+            body,
+            goodsnum, // 商品订单号不能重复
+            subMchId, // 子商户号,微信支付商户号,必填
+            payVal, // 这里必须整数,不能是小数,而且类型是number,否则就会报错
           },
-          fail: (err) => {
-            console.error('支付失败', err);
-          },
+        })
+        .then((res) => {
+          console.log(res);
+          const payment = res.result.payment;
+          console.log(payment); // 里面包含appId,nonceStr,package,paySign,signType,timeStamp这些支付参数
+          wx.requestPayment({
+            // 根据获取到的参数调用支付 API 发起支付
+            ...payment, // 解构参数appId,nonceStr,package,paySign,signType,timeStamp
+            success: (res) => {
+              console.log('支付成功', res);
+              that.setData({
+                payalready: true
+              })
+              that._orderupdate();
+              that._pointsupdate();
+              that._discountupdate();
+              that._balanceupdate();
+              // 调用云函数发短信给管理员
+              var tempmobile = [18954744612]
+              c1.callFunction({
+                name: 'sendsms',
+                data: {
+                  templateId: "1569097",
+                  nocode: true,
+                  mobile: tempmobile
+                },
+                success: res => {
+                  console.log(res)
+                },
+                fail: res => {
+                  console.log(res)
+                },
+              })
+            },
+            fail: (err) => {
+              console.error('支付失败', err);
+            },
+          });
+        })
+        .catch((err) => {
+          console.error(err);
         });
-      })
-      .catch((err) => {
-        console.error(err);
-      });
     })
   },
   // 测试支付成功的函数
@@ -103,53 +103,53 @@ Page({
     let that = this
     utils.CloudInit(function (c1) {
       const db = c1.database()
-    db.collection(this.data.database).where({
-      OrderId: this.data.orderid
-    }).update({
-      data: {
-        PaymentStatus: "checked",
-        OrderStatus: "checked",
-        Available: true,
-      },
-      success: res => {
-        console.log("商品订单更新成功")
-      }
+      db.collection(this.data.database).where({
+        OrderId: this.data.orderid
+      }).update({
+        data: {
+          PaymentStatus: "checked",
+          OrderStatus: "checked",
+          Available: true,
+        },
+        success: res => {
+          console.log("商品订单更新成功")
+        }
+      })
     })
-  })
   },
   _pointsupdate() {
     let that = this
     utils.CloudInit(function (c1) {
       const db = c1.database()
-    db.collection('POINTS').where({
-      OrderId: this.data.orderid
-    }).update({
-      data: {
-        PaymentStatus: "checked",
-        PointsStatus: "checked",
-      },
-      success: res => {
-        console.log("积分状态更新成功")
-      },
+      db.collection('POINTS').where({
+        OrderId: this.data.orderid
+      }).update({
+        data: {
+          PaymentStatus: "checked",
+          PointsStatus: "checked",
+        },
+        success: res => {
+          console.log("积分状态更新成功")
+        },
+      })
     })
-  })
   },
   _discountupdate() {
     console.log("discountupdate已执行")
     if (this.data.productid == "DL3_Single") {
       utils.CloudInit(function (c1) {
         const db = c1.database()
-      db.collection("DISCOUNTORDER").where({
-        OrderId: this.data.orderid
-      }).update({
-        data: {
-          Available: false
-        }
+        db.collection("DISCOUNTORDER").where({
+          OrderId: this.data.orderid
+        }).update({
+          data: {
+            Available: false
+          }
+        })
       })
-    })
     }
   },
-  _balanceupdate() {
+_balanceupdate: async function () {
     let that = this
     var c1 = new wx.cloud.Cloud({
       // 资源方 AppID
@@ -210,7 +210,7 @@ Page({
           inviterbalance: that.data.tempinviterbalance + that.data.inviterpoints,
           indirectinviterbalance: that.data.tempindirectinviterbalance + that.data.indirectinviterpoints,
         })
-        const db = c1.database()
+
         db.collection('USER').where({
           UserId: app.globalData.Guserid
         }).update({
@@ -290,7 +290,7 @@ Page({
         // 获取数据库引用
         utils.CloudInit(function (c1) {
           const db = c1.database()
-        db.collection('BOOKING').add({
+          db.collection('BOOKING').add({
             data: {
               Address: this.data.address,
               Phone: this.data.phone,
@@ -299,7 +299,9 @@ Page({
               BookingTime: this.data.time,
               BookingContent: "上门取款服务",
               BookingStatus: "unchecked",
-              AddDate: new Date().toLocaleString('chinese',{ hour12: false })
+              AddDate: new Date().toLocaleString('chinese', {
+                hour12: false
+              })
             },
             success: res => {
               console.log('预约提交成功', res.data)
@@ -311,7 +313,7 @@ Page({
             }
           })
         })
-          this.data.booklock = true // 修改上传状态为锁定
+        this.data.booklock = true // 修改上传状态为锁定
       }
     }
   },
