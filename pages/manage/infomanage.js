@@ -24,7 +24,9 @@ Page({
   },
   toCreator(e) {
     console.log(e.currentTarget.dataset.id)
-    const db = wx.cloud.database()
+        let that=this
+    utils.CloudInit(function (c1) {
+      const db = c1.database()
     if (e.currentTarget.dataset.id == app.globalData.Guserid) {
       // 如果用户是资讯创建者,显示本人全部发布资讯
       db.collection('INFOSHARE').where({
@@ -33,7 +35,7 @@ Page({
         success: res => {
           console.log(res)
           // 展示接收到的info
-          this.setData({
+          that.setData({
             infoshares: res.data,
             // currentinfoid: options.infoid
             creatorid: res.data[0].CreatorId
@@ -50,7 +52,7 @@ Page({
         success: res => {
           console.log(res)
           // 展示接收到的info
-          this.setData({
+          that.setData({
             infoshares: res.data,
             // currentinfoid: options.infoid
             creatorid: res.data[0].CreatorId
@@ -58,7 +60,7 @@ Page({
         }
       })
     }
-
+  })
   },
 
   bvCommentShow() {
@@ -81,7 +83,8 @@ Page({
   bvReplySend(e) {
     // 新增回复
     console.log(e.currentTarget.dataset.id)
-    wx.cloud.callFunction({
+    utils.CloudInit(function (c1) {
+    c1.callFunction({
       // 要调用的云函数名称
       name: 'NormalReply',
       // 传递给云函数的参数
@@ -102,6 +105,7 @@ Page({
         utils._SuccessToast("回复发送成功")
       },
     })
+  })
 
   },
 
@@ -109,7 +113,8 @@ Page({
 
   bvCheck: function (e) {
     console.log(e.currentTarget.dataset.id)
-    wx.cloud.callFunction({
+    utils.CloudInit(function (c1) {
+    c1.callFunction({
       name: "NormalUpdate",
       data: {
         collectionName: "INFOSHARE",
@@ -123,6 +128,7 @@ Page({
         utils._SuccessToast("状态更新完成")
       }
     })
+  })
   },
 
 
@@ -131,7 +137,9 @@ Page({
   onLoad: async function (options) {
 
     // 查询公开发布的视频，数量少于20条用本地函数就可以
-    const db = wx.cloud.database()
+    let that=this
+    utils.CloudInit(function (c1) {
+      const db = c1.database()
     db.collection('INFOSHARE').where({
       InfoStatus: 'unchecked',
       Private: false
@@ -139,15 +147,15 @@ Page({
       success: res => {
         console.log(res)
         // 展示查询到的结果
-        this.setData({
+        that.setData({
           infoshares: res.data,
           creatorid: res.data[0].CreatorId,
         })
-        this.data.infoid = res.data[0].InfoId
+        that.data.infoid = res.data[0].InfoId
         console.log("公开资讯", this.data.infoshares)
       }
     })
-
+  })
     this.setData({
       userid: app.globalData.Guserid,
       avatarurl: app.globalData.Guserdata.UserInfo.avatarUrl,

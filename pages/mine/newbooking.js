@@ -69,7 +69,9 @@ Page({
     } else {
       // 未锁定时执行
       // 获取数据库引用
-      const db = wx.cloud.database()
+      let that = this
+      utils.CloudInit(function (c1) {
+        const db = c1.database()
       db.collection('BOOKING').add({
           data: {
             Address: this.data.address,
@@ -98,11 +100,14 @@ Page({
             })
           }
         }),
-        this.data.booklock = true // 修改上传状态为锁定
+        that.data.booklock = true // 修改上传状态为锁定
+      })
     }
   },
   bvUpdateData(){
-    const db = wx.cloud.database()
+    let that = this
+    utils.CloudInit(function (c1) {
+      const db = c1.database()
     db.collection('BOOKING').doc(this.data.pageParam.id).update({
         data: {
           BookingContent: this.data.content,
@@ -131,6 +136,7 @@ Page({
           })
         }
       })
+    })
   },
   /**
    * 生命周期函数--监听页面加载
@@ -145,7 +151,9 @@ Page({
     })
     console.log(this.data.pageParam.id.length)
     if (this.data.pageParam.id.length != 0 && this.data.pageParam.id.length != null) {
-      const db = wx.cloud.database()
+      let that = this
+      utils.CloudInit(function (c1) {
+        const db = c1.database()
       db.collection('BOOKING').doc(this.data.pageParam.id).get({
         success: res => {
           console.log(res)
@@ -161,6 +169,7 @@ Page({
           })
         },
       })
+    })
     } else {
       this.setData({
         content: "业务沟通拜访"

@@ -88,7 +88,7 @@ Page({
    * 生命周期函数--监听页面加载
   //  */
   onLoad: async function (options) {
-    let that=this
+
     this.setData({
       image: app.globalData.Gimagearray,
     })
@@ -139,9 +139,8 @@ Page({
         usertype: "管理员"
       })
     }
-
+    let that = this
     utils.CloudInit(function (c1) {
-      console.log("执行到了")
       const db = c1.database()
       db.collection('notice').where({
         Status: "onshow"

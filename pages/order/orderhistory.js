@@ -1,6 +1,6 @@
 // pages/order/orderhistory.js
 const app = getApp()
-const utils= require("../../utils/utils");
+const utils = require("../../utils/utils");
 Page({
 
   /**
@@ -11,9 +11,9 @@ Page({
     loginshow: false,
     loginbtnshow: false,
 
-    orderhistory:[],
-    discounthistory:[],
-    promoterhistory:[],
+    orderhistory: [],
+    discounthistory: [],
+    promoterhistory: [],
     // 轮播参数
     image: [],
   },
@@ -22,15 +22,15 @@ Page({
       loginshow: true
     })
   },
-  onLogin(e){
+  onLogin(e) {
     this.setData({
-      loginshow:e.detail.loginshow,
-      loginbtnshow:e.detail.loginbtnshow,
-      userphone:e.detail.userphone,
+      loginshow: e.detail.loginshow,
+      loginbtnshow: e.detail.loginbtnshow,
+      userphone: e.detail.userphone,
     })
   },
 
-  
+
   bvOrdertDetail(e) {
     console.log(e.currentTarget.dataset.id)
     wx.navigateTo({
@@ -39,11 +39,13 @@ Page({
   },
   bvToPay(e) {
     wx.navigateTo({
-      url: '../order/pay?orderid=' + e.currentTarget.dataset.orderid + '&productid=' + e.currentTarget.dataset.productid+ '&productname=' + e.currentTarget.dataset.productname + '&totalfee=' + e.currentTarget.dataset.totalfee+'&database='+e.currentTarget.dataset.database
+      url: '../order/pay?orderid=' + e.currentTarget.dataset.orderid + '&productid=' + e.currentTarget.dataset.productid + '&productname=' + e.currentTarget.dataset.productname + '&totalfee=' + e.currentTarget.dataset.totalfee + '&database=' + e.currentTarget.dataset.database
     })
   },
-  bvRefresh(e){
-    wx.cloud.callFunction({
+  bvRefresh(e) {
+    let that = this
+    utils.CloudInit(function (c1) {
+    c1.callFunction({
       name: "NormalQuery",
       data: {
         collectionName: e.currentTarget.dataset.name,
@@ -53,38 +55,41 @@ Page({
         }]
       },
       success: res => {
-if(e.currentTarget.dataset.name=="ORDER"){
-          this.setData({
+        if (e.currentTarget.dataset.name == "ORDER") {
+          that.setData({
             orderhistory: res.result.data
           })
-        }
-        else if(e.currentTarget.dataset.name=="DISCOUNTORDER"){
-          this.setData({
+        } else if (e.currentTarget.dataset.name == "DISCOUNTORDER") {
+          that.setData({
             discounthistory: res.result.data
           })
-        }
-        else if(e.currentTarget.dataset.name=="PROMOTEORDER"){
-          this.setData({
+        } else if (e.currentTarget.dataset.name == "PROMOTEORDER") {
+          that.setData({
             promoterhistory: res.result.data
           })
         }
       }
     })
+  })
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.setData({image:app.globalData.Gimagearray})
-    if(app.globalData.Guserdata.UserInfo.UserPhone!=''){
+    this.setData({
+      image: app.globalData.Gimagearray
+    })
+    if (app.globalData.Guserdata.UserInfo.UserPhone != '') {
       //loginbtnshow已赋值
-    }else{
+    } else {
       this.setData({
         loginbtnshow: true
       })
     }
-    wx.cloud.callFunction({
+    let that = this
+    utils.CloudInit(function (c1) {
+    c1.callFunction({
       name: "NormalQuery",
       data: {
         collectionName: "DISCOUNTORDER",
@@ -94,12 +99,12 @@ if(e.currentTarget.dataset.name=="ORDER"){
         }]
       },
       success: res => {
-        this.setData({
+        that.setData({
           discounthistory: res.result.data
         })
       }
     })
-    wx.cloud.callFunction({
+    c1.callFunction({
       name: "NormalQuery",
       data: {
         collectionName: "ORDER",
@@ -109,12 +114,12 @@ if(e.currentTarget.dataset.name=="ORDER"){
         }]
       },
       success: res => {
-        this.setData({
+        that.setData({
           orderhistory: res.result.data
         })
       }
     })
-    wx.cloud.callFunction({
+    c1.callFunction({
       name: "NormalQuery",
       data: {
         collectionName: "PROMOTEORDER",
@@ -124,11 +129,12 @@ if(e.currentTarget.dataset.name=="ORDER"){
         }]
       },
       success: res => {
-        this.setData({
+        that.setData({
           promoterhistory: res.result.data
         })
       }
     })
+  })
   },
 
   /**
@@ -157,7 +163,7 @@ if(e.currentTarget.dataset.name=="ORDER"){
   /**
    * 生命周期函数--监听页面卸载
    */
-    onUnload: function () {
+  onUnload: function () {
 
   },
 

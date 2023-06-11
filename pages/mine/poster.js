@@ -27,7 +27,9 @@ Page({
     headPath: "" //头像地址
   },
   checkQRCode: function () {
-    const db = wx.cloud.database()
+    let that = this
+    utils.CloudInit(function (c1) {
+      const db = c1.database()
     const _ = db.command
     db.collection('USER').where({
       _openid: app.globalData.Gopenid,
@@ -52,15 +54,16 @@ Page({
             }
           })
         } else {
-          this.setData({
+          that.setData({
             qrcodeurl: res.data[0].QRCode,
             headPath: res.data[0].QRCode,
             sendName: "创企服推广大使" + res.data[0].UserName
           })
-          this.getPicture()
+          that.getPicture()
         }
       }
     })
+  })
   },
   /*图片浏览及上传 */
   getPicture: function () {

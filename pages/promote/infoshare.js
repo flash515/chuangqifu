@@ -73,7 +73,9 @@ Page({
   },
   toCreator(e) {
     console.log(e.currentTarget.dataset.id)
-    const db = wx.cloud.database()
+    let that = this
+    utils.CloudInit(function (c1) {
+      const db = c1.database()
     if (e.currentTarget.dataset.id == app.globalData.Guserid) {
       // 如果用户是资讯创建者,显示本人全部发布资讯
       db.collection('INFOSHARE').where({
@@ -82,7 +84,7 @@ Page({
         success: res => {
           console.log(res)
           // 展示接收到的info
-          this.setData({
+          that.setData({
             infoshares: res.data,
             // currentinfoid: options.infoid
             creatorid: res.data[0].CreatorId
@@ -99,7 +101,7 @@ Page({
         success: res => {
           console.log(res)
           // 展示接收到的info
-          this.setData({
+          that.setData({
             infoshares: res.data,
             // currentinfoid: options.infoid
             creatorid: res.data[0].CreatorId
@@ -107,7 +109,7 @@ Page({
         }
       })
     }
-
+  })
   },
   bvDonateShow() {
     this.setData({
@@ -164,7 +166,8 @@ Page({
   bvReplySend(e) {
     // 新增回复
     console.log(e.currentTarget.dataset.id)
-    wx.cloud.callFunction({
+    utils.CloudInit(function (c1) {
+    c1.callFunction({
       // 要调用的云函数名称
       name: 'NormalReply',
       // 传递给云函数的参数
@@ -185,6 +188,7 @@ Page({
         utils._SuccessToast("回复发送成功")
       },
     })
+  })
 
   },
 
@@ -193,7 +197,9 @@ Page({
       utils._ErrorToast("需要头像和昵称")
     } else {
       // 新增留言
-      const db = wx.cloud.database()
+          let that = this
+    utils.CloudInit(function (c1) {
+      const db = c1.database()
       db.collection("InfoShareComment").add({
         data: {
           InfoId: this.data.infoid,
@@ -207,7 +213,7 @@ Page({
           Status: "unchecked",
         },
         success: res => {
-          this.setData({
+          that.setData({
             replyshow: false
           })
         },
@@ -215,6 +221,7 @@ Page({
           utils._ErrorToast("提交失败请重试")
         }
       })
+    })
     }
   },
   onLogin(e) {
@@ -269,7 +276,8 @@ Page({
   // 请求WXPay云函数,调用支付能力
   _callWXPay(body, goodsnum, payVal) {
     let that = this
-    wx.cloud.callFunction({
+    utils.CloudInit(function (c1) {
+    c1.callFunction({
         name: 'WXPay',
         data: {
           // 需要将data里面的参数传给WXPay云函数
@@ -299,10 +307,12 @@ Page({
       .catch((err) => {
         console.error(err);
       });
+    })
   },
 
   _viewadd(infoid){
-    wx.cloud.callFunction({
+    utils.CloudInit(function (c1) {
+    c1.callFunction({
       name: "DataRise",
       data: {
         collectionName: "INFOSHARE",
@@ -316,29 +326,34 @@ Page({
 
       }
     })
+  })
   },
   _praiseadd() {
-    wx.cloud.callFunction({
+    let that = this
+    utils.CloudInit(function (c1) {
+    c1.callFunction({
       name: "DataRise",
       data: {
         collectionName: "INFOSHARE",
         key: "InfoId",
-        value: this.data.infoid,
+        value: that.data.infoid,
         key1: "Praise",
-        value1: this.data.praise
+        value1: that.data.praise
       },
       success: res => {
         console.log(res)
-        this.setData({
+        that.setData({
           donateshow: false
         })
       }
     })
+  })
   },
 
   _pointsadd() {
     // 赞赏点数记录
-    const db = wx.cloud.database()
+    utils.CloudInit(function (c1) {
+      const db = c1.database()
     db.collection("POINTS").add({
       data: {
         PointsType: "donate",
@@ -362,12 +377,14 @@ Page({
         resolve(res)
       },
     })
+  })
   },
 
   _paymentadd(goodsnum) {
     // 支付成功后增加付款记录
     let that = this
-    const db = wx.cloud.database()
+    utils.CloudInit(function (c1) {
+      const db = c1.database()
     db.collection("PAYMENT").add({
       data: {
         OrderId: goodsnum,
@@ -391,6 +408,7 @@ Page({
         utils._ErrorToast("提交失败请重试")
       }
     })
+  })
   },
 
   onLoad: async function (options) {
@@ -402,7 +420,9 @@ Page({
       this.data.tempinviterid=options.userid
 
       // 本地函数查询分享的资讯
-      const db = wx.cloud.database()
+      let that = this
+      utils.CloudInit(function (c1) {
+        const db = c1.database()
       db.collection('INFOSHARE').where({
         InfoId: options.infoid,
         InfoStatus: 'checked'
@@ -410,17 +430,18 @@ Page({
         success: res => {
           console.log(res)
           // 展示接收到的info
-          this.setData({
+          that.setData({
             infoshares: res.data,
             creatorid: res.data[0].CreatorId
           })
-          this.data.infocover=res.data[0].InfoCover
-          this.data.infotitle=res.data[0].InfoTitle
-          this.data.infoid = options.infoid
-          this._getComments(options.infoid)
-          this._viewadd(this.data.infoid)
+          that.data.infocover=res.data[0].InfoCover
+          that.data.infotitle=res.data[0].InfoTitle
+          that.data.infoid = options.infoid
+          that._getComments(options.infoid)
+          that._viewadd(that.data.infoid)
         }
       })
+    })
       // 通过分享进入，执行用户登录操作
       await utils.UserLogon(this.data.tempinviterid, this.data.params, this.data.remark)
       // 查询创作者的推荐人及间接推荐人，以便打赏时记录
@@ -432,7 +453,9 @@ Page({
       // 在本人小程序中打开
       console.log("在本人小程序中打开展示全部公开资讯")
       // 查询公开发布的视频，数量少于20条用本地函数就可以
-      const db = wx.cloud.database()
+      let that = this
+      utils.CloudInit(function (c1) {
+        const db = c1.database()
       db.collection('INFOSHARE').where({
         InfoStatus: 'checked',
         Private: false
@@ -440,19 +463,20 @@ Page({
         success: res => {
           console.log(res)
           // 展示查询到的结果
-          this.setData({
+          that.setData({
             infoshares: res.data,
             creatorid: res.data[0].CreatorId,
           })
-          this.data.infocover=res.data[0].InfoCover
-          this.data.infotitle=res.data[0].InfoTitle
-          this.data.infoid = res.data[0].InfoId
-          this._getComments(res.data[0].InfoId)
+          that.data.infocover=res.data[0].InfoCover
+          that.data.infotitle=res.data[0].InfoTitle
+          that.data.infoid = res.data[0].InfoId
+          that._getComments(res.data[0].InfoId)
           // 本人打开浏览量也增加
-          this._viewadd(this.data.infoid)
-          console.log("公开资讯", this.data.infoshares)
+          that._viewadd(that.data.infoid)
+          console.log("公开资讯", that.data.infoshares)
         }
       })
+    })
     }
     this.setData({
       userid: app.globalData.Guserid,
@@ -465,7 +489,9 @@ Page({
 
   _getComments(infoid) {
     // 云函数查询评论内容
-    wx.cloud.callFunction({
+    let that = this
+    utils.CloudInit(function (c1) {
+    c1.callFunction({
       name: "NormalQuery",
       data: {
         collectionName: "InfoShareComment",
@@ -477,17 +503,18 @@ Page({
       },
       success: res => {
         console.log(res)
-        this.setData({
+        that.setData({
           comments: res.result.data
         })
       },
       fail: res => {
         console.log(res)
-        this.setData({
+        that.setData({
           comments: []
         })
       }
     })
+  })
   },
   // 进页面时播放视频
   startUp() {

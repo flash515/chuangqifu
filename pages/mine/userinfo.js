@@ -122,7 +122,9 @@ Page({
   async bvUpdateData(e) {
     if (this.data.u_phonecode == this.data.s_phonecode && this.data.u_phonecode != "") {
       console.log('手机验证码正确')
-      const db = wx.cloud.database()
+      let that = this
+      utils.CloudInit(function (c1) {
+        const db = c1.database()
      db.collection('USER').where({
         UserId: app.globalData.Guserid
       }).update({
@@ -135,18 +137,19 @@ Page({
           ["UserInfo.nickName"]: this.data.nickname,
         },
         success: res => {
-          this.setData({
-            userphone:this.data.inputphone
+          that.setData({
+            userphone:that.data.inputphone
           })
-          app.globalData.Guserdata.UserInfo.UserPhone=this.data.inputphone
+          app.globalData.Guserdata.UserInfo.UserPhone=that.data.inputphone
           utils._SuccessToast("信息更新成功")
           // 根据用户是否已验证手机号，提供首次验证积分
-          if (this.data.useroldphone == "") {
+          if (that.data.useroldphone == "") {
             utils._RegistPointsAdd()
             utils._SendNewUserSMS()
           }
         },
       })
+    })
     } else {
       utils._ErrorToast("验证码错误")
     }

@@ -58,7 +58,9 @@ Page({
   bvTradePointsExchange: async function (e) {
     // 兑换前check一下balance
     this._balancecheck()
-    const db = wx.cloud.database()
+    let that = this
+    utils.CloudInit(function (c1) {
+      const db = c1.database()
     db.collection("POINTS").add({
       data: {
         PointsType: "exchange",
@@ -74,16 +76,17 @@ Page({
       },
       success: res => {
         utils._SuccessToast("积分兑换成功")
-        this.setData({
+        that.setData({
           exchangepoints: 0,
         })
         // 兑换后更新一下balance
-        this._balancecheck()
+        that._balancecheck()
       },
       fail: res => {
         utils._ErrorToast("提交失败请重试")
       }
     })
+  })
 
   },
   bvTradePointsWithdraw: async function (e) {
@@ -223,7 +226,9 @@ Page({
     this.data.transferpacketid = utils._getGoodsRandomNumber()
     console.log(this.data.transferpacketid)
     var promise = new Promise((resolve, reject) => {
-      const db = wx.cloud.database()
+      let that = this
+      utils.CloudInit(function (c1) {
+        const db = c1.database()
       db.collection("POINTS").add({
         data: {
           PointsType: "transfer",
@@ -242,18 +247,19 @@ Page({
           PointsStatus: "checked",
         },
         success: res => {
-          this.setData({
+          that.setData({
             transferpoints: 0,
             packetnumber: 0,
           })
           // 转让后更新一下balance
-          this._balancecheck()
+          that._balancecheck()
           resolve(res)
         },
         fail: res => {
           utils._ErrorToast("提交失败请重试")
         }
       })
+    })
     });
     return promise;
   },

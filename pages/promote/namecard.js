@@ -45,7 +45,9 @@ Page({
     })
   },
   bvViewed: function (e) {
-    wx.cloud.callFunction({
+    let that = this
+    utils.CloudInit(function (c1) {
+    c1.callFunction({
       name: "NormalQuery",
       data: {
         collectionName: "NameCardViewed",
@@ -58,11 +60,12 @@ Page({
       },
       success: res => {
         console.log(res.result.data)
-        this.setData({
+        that.setData({
           viewed: res.result.data
         })
       }
     })
+  })
   },
   bvEdit: function (e) {
     // 待更新，用户手机登录后如何更新参数
@@ -109,6 +112,9 @@ Page({
    */
   onLoad: async function (options) {
     console.log("传入的参数为", options)
+    let that = this
+    utils.CloudInit(function (c1) {
+      const db = c1.database()
     if (options.userid) {
       // 如果是通过分享链接进入
       this.data.params = options
@@ -118,22 +124,21 @@ Page({
         tempinviterid: options.userid
       })
       // 本地函数查询名片信息
-      const db = wx.cloud.database()
       db.collection('NAMECARD').where({
         CreatorId: options.creatorid
       }).get({
         success: res => {
           // 展示名片分享人的名片
-          this.setData({
+          that.setData({
             cardinfo: res.data[0]
           })
           if (app.globalData.Guserid != options.creatorid) {
             // 浏览量更新
-            this._viewadd(options.creatorid)
+            that._viewadd(options.creatorid)
             // 浏览人已发布的名片信息会发送给被浏览人
             if (app.globalData.Guserdata.NameCardStatus =="Published") {
               // 本地函数查询名片信息
-              const db = wx.cloud.database()
+              const db = c1.database()
               db.collection('NAMECARD').where({
                 CreatorId: app.globalData.Guserid
               }).get({
@@ -159,19 +164,20 @@ Page({
           }
         }
       })
+
       // 通过分享进入，执行用户登录操作，展示分享人的名片信息
       await utils.UserLogon(this.data.tempinviterid, this.data.params, this.data.remark)
     } else {
       if (options.creatorid) {
         // 通过编辑之后返回打开
         // 本地函数查询名片信息
-        const db = wx.cloud.database()
+        const db = c1.database()
         db.collection('NAMECARD').where({
           CreatorId: options.creatorid
         }).get({
           success: res => {
             // 展示名片分享人的名片
-            this.setData({
+            that.setData({
               cardinfo: res.data[0]
             })
           }
@@ -187,13 +193,13 @@ Page({
           })
         } else {
           // 本地函数查询名片信息
-          const db = wx.cloud.database()
+          const db = c1.database()
           db.collection('NAMECARD').where({
             CreatorId: app.globalData.Guserid
           }).get({
             success: res => {
               // 展示本人名片
-              this.setData({
+              that.setData({
                 cardinfo: res.data[0]
               })
             }
@@ -201,9 +207,11 @@ Page({
         }
       }
     }
+  })
   },
   _viewadd(creatorid) {
-    wx.cloud.callFunction({
+    utils.CloudInit(function (c1) {
+    c1.callFunction({
       name: "DataRise",
       data: {
         collectionName: "NAMECARD",
@@ -217,6 +225,7 @@ Page({
 
       }
     })
+  })
   },
   /**
    * 生命周期函数--监听页面初次渲染完成

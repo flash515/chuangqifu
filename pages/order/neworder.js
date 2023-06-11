@@ -263,7 +263,9 @@ Page({
     } else {
       // 未锁定时执行
       // 获取数据库引用
-      const db = wx.cloud.database()
+      let that = this
+      utils.CloudInit(function (c1) {
+        const db = c1.database()
       // 新增数据
       db.collection("ORDER").add({
         data: {
@@ -298,6 +300,7 @@ Page({
         }
 
       })
+    })
     }
   },
   _paymentadd() {
@@ -305,7 +308,8 @@ Page({
     if (this.data.paymentsublock) {
       that._hidden()
     } else {
-      const db = wx.cloud.database()
+      utils.CloudInit(function (c1) {
+        const db = c1.database()
       db.collection("PAYMENT").add({
         data: {
           OrderId: this.data.orderid,
@@ -330,6 +334,7 @@ Page({
           utils._ErrorToast("提交失败请重试")
         }
       })
+    })
     }
   },
   _pointsadd() {
@@ -338,7 +343,8 @@ Page({
     if (this.data.paymentsublock) {
       that._hidden()
     } else {
-      const db = wx.cloud.database()
+      utils.CloudInit(function (c1) {
+        const db = c1.database()
       db.collection("POINTS").add({
         data: {
           PointsType: "trade",
@@ -376,6 +382,7 @@ Page({
           utils._ErrorToast("提交失败请重试")
         }
       })
+    })
     }
   },
   _hidden() {

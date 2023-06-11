@@ -114,7 +114,9 @@ Page({
     this.data.temppoints = this.data.remainpoints - this.data.doneepoints
     this.data.temppacket = this.data.remainpacket - 1
     console.log(this.data.temppoints, this.data.temppacket)
-    const db = wx.cloud.database()
+    let that = this
+    utils.CloudInit(function (c1) {
+      const db = c1.database()
     db.collection("POINTS").where({
       TransferPacketId: this.data.transferpacketid
     }).update({
@@ -130,10 +132,13 @@ Page({
 
       }
     })
+  })
 
   },
   bvAccept() {
-    const db = wx.cloud.database()
+    let that = this
+    utils.CloudInit(function (c1) {
+      const db = c1.database()
     db.collection("POINTS").add({
       data: {
         PointsType: "transfer",
@@ -150,13 +155,14 @@ Page({
       },
       success: res => {
         utils._SuccessToast("积分已领取入账")
-        this._pointsupdate()
+        that._pointsupdate()
         //云函数更新礼包余额
       },
       fail: res => {
 
       }
     })
+  })
   },
   /**
    * 生命周期函数--监听页面加载

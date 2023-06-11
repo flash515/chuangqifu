@@ -48,7 +48,9 @@ Page({
     })
   },
   onSearch(e) {
-    const db = wx.cloud.database()
+    let that = this
+    utils.CloudInit(function (c1) {
+      const db = c1.database()
     const _ = db.command
     db.collection('NAMECARD').where(
       _.or([{
@@ -85,11 +87,12 @@ Page({
       ])
     ).get({
       success: res => {
-        this.setData({
+        that.setData({
           cards: res.data,
         })
       }
     })
+  })
   },
   // 展示弹框
   getbox: function () {
@@ -114,25 +117,28 @@ Page({
       boxShow: false,
       inputShow: false,
     })
-    wx.cloud.callFunction({
+    let that = this
+    utils.CloudInit(function (c1) {
+    c1.callFunction({
       name: "NormalQuery",
       data: {
         collectionName: "NAMECARD",
         command: "and",
         where: [{
-          Category1: this.data.category1
+          Category1: that.data.category1
         }, {
-          Category2: this.data.category2
+          Category2: that.data.category2
         }, {
-          Category3: this.data.category3
+          Category3: that.data.category3
         }]
       },
       success: res => {
-        this.setData({
+        that.setData({
           cards: res.result.data
         })
       }
     })
+  })
   },
   changeCategory1: function (e) {
     const val = e.detail.value
@@ -182,7 +188,8 @@ Page({
       // 浏览人已发布的名片信息会发送给被浏览人
 
       // 本地函数查询名片信息
-      const db = wx.cloud.database()
+      utils.CloudInit(function (c1) {
+        const db = c1.database()
       // 登记本人名片
       db.collection('NameCardViewed').add({
         data: {
@@ -201,12 +208,14 @@ Page({
           console.log("被查看信息添加了")
         }
       })
+    })
 
     }
 
   },
   _viewadd(creatorid) {
-    wx.cloud.callFunction({
+    utils.CloudInit(function (c1) {
+    c1.callFunction({
       name: "DataRise",
       data: {
         collectionName: "NAMECARD",
@@ -220,6 +229,7 @@ Page({
 
       }
     })
+  })
   },
   // 长按号码响应函数
   bvPhoneNumTap: function () {
@@ -231,7 +241,9 @@ Page({
    * 生命周期函数--监听页面加载
    */
   async onLoad(options) {
-    const db = wx.cloud.database()
+    let that = this
+    utils.CloudInit(function (c1) {
+      const db = c1.database()
     db.collection('NameCardSetting').doc('0122a5876443793e098bd33e0045f553').get({
       success: res => {
         this.setData({
@@ -240,6 +252,7 @@ Page({
         console.log("行业类别更新成功")
       }
     })
+  })
     this.setData({
       image: app.globalData.Gimagearray,
       userphone: app.globalData.Guserdata.UserInfo.UserPhone,
@@ -251,15 +264,18 @@ Page({
     // })
     if (app.globalData.Guserdata.NameCardStatus == "Published") {
       // 本地函数查询名片信息
-      const db = wx.cloud.database()
+      let that = this
+      utils.CloudInit(function (c1) {
+        const db = c1.database()
       db.collection('NAMECARD').where({
         CreatorId: app.globalData.Guserid
       }).get({
         success: res => {
           // 登记本人名片
-          this.data.mycard = res.data[0]
+          that.data.mycard = res.data[0]
         }
       })
+    })
     }
 
   },

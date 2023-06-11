@@ -103,7 +103,9 @@ Page({
     if (this.data.ordersublock) {
       that._hidden()
     } else {
-      const db = wx.cloud.database()
+      let that = this
+      utils.CloudInit(function (c1) {
+        const db = c1.database()
       // 新增数据
       db.collection("DISCOUNTORDER").add({
         data: {
@@ -135,6 +137,7 @@ Page({
           })
         }
       })
+    })
     }
   },
   _paymentadd() {
@@ -142,7 +145,9 @@ Page({
     if (this.data.paymentsublock) {
       that._hidden()
     } else {
-      const db = wx.cloud.database()
+      let that = this
+      utils.CloudInit(function (c1) {
+        const db = c1.database()
       db.collection("PAYMENT").add({
         data: {
           OrderId:this.data.orderid,
@@ -168,6 +173,7 @@ Page({
           })
         }
       })
+    })
     }
   },
   _hidden() {
@@ -209,7 +215,8 @@ Page({
     // 请求WXPay云函数,调用支付能力
     _callWXPay(body, goodsnum, subMchId, payVal) {
       let that = this
-      wx.cloud.callFunction({
+      utils.CloudInit(function (c1) {
+      c1.callFunction({
           name: 'WXPay',
           data: {
             // 需要将data里面的参数传给WXPay云函数
@@ -243,9 +250,12 @@ Page({
         .catch((err) => {
           console.error(err);
         });
+      })
     },
     _orderupdate() {
-      const db = wx.cloud.database()
+      let that = this
+      utils.CloudInit(function (c1) {
+        const db = c1.database()
       db.collection('DISCOUNTORDER').where({
         OrderId: this.data.orderid
       }).update({
@@ -258,9 +268,12 @@ Page({
           console.log("商品订单付款成功")
         }
       })
+    })
     },
     _paymentupdate() {
-      const db = wx.cloud.database()
+      let that = this
+      utils.CloudInit(function (c1) {
+        const db = c1.database()
       db.collection('PAYMENT').where({
         OrderId: this.data.orderid
       }).update({
@@ -271,9 +284,12 @@ Page({
           console.log("支付订单付款成功")
         },
       })
+    })
     },
     _userupdate(){
-      const db = wx.cloud.database()
+      let that = this
+      utils.CloudInit(function (c1) {
+        const db = c1.database()
       db.collection('USER').where({
         UserId: app.globalData.Guserid
       }).update({
@@ -287,6 +303,7 @@ Page({
           console.log("用户信息更新成功")
         },
       })
+    })
     },
     bvOtherPay() {
       wx.navigateTo({
@@ -305,7 +322,9 @@ Page({
     // 查询当前的价格折扣卡
     console.log(this.data.startdate)
     // let that=this
-    const db = wx.cloud.database()
+    let that = this
+    utils.CloudInit(function (c1) {
+      const db = c1.database()
     const _ = db.command
     db.collection('DISCOUNTORDER').where({
       UserId: app.globalData.Guserid,
@@ -324,7 +343,7 @@ Page({
           }
           if (tempfliter.length != 0 && tempfliter.length != undefined) {
             console.log(tempfliter)
-            this.setData({
+            that.setData({
               adddate: tempfliter[0].AddDate,
               dlstartdate: tempfliter[0].DLStartDate,
               dlenddate: tempfliter[0].DLEndDate,
@@ -332,36 +351,37 @@ Page({
               orderstatus: tempfliter[0].OrderStatus,
             })
             if (tempfliter[0].DiscountLevel == "DL1") {
-              this.setData({
+              that.setData({
                 dlname: "员工折扣价"
               })
             } else if (tempfliter[0].DiscountLevel == "DL2") {
-              this.setData({
+              that.setData({
                 dlname: "渠道折扣价"
               })
             } else if (tempfliter[0].DiscountLevel == "DL3") {
-              this.setData({
+              that.setData({
                 dlname: "折扣价"
               })
             } else if (tempfliter[0].DiscountLevel == "DL4") {
-              this.setData({
+              that.setData({
                 dlname: "原价"
               })
             }
           } else {
             //卡券已过期
-            this.setData({
+            that.setData({
               dlname: "原价"
             })
           }
         } else {
           //没有卡券
-          this.setData({
+          that.setData({
             dlname: "原价",
           })
         }
       }
     })
+  })
   
   },
 

@@ -91,7 +91,9 @@ if(this.applysubmit==true|| this.data.providerapplydate!=''){
     if (this.data.companyname != "" && this.data.companyid != "" && this.data.businessscope != "" && this.data.address != "") {
       console.log('已完善信息')
       if (this.data.contractchecked == true) {
-        const db = wx.cloud.database()
+        let that = this
+        utils.CloudInit(function (c1) {
+          const db = c1.database()
         db.collection('USER').where({
           UserId: app.globalData.Guserid
         }).update({
@@ -106,7 +108,7 @@ if(this.applysubmit==true|| this.data.providerapplydate!=''){
           },
           success: res => {
             utils._SuccessToast("申请信息已发送")
-            this.applysubmit=true
+            that.applysubmit=true
             //给管理员发送短信
             var tempmobile = [18954744612]
             // 调用云函数发短信给推荐人和管理员
@@ -129,6 +131,7 @@ if(this.applysubmit==true|| this.data.providerapplydate!=''){
             utils._ErrorToast("更新信息失败")
           }
         })
+      })
 
       } else {
         utils._ErrorToast("请确认协议条款")

@@ -46,7 +46,8 @@ Page({
     // 接收参数方法一结束
 
     if (Date.parse(new Date()) - this.data.starttime < "3600000") {
-      const db = wx.cloud.database()
+      utils.CloudInit(function (c1) {
+        const db = c1.database()
       db.collection('USER').where({
         UserId: this.data.inviterid
       }).get({
@@ -54,6 +55,7 @@ Page({
           app.globalData.Ginviter=res.data[0].UserInfo
         }
       })
+    })
 
       this.setData({
         // onGetUserInfo: this.onGetUserInfo,

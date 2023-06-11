@@ -33,7 +33,8 @@ var newusertradeinfo = {
 async function _GetPhoneNumber(code) {
   var promise = new Promise((resolve, reject) => {
     console.log('步骤2获取accessToken')
-    wx.cloud.callFunction({
+    CloudInit(function (c1) {
+    c1.callFunction({
         // 云函数名称
         name: 'getAccessToken',
         // 传给云函数的参数
@@ -57,6 +58,7 @@ async function _GetPhoneNumber(code) {
           }
         })
       })
+      })
       .catch(console.error)
   });
   return promise;
@@ -69,7 +71,8 @@ function _sendcode(userphone) {
       _ErrorToast("请输入手机号码")
     } else {
       let _this = this;
-      wx.cloud.callFunction({
+      CloudInit(function (c1) {
+      c1.callFunction({
         name: 'sendmessage',
         data: {
           templateId: "985130",
@@ -85,6 +88,7 @@ function _sendcode(userphone) {
           _ErrorToast("发送失败请重试")
         }
       })
+    })
     }
   });
   return promise;
@@ -153,7 +157,8 @@ async function _SendNewUserSMS() { // 通过云函数获取用户本人的小程
       var tempmobile = [18954744612]
     }
     // 调用云函数发短信给推荐人和管理员
-    wx.cloud.callFunction({
+    CloudInit(function (c1) {
+    c1.callFunction({
       name: 'sendsms',
       data: {
         templateId: "1569087",
@@ -168,6 +173,7 @@ async function _SendNewUserSMS() { // 通过云函数获取用户本人的小程
         console.log(res)
       },
     })
+  })
   });
   return promise;
 }
@@ -378,7 +384,8 @@ function _productcheck() { // 通过云函数查询在售商品
   var promise = new Promise((resolve, reject) => {
     console.log("productcheck执行了")
     // 使用云函数避免每次20条数据限制
-    wx.cloud.callFunction({
+    CloudInit(function (c1) {
+    c1.callFunction({
       name: "NormalQuery",
       data: {
         collectionName: "PRODUCT",
@@ -392,6 +399,7 @@ function _productcheck() { // 通过云函数查询在售商品
         resolve(res.result.data)
       }
     })
+  })
   });
   return promise;
 }
@@ -447,7 +455,8 @@ function _discountcheck() {
 function _directuser(eventid) {
   // 查询当前用户的推广总人数
   var promise = new Promise((resolve, reject) => {
-    wx.cloud.callFunction({
+    CloudInit(function (c1) {
+    c1.callFunction({
       name: "NormalQuery",
       data: {
         collectionName: "USER",
@@ -463,13 +472,15 @@ function _directuser(eventid) {
         resolve(res.result.data)
       }
     })
+  })
   });
   return promise;
 }
 
 function _indirectuser(eventid) {
   var promise = new Promise((resolve, reject) => {
-    wx.cloud.callFunction({
+    CloudInit(function (c1) {
+    c1.callFunction({
       name: "NormalQuery",
       data: {
         collectionName: "USER",
@@ -486,6 +497,7 @@ function _indirectuser(eventid) {
 
       }
     })
+  })
   });
   return promise;
 }
@@ -556,7 +568,7 @@ async function _PLcheck(eventid) {
     CloudInit(function (c1) {
       const db = c1.database()
       const _ = db.command
-      wx.cloud.callFunction({
+      c1.callFunction({
         name: "NormalQuery",
         data: {
           collectionName: "USER",
@@ -652,7 +664,7 @@ async function _validuser1year(eventid) {
     CloudInit(function (c1) {
       const db = c1.database()
       const _ = db.command
-      wx.cloud.callFunction({
+      c1.callFunction({
         name: "NormalQuery",
         data: {
           collectionName: "USER",
@@ -681,7 +693,7 @@ async function _packetcheck(eventid) {
     CloudInit(function (c1) {
       const db = c1.database()
       const _ = db.command
-      wx.cloud.callFunction({
+      c1.callFunction({
         name: "NormalQuery",
         data: {
           collectionName: "POINTS",
@@ -707,7 +719,7 @@ function _pointshistory() {
       const db = c1.database()
       const _ = db.command
       // 查询成为会员后的全部相关points记录
-      wx.cloud.callFunction({
+      c1.callFunction({
         name: "NormalQuery",
         data: {
           collectionName: "POINTS",

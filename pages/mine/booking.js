@@ -27,14 +27,16 @@ Page({
   },
   bvBookingCancel(e) {
     console.log(e.currentTarget.dataset.id)
-    const db = wx.cloud.database()
+    let that = this
+    utils.CloudInit(function (c1) {
+      const db = c1.database()
     db.collection('BOOKING').doc(e.currentTarget.dataset.id).update({
         data: {
           BookingStatus: "canceled"
         },
       success: res => {
         console.log(res)
-        this.setData({
+        that.setData({
           btnhidden:true
         })
         wx.showToast({
@@ -44,6 +46,7 @@ Page({
         })
       }
     })
+  })
   },
   bvNewBooking(e){
 wx.navigateTo({
@@ -63,16 +66,19 @@ wx.navigateTo({
     this.setData({
       image: app.globalData.Gimagearray,
     })
-    const db = wx.cloud.database()
+    let that = this
+    utils.CloudInit(function (c1) {
+      const db = c1.database()
     db.collection('BOOKING').where({
       UserId: app.globalData.Guserid,
     }).get({
       success: res => {
-        this.setData({
+        that.setData({
           bookingarray: res.data,
         })
       },
     })
+  })
   },
 
   /**
@@ -108,16 +114,19 @@ wx.navigateTo({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-    const db = wx.cloud.database()
+    let that = this
+    utils.CloudInit(function (c1) {
+      const db = c1.database()
     db.collection('BOOKING').where({
       UserId: app.globalData.Guserid,
     }).get({
       success: res => {
-        this.setData({
+        that.setData({
           bookingarray: res.data,
         })
       },
     })
+  })
     wx.stopPullDownRefresh()
   },
 

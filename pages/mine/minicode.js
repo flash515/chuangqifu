@@ -30,8 +30,9 @@ Page({
   },
   //单独打开该页时取得用户id,实际应该用不到
   onGetOpenid: function () {
+    utils.CloudInit(function (c1) {
     // 调用云函数
-    wx.cloud.callFunction({
+    c1.callFunction({
       name: 'login',
       data: {},
       success: res => {
@@ -48,6 +49,7 @@ Page({
         })
       }
     })
+  })
   },
   getUserProfile: function (e) {
     wx.getUserProfile({
@@ -59,7 +61,9 @@ Page({
         })
         console.log("获得的用户头像地址", res.userInfo.avatarUrl)
         // 获取数据库引用
-        const db = wx.cloud.database()
+        let that = this
+        utils.CloudInit(function (c1) {
+          const db = c1.database()
         // 更新数据
         db.collection('USER').where({
           _openid: app.globalData.Gopenid
@@ -74,6 +78,7 @@ Page({
             province: res.userInfo.province
           },
         })
+      })
         // 以上更新数据结束
         wx.showToast({
           icon: 'success',
@@ -93,8 +98,10 @@ Page({
 
   },
   getUrlLink() {
+    let that = this
+    utils.CloudInit(function (c1) {
     // 调用云函数
-    wx.cloud.callFunction({
+    c1.callFunction({
       name: 'URLLink',
       data: {
         quey: 'userid=' + app.globalData.Gopenid
@@ -102,7 +109,7 @@ Page({
       success: res => {
         console.log('result', res.result)
         console.log('urllink', res.result.urlLink)
-        this.setData({
+        that.setData({
           urllink: res.result.urlLink
         })
       },
@@ -110,6 +117,7 @@ Page({
         console.error('[云函数] [URLLink] 调用失败', err)
       }
     })
+  })
   },
   copy:function(e){
     let that=this;
@@ -129,7 +137,8 @@ Page({
     // var scene = app.globalData.Gopenid; //scene参数不能有参数名，可以拼接你要添加的参数值
 
     let that = this;
-    wx.cloud.callFunction({
+    utils.CloudInit(function (c1) {
+    c1.callFunction({
       name: 'getQRCode',
       data: {
         userid: app.globalData.Gopenid,
@@ -146,6 +155,7 @@ Page({
         that.drawCanvas()
       }
     })
+  })
   },
 
 
@@ -260,7 +270,9 @@ Page({
         success: res => {
           console.log("fileID", res.fileID)
           // 获取数据库引用
-          const db = wx.cloud.database()
+          let that = this
+          utils.CloudInit(function (c1) {
+            const db = c1.database()
           // 更新数据
           db.collection('USER').where({
             _openid: app.globalData.Gopenid
@@ -269,8 +281,10 @@ Page({
               QRCode: res.fileID
             },
           })
+        })
         }
       })
+
       this.data.qrcodeuploadlock = true // 修改上传状态为锁定
     }
   },

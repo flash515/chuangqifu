@@ -34,7 +34,9 @@ Page({
         app.globalData.GavatarUrl = res.userInfo.avatarUrl
         app.globalData.GnickName = res.userInfo.nickName
         // 获取数据库引用
-        const db = wx.cloud.database()
+
+        utils.CloudInit(function (c1) {
+          const db = c1.database()
         // 更新数据
         db.collection('USER').where({
           _openid: app.globalData.Gopenid
@@ -49,6 +51,7 @@ Page({
             province: res.userInfo.province
           },
         })
+      })
         // 以上更新数据结束
         wx.showToast({
           icon: 'success',

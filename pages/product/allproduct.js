@@ -55,7 +55,8 @@ Page({
 
     //获取小程序全局设置
     let that = this
-    const db = wx.cloud.database()
+    utils.CloudInit(function (c1) {
+      const db = c1.database()
     db.collection('setting')
       .where({
         CurrentStatus: "effect"
@@ -72,6 +73,7 @@ Page({
           console.log(that.data.sortarray)
         }
       })
+    })
 
   },
 

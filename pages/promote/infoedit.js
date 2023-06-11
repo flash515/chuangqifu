@@ -90,19 +90,21 @@ Page({
   async bvDelInfo(e) {
     console.log(e)
     let that = this
-    const db = wx.cloud.database()
+    utils.CloudInit(function (c1) {
+      const db = c1.database()
     await db.collection('INFOSHARE').where({
       InfoId: e.currentTarget.dataset.id
     }).remove({
       success: res => {
         utils._SuccessToast("信息删除成功")
         // 查询本人提交的InfoShare
-        this.data.infomations.splice(e.currentTarget.dataset.index, 1)
-        this.setData({
-          infomations: this.data.infomations
+        that.data.infomations.splice(e.currentTarget.dataset.index, 1)
+        that.setData({
+          infomations: that.data.infomations
         })
       }
     })
+  })
   },
   bvInfomationType(e) {
     console.log(e.detail)
@@ -128,7 +130,8 @@ Page({
       return
     }
 
-    const db = wx.cloud.database()
+    utils.CloudInit(function (c1) {
+      const db = c1.database()
     if (this.data.infoid != "") {
       db.collection('INFOSHARE').where({
         InfoId: this.data.infoid
@@ -147,7 +150,7 @@ Page({
         success: res => {
           utils._SuccessToast("信息发布成功")
           // 查询本人提交的InfoShare
-          wx.cloud.callFunction({
+          c1.callFunction({
             name: "NormalQuery",
             data: {
               collectionName: "INFOSHARE",
@@ -195,7 +198,7 @@ Page({
         success: res => {
           utils._SuccessToast("已发布等待审核")
           // 查询本人提交的InfoShare
-          wx.cloud.callFunction({
+          c1.callFunction({
             name: "NormalQuery",
             data: {
               collectionName: "INFOSHARE",
@@ -218,7 +221,7 @@ Page({
         }
       })
     }
-
+  })
   },
 
   /**
@@ -232,7 +235,9 @@ Page({
       creatorphone:app.globalData.Guserdata.UserInfo.UserPhone,
     })
     // 查询本人提交的InfoShare
-    wx.cloud.callFunction({
+    let that = this
+    utils.CloudInit(function (c1) {
+    c1.callFunction({
       name: "NormalQuery",
       data: {
         collectionName: "INFOSHARE",
@@ -243,12 +248,13 @@ Page({
         }]
       },
       success: res => {
-        this.setData({
+        that.setData({
           infomations: res.result.data,
         })
-        console.log("本人全部资讯", this.data.infomations)
+        console.log("本人全部资讯", that.data.infomations)
       }
     })
+  })
   },
 
   /**

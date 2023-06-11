@@ -23,11 +23,13 @@ Page({
  },
 
  onLoad: function () {
-  const db = wx.cloud.database()
+  let that = this
+  utils.CloudInit(function (c1) {
+    const db = c1.database()
   db.collection('LuckyDrawSetting').doc('fc8e6465644388a50984815c60e9e919').get({
     success: res => {
       console.log(res)
-      this.setData({
+      that.setData({
         pagebg:res.data.PageBg
       })
     },
@@ -35,6 +37,7 @@ Page({
       console.log(res)
     }
   })
+})
   var _this = this;
   //圆点设置
   var leftCircle = 7.5;

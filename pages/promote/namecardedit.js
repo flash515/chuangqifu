@@ -329,9 +329,12 @@ Page({
       utils._ErrorToast("缺少搜索关键词")
       return
     }
+    let that = this
+    utils.CloudInit(function (c1) {
+
     if (app.globalData.Guserdata.NameCardStatus == undefined) {
       // 首次发布新增记录
-      const db = wx.cloud.database()
+      const db = c1.database()
       db.collection('NAMECARD').add({
         data: {
           PublishDate: new Date().toLocaleString('chinese', {
@@ -358,7 +361,7 @@ Page({
           CreatorId: app.globalData.Guserid
         },
         success: res => {
-          this.data.publishstatus = true
+          that.data.publishstatus = true
           db.collection('USER').where({
             UserId: app.globalData.Guserid
           }).update({
@@ -377,7 +380,7 @@ Page({
       })
     } else {
       // 再次发布是更新
-      const db = wx.cloud.database()
+      const db = c1.database()
       db.collection('NAMECARD').where({
         CreatorId: app.globalData.Guserid
       }).update({
@@ -411,6 +414,8 @@ Page({
         },
       })
     }
+    
+  })
   },
 
   //保存名片信息
@@ -444,10 +449,12 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    const db = wx.cloud.database()
+    let that = this
+    utils.CloudInit(function (c1) {
+      const db = c1.database()
     db.collection('NameCardSetting').doc('0122a5876443793e098bd33e0045f553').get({
       success: res => {
-        this.setData({
+        that.setData({
           cardbgarray: res.data.NameCardBg,
           businesssortarray: res.data.BusinessSortArray
         })
@@ -456,13 +463,13 @@ Page({
     })
     if (app.globalData.Guserdata.NameCardStatus == "Published") {
       console.log("查询执行了")
-      const db = wx.cloud.database()
+      const db = c1.database()
       db.collection('NAMECARD').where({
         CreatorId: app.globalData.Guserid
       }).get({
         success: res => {
           console.log("res",res)
-          this.setData({
+          that.setData({
             cardbg: res.data[0].CardBg,
             tempbg: [res.data[0].CardBg],
             companylogo: res.data[0].CompanyLogo,
@@ -493,6 +500,7 @@ Page({
       console.log("缓存执行了")
 
     }
+  })
   },
 
   /**

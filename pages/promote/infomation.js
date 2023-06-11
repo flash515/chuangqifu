@@ -41,7 +41,9 @@ Page({
   },
   toCreator(e) {
     console.log(e.currentTarget.dataset.id)
-    const db = wx.cloud.database()
+    let that = this
+    utils.CloudInit(function (c1) {
+      const db = c1.database()
     if (e.currentTarget.dataset.id == app.globalData.Guserid) {
       // 如果用户是资讯创建者,显示本人全部发布资讯
       db.collection('INFOSHARE').where({
@@ -50,7 +52,7 @@ Page({
         success: res => {
           console.log(res)
           // 展示接收到的info
-          this.setData({
+          that.setData({
             infomations: res.data,
             // currentinfoid: options.infoid
             creatorid: res.data[0].CreatorId
@@ -67,7 +69,7 @@ Page({
         success: res => {
           console.log(res)
           // 展示接收到的info
-          this.setData({
+          that.setData({
             infomations: res.data,
             // currentinfoid: options.infoid
             creatorid: res.data[0].CreatorId
@@ -75,7 +77,7 @@ Page({
         }
       })
     }
-
+  })
   },
 
   bvComment(e) {
@@ -131,7 +133,9 @@ Page({
       utils._ErrorToast("需要头像和昵称")
     } else {
       // 新增留言
-      const db = wx.cloud.database()
+      let that = this
+      utils.CloudInit(function (c1) {
+        const db = c1.database()
       db.collection("InfoShareComment").add({
         data: {
           InfoId: this.data.infoid,
@@ -146,7 +150,7 @@ Page({
         },
         success: res => {
           utils._SuccessToast("留言发送成功")
-          this.setData({
+          that.setData({
             replyshow: false
           })
         },
@@ -154,12 +158,14 @@ Page({
           utils._ErrorToast("提交失败请重试")
         }
       })
+    })
     }
   },
   bvReplySend(e) {
     // 新增回复
     console.log(e.currentTarget.dataset.id)
-    wx.cloud.callFunction({
+    utils.CloudInit(function (c1) {
+    c1.callFunction({
       // 要调用的云函数名称
       name: 'NormalReply',
       // 传递给云函数的参数
@@ -180,6 +186,7 @@ Page({
         utils._SuccessToast("回复发送成功")
       },
     })
+  })
 
   },
   bvLoginShow: function (e) {
@@ -221,7 +228,9 @@ Page({
     // 在本人小程序中打开
     console.log("在本人小程序中打开展示全部公开资讯")
     // 查询公开发布的视频，数量少于20条用本地函数就可以
-    const db = wx.cloud.database()
+    let that = this
+    utils.CloudInit(function (c1) {
+      const db = c1.database()
     db.collection('INFOSHARE').where({
       InfoStatus: 'checked',
       InfoType: "Simple"
@@ -230,9 +239,9 @@ Page({
         console.log(res)
         // 展示查询到的结果
 
-        this.data.infoid = res.data[0].InfoId
-        this._getComments(res.data[0].InfoId)
-        console.log("公开资讯", this.data.infomations)
+        that.data.infoid = res.data[0].InfoId
+        that._getComments(res.data[0].InfoId)
+        console.log("公开资讯", that.data.infomations)
         var fliter1 = [];
         var fliter2 = [];
         // var _this = this
@@ -243,7 +252,7 @@ Page({
             fliter2.push(res.data[i]);
           }
         }
-        this.setData({
+        that.setData({
           infomations: res.data,
           creatorid: res.data[0].CreatorId,
           sales:fliter1,
@@ -252,7 +261,7 @@ Page({
       }
 
     })
-
+  })
     this.setData({
       userid: app.globalData.Guserid,
       avatarurl: app.globalData.Guserdata.UserInfo.avatarUrl,
@@ -263,7 +272,9 @@ Page({
 
   _getComments(infoid) {
     // 云函数查询评论内容
-    wx.cloud.callFunction({
+    let that = this
+    utils.CloudInit(function (c1) {
+    c1.callFunction({
       name: "NormalQuery",
       data: {
         collectionName: "InfoShareComment",
@@ -275,17 +286,18 @@ Page({
       },
       success: res => {
         console.log(res)
-        this.setData({
+        that.setData({
           comments: res.result.data
         })
       },
       fail: res => {
         console.log(res)
-        this.setData({
+        that.setData({
           comments: []
         })
       }
     })
+  })
   },
 
 })

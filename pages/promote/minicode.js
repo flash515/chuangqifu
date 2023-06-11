@@ -32,7 +32,8 @@ Page({
       avatarUrl,
     })
     // 更新数据
-    const db = wx.cloud.database()
+    utils.CloudInit(function (c1) {
+      const db = c1.database()
     db.collection('USER').where({
       UserId: app.globalData.Guserid
     }).update({
@@ -40,6 +41,7 @@ Page({
         ["UserInfo.avatarUrl"]: this.data.avatarUrl,
       },
     })
+  })
 
   },
   bvUnionId(e) {
@@ -61,7 +63,9 @@ Page({
   },
   getUrlLink() {
     // 调用云函数
-    wx.cloud.callFunction({
+    let that = this
+    utils.CloudInit(function (c1) {
+    c1.callFunction({
       name: 'URLLink',
       data: {
         quey: 'userid=' + app.globalData.Guserid + "&page=" + this.data.page + "&params=" + this.data.params
@@ -69,7 +73,7 @@ Page({
       success: res => {
         console.log('result', res.result)
         console.log('urllink', res.result.urlLink)
-        this.setData({
+        that.setData({
           urllink: res.result.urlLink
         })
       },
@@ -77,6 +81,7 @@ Page({
         console.error('[云函数] [URLLink] 调用失败', err)
       }
     })
+  })
   },
 
   bvCopy: function (e) {
@@ -98,7 +103,8 @@ Page({
     // var scene = app.globalData.Guserid; //scene参数不能有参数名，可以拼接你要添加的参数值
 
     let that = this;
-    wx.cloud.callFunction({
+    utils.CloudInit(function (c1) {
+    c1.callFunction({
       name: 'getQRCode',
       data: {
         // userid参数是使用在上传文件夹命名中
@@ -114,11 +120,12 @@ Page({
         that.setData({
           tempqrcodeurl: res.result
         })
-        console.log("tempqrcodeurl", this.data.tempqrcodeurl);
+        console.log("tempqrcodeurl", that.data.tempqrcodeurl);
         // 执行下一个方法的方法，把头像合并到小程序码里
         // that.drawCanvas()
       }
     })
+  })
   },
 
   getUserQRCode() {
@@ -126,7 +133,8 @@ Page({
     // var scene = app.globalData.Guserid; //scene参数不能有参数名，可以拼接你要添加的参数值
 
     let that = this;
-    wx.cloud.callFunction({
+    utils.CloudInit(function (c1) {
+    c1.callFunction({
       name: 'getQRCode',
       data: {
         // userid参数是使用在上传文件夹命名中
@@ -142,11 +150,12 @@ Page({
         that.setData({
           tempqrcodeurl: res.result
         })
-        console.log("tempqrcodeurl", this.data.tempqrcodeurl);
+        console.log("tempqrcodeurl", that.data.tempqrcodeurl);
         // 执行下一个方法的方法，把头像合并到小程序码里
         that.drawCanvas()
       }
     })
+  })
   },
 
   //通过https方式调用wxacodeunlimit获取二维码，有效，但当前方法用不到了
@@ -256,7 +265,8 @@ Page({
         success: res => {
           console.log("fileID", res.fileID)
           // 获取数据库引用
-          const db = wx.cloud.database()
+          const db = c1.database()
+          db.collection('notice').where({
           // 更新数据
           db.collection('USER').where({
             UserId: app.globalData.Guserid
@@ -265,6 +275,7 @@ Page({
               QRCode: res.fileID
             },
           })
+        })
         }
       })
       this.data.qrcodeuploadlock = true // 修改上传状态为锁定
@@ -291,33 +302,7 @@ Page({
       // let userId = scene.split("&")[1];
       //其他逻辑处理。。。。。
     }
-    //  接收参数的方法结束
 
-    // wx.getSystemInfo({ // 获取设备宽高 canvas设置  由于项目需求背景图不是整屏  我把高减少一部分
-    //   success: function (res) {
-    //     that.setData({
-    //       windowW: res.windowWidth - 40,
-    //       windowH: res.windowWidth - 40
-    //     })
-    //   }
-    // })
-
-    // 获取accesstoken,当前方法用不到accessToken了
-
-    // wx.cloud.callFunction({
-    //     // 云函数名称
-    //     name: 'getAccessToken',
-    //     // 传给云函数的参数
-    //     data: {},
-    //   })
-    //   .then(res => {
-    //     this.setData({
-    //       accessToken: res.result
-    //     });
-    //     console.log('云函数获取res.result：', res.result);
-    //     console.log('云函数获取this.data.accessToken：', this.data.accessToken);
-    //   })
-    //   .catch(console.error)
   },
 
   /**

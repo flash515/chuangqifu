@@ -48,25 +48,27 @@ Page({
     console.log(Date.parse(new Date()) - options.starttime);
 
       // 在邀请有效期内才进行下一步查询
-      const db = wx.cloud.database()
+      let that = this
+      utils.CloudInit(function (c1) {
+        const db = c1.database()
       db.collection('setting').where({
         CurrentStatus: "effect"
       }).get({
         success: res => {
-          this.data.expressroomavailable = res.data[0].MeetingRoom[3].ExpressRoomAvailable
-          this.data.starttime = res.data[0].MeetingRoom[3].ExpressRoomTime
+          that.data.expressroomavailable = res.data[0].MeetingRoom[3].ExpressRoomAvailable
+          that.data.starttime = res.data[0].MeetingRoom[3].ExpressRoomTime
 
-          if (this.data.expressroomavailable == true) {
+          if (that.data.expressroomavailable == true) {
             console.log("2");
             // 会议已结束
-            this.setData({
+            that.setData({
               errorshow: true
             })
           }else{
-            if (Date.parse(new Date()) - this.data.starttime > "3600000") {
+            if (Date.parse(new Date()) - that.data.starttime > "3600000") {
               console.log("3");
               // 邀请已过期
-              this.setData({
+              that.setData({
                 errorshow: true
               })
             }
@@ -83,6 +85,7 @@ Page({
           app.globalData.Ginviter = res.data[0].UserInfo
         }
       })
+    })
 
       this.setData({
         // onGetUserInfo: this.onGetUserInfo,

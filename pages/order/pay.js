@@ -40,7 +40,8 @@ Page({
   // 请求questionPay云函数,调用支付能力
   _callWXPay(body, goodsnum, subMchId, payVal) {
     let that = this
-    wx.cloud.callFunction({
+    utils.CloudInit(function (c1) {
+    c1.callFunction({
         name: 'WXPay',
         data: {
           // 需要将data里面的参数传给WXPay云函数
@@ -68,7 +69,7 @@ Page({
             that._balanceupdate();
             // 调用云函数发短信给管理员
             var tempmobile = [18954744612]
-            wx.cloud.callFunction({
+            c1.callFunction({
               name: 'sendsms',
               data: {
                 templateId: "1569097",
@@ -91,6 +92,7 @@ Page({
       .catch((err) => {
         console.error(err);
       });
+    })
   },
   // 测试支付成功的函数
   // bvTest(){
@@ -98,7 +100,9 @@ Page({
   // },
 
   _orderupdate() {
-    const db = wx.cloud.database()
+    let that = this
+    utils.CloudInit(function (c1) {
+      const db = c1.database()
     db.collection(this.data.database).where({
       OrderId: this.data.orderid
     }).update({
@@ -111,9 +115,12 @@ Page({
         console.log("商品订单更新成功")
       }
     })
+  })
   },
   _pointsupdate() {
-    const db = wx.cloud.database()
+    let that = this
+    utils.CloudInit(function (c1) {
+      const db = c1.database()
     db.collection('POINTS').where({
       OrderId: this.data.orderid
     }).update({
@@ -125,11 +132,13 @@ Page({
         console.log("积分状态更新成功")
       },
     })
+  })
   },
   _discountupdate() {
     console.log("discountupdate已执行")
     if (this.data.productid == "DL3_Single") {
-      const db = wx.cloud.database()
+      utils.CloudInit(function (c1) {
+        const db = c1.database()
       db.collection("DISCOUNTORDER").where({
         OrderId: this.data.orderid
       }).update({
@@ -137,12 +146,21 @@ Page({
           Available: false
         }
       })
+    })
     }
   },
   _balanceupdate() {
     let that = this
+    var c1 = new wx.cloud.Cloud({
+      // 资源方 AppID
+      resourceAppid: 'wx810b87f0575b9a47',
+      // 资源方环境 ID
+      resourceEnv: 'xsbmain-9gvsp7vo651fd1a9',
+    })
+    await c1.init()
+    const db = c1.database()
     if (this.data.database == "ORDER") {
-      const db = wx.cloud.database()
+
       let p1 = new Promise((resolve, reject) => {
         db.collection('POINTS').where({
           OrderId: this.data.orderid
@@ -192,7 +210,7 @@ Page({
           inviterbalance: that.data.tempinviterbalance + that.data.inviterpoints,
           indirectinviterbalance: that.data.tempindirectinviterbalance + that.data.indirectinviterpoints,
         })
-        const db = wx.cloud.database()
+        const db = c1.database()
         db.collection('USER').where({
           UserId: app.globalData.Guserid
         }).update({
@@ -203,7 +221,7 @@ Page({
             console.log("个人积分更新成功")
           }
         })
-        wx.cloud.callFunction({
+        c1.callFunction({
           // 要调用的云函数名称
           name: 'BalanceUpdate',
           // 传递给云函数的参数
@@ -216,7 +234,7 @@ Page({
             console.log("直接推荐人积分更新成功")
           },
         })
-        wx.cloud.callFunction({
+        c1.callFunction({
           // 要调用的云函数名称
           name: 'BalanceUpdate',
           // 传递给云函数的参数
@@ -230,6 +248,7 @@ Page({
           },
         })
       });
+
     }
   },
 
@@ -269,7 +288,8 @@ Page({
       } else {
         // 未锁定时执行
         // 获取数据库引用
-        const db = wx.cloud.database()
+        utils.CloudInit(function (c1) {
+          const db = c1.database()
         db.collection('BOOKING').add({
             data: {
               Address: this.data.address,
@@ -289,7 +309,8 @@ Page({
               console.log("提交失败", res)
               utils._ErrorToast("预约提交失败")
             }
-          }),
+          })
+        })
           this.data.booklock = true // 修改上传状态为锁定
       }
     }

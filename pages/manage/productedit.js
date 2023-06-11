@@ -623,45 +623,47 @@ Page({
     } else {
       // 未锁定时执行
       // 获取数据库引用
-      const db = wx.cloud.database()
-      // 新增数据
-      db.collection("PRODUCT").add({
+      let that = this
+      utils.CloudInit(function (c1) {
+        const db = c1.database()
+        // 新增数据
+        db.collection("PRODUCT").add({
           data: {
             AddDate: new Date().toLocaleString('chinese', {
               hour12: false
             }),
-            Status: this.data.status,
-            ProductName: this.data.productname,
-            Outline: this.data.outline,
-            StartDate: this.data.startdate,
-            EndDate: this.data.enddate,
-            Description: this.data.description,
-            Category1: this.data.category1,
-            Category2: this.data.category2,
-            Category3: this.data.category3,
-            ServiceArea: this.data.servicearea,
-            HandlePlace: this.data.handleplace,
-            IssuedBy: this.data.issuedby,
-            Situation: this.data.situation,
-            Forbid: this.data.forbid,
-            DocList: this.data.doclist,
-            ProcessingTime: this.data.processingtime,
-            Reward: this.data.reward,
-            RewardTime: this.data.rewardtime,
-            Provider: this.data.provider,
-            ProviderPrice: this.data.providerprice,
-            ProviderCountPrice: this.data.providercountprice,
-            Price1: this.data.price1,
-            Price1Count: Number(this.data.price1count),
-            Price2: this.data.price2,
-            Price2Count: Number(this.data.price2count),
-            Price3: this.data.price3,
-            Price3Count: Number(this.data.price3count),
-            Price4: this.data.price4,
-            Price4Count: Number(this.data.price4count),
-            Score: Number(this.data.score),
-            ProductImage: this.data.productimage,
-            AttachmentFile: this.data.attachmentfile,
+            Status: that.data.status,
+            ProductName: that.data.productname,
+            Outline: that.data.outline,
+            StartDate: that.data.startdate,
+            EndDate: that.data.enddate,
+            Description: that.data.description,
+            Category1: that.data.category1,
+            Category2: that.data.category2,
+            Category3: that.data.category3,
+            ServiceArea: that.data.servicearea,
+            HandlePlace: that.data.handleplace,
+            IssuedBy: that.data.issuedby,
+            Situation: that.data.situation,
+            Forbid: that.data.forbid,
+            DocList: that.data.doclist,
+            ProcessingTime: that.data.processingtime,
+            Reward: that.data.reward,
+            RewardTime: that.data.rewardtime,
+            Provider: that.data.provider,
+            ProviderPrice: that.data.providerprice,
+            ProviderCountPrice: that.data.providercountprice,
+            Price1: that.data.price1,
+            Price1Count: Number(that.data.price1count),
+            Price2: that.data.price2,
+            Price2Count: Number(that.data.price2count),
+            Price3: that.data.price3,
+            Price3Count: Number(that.data.price3count),
+            Price4: that.data.price4,
+            Price4Count: Number(that.data.price4count),
+            Score: Number(that.data.score),
+            ProductImage: that.data.productimage,
+            AttachmentFile: that.data.attachmentfile,
           },
           success: res => {
             console.log('新增数据成功', res)
@@ -671,81 +673,86 @@ Page({
             console.log("新增数据失败", res)
             utils._ErrorToast("新增数据失败")
           }
-        }),
-        // 以上新增数据结束
-        this.data.sublock = true // 修改上传状态为锁定
+        })
+      })
+      // 以上新增数据结束
+      this.data.sublock = true // 修改上传状态为锁定
     }
   },
   // 更新数据
   updateData() {
     // 获取数据库引用
-    const db = wx.cloud.database()
-    // 新增数据
-    db.collection("PRODUCT").doc(this.data.recordid).update({
-      data: {
-        Status: this.data.status,
-        ProductName: this.data.productname,
-        Outline: this.data.outline,
-        StartDate: this.data.startdate,
-        EndDate: this.data.enddate,
-        Description: this.data.description,
-        Category1: this.data.category1,
-        Category2: this.data.category2,
-        Category3: this.data.category3,
-        ServiceArea: this.data.servicearea,
-        HandlePlace: this.data.handleplace,
-        IssuedBy: this.data.issuedby,
-        Situation: this.data.situation,
-        Forbid: this.data.forbid,
-        DocList: this.data.doclist,
-        ProcessingTime: this.data.processingtime,
-        Reward: this.data.reward,
-        RewardTime: this.data.rewardtime,
-        Provider: this.data.provider,
-        ProviderPrice: this.data.providerprice,
-        ProviderCountPrice: this.data.providercountprice,
-        Price1: this.data.price1,
-        Price1Count: this.data.price1count,
-        Price2: this.data.price2,
-        Price2Count: this.data.price2count,
-        Price3: this.data.price3,
-        Price3Count: this.data.price3count,
-        Price4: this.data.price4,
-        Price4Count: this.data.price4count,
-        ProductImage: this.data.productimage,
-        AttachmentFile: this.data.attachmentfile,
-        Score: this.data.score,
-        UpdateDate: new Date().toLocaleString('chinese', {
-          hour12: false
-        })
-      },
-      success: res => {
-        console.log('更新数据成功', res)
-        utils._SuccessToast("更新数据成功")
-        // 更新成功后再次云函数查询商品并存入本地
-        wx.cloud.callFunction({
-          name: "NormalQuery",
-          data: {
-            collectionName: "PRODUCT",
-            command: "and",
-            where: [{
-                Status: "停售"
-              },
-              {
-                Status: "在售"
-              }
-            ]
-          },
-          success: res => {
-            wx.setStorageSync('LProductList', res.result.data)
-            console.log(res)
-          }
-        })
-      },
-      fail: res => {
-        console.log("更新数据失败", res)
-        utils._ErrorToast("更新数据失败")
-      }
+    let that = this
+    utils.CloudInit(function (c1) {
+      const db = c1.database()
+      // 新增数据
+      db.collection("PRODUCT").doc(this.data.recordid).update({
+        data: {
+          Status: that.data.status,
+          ProductName: that.data.productname,
+          Outline: that.data.outline,
+          StartDate: that.data.startdate,
+          EndDate: that.data.enddate,
+          Description: that.data.description,
+          Category1: that.data.category1,
+          Category2: that.data.category2,
+          Category3: that.data.category3,
+          ServiceArea: that.data.servicearea,
+          HandlePlace: that.data.handleplace,
+          IssuedBy: that.data.issuedby,
+          Situation: that.data.situation,
+          Forbid: that.data.forbid,
+          DocList: that.data.doclist,
+          ProcessingTime: that.data.processingtime,
+          Reward: that.data.reward,
+          RewardTime: that.data.rewardtime,
+          Provider: that.data.provider,
+          ProviderPrice: that.data.providerprice,
+          ProviderCountPrice: that.data.providercountprice,
+          Price1: that.data.price1,
+          Price1Count: that.data.price1count,
+          Price2: that.data.price2,
+          Price2Count: that.data.price2count,
+          Price3: that.data.price3,
+          Price3Count: that.data.price3count,
+          Price4: that.data.price4,
+          Price4Count: that.data.price4count,
+          ProductImage: that.data.productimage,
+          AttachmentFile: that.data.attachmentfile,
+          Score: that.data.score,
+          UpdateDate: new Date().toLocaleString('chinese', {
+            hour12: false
+          })
+        },
+        success: res => {
+          console.log('更新数据成功', res)
+          utils._SuccessToast("更新数据成功")
+          // 更新成功后再次云函数查询商品并存入本地
+          c1.callFunction({
+            name: "NormalQuery",
+            data: {
+              collectionName: "PRODUCT",
+              command: "and",
+              where: [{
+                  Status: "停售"
+                },
+                {
+                  Status: "在售"
+                }
+              ]
+            },
+            success: res => {
+              wx.setStorageSync('LProductList', res.result.data)
+              console.log(res)
+            }
+          })
+        },
+        fail: res => {
+          console.log("更新数据失败", res)
+          utils._ErrorToast("更新数据失败")
+        }
+      })
+
     })
     // 以上更新数据结束
   },
@@ -805,7 +812,7 @@ Page({
         score: fliter[0].Score,
         updatedate: fliter[0].UpdateDate,
         productview: fliter[0].ProductImage,
-        productimage:fliter[0].ProductImage,
+        productimage: fliter[0].ProductImage,
         attachmentfile: fliter[0].AttachmentFile,
         user: fliter[0]._openid,
       })

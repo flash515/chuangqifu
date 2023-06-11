@@ -28,13 +28,15 @@ Page({
     // 接收参数方法一结束
 
     if (Date.parse(new Date()) - this.data.starttime < "3600000") {
-      const db = wx.cloud.database()
+      let that = this
+      utils.CloudInit(function (c1) {
+        const db = c1.database()
       db.collection('USER').where({
         _openid: this.data.inviterid
       }).get({
         success: res => {
           wx.setStorageSync('LInviter', res.data[0]);
-          this.setData({
+          that.setData({
             invitercompanyname: res.data[0].CompanyName,
             inviterusername: res.data[0].UserName,
             indirectinviterid: res.data[0].InviterOpenId
@@ -43,6 +45,7 @@ Page({
           app.globalData.Ginviterpromoterlevel = res.data[0].PromoterLevel;
         }
       })
+    })
 
       this.setData({
         // onGetUserInfo: this.onGetUserInfo,

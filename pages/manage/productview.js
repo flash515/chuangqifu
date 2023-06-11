@@ -11,7 +11,9 @@ Page({
     categoryname:""
   },
   onSearch(e) {
-    const db = wx.cloud.database()
+    let that = this
+    utils.CloudInit(function (c1) {
+      const db = c1.database()
     const _ = db.command
     db.collection('PRODUCT').where(_.and([{
         UserId: app.globalData.Guserid
@@ -37,17 +39,18 @@ Page({
       ])
     ])).get({
       success: res => {
-        this.setData({
+        that.setData({
           productarray: res.data,
         })
         if (res.data.length > 1) {
-          this.setData({
+          that.setData({
             recordcontral: true
           })
         }
-        this.setcurrentdata()
+        that.setcurrentdata()
       }
     })
+  })
   },
   bvAddProduct(e) {
     wx.navigateTo({
@@ -91,7 +94,9 @@ Page({
    */
   onLoad: function (options) {
     console.log(options)
-    wx.cloud.callFunction({
+    let that = this
+    utils.CloudInit(function (c1) {
+    c1.callFunction({
       name: "NormalQuery",
       data: {
         collectionName: "PRODUCT",
@@ -124,6 +129,8 @@ Page({
         this._setproductarray()
       }
     })
+
+  })
 
   },
 

@@ -39,7 +39,9 @@ Page({
       key: 'LDirectUser',
     }).then(res => {
       console.log("读取", res.data)
-      wx.cloud.callFunction({
+      let that = this
+      utils.CloudInit(function (c1) {
+      c1.callFunction({
         name: 'ShareValueQuery',
         data: {
           userarray: res.data
@@ -55,7 +57,7 @@ Page({
             fliter.push(temparray[i]);
           }
         }
-        this.setData({
+        that.setData({
           directorder: temparray,
           direct30order: fliter,
         })
@@ -66,7 +68,7 @@ Page({
         for (let i = 0; i < temparray.length; i++) {
           fee = fee + parseInt(temparray[i].TotalFee)
         }
-        this.setData({
+        that.setData({
           directvalue: fee
         })
         console.log("直接价值查询", fee)
@@ -75,12 +77,13 @@ Page({
         for (let i = 0; i < fliter.length; i++) {
           fee30 = fee30 + parseInt(fliter[i].TotalFee)
         }
-        this.setData({
+        that.setData({
           direct30value: fee30
         })
         console.log("30天直接价值查询", fee30)
         // console.log("云函数价值查询", res.result.temparray)
       })
+    })
     })
     // 间接价值查询
     // 从本地存储中读取
@@ -88,7 +91,9 @@ Page({
       key: 'LIndirectUser',
     }).then(res => {
       console.log("读取间接分享用户", res.data)
-      wx.cloud.callFunction({
+      let that = this
+      utils.CloudInit(function (c1) {
+      c1.callFunction({
         name: 'ShareValueQuery',
         data: {
           userarray: res.data
@@ -106,7 +111,7 @@ Page({
             fliter.push(temparray[i]);
           }
         }
-        this.setData({
+        that.setData({
           indirectorder: temparray,
           indirect30order: fliter,
         })
@@ -117,7 +122,7 @@ Page({
         for (let i = 0; i < temparray.length; i++) {
           fee = fee + parseInt(temparray[i].TotalFee)
         }
-        this.setData({
+        that.setData({
           indirectvalue: fee
         })
         console.log("间接价值查询", fee)
@@ -126,13 +131,14 @@ Page({
         for (let i = 0; i < fliter.length; i++) {
           fee30 = fee30 + parseInt(fliter[i].TotalFee)
         }
-        this.setData({
+        that.setData({
           indirect30value: fee30
         })
         console.log("30天间接价值查询", fee30)
         // console.log("云函数价值查询", res.result.temparray)
       })
     })
+  })
   },
 
   /**

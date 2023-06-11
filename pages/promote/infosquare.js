@@ -14,7 +14,9 @@ Page({
     image: [],
   },
   onSearch(e) {
-    const db = wx.cloud.database()
+    let that = this
+    utils.CloudInit(function (c1) {
+      const db = c1.database()
     const _ = db.command
     db.collection('PRODUCT').where(_.and([{
         UserId: app.globalData.Guserid
@@ -40,17 +42,18 @@ Page({
       ])
     ])).get({
       success: res => {
-        this.setData({
+        that.setData({
           productarray: res.data,
         })
         if (res.data.length > 1) {
-          this.setData({
+          that.setData({
             recordcontral: true
           })
         }
-        this.setcurrentdata()
+        that.setcurrentdata()
       }
     })
+  })
   },
   /**
    * 生命周期函数--监听页面加载

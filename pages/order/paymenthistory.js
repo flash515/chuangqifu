@@ -19,7 +19,9 @@ Page({
     nextMargin: 0
   },
   bvRefresh(e) {
-    wx.cloud.callFunction({
+    let that = this
+    utils.CloudInit(function (c1) {
+    c1.callFunction({
       name: "NormalQuery",
       data: {
         collectionName: e.currentTarget.dataset.name,
@@ -30,21 +32,22 @@ Page({
       },
       success: res => {
         if (e.currentTarget.dataset.name == "ORDER") {
-          this.setData({
+          that.setData({
             orderhistory: res.result.data
           })
         } else if (e.currentTarget.dataset.name == "DISCOUNTORDER") {
-          this.setData({
+          that.setData({
             discounthistory: res.result.data
           })
         }else if (e.currentTarget.dataset.name == "PROMOTERORDER") {
-          this.setData({
+          that.setData({
             promoterhistory: res.result.data
           })
         }
         
       }
     })
+  })
   },
   bvToPay(e) {
     wx.navigateTo({
@@ -58,19 +61,22 @@ Page({
     this.setData({
       image: app.globalData.Gimagearray
     })
-    const db = wx.cloud.database()
+    let that = this
+    utils.CloudInit(function (c1) {
+      const db = c1.database()
     // 查询当前用户所有的订单,数据库已做权限设置，用户只能查询本人订单
     db.collection('PAYMENT').get({
       success: res => {
         console.log(res);
         wx.setStorageSync('LPaymentList', res.data);
-        this.setData({
+        that.setData({
           // 列表渲染
           paymenthistory: res.data
         })
-        console.log(this.data.paymenthistory);
+        console.log(that.data.paymenthistory);
       }
     })
+  })
   },
 
   /**
@@ -105,7 +111,9 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-    wx.cloud.callFunction({
+    let that = this
+    utils.CloudInit(function (c1) {
+    c1.callFunction({
       name: "NormalQuery",
       data: {
         collectionName: "PAYMENT",
@@ -120,7 +128,7 @@ Page({
         })
       }
     })
-    wx.cloud.callFunction({
+    c1.callFunction({
       name: "NormalQuery",
       data: {
         collectionName: "REWARD",
@@ -135,6 +143,7 @@ Page({
         })
       }
     })
+  })
     wx.stopPullDownRefresh()
   },
 

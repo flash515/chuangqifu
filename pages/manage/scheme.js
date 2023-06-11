@@ -52,7 +52,9 @@ Page({
         duration: 2000 //持续的时间
       })
     } else {
-      const db = wx.cloud.database()
+      let that = this
+      utils.CloudInit(function (c1) {
+        const db = c1.database()
       db.collection('SCHEME').add({
         data: {
           AddDate: new Date().toLocaleString('chinese',{ hour12: false }),
@@ -74,10 +76,13 @@ Page({
           })
         },
       })
+    })
     }
   },
   updateData(e) {
-    const db = wx.cloud.database()
+    let that = this
+    utils.CloudInit(function (c1) {
+      const db = c1.database()
     db.collection('SCHEME').doc(this.data._id).update({
       data: {
         SchemeType: this.data.schemetype,
@@ -88,9 +93,12 @@ Page({
         UpdateDate: new Date().toLocaleString('chinese',{ hour12: false })
       }
     })
+  })
   },
   onsearch(e) {
-    const db = wx.cloud.database()
+    let that = this
+    utils.CloudInit(function (c1) {
+      const db = c1.database()
     db.collection('SCHEME').where({
       UserId:app.globalData.Guserid,
       SchemeType: {
@@ -99,7 +107,7 @@ Page({
       }
     }).get({
       success: res => {
-        this.setData({
+        that.setData({
           _id: res.data[0]._id,
           adddate: res.data[0].AddDate,
           schemetype: res.data[0].SchemeType,
@@ -110,16 +118,17 @@ Page({
           updatedate:res.data[0].UpdateDate,
         })
         if (res.data[0].Status == "onshow") {
-          this.setData({
+          that.setData({
             onshowchecked: true
           })
         } else {
-          this.setData({
+          that.setData({
             onshowchecked: false
           })
         }
       }
     })
+  })
   },
   onshowChange(e) {
     if (e.detail.value == true) {

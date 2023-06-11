@@ -62,9 +62,16 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
-    const db = wx.cloud.database()
-    wx.cloud.callFunction({
+  onLoad: async function (options) {
+    let that = this
+    var c1 = new wx.cloud.Cloud({
+      // 资源方 AppID
+      resourceAppid: 'wx810b87f0575b9a47',
+      // 资源方环境 ID
+      resourceEnv: 'xsbmain-9gvsp7vo651fd1a9',
+    })
+    await c1.init()
+    c1.callFunction({
       name: "NormalQuery",
       data: {
         collectionName: "DKORDER",
@@ -82,7 +89,7 @@ Page({
         })
       }
     })
-    wx.cloud.callFunction({
+    c1.callFunction({
       name: "NormalQuery",
       data: {
         collectionName: "ZCORDER",
@@ -100,7 +107,7 @@ Page({
         })
       }
     })
-    wx.cloud.callFunction({
+    c1.callFunction({
       name: "NormalQuery",
       data: {
         collectionName: "DELEGATEISSUE",
@@ -118,7 +125,7 @@ Page({
         })
       }
     })
-    wx.cloud.callFunction({
+    c1.callFunction({
       name: "NormalQuery",
       data: {
         collectionName: "PROMOTEORDER",
@@ -136,7 +143,7 @@ Page({
         })
       }
     })
-    wx.cloud.callFunction({
+    c1.callFunction({
       name: "NormalQuery",
       data: {
         collectionName: "DISCOUNTORDER",
@@ -154,7 +161,7 @@ Page({
         })
       }
     })
-    wx.cloud.callFunction({
+    c1.callFunction({
       name: "NormalQuery",
       data: {
         collectionName: "BOOKING",

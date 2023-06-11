@@ -31,7 +31,8 @@ function _orderadd() {
   if (this.data.ordersublock) {
     that._hidden()
   } else {
-    const db = wx.cloud.database()
+    utils.CloudInit(function (c1) {
+      const db = c1.database()
     // 新增数据
     db.collection("DISCOUNTORDER").add({
       data: {
@@ -61,6 +62,7 @@ function _orderadd() {
         utils._ErrorToast("提交失败请重试")
       }
     })
+  })
   }
 }
 
@@ -69,7 +71,8 @@ function _paymentadd() {
   if (this.data.paymentsublock) {
     that._hidden()
   } else {
-    const db = wx.cloud.database()
+    utils.CloudInit(function (c1) {
+      const db = c1.database()
     db.collection("PAYMENT").add({
       data: {
         OrderId: this.data.orderid,
@@ -93,6 +96,7 @@ function _paymentadd() {
         utils._ErrorToast("提交失败请重试")
       }
     })
+  })
   }
 }
 
@@ -167,7 +171,8 @@ function _callWXPay(body, goodsnum, subMchId, payVal) {
 }
 
 function _orderupdate() {
-  const db = wx.cloud.database()
+  utils.CloudInit(function (c1) {
+    const db = c1.database()
   db.collection('DISCOUNTORDER').where({
     OrderId: this.data.orderid
   }).update({
@@ -180,10 +185,12 @@ function _orderupdate() {
       console.log("商品订单付款成功")
     }
   })
+})
 }
 
 function _paymentupdate() {
-  const db = wx.cloud.database()
+  utils.CloudInit(function (c1) {
+    const db = c1.database()
   db.collection('PAYMENT').where({
     OrderId: this.data.orderid
   }).update({
@@ -194,10 +201,12 @@ function _paymentupdate() {
       console.log("支付订单付款成功")
     },
   })
+})
 }
 
 function _userupdate() {
-  const db = wx.cloud.database()
+  utils.CloudInit(function (c1) {
+    const db = c1.database()
   db.collection('USER').where({
     UserId: app.globalData.Guserid
   }).update({
@@ -213,6 +222,7 @@ function _userupdate() {
       console.log("用户信息更新成功")
     },
   })
+})
 }
 module.exports = {
   _getGoodsRandomNumber: _getGoodsRandomNumber,

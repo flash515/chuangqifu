@@ -40,7 +40,8 @@ balance:0,
         app.globalData.GavatarUrl=res.userInfo.avatarUrl
         app.globalData.GnickName=res.userInfo.nickName
         // 获取数据库引用
-        const db = wx.cloud.database()
+        utils.CloudInit(function (c1) {
+          const db = c1.database()
         // 更新数据
         db.collection('USER').where({
           _openid: app.globalData.Gopenid
@@ -55,6 +56,7 @@ balance:0,
             province: res.userInfo.province
           },
         })
+              })
         // 以上更新数据结束
         wx.showToast({
           icon:'success',
@@ -74,7 +76,9 @@ balance:0,
 
   },
   bvRefresh(e) {
-    wx.cloud.callFunction({
+    let that = this
+    utils.CloudInit(function (c1) {
+    c1.callFunction({
       name: "NormalQuery",
       data: {
         collectionName: e.currentTarget.dataset.name,
@@ -85,11 +89,12 @@ balance:0,
         }]
       },
       success: res => {
-          this.setData({
+          that.setData({
             pointshistory: res.result.data
           })
       }
     })
+  })
   },
 
   /**
@@ -101,7 +106,9 @@ balance:0,
       image: app.globalData.Gimagearray,
       balance: app.globalData.Gbalance,
     })
-  wx.cloud.callFunction({
+    let that = this
+    utils.CloudInit(function (c1) {
+  c1.callFunction({
     name: "NormalQuery",
     data: {
       collectionName: "POINTS",
@@ -117,7 +124,7 @@ balance:0,
     })
   }
 })
-wx.cloud.callFunction({
+c1.callFunction({
   name: "NormalQuery",
   data: {
     collectionName: "POINTS",
@@ -133,7 +140,7 @@ wx.cloud.callFunction({
   })
 }
 })
-wx.cloud.callFunction({
+c1.callFunction({
   name: "NormalQuery",
   data: {
     collectionName: "POINTS",
@@ -149,7 +156,7 @@ wx.cloud.callFunction({
   })
 }
 })
-wx.cloud.callFunction({
+c1.callFunction({
   name: "NormalQuery",
   data: {
     collectionName: "POINTS",
@@ -165,142 +172,7 @@ wx.cloud.callFunction({
   })
 }
 })
-// 以下云数据库的异步积分计算,代码有效但暂不使用
-// let p1=new Promise((resolve,reject)=>{
-//   wx.cloud.callFunction({
-//     name: "NormalQuery",
-//     data: {
-//       collectionName: "POINTS",
-//       command: "and",
-//       where: [{
-//         PersonalId: app.globalData.Gopenid,
-//         PointsStatus:'checked',
-//       }]
-//     },
-//     success: res => {
-//       console.log(res)
-//       let points1=0
-//       for(let i =0;i<res.result.data.length;i++){
-//         points1 += res.result.data[i].PersonalPoints
-//     }
-//     this.setData({
-//       personalhistory: res.result.data,
-//       personalpoints:points1
-//     })
-//     console.log("异步执行",this.data.personalpoints)
-//     resolve(this.data.personalpoints);
-//   },
-//   fail: err => {
-//     resolve(this.data.personalpoints);
-//   }
-// })
-// console.log("1执行了",this.data.personalpoints)
-// });
-
-// let p2=new Promise((resolve,reject)=>{
-//   wx.cloud.callFunction({
-//     name: "NormalQuery",
-//     data: {
-//       collectionName: "POINTS",
-//       command: "and",
-//       where: [{
-//         InviterId: app.globalData.Gopenid,
-//         PointsStatus:'checked',
-//       }]
-//     },
-//     success: res => {
-//       console.log(res)
-//       let points2=0
-//       for(let i =0;i<res.result.data.length;i++){
-//         points2 += res.result.data[i].InviterPoints
-//     }
-//     this.setData({
-//           inviterhistory: res.result.data,
-//           inviterpoints:points2
-//         })
-//         console.log("异步执行",this.data.inviterpoints)
-//         resolve(this.data.inviterpoints);
-//     },
-//     fail: err => {
-//       resolve(this.data.inviterpoints);
-//     }
-//   })
-//   console.log(this.data.inviterpoints)
-//   console.log("2执行了")
-// });
-// let p3=new Promise((resolve,reject)=>{
-//   wx.cloud.callFunction({
-//     name: "NormalQuery",
-//     data: {
-//       collectionName: "POINTS",
-//       command: "and",
-//       where: [{
-//         IndirectInviterId: app.globalData.Gopenid,
-//         PointsStatus:'checked',
-//       }]
-//     },
-//     success: res => {
-//       console.log(res)
-//       let points3=0
-//       for(let i =0;i<res.result.data.length;i++){
-//         points3 += res.result.data[i].IndirectInviterPoints
-//     }
-//         this.setData({
-//           indirectinviterhistory: res.result.data,
-//           indirectinviterpoints:points3
-//         })
-//         console.log("异步执行",this.data.indirectinviterpoints)
-//         resolve(this.data.indirectinviterpoints);
-//     },
-//     fail: err => {
-//       // this.setData({
-//       //   indirectinviterpoints:0
-//       // })
-//       resolve(this.data.indirectinviterpoints);
-//     }
-
-//   })
-//   console.log(this.data.indirectinviterpoints)
-//   console.log("3执行了")
-// });
-// let p4=new Promise((resolve,reject)=>{
-//   wx.cloud.callFunction({
-//     name: "NormalQuery",
-//     data: {
-//       collectionName: "POINTS",
-//       command: "and",
-//       where: [{
-//         ConsumeId: app.globalData.Gopenid,
-//         PointsStatus:'checked',
-//       }]
-//     },
-//     success: res => {
-//       console.log(res)
-//       let points4=0
-//       for(let i =0;i<res.result.data.length;i++){
-//         points4 += res.result.data[i].ConsumePoints
-//     }
-//         this.setData({
-//           consumehistory: res.result.data,
-//           consumepoints:points4
-//         })
-//         console.log("异步执行",this.data.consumepoints)
-//         resolve(this.data.consumepoints);
-//     },
-//     fail: err => {
-//       resolve(this.data.consumepoints);
-//     }
-//   })
-//   console.log(this.data.consumepoints)
-//   console.log("4执行了")
-// });
-// Promise.all([p1,p2,p3,p4]).then(res=>{
-//   this.setData({
-//     balance:this.data.personalpoints+this.data.inviterpoints+this.data.indirectinviterpoints-this.data.consumepoints,
-//   }),
-//   console.log("balance执行了")
-// });
-
+})
 
   },
 
