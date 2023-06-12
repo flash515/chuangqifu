@@ -10,12 +10,12 @@ Page({
     // 用户信息
     avatarurl: "",
     nickname: "",
-    creatorphone:"",
+    creatorphone: "",
     infomations: [], //已保存的资讯分享
     infoselected: false,
     infoid: "",
-    infotype:"",
-    infomationtype:"供应",
+    infotype: "",
+    infomationtype: "供应",
     infostatus: "unchecked",
     infocontent: "",
     timestamp: "", //时间戳
@@ -92,26 +92,26 @@ Page({
     let that = this
     utils.CloudInit(function (c1) {
       const db = c1.database()
-    await db.collection('INFOSHARE').where({
-      InfoId: e.currentTarget.dataset.id
-    }).remove({
-      success: res => {
-        utils._SuccessToast("信息删除成功")
-        // 查询本人提交的InfoShare
-        that.data.infomations.splice(e.currentTarget.dataset.index, 1)
-        that.setData({
-          infomations: that.data.infomations
-        })
-      }
+      db.collection('INFOSHARE').where({
+        InfoId: e.currentTarget.dataset.id
+      }).remove({
+        success: res => {
+          utils._SuccessToast("信息删除成功")
+          // 查询本人提交的InfoShare
+          that.data.infomations.splice(e.currentTarget.dataset.index, 1)
+          that.setData({
+            infomations: that.data.infomations
+          })
+        }
+      })
     })
-  })
   },
   bvInfomationType(e) {
     console.log(e.detail)
-    if(e.detail.key=="1"){
-      this.data.infomationtype="供应"
-    }else if(e.detail.key=="2"){
-      this.data.infomationtype="求购"
+    if (e.detail.key == "1") {
+      this.data.infomationtype = "供应"
+    } else if (e.detail.key == "2") {
+      this.data.infomationtype = "求购"
     }
 
   },

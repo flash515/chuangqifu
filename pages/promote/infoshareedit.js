@@ -129,7 +129,7 @@ Page({
     await utils._RemoveFiles([e.currentTarget.dataset.image])
     utils.CloudInit(function (c1) {
       const db = c1.database()
-    await db.collection('INFOSHARE').where({
+    db.collection('INFOSHARE').where({
       InfoId: e.currentTarget.dataset.id
     }).remove({
       success: res => {

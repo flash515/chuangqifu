@@ -952,6 +952,22 @@ async function _UploadFiles(filelist, cloudpath) {
   });
   return promise;
 }
+async function getTempFileURL(filelist) {
+  var promise = new Promise((resolve, reject) => {
+    wx.cloud.getTempFileURL({
+      fileList: filelist,
+      success: res => {
+        // get temp file URL
+        console.log(res.fileList)
+        resolve(res.fileList)
+      },
+      fail: err => {
+        // handle error
+      }
+    })
+  });
+  return promise;
+}
 
 async function _RemoveFiles(filelist) {
   wx.cloud.deleteFile({
@@ -1000,6 +1016,6 @@ module.exports = {
   _roomapply: _roomapply,
   _UploadFile: _UploadFile,
   _UploadFiles: _UploadFiles,
-  _RemoveFiles: _RemoveFiles
-
+  _RemoveFiles: _RemoveFiles,
+  getTempFileURL:getTempFileURL
 }

@@ -1,5 +1,6 @@
 const app = getApp()
 const track = require("../../utils/track");
+var utils = require("../../utils/utils")
 Page({
   data: {
     currentTab:0,
