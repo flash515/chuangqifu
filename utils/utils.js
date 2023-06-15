@@ -34,30 +34,30 @@ async function _GetPhoneNumber(code) {
   var promise = new Promise((resolve, reject) => {
     console.log('步骤2获取accessToken')
     CloudInit(function (c1) {
-    c1.callFunction({
-        // 云函数名称
-        name: 'getAccessToken',
-        // 传给云函数的参数
-        data: {},
-      })
-      .then(res => {
-        let accessToken = res.result
-        console.log('云函数获取this.data.accessToken：', accessToken);
-        wx.request({
-          method: 'POST',
-          url: 'https://api.weixin.qq.com/wxa/business/getuserphonenumber?access_token=' + accessToken,
-          data: {
-            code: code
-          },
-          success: function (res) {
-            console.log("步骤三获取手机号码", res.data.phone_info.phoneNumber);
-            resolve(res.data.phone_info.phoneNumber)
-          },
-          fail: function (res) {
-            console.log("fail", res);
-          }
-        })
-      })
+        c1.callFunction({
+            // 云函数名称
+            name: 'getAccessToken',
+            // 传给云函数的参数
+            data: {},
+          })
+          .then(res => {
+            let accessToken = res.result
+            console.log('云函数获取this.data.accessToken：', accessToken);
+            wx.request({
+              method: 'POST',
+              url: 'https://api.weixin.qq.com/wxa/business/getuserphonenumber?access_token=' + accessToken,
+              data: {
+                code: code
+              },
+              success: function (res) {
+                console.log("步骤三获取手机号码", res.data.phone_info.phoneNumber);
+                resolve(res.data.phone_info.phoneNumber)
+              },
+              fail: function (res) {
+                console.log("fail", res);
+              }
+            })
+          })
       })
       .catch(console.error)
   });
@@ -72,23 +72,23 @@ function _sendcode(userphone) {
     } else {
       let _this = this;
       CloudInit(function (c1) {
-      c1.callFunction({
-        name: 'sendmessage',
-        data: {
-          templateId: "985130",
-          nocode: false,
-          mobile: userphone,
-          nationcode: '86'
-        },
-        success: res => {
-          let code = res.result.res.body.params[0];
-          resolve(code)
-        },
-        fail: err => {
-          _ErrorToast("发送失败请重试")
-        }
+        c1.callFunction({
+          name: 'sendmessage',
+          data: {
+            templateId: "985130",
+            nocode: false,
+            mobile: userphone,
+            nationcode: '86'
+          },
+          success: res => {
+            let code = res.result.res.body.params[0];
+            resolve(code)
+          },
+          fail: err => {
+            _ErrorToast("发送失败请重试")
+          }
+        })
       })
-    })
     }
   });
   return promise;
@@ -158,22 +158,22 @@ async function _SendNewUserSMS() { // 通过云函数获取用户本人的小程
     }
     // 调用云函数发短信给推荐人和管理员
     CloudInit(function (c1) {
-    c1.callFunction({
-      name: 'sendsms',
-      data: {
-        templateId: "1569087",
-        nocode: true,
-        mobile: tempmobile
-      },
-      success: res => {
-        console.log("短信发送结果", res)
-        resolve(res)
-      },
-      fail: res => {
-        console.log(res)
-      },
+      c1.callFunction({
+        name: 'sendsms',
+        data: {
+          templateId: "1569087",
+          nocode: true,
+          mobile: tempmobile
+        },
+        success: res => {
+          console.log("短信发送结果", res)
+          resolve(res)
+        },
+        fail: res => {
+          console.log(res)
+        },
+      })
     })
-  })
   });
   return promise;
 }
@@ -380,26 +380,44 @@ function _newuserpoints() {
   return promise;
 }
 
-function _productcheck() { // 通过云函数查询在售商品
+async function _productcheck() { // 通过云函数查询在售商品
   var promise = new Promise((resolve, reject) => {
+    let that = this
     console.log("productcheck执行了")
     // 使用云函数避免每次20条数据限制
     CloudInit(function (c1) {
-    c1.callFunction({
-      name: "NormalQuery",
-      data: {
-        collectionName: "PRODUCT",
-        command: "or",
-        where: [{
-          Status: "在售"
-        }]
-      },
-      success: res => {
-        app.globalData.Gproduct = res.result.data
-        resolve(res.result.data)
-      }
+      c1.callFunction({
+        name: "NormalQuery",
+        data: {
+          collectionName: "PRODUCT",
+          command: "or",
+          where: [{
+            Status: "在售"
+          }]
+        },
+        success: res => {
+          var fliter = res.result.data
+          console.log(res.result.data.length)
+          for (let i = 0; i < res.result.data.length; i++) {
+            c1.getTempFileURL({
+              fileList: res.result.data[i].ProductImage,
+            }).then(res => {
+              fliter[i].ProductImage = [res.fileList[0].tempFileURL]
+              if (i+1 == fliter.length) {
+                console.log("执行了", fliter)
+                app.globalData.Gproduct = fliter
+                resolve(fliter)
+              } else {
+                console.log("没执行")
+              }
+            }).catch(error => {
+              // handle error
+            })
+
+          }
+        }
+      })
     })
-  })
   });
   return promise;
 }
@@ -456,23 +474,23 @@ function _directuser(eventid) {
   // 查询当前用户的推广总人数
   var promise = new Promise((resolve, reject) => {
     CloudInit(function (c1) {
-    c1.callFunction({
-      name: "NormalQuery",
-      data: {
-        collectionName: "USER",
-        command: "and",
-        where: [{
-          ["UserInfo.InviterId"]: eventid
-        }]
-      },
-      success: res => {
-        wx.setStorageSync('LDirectUser', res.result.data);
-        // 查询结果赋值给数组参数
-        console.log("云函数查询直接推广用户", res.result.data)
-        resolve(res.result.data)
-      }
+      c1.callFunction({
+        name: "NormalQuery",
+        data: {
+          collectionName: "USER",
+          command: "and",
+          where: [{
+            ["UserInfo.InviterId"]: eventid
+          }]
+        },
+        success: res => {
+          wx.setStorageSync('LDirectUser', res.result.data);
+          // 查询结果赋值给数组参数
+          console.log("云函数查询直接推广用户", res.result.data)
+          resolve(res.result.data)
+        }
+      })
     })
-  })
   });
   return promise;
 }
@@ -480,24 +498,24 @@ function _directuser(eventid) {
 function _indirectuser(eventid) {
   var promise = new Promise((resolve, reject) => {
     CloudInit(function (c1) {
-    c1.callFunction({
-      name: "NormalQuery",
-      data: {
-        collectionName: "USER",
-        command: "and",
-        where: [{
-          ["UserInfo.IndirectInviterId"]: eventid
-        }]
-      },
-      success: res => {
-        wx.setStorageSync('LIndirectUser', res.result.data);
-        // 查询结果赋值给数组参数
-        console.log("云函数查询间接推广用户", res.result.data)
-        resolve(res.result.data)
+      c1.callFunction({
+        name: "NormalQuery",
+        data: {
+          collectionName: "USER",
+          command: "and",
+          where: [{
+            ["UserInfo.IndirectInviterId"]: eventid
+          }]
+        },
+        success: res => {
+          wx.setStorageSync('LIndirectUser', res.result.data);
+          // 查询结果赋值给数组参数
+          console.log("云函数查询间接推广用户", res.result.data)
+          resolve(res.result.data)
 
-      }
+        }
+      })
     })
-  })
   });
   return promise;
 }
@@ -980,7 +998,7 @@ async function _RemoveFiles(filelist) {
 
 module.exports = {
   // 提示信息
-  CloudInit:CloudInit,
+  CloudInit: CloudInit,
   _SuccessToast: _SuccessToast,
   _ErrorToast: _ErrorToast,
   _GetPhoneNumber: _GetPhoneNumber,
@@ -1017,5 +1035,5 @@ module.exports = {
   _UploadFile: _UploadFile,
   _UploadFiles: _UploadFiles,
   _RemoveFiles: _RemoveFiles,
-  getTempFileURL:getTempFileURL
+  getTempFileURL: getTempFileURL
 }

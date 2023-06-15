@@ -28,11 +28,11 @@ Page({
       loginshow: true
     })
   },
-  onLogin(e){
+  onLogin(e) {
     this.setData({
-      loginshow:e.detail.loginshow,
-      loginbtnshow:e.detail.loginbtnshow,
-      userphone:e.detail.userphone,
+      loginshow: e.detail.loginshow,
+      loginbtnshow: e.detail.loginbtnshow,
+      userphone: e.detail.userphone,
     })
   },
   bvSortChange(e) {
@@ -46,7 +46,7 @@ Page({
     var category = e.currentTarget.dataset.name
     this._setproductarray(category)
   },
-  _setproductarray(category) {
+  async _setproductarray(category) {
     console.log(category)
     console.log(app.globalData.Gproduct)
     var fliter = []
@@ -59,8 +59,8 @@ Page({
       productarray: fliter
     })
     console.log(this.data.productarray)
-
   },
+
   /**
    * 生命周期函数--监听页面加载
    */
@@ -79,7 +79,7 @@ Page({
     wx.showLoading({
       title: '加载中',
     })
-    if(app.globalData.Gproduct==undefined){
+    if (app.globalData.Gproduct == undefined) {
       await utils._productcheck()
     }
     this.data.params = options
@@ -96,8 +96,8 @@ Page({
 
     if (options.category2 != undefined && options.category2 != "") {
       // 参数是二级分类时
-      console.log("执行顺序测试",app.globalData.Gsetting.ProductSort)
-      var tempsort=[]
+      console.log("执行顺序测试", app.globalData.Gsetting.ProductSort)
+      var tempsort = []
       for (let i = 0; i < app.globalData.Gsetting.ProductSort.length; i++) {
         for (var j = 0; j < app.globalData.Gsetting.ProductSort[i].Category2Array.length; j++) {
           if (app.globalData.Gsetting.ProductSort[i].Category2Array[j].Category2Name == options.category2) {

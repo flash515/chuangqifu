@@ -54,7 +54,7 @@ swiper video {
   height: 180rpx;
   width: 100vw;
   position: fixed;
-  bottom: 0;
+  bottom: 50rpx;
   color: #fff;
 }
 
