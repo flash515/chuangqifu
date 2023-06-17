@@ -396,8 +396,8 @@ async function _productcheck() { // 通过云函数查询在售商品
           }]
         },
         success: res => {
-          var fliter = res.result.data
           console.log(res.result.data.length)
+          var fliter = res.result.data
           for (let i = 0; i < res.result.data.length; i++) {
             c1.getTempFileURL({
               fileList: res.result.data[i].ProductImage,

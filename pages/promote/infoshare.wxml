@@ -9,7 +9,7 @@
       <image style="width: 750rpx;height: 600rpx;" src="{{item.InfoImage}}" mode="scaleToFill" />
     </view>
     <view wx:if="{{item.InfoVideo}}">
-      <video loop="true" enable-progress-gesture="true" object-fit="contain" src="{{item.InfoVideo}}" id="video{{index}}" enable-play-gesture="true" controls="true" />
+      <video loop="true" enable-progress-gesture="true" object-fit="contain" src="{{item.InfoVideo}}" id="video{{index}}" enable-play-gesture="true" controls="true" custom-cache="{{false}}"></video>
     </view>
 
     <view class="video-right">

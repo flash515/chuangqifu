@@ -24,8 +24,8 @@ Page({
     // 页面相关
     infoshares: [],
     infoid: "",
-    infocover:"",
-    infotitle:"",
+    infocover: "",
+    infotitle: "",
     comments: [],
     // currentinfoid: "",
     creatorid: "",
@@ -76,40 +76,40 @@ Page({
     let that = this
     utils.CloudInit(function (c1) {
       const db = c1.database()
-    if (e.currentTarget.dataset.id == app.globalData.Guserid) {
-      // 如果用户是资讯创建者,显示本人全部发布资讯
-      db.collection('INFOSHARE').where({
-        CreatorId: e.currentTarget.dataset.id,
-      }).get({
-        success: res => {
-          console.log(res)
-          // 展示接收到的info
-          that.setData({
-            infoshares: res.data,
-            // currentinfoid: options.infoid
-            creatorid: res.data[0].CreatorId
-          })
-        }
-      })
-    } else {
-      // 如果用户不是资讯创建者,只打开创建者公开发布资讯
-      db.collection('INFOSHARE').where({
-        CreatorId: e.currentTarget.dataset.id,
-        InfoStatus: 'checked',
-        Private: false
-      }).get({
-        success: res => {
-          console.log(res)
-          // 展示接收到的info
-          that.setData({
-            infoshares: res.data,
-            // currentinfoid: options.infoid
-            creatorid: res.data[0].CreatorId
-          })
-        }
-      })
-    }
-  })
+      if (e.currentTarget.dataset.id == app.globalData.Guserid) {
+        // 如果用户是资讯创建者,显示本人全部发布资讯
+        db.collection('INFOSHARE').where({
+          CreatorId: e.currentTarget.dataset.id,
+        }).get({
+          success: res => {
+            console.log(res)
+            // 展示接收到的info
+            that.setData({
+              infoshares: res.data,
+              // currentinfoid: options.infoid
+              creatorid: res.data[0].CreatorId
+            })
+          }
+        })
+      } else {
+        // 如果用户不是资讯创建者,只打开创建者公开发布资讯
+        db.collection('INFOSHARE').where({
+          CreatorId: e.currentTarget.dataset.id,
+          InfoStatus: 'checked',
+          Private: false
+        }).get({
+          success: res => {
+            console.log(res)
+            // 展示接收到的info
+            that.setData({
+              infoshares: res.data,
+              // currentinfoid: options.infoid
+              creatorid: res.data[0].CreatorId
+            })
+          }
+        })
+      }
+    })
   },
   bvDonateShow() {
     this.setData({
@@ -129,7 +129,7 @@ Page({
       })
     } else {
       this.setData({
-        commentshow:true,
+        commentshow: true,
       })
     }
   },
@@ -167,28 +167,28 @@ Page({
     // 新增回复
     console.log(e.currentTarget.dataset.id)
     utils.CloudInit(function (c1) {
-    c1.callFunction({
-      // 要调用的云函数名称
-      name: 'NormalReply',
-      // 传递给云函数的参数
-      data: {
-        collectionName: "InfoShareComment",
-        id: e.currentTarget.dataset.id,
-        key1: "Reply",
-        value1: this.data.replycontent,
-        key2: "ReplyStatus",
-        value2: "unchecked",
-        key3: "ReplyDate",
-        value3: new Date().toLocaleString('chinese', {
-          hour12: false
-        })
-      },
-      success: res => {
-        console.log(res)
-        utils._SuccessToast("回复发送成功")
-      },
+      c1.callFunction({
+        // 要调用的云函数名称
+        name: 'NormalReply',
+        // 传递给云函数的参数
+        data: {
+          collectionName: "InfoShareComment",
+          id: e.currentTarget.dataset.id,
+          key1: "Reply",
+          value1: this.data.replycontent,
+          key2: "ReplyStatus",
+          value2: "unchecked",
+          key3: "ReplyDate",
+          value3: new Date().toLocaleString('chinese', {
+            hour12: false
+          })
+        },
+        success: res => {
+          console.log(res)
+          utils._SuccessToast("回复发送成功")
+        },
+      })
     })
-  })
 
   },
 
@@ -197,31 +197,31 @@ Page({
       utils._ErrorToast("需要头像和昵称")
     } else {
       // 新增留言
-          let that = this
-    utils.CloudInit(function (c1) {
-      const db = c1.database()
-      db.collection("InfoShareComment").add({
-        data: {
-          InfoId: this.data.infoid,
-          UserId: app.globalData.Guserid,
-          avatarUrl: this.data.avatarurl,
-          nickName: this.data.nickname,
-          Comment: this.data.comment,
-          PublishDate: new Date().toLocaleString('chinese', {
-            hour12: false
-          }),
-          Status: "unchecked",
-        },
-        success: res => {
-          that.setData({
-            replyshow: false
-          })
-        },
-        fail: res => {
-          utils._ErrorToast("提交失败请重试")
-        }
+      let that = this
+      utils.CloudInit(function (c1) {
+        const db = c1.database()
+        db.collection("InfoShareComment").add({
+          data: {
+            InfoId: this.data.infoid,
+            UserId: app.globalData.Guserid,
+            avatarUrl: this.data.avatarurl,
+            nickName: this.data.nickname,
+            Comment: this.data.comment,
+            PublishDate: new Date().toLocaleString('chinese', {
+              hour12: false
+            }),
+            Status: "unchecked",
+          },
+          success: res => {
+            that.setData({
+              replyshow: false
+            })
+          },
+          fail: res => {
+            utils._ErrorToast("提交失败请重试")
+          }
+        })
       })
-    })
     }
   },
   onLogin(e) {
@@ -230,8 +230,8 @@ Page({
       userphone: e.detail.userphone,
     })
   },
-  
-  bvLink(e){
+
+  bvLink(e) {
     console.log(e.currentTarget.dataset.link)
     // 注意navigate不能跳转到有导航的页面
     wx.navigateTo({
@@ -277,107 +277,107 @@ Page({
   _callWXPay(body, goodsnum, payVal) {
     let that = this
     utils.CloudInit(function (c1) {
-    c1.callFunction({
-        name: 'WXPay',
-        data: {
-          // 需要将data里面的参数传给WXPay云函数
-          body,
-          goodsnum, // 商品订单号不能重复
-          payVal, // 这里必须整数,不能是小数,而且类型是number,否则就会报错
-        },
-      })
-      .then((res) => {
-        console.log(res);
-        const payment = res.result.payment;
-        console.log(payment); // 里面包含appId,nonceStr,package,paySign,signType,timeStamp这些支付参数
-        wx.requestPayment({
-          // 根据获取到的参数调用支付 API 发起支付
-          ...payment, // 解构参数appId,nonceStr,package,paySign,signType,timeStamp
-          success: (res) => {
-            console.log('支付成功', res);
-            that._paymentadd(goodsnum)
-            that._pointsadd()
-            that._praiseadd()
+      c1.callFunction({
+          name: 'WXPay',
+          data: {
+            // 需要将data里面的参数传给WXPay云函数
+            body,
+            goodsnum, // 商品订单号不能重复
+            payVal, // 这里必须整数,不能是小数,而且类型是number,否则就会报错
           },
-          fail: (err) => {
-            console.error('支付失败', err);
-          },
+        })
+        .then((res) => {
+          console.log(res);
+          const payment = res.result.payment;
+          console.log(payment); // 里面包含appId,nonceStr,package,paySign,signType,timeStamp这些支付参数
+          wx.requestPayment({
+            // 根据获取到的参数调用支付 API 发起支付
+            ...payment, // 解构参数appId,nonceStr,package,paySign,signType,timeStamp
+            success: (res) => {
+              console.log('支付成功', res);
+              that._paymentadd(goodsnum)
+              that._pointsadd()
+              that._praiseadd()
+            },
+            fail: (err) => {
+              console.error('支付失败', err);
+            },
+          });
+        })
+        .catch((err) => {
+          console.error(err);
         });
-      })
-      .catch((err) => {
-        console.error(err);
-      });
     })
   },
 
-  _viewadd(infoid){
+  _viewadd(infoid) {
     utils.CloudInit(function (c1) {
-    c1.callFunction({
-      name: "DataRise",
-      data: {
-        collectionName: "INFOSHARE",
-        key: "InfoId",
-        value: infoid,
-        key1: "View",
-        value1: 1
-      },
-      success: res => {
-        console.log("播放量已更新",res)
+      c1.callFunction({
+        name: "DataRise",
+        data: {
+          collectionName: "INFOSHARE",
+          key: "InfoId",
+          value: infoid,
+          key1: "View",
+          value1: 1
+        },
+        success: res => {
+          console.log("播放量已更新", res)
 
-      }
+        }
+      })
     })
-  })
   },
   _praiseadd() {
     let that = this
     utils.CloudInit(function (c1) {
-    c1.callFunction({
-      name: "DataRise",
-      data: {
-        collectionName: "INFOSHARE",
-        key: "InfoId",
-        value: that.data.infoid,
-        key1: "Praise",
-        value1: that.data.praise
-      },
-      success: res => {
-        console.log(res)
-        that.setData({
-          donateshow: false
-        })
-      }
+      c1.callFunction({
+        name: "DataRise",
+        data: {
+          collectionName: "INFOSHARE",
+          key: "InfoId",
+          value: that.data.infoid,
+          key1: "Praise",
+          value1: that.data.praise
+        },
+        success: res => {
+          console.log(res)
+          that.setData({
+            donateshow: false
+          })
+        }
+      })
     })
-  })
   },
 
   _pointsadd() {
     // 赞赏点数记录
     utils.CloudInit(function (c1) {
       const db = c1.database()
-    db.collection("POINTS").add({
-      data: {
-        PointsType: "donate",
-        UserId: app.globalData.Guserid,
-        ProductId: this.data.infoid,
-        ProductName: "资讯赞赏",
-        TotalFee: this.data.price,
-        CreatorId: this.data.creatorid,
-        CreatorPoints: this.data.creatorpoints,
-        InviterId: this.data.creatorinviterid,
-        InviterPoints: this.data.inviterpoints,
-        IndirectInviterId: this.data.creatorindirectinviterid,
-        IndirectInviterPoints: this.data.indirectinviterpoints,
-        SysAddDate: new Date().getTime(),
-        AddDate: new Date().toLocaleString('chinese', {
-          hour12: false
-        }),
-        PointsStatus: "checked",
-      },
-      success: res => {
-        resolve(res)
-      },
+      db.collection("POINTS").add({
+        data: {
+          PointsType: "donate",
+          UserId: app.globalData.Guserid,
+          ProductId: this.data.infoid,
+          ProductName: "资讯赞赏",
+          TotalFee: this.data.price,
+          CreatorId: this.data.creatorid,
+          CreatorPoints: this.data.creatorpoints,
+          InviterId: this.data.creatorinviterid,
+          InviterPoints: this.data.inviterpoints,
+          IndirectInviterId: this.data.creatorindirectinviterid,
+          IndirectInviterPoints: this.data.indirectinviterpoints,
+          SysAddDate: new Date().getTime(),
+          AddDate: new Date().toLocaleString('chinese', {
+            hour12: false
+          }),
+          PointsStatus: "checked",
+        },
+        success: res => {
+          resolve(res)
+        },
+      })
     })
-  })
   },
 
   _paymentadd(goodsnum) {
@@ -385,30 +385,30 @@ Page({
     let that = this
     utils.CloudInit(function (c1) {
       const db = c1.database()
-    db.collection("PAYMENT").add({
-      data: {
-        OrderId: goodsnum,
-        ProductId: this.data.infoid,
-        ProductName: "资讯赞赏",
-        TotalFee: this.data.totalfee,
-        AddDate: new Date().toLocaleString('chinese', {
-          hour12: false
-        }),
-        PaymentStatus: "checked",
-        UserId: app.globalData.Guserid
-      },
-      success: res => {
-        console.log("paymentadd成功")
-        that.setData({
-          isPaying: false,
-          btnname: "赞赏"
-        })
-      },
-      fail: res => {
-        utils._ErrorToast("提交失败请重试")
-      }
+      db.collection("PAYMENT").add({
+        data: {
+          OrderId: goodsnum,
+          ProductId: this.data.infoid,
+          ProductName: "资讯赞赏",
+          TotalFee: this.data.totalfee,
+          AddDate: new Date().toLocaleString('chinese', {
+            hour12: false
+          }),
+          PaymentStatus: "checked",
+          UserId: app.globalData.Guserid
+        },
+        success: res => {
+          console.log("paymentadd成功")
+          that.setData({
+            isPaying: false,
+            btnname: "赞赏"
+          })
+        },
+        fail: res => {
+          utils._ErrorToast("提交失败请重试")
+        }
+      })
     })
-  })
   },
 
   onLoad: async function (options) {
@@ -417,31 +417,62 @@ Page({
       // 如果是通过分享链接进入
       this.data.params = options
       this.data.remark = "通过创企服用户分享资讯进入"
-      this.data.tempinviterid=options.userid
-
+      this.data.tempinviterid = options.userid
+      this.data.infoid = options.infoid
+      this._getComments(options.infoid)
+      this._viewadd(that.data.infoid)
       // 本地函数查询分享的资讯
       let that = this
       utils.CloudInit(function (c1) {
         const db = c1.database()
-      db.collection('INFOSHARE').where({
-        InfoId: options.infoid,
-        InfoStatus: 'checked'
-      }).get({
-        success: res => {
-          console.log(res)
-          // 展示接收到的info
-          that.setData({
-            infoshares: res.data,
-            creatorid: res.data[0].CreatorId
-          })
-          that.data.infocover=res.data[0].InfoCover
-          that.data.infotitle=res.data[0].InfoTitle
-          that.data.infoid = options.infoid
-          that._getComments(options.infoid)
-          that._viewadd(that.data.infoid)
-        }
+        db.collection('INFOSHARE').where({
+          InfoId: options.infoid,
+          InfoStatus: 'checked'
+        }).get({
+          success: res => {
+            console.log(res)
+            var fliter = res.data
+            for (let i = 0; i < res.data.length; i++) {
+              if (res.data[i].InfoVideo != "") {
+                var filelist = [res.data[i].InfoCover, res.data[i].InfoVideo]
+              } else {
+                var filelist = [res.data[i].InfoCover, res.data[i].InfoImage]
+              }
+              c1.getTempFileURL({
+                fileList: filelist
+              }).then(res => {
+                console.log(res.fileList)
+                if (fliter[i].InfoVideo != "") {
+                  fliter[i].InfoCover = res.fileList[0].tempFileURL
+                  fliter[i].InfoVideo = res.fileList[1].tempFileURL
+                } else {
+                  fliter[i].InfoCover = res.fileList[0].tempFileURL
+                  fliter[i].InfoImage = res.fileList[1].tempFileURL
+                }
+                if (i + 1 == fliter.length) {
+                  console.log("执行了")
+                  // 展示接收到的info
+                  that.setData({
+                    infoshares: fliter,
+                    creatorid: fliter[0].CreatorId
+                  })
+                  that.data.infocover = fliter[0].InfoCover
+                  that.data.infotitle = fliter[0].InfoTitle
+                  // 调用播放视频方法
+                  that.startUp()
+                } else {
+                  console.log("没执行")
+                }
+
+              }).catch(error => {
+                // handle error
+              })
+
+            }
+
+          }
+        })
       })
-    })
       // 通过分享进入，执行用户登录操作
       await utils.UserLogon(this.data.tempinviterid, this.data.params, this.data.remark)
       // 查询创作者的推荐人及间接推荐人，以便打赏时记录
@@ -456,80 +487,106 @@ Page({
       let that = this
       utils.CloudInit(function (c1) {
         const db = c1.database()
-      db.collection('INFOSHARE').where({
-        InfoStatus: 'checked',
-        Private: false
-      }).get({
-        success: res => {
-          console.log(res)
-          // 展示查询到的结果
-          that.setData({
-            infoshares: res.data,
-            creatorid: res.data[0].CreatorId,
-          })
-          that.data.infocover=res.data[0].InfoCover
-          that.data.infotitle=res.data[0].InfoTitle
-          that.data.infoid = res.data[0].InfoId
-          that._getComments(res.data[0].InfoId)
-          // 本人打开浏览量也增加
-          that._viewadd(that.data.infoid)
-          console.log("公开资讯", that.data.infoshares)
-        }
+        db.collection('INFOSHARE').where({
+          InfoStatus: 'checked',
+          Private: false
+        }).get({
+          success: async res => {
+            console.log(res)
+            that.data.infotitle = res.data[0].InfoTitle
+            that.data.infoid = res.data[0].InfoId
+            that._getComments(res.data[0].InfoId)
+            // 本人打开浏览量也增加
+            that._viewadd(res.data[0].InfoId)
+            var fliter = res.data
+            for (let i = 0; i < res.data.length; i++) {
+              console.log(i)
+              if (res.data[i].InfoVideo != "") {
+                var filelist = [res.data[i].InfoCover, res.data[i].InfoVideo]
+              } else {
+                var filelist = [res.data[i].InfoCover, res.data[i].InfoImage]
+              }
+              await c1.getTempFileURL({
+                fileList: filelist
+              }).then(res => {
+                console.log(i)
+                console.log(res.fileList)
+                if (fliter[i].InfoVideo != "") {
+                  fliter[i].InfoCover = res.fileList[0].tempFileURL
+                  fliter[i].InfoVideo = res.fileList[1].tempFileURL
+                } else {
+                  fliter[i].InfoCover = res.fileList[0].tempFileURL
+                  fliter[i].InfoImage = res.fileList[1].tempFileURL
+                }
+              })
+            }
+              // 展示接收到的info
+              console.log("执行了")
+              that.setData({
+                infoshares: fliter,
+                creatorid: fliter[0].CreatorId
+              })
+              console.log("公开资讯", that.data.infoshares)
+              that.data.infocover = fliter[0].InfoCover
+              // 调用播放视频方法
+              that.startUp()
+
+          }
+        })
       })
-    })
     }
     this.setData({
       userid: app.globalData.Guserid,
       avatarurl: app.globalData.Guserdata.UserInfo.avatarUrl,
       nickname: app.globalData.Guserdata.UserInfo.nickName,
     })
-    // 调用播放视频方法
-    this.startUp()
+
   },
 
   _getComments(infoid) {
     // 云函数查询评论内容
     let that = this
     utils.CloudInit(function (c1) {
-    c1.callFunction({
-      name: "NormalQuery",
-      data: {
-        collectionName: "InfoShareComment",
-        command: "and",
-        where: [{
-          InfoId: infoid,
-          Status: "checked"
-        }]
-      },
-      success: res => {
-        console.log(res)
-        that.setData({
-          comments: res.result.data
-        })
-      },
-      fail: res => {
-        console.log(res)
-        that.setData({
-          comments: []
-        })
-      }
+      c1.callFunction({
+        name: "NormalQuery",
+        data: {
+          collectionName: "InfoShareComment",
+          command: "and",
+          where: [{
+            InfoId: infoid,
+            Status: "checked"
+          }]
+        },
+        success: res => {
+          that.setData({
+            comments: res.result.data
+          })
+        },
+        fail: res => {
+          that.setData({
+            comments: []
+          })
+        }
+      })
     })
-  })
   },
   // 进页面时播放视频
   startUp() {
-    // 获取video节点
-    let createVideoContext = wx.createVideoContext('video0')
-    // 播放视频
-    createVideoContext.play()
+    console.log("延迟1.2秒再播放避免出现渲染网络层错误")
+    setTimeout(() => {
+      // 获取video节点
+      let createVideoContext = wx.createVideoContext('video0')
+      // 播放视频
+      createVideoContext.play()
+    }, 1200)
   },
 
   // 切换视频的时候播放视频
   // 注：此方法视频如果过大可能会叠音，所以视频需要压缩，或者可以尝试循环节点关闭视频
   nextVideo(e) {
     this.data.infoid = this.data.infoshares[e.detail.current].InfoId
-    this.data.infocover=this.data.infoshares[e.detail.current].InfoCover
-    this.data.infotitle=this.data.infoshares[e.detail.current].InfoTitle
+    this.data.infocover = this.data.infoshares[e.detail.current].InfoCover
+    this.data.infotitle = this.data.infoshares[e.detail.current].InfoTitle
     this.setData({
       creatorid: this.data.infoshares[e.detail.current].CreatorId
     })
