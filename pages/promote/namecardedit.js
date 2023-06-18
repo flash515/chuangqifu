@@ -453,9 +453,22 @@ Page({
     utils.CloudInit(function (c1) {
       const db = c1.database()
       db.collection('NameCardSetting').doc('0122a5876443793e098bd33e0045f553').get({
-        success: res => {
+        success: async res => {
+          var filelist = res.data.NameCardBg
+          await c1.getTempFileURL({
+            fileList: filelist
+          }).then(res => {
+            console.log("res.fileList", res.fileList)
+            var tempfiles = []
+            for (let i = 0; i < res.fileList.length; i++) {
+              tempfiles = tempfiles.concat(res.fileList[i].tempFileURL)
+            }
+            that.setData({
+              cardbgarray: tempfiles,
+            })
+            console.log(tempfiles)
+          })
           that.setData({
-            cardbgarray: res.data.NameCardBg,
             businesssortarray: res.data.BusinessSortArray
           })
           console.log("行业类别更新成功")
@@ -467,30 +480,58 @@ Page({
         db.collection('NAMECARD').where({
           CreatorId: app.globalData.Guserid
         }).get({
-          success: res => {
+          success: async res => {
             console.log("res", res)
+
+            var fliter = res.data
+            if (res.data[0].CompanyLogo != "") {
+              var filelist = [res.data[0].CardBg, res.data[0].CompanyLogo]
+            } else {
+              var filelist = [res.data[0].CardBg]
+            }
+            await c1.getTempFileURL({
+              fileList: filelist
+            }).then(res => {
+              console.log(res.fileList)
+              if (fliter[0].CompanyLogo != "") {
+                fliter[0].CardBg = res.fileList[0].tempFileURL
+                fliter[0].CompanyLogo = res.fileList[1].tempFileURL
+              } else {
+                fliter[0].CardBg = res.fileList[0].tempFileURL
+              }
+            })
+            if (res.data[0].CardImages[0] != "") {
+              var filelist = res.data[0].CardImages
+              await c1.getTempFileURL({
+                fileList: filelist
+              }).then(res => {
+                console.log(res.fileList)
+                fliter[0].CardImages = [res.fileList[0].tempFileURL]
+              })
+            }
+
             that.setData({
-              cardbg: res.data[0].CardBg,
-              tempbg: [res.data[0].CardBg],
-              companylogo: res.data[0].CompanyLogo,
-              templogo: [res.data[0].CompanyLogo],
-              cardimages: res.data[0].CardImages,
-              tempimages: res.data[0].CardImages,
-              companyname: res.data[0].CompanyName,
-              username: res.data[0].UserName,
-              handphone: res.data[0].Handphone,
-              title: res.data[0].Title,
-              wechat: res.data[0].WeChat,
-              email: res.data[0].Email,
-              website: res.data[0].Website,
-              telephone: res.data[0].Telephone,
-              businessscope: res.data[0].BusinessScope,
-              address: res.data[0].Address,
-              updatedate: res.data[0].UpdateDate,
-              category1: res.data[0].Category1,
-              category2: res.data[0].Category2,
-              category3: res.data[0].Category3,
-              keywords: res.data[0].KeyWords,
+              cardbg: fliter[0].CardBg,
+              tempbg: [fliter[0].CardBg],
+              companylogo: fliter[0].CompanyLogo,
+              templogo: [fliter[0].CompanyLogo],
+              cardimages: fliter[0].CardImages,
+              tempimages: fliter[0].CardImages,
+              companyname: fliter[0].CompanyName,
+              username: fliter[0].UserName,
+              handphone: fliter[0].Handphone,
+              title: fliter[0].Title,
+              wechat: fliter[0].WeChat,
+              email: fliter[0].Email,
+              website: fliter[0].Website,
+              telephone: fliter[0].Telephone,
+              businessscope: fliter[0].BusinessScope,
+              address: fliter[0].Address,
+              updatedate: fliter[0].UpdateDate,
+              category1: fliter[0].Category1,
+              category2: fliter[0].Category2,
+              category3: fliter[0].Category3,
+              keywords: fliter[0].KeyWords,
             })
             console.log("查询到名片")
           },
