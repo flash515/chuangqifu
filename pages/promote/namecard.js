@@ -152,7 +152,7 @@ Page({
               fliter[0].CardBg = res.fileList[0].tempFileURL
             }
           })
-          if (res.data[0].CardImages[0] != "") {
+          if (res.data[0].CardImages[0] != "" && res.data[0].CardImages[0] !=undefined) {
             var filelist = res.data[0].CardImages
             await c1.getTempFileURL({
               fileList: filelist
@@ -225,7 +225,7 @@ Page({
                 fliter[0].CardBg = res.fileList[0].tempFileURL
               }
             })
-            if (res.data[0].CardImages[0] != "") {
+            if (res.data[0].CardImages[0] != "" && res.data[0].CardImages[0] !=undefined) {
               var filelist = res.data[0].CardImages
               await c1.getTempFileURL({
                 fileList: filelist
@@ -273,7 +273,7 @@ Page({
                   fliter[0].CardBg = res.fileList[0].tempFileURL
                 }
               })
-              if (res.data[0].CardImages[0] != "") {
+              if (res.data[0].CardImages[0] != "" && res.data[0].CardImages[0] !=undefined) {
                 var filelist = res.data[0].CardImages
                 await c1.getTempFileURL({
                   fileList: filelist

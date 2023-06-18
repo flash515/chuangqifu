@@ -1,7 +1,6 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/index/home",
     "pages/product/allproduct",
     "pages/product/productview",
     "pages/product/productdetail",
@@ -98,7 +97,7 @@
     "borderStyle": "black",
     "list": [
       {
-        "pagePath": "pages/index/home",
+        "pagePath": "pages/index/index",
         "iconPath": "/img/home.png",
         "selectedIconPath": "/img/home1.png",
         "text": "首页"

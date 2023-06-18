@@ -1,2 +1,4 @@
-/**index.wxss**/
-Page{text-align:center}
+
+.grid-item{
+  padding: 15rpx !important;
+}
