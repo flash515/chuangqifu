@@ -236,35 +236,28 @@ async function _setting() { // 通过本地数据库查询指令取得小程序�
   });
   return promise;
 }
-
-function _login() { // 获取当前用户本人的小程序unionid
+async function _login() { // 通过云函数查询在售商品
   var promise = new Promise((resolve, reject) => {
-    console.log("login执行了")
     wx.login({
       success: res => {
         console.log("用户code:", res.code)
-        wx.request({
-          method: 'GET',
-          url: 'https://api.weixin.qq.com/sns/jscode2session',
-          data: {
-            js_code: res.code,
-            appid: "wxf43d2aed3e5b6370",
-            secret: "f880fc2af3f06d340166b0750cac2a78",
-            grant_type: "authorization_code"
-          },
-          success: function (res) {
-            console.log("res", res.data)
-            // userid使用unionid
-            app.globalData.Guserid = res.data.unionid
-            console.log("用户unionid:", app.globalData.Guserid)
-            resolve(res.data.unionid)
-          },
-          fail: function (res) {
-            console.log("fail", res);
-          }
+        CloudInit(function (c1) {
+          c1.callFunction({
+            name: "CQFLogin",
+            data: {
+              code: res.code,
+         },
+            success: res => {
+              console.log(res)
+              app.globalData.Guserid = res.result.unionid
+              resolve(res.result.unionid)
+            }
+          })
         })
       }
     })
+    console.log("login执行了")
+
   });
   return promise;
 }
@@ -357,6 +350,8 @@ function _newuser(params, remark) {
 
 function _newuserpoints() {
   var promise = new Promise((resolve, reject) => {
+    CloudInit(function (c1) {
+      const db = c1.database()
     db.collection("POINTS").add({
       data: {
         PointsType: "promote",
@@ -375,6 +370,7 @@ function _newuserpoints() {
         resolve(res)
       },
     })
+  })
   });
   return promise;
 }
@@ -402,7 +398,7 @@ async function _productcheck() { // 通过云函数查询在售商品
               fileList: res.result.data[i].ProductImage,
             }).then(res => {
               fliter[i].ProductImage = [res.fileList[0].tempFileURL]
-              if (i+1 == fliter.length) {
+              if (i + 1 == fliter.length) {
                 console.log("执行了", fliter)
                 app.globalData.Gproduct = fliter
                 resolve(fliter)
