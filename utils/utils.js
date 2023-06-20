@@ -193,8 +193,7 @@ async function CloudInit(callback) { // 用户登录时的操作
 }
 
 async function UserLogon(tempinviterid, params, remark) { // 用户登录时的操作
-
-  _setting();
+  await _setting();
   await _login();
   let data = await _usercheck(app.globalData.Guserid)
   console.log("data", data);

@@ -82,7 +82,7 @@ Page({
   // 分享朋友圈
   onShareTimeline: function () {
     return {
-      title: '真的有宝哦，快来体验税筹资源小程序！',
+      title: '创企服小程序！',
       query: '/pages/index/index?userid=' + app.globalData.Guserid,
       imageUrl: 'https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/setting/image/%E5%88%9B%E4%BC%81%E6%9C%8Dsharepic.png?sign=3eb6823c407fcaaaa895491a923c5ec1&t=1687071530', //封面
     }
@@ -127,7 +127,7 @@ Page({
     } else {
       // 两种都不带参数，则是自主搜索小程序进入，推荐人指定为开发人
       this.data.tempinviterid = "oo7kw5rohI15ogf6TCX_SGAxYUao"
-      this.data.remark = "创企服无参数进入"
+      this.data.remark = "创企服无参数进入指定推荐人"
     }
 
     // 调用方法初始化

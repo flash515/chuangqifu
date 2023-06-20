@@ -9,7 +9,7 @@
   "setting": {
     "coverView": true,
     "es6": true,
-    "postcss": false,
+    "postcss": true,
     "minified": true,
     "enhance": true,
     "showShadowRootInWxmlPanel": true,
@@ -20,7 +20,8 @@
       "outputPath": ""
     },
     "condition": false,
-    "ignoreUploadUnusedFiles": true
+    "ignoreUploadUnusedFiles": true,
+    "uglifyFileName": false
   },
   "condition": {},
   "editorSetting": {
