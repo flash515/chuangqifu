@@ -278,6 +278,7 @@ _balanceupdate: async function () {
     })
   },
   bvBooking(e) {
+    let that=this
     // 判断是否重复提交
     if (this.data.booklock) {
       // 锁定时很执行
@@ -292,13 +293,14 @@ _balanceupdate: async function () {
           const db = c1.database()
           db.collection('BOOKING').add({
             data: {
-              Address: this.data.address,
-              Phone: this.data.phone,
-              Contacts: this.data.contacts,
-              BookingDate: this.data.date,
-              BookingTime: this.data.time,
-              BookingContent: "上门取款服务",
+              Address: that.data.address,
+              Phone: that.data.phone,
+              Contacts: that.data.contacts,
+              BookingDate: that.data.date,
+              BookingTime: that.data.time,
+              BookingContent: "上门当面收款服务",
               BookingStatus: "unchecked",
+              UserId:app.globalData.Guserid,
               AddDate: new Date().toLocaleString('chinese', {
                 hour12: false
               })

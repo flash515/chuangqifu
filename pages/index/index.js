@@ -60,7 +60,7 @@ Page({
       console.log(res.target)
     }
     return {
-      title: app.globalData.Guserdata.UserInfo.nickName + '邀请您体验：',
+      title: '邀请您体验创企服小程序：',
       path: '/pages/index/index?userid=' + app.globalData.Guserid,
       imageUrl: 'https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/setting/image/%E5%88%9B%E4%BC%81%E6%9C%8Dsharepic.png?sign=3eb6823c407fcaaaa895491a923c5ec1&t=1687071530', //封面
       success: function (res) {

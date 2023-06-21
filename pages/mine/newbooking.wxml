@@ -1,52 +1,43 @@
-<view>
-  <swiper class="swiper" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" circular="{{circular}}"
-    vertical="{{vertical}}" interval="{{interval}}" duration="{{duration}}" previous-margin="{{previousMargin}}px"
-    next-margin="{{nextMargin}}px">
-    <block wx:for="{{image}}" wx:for-index="index">
-      <navigator url="{{item.link}}">
-      <swiper-item>
-        <image src="{{item.image_url}}" class="swiper image" mode="scaleToFill" />
-      </swiper-item>
-    </navigator>
-    </block>
-  </swiper>
-</view>
+<!-- 轮播头图 -->
+<Swiper class="swiper" image="{{image}}"></Swiper>
 <view class="title">
   <text>新增/修改预约</text>
 </view>
 <view class="mainframe">
-  <label>预约事项：</label>
+  <label class="labal">预约事项：</label>
   <l-radio-group bind:linchange="bvContent" current="{{content}}" none-checked="{{false}}" select-color="green"
     placement="row">
-    <l-radio key="业务沟通拜访">业务沟通拜访</l-radio>
+    <l-radio key="业务沟通">业务沟通</l-radio>
     <view><text decode="{{true}}">&emsp;&emsp;&emsp;&emsp;</text></view>
-    <l-radio key="上门取款服务">上门取款服务</l-radio>
+    <l-radio key="上门收款服务">上门收款服务</l-radio>
   </l-radio-group>
+  <view class="line"></view>
   <l-input type="text" label="创建日期：" value="{{adddate}}" disabled="{{true}}"></l-input>
-
   <l-input type="text" label="联系人：" value="{{contacts}}" bind:lininput="bvContacts"></l-input>
   <l-input type="text" label="联系电话：" value="{{phone}}" bind:lininput="bvPhone"></l-input>
   <l-input type="text" label="预约地址：" value="{{address}}" bind:lininput="bvAddress"></l-input>
   <picker mode="date" value="{{date}}" start="{{startdate}}" bindchange="bvDate">
     <view class="picker">
-      <text class="text">预约日期：{{date}}</text>
+      <text class="labal">预约日期：{{date}}</text>
     </view>
   </picker>
+  <view class="line"></view>
   <picker mode="time" value="{{time}}" start="10:00" end="17:00" bindchange="bvTime">
     <view class="picker">
-      <text class="text">预约时间：{{time}}</text>
+      <text class="labal">预约时间：{{time}}</text>
     </view>
   </picker>
-  <view wx:if="{{status=='unchecked'}}">预约状态：待确认</view>
-  <view wx:if="{{status=='checked'}}">预约状态：已确认</view>
-  <view wx:if="{{status=='canceled'}}">预约状态：已取消</view>
-  <view style="display:flex; flex-direction:row;">
-    <view wx:if="{{pageParam.id.length}}">
-      <l-button type="default" bind:lintap="bvUpdateData" icon="to-top" icon-color="white" shape="semicircle">更新信息
-      </l-button>
+  <view class="line"></view>
+  <view wx:if="{{status=='unchecked'}}" class="labal">预约状态：待确认</view>
+  <view wx:if="{{status=='checked'}}" class="labal">预约状态：已确认</view>
+  <view wx:if="{{status=='canceled'}}" class="labal">预约状态：已取消</view>
+  <view class="line"></view>
+  <text>\n</text>
+  <view wx:if="{{bookingid}}" style="display:flex; flex-direction:row;justify-content: center;">
+      <l-button class="mainbtn" icon="to-top" icon-color="#3683d6" type="default" shape="semicircle" plain="{{true}}" width="600" bind:lintap="bvUpdateData">更新信息</l-button>
     </view>
     <view wx:else>
-      <l-button type="default" bindtap="bvBooking" icon="to-top" icon-color="white" shape="semicircle">提交信息</l-button>
+      <l-button class="mainbtn" icon="add" icon-color="#3683d6" type="default" shape="semicircle" plain="{{true}}" width="600" bind:lintap="bvBooking">提交信息</l-button>
     </view>
-  </view>
+
 </view>

@@ -1,12 +1,14 @@
 const app = getApp()
 const { startToTrack, startByClick, startByBack } = require("../../utils/track");
 const track = require("../../utils/track");
+const utils = require("../../utils/utils");
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
+    bookingid:"",
     booklock: false,
     adddate: "",
     address: "",
@@ -17,14 +19,6 @@ Page({
     content: "",
     // 轮播头图
     image: [],
-    indicatorDots: true,
-    vertical: false,
-    autoplay: true,
-    circular: true,
-    interval: 4000,
-    duration: 500,
-    previousMargin: 0,
-    nextMargin: 0
   },
   bvTime(e) {
     this.setData({
@@ -61,11 +55,8 @@ Page({
     // 判断是否重复提交
     if (this.data.booklock) {
       // 锁定时很执行
-      wx.showToast({
-        title: '请勿重复提交',
-        icon: 'error',
-        duration: 2000 //持续的时间
-      })
+      utils._ErrorToast('请勿重复提交')
+
     } else {
       // 未锁定时执行
       // 获取数据库引用
@@ -81,23 +72,14 @@ Page({
             BookingTime: this.data.time,
             BookingContent: this.data.content,
             BookingStatus: "unchecked",
+            UserId:app.globalData.Guserid,
             AddDate: new Date().toLocaleString('chinese',{ hour12: false })
           },
           success: res => {
-            console.log('预约提交成功', res.data)
-            wx.showToast({
-              title: '预约提交成功',
-              icon: 'success',
-              duration: 2000 //持续的时间
-            })
+            utils._SuccessToast('预约提交成功')
           },
           fail: res => {
-            console.log("提交失败", res)
-            wx.showToast({
-              title: '预约提交失败',
-              icon: 'error',
-              duration: 2000 //持续的时间
-            })
+            utils._ErrorToast('预约提交失败')
           }
         }),
         that.data.booklock = true // 修改上传状态为锁定
@@ -108,32 +90,22 @@ Page({
     let that = this
     utils.CloudInit(function (c1) {
       const db = c1.database()
-    db.collection('BOOKING').doc(this.data.pageParam.id).update({
+    db.collection('BOOKING').doc(that.data.bookingid).update({
         data: {
-          BookingContent: this.data.content,
-          Address: this.data.address,
-          Phone: this.data.phone,
-          Contacts: this.data.contacts,
-          BookingDate: this.data.date,
-          BookingTime: this.data.time,
+          BookingContent: that.data.content,
+          Address: that.data.address,
+          Phone: that.data.phone,
+          Contacts: that.data.contacts,
+          BookingDate: that.data.date,
+          BookingTime: that.data.time,
           BookingStatus: "unchecked",
           UpdateDate: new Date().toLocaleString('chinese',{ hour12: false })
         },
         success: res => {
-          console.log('预约更新成功', res.data)
-          wx.showToast({
-            title: '预约更新成功',
-            icon: 'success',
-            duration: 2000 //持续的时间
-          })
+          utils._SuccessToast('预约更新成功')
         },
         fail: res => {
-          console.log("更新失败", res)
-          wx.showToast({
-            title: '预约更新失败',
-            icon: 'error',
-            duration: 2000 //持续的时间
-          })
+          utils._ErrorToast('预约更新失败')
         }
       })
     })
@@ -145,19 +117,19 @@ Page({
     console.log(options)
     var str = new Date()
     this.setData({
-      pageParam: options,
+      bookingid: options.id,
       image: app.globalData.Gimagearray,
       startdate: str.getFullYear() + "-" + (str.getMonth() + 1) + "-" + str.getDate()
     })
-    console.log(this.data.pageParam.id.length)
-    if (this.data.pageParam.id.length != 0 && this.data.pageParam.id.length != null) {
+    console.log(this.data.bookingid)
+    if (this.data.bookingid != "" && this.data.bookingid != undefined) {
       let that = this
       utils.CloudInit(function (c1) {
         const db = c1.database()
-      db.collection('BOOKING').doc(this.data.pageParam.id).get({
+      db.collection('BOOKING').doc(that.data.bookingid).get({
         success: res => {
           console.log(res)
-          this.setData({
+          that.setData({
             adddate: res.data.AddDate,
             content: res.data.BookingContent,
             date: res.data.BookingDate,
@@ -172,7 +144,7 @@ Page({
     })
     } else {
       this.setData({
-        content: "业务沟通拜访"
+        content: "业务沟通"
       })
     }
   },

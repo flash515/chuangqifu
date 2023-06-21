@@ -1,24 +1,12 @@
-<view>
-  <swiper class="swiper" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" circular="{{circular}}"
-    vertical="{{vertical}}" interval="{{interval}}" duration="{{duration}}" previous-margin="{{previousMargin}}px"
-    next-margin="{{nextMargin}}px">
-    <block wx:for="{{image}}" wx:for-index="index" wx:key="key">
-      <navigator url="{{item.link}}">
-      <swiper-item>
-        <image src="{{item.image_url}}" class="swiper image" mode="scaleToFill" />
-      </swiper-item>
-    </navigator>
-    </block>
-  </swiper>
-</view>
+<!-- 轮播头图 -->
+<Swiper class="swiper" image="{{image}}"></Swiper>
 <view class="title">
   <text>预约管理</text>
 </view>
 
-<l-button class="mainbtn" icon="add" icon-color="#3683d6" type="default" shape="semicircle" plain="{{true}}" width="600"
-  bind:lintap="bvNewBooking">新增预约</l-button>
+<l-button class="mainbtn" icon="add" icon-color="#3683d6" type="default" shape="semicircle" plain="{{true}}" width="600" bind:lintap="bvNewBooking">新增预约</l-button>
 
-<view wx:for="{{bookingarray}}" wx:key="key">
+<view wx:for="{{bookingarray}}" wx:key="index" style="font-size: 28rpx;">
   <l-card type="primary" plaintext="{{true}}">
     <view>创建日期：{{item.AddDate}}</view>
     <view>预约事项：{{item.BookingContent}}</view>
@@ -32,8 +20,8 @@
     <view wx:if="{{item.BookingStatus=='canceled'}}">预约状态：已取消</view>
     <view wx:if="{{item.BookingStatus=='canceled' || item.BookingStatus=='done'}}"></view>
     <view wx:else>
-      <view style="display:flex; flex-direction:row;" hidden="{{btnhidden}}">
-        <l-button bind:lintap="bvBookingCancel" data-id="{{item._id}}" shape="semicircle" plain="{{true}}">取消预约
+      <view style="display:flex; flex-direction:row;justify-content:space-between;" hidden="{{btnhidden}}">
+        <l-button bind:lintap="bvBookingCancel" data-id="{{item._id}}" data-index="{{index}}" shape="semicircle" plain="{{true}}">取消预约
         </l-button>
         <view><text decode="{{true}}">&emsp;</text></view>
         <l-button data-id="{{item._id}}" bind:lintap="bvBookingChange" shape="semicircle" plain="{{true}}">修改预约

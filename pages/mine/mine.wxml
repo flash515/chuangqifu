@@ -102,6 +102,7 @@
   <l-list id="我的信息" bind:lintap="handlerClick" title="我的信息" icon="user" url="../mine/userinfo" />
   <l-list id="小程序消息订阅" bind:lintap="handlerClick" title="小程序消息订阅" icon="notification" bind:lintap="bvSubMessage" />
   <view wx:if="{{userphone != ''}}">
+    <l-list id="我的预约" bind:lintap="handlerClick" title="我的预约" icon="user" url="../mine/booking" />
     <l-list id="推广详情" bind:lintap="handlerClick" title="推广详情" icon="user" url="../mine/shareuser" />
     <l-list id="成为服务商" bind:lintap="handlerClick" title="成为服务商" icon="setting" url="../mine/providerapply" />
     <l-list id="成为代理商" bind:lintap="handlerClick" title="成为代理商" icon="setting" url="../mine/agentapply" />

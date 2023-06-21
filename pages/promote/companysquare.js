@@ -51,48 +51,49 @@ Page({
     let that = this
     utils.CloudInit(function (c1) {
       const db = c1.database()
-    const _ = db.command
-    db.collection('NAMECARD').where(
-      _.or([{
-          KeyWords: {
-            $regex: '.*' + e.detail.value,
-            $options: 'i'
-          }
-        },
-        {
-          CompanyName: {
-            $regex: '.*' + e.detail.value,
-            $options: 'i'
-          }
-        },
-        {
-          Category1: {
-            $regex: '.*' + e.detail.value,
-            $options: 'i'
-          }
-        },
-        {
-          Category2: {
-            $regex: '.*' + e.detail.value,
-            $options: 'i'
-          }
-        },
-        {
-          Category3: {
-            $regex: '.*' + e.detail.value,
-            $options: 'i'
-          }
-        },
+      const _ = db.command
+      db.collection('NAMECARD').where(
+        _.or([{
+            KeyWords: {
+              $regex: '.*' + e.detail.value,
+              $options: 'i'
+            }
+          },
+          {
+            CompanyName: {
+              $regex: '.*' + e.detail.value,
+              $options: 'i'
+            }
+          },
+          {
+            Category1: {
+              $regex: '.*' + e.detail.value,
+              $options: 'i'
+            }
+          },
+          {
+            Category2: {
+              $regex: '.*' + e.detail.value,
+              $options: 'i'
+            }
+          },
+          {
+            Category3: {
+              $regex: '.*' + e.detail.value,
+              $options: 'i'
+            }
+          },
 
-      ])
-    ).get({
-      success: res => {
-        that.setData({
-          cards: res.data,
-        })
-      }
+        ])
+      ).get({
+        success: res => {
+          console.log("查询结果",res)
+          that.setData({
+            cards: res.data,
+          })
+        }
+      })
     })
-  })
   },
   // 展示弹框
   getbox: function () {
@@ -119,26 +120,26 @@ Page({
     })
     let that = this
     utils.CloudInit(function (c1) {
-    c1.callFunction({
-      name: "NormalQuery",
-      data: {
-        collectionName: "NAMECARD",
-        command: "and",
-        where: [{
-          Category1: that.data.category1
-        }, {
-          Category2: that.data.category2
-        }, {
-          Category3: that.data.category3
-        }]
-      },
-      success: res => {
-        that.setData({
-          cards: res.result.data
-        })
-      }
+      c1.callFunction({
+        name: "NormalQuery",
+        data: {
+          collectionName: "NAMECARD",
+          command: "and",
+          where: [{
+            Category1: that.data.category1
+          }, {
+            Category2: that.data.category2
+          }, {
+            Category3: that.data.category3
+          }]
+        },
+        success: res => {
+          that.setData({
+            cards: res.result.data
+          })
+        }
+      })
     })
-  })
   },
   changeCategory1: function (e) {
     const val = e.detail.value
@@ -190,46 +191,46 @@ Page({
       // 本地函数查询名片信息
       utils.CloudInit(function (c1) {
         const db = c1.database()
-      // 登记本人名片
-      db.collection('NameCardViewed').add({
-        data: {
-          sysAddDate:new Date().getTime(),
-          AddDate: new Date().toLocaleString('chinese', {
-            hour12: false
-          }),
-          NameCardCreatorId: e.detail.cell.CreatorId,
-          ViewerId: app.globalData.Guserid,
-          ViewerCompany: this.data.mycard.CompanyName,
-          ViewerName: this.data.mycard.UserName,
-          ViewerTitle: this.data.mycard.Title,
-          ViewerHandPhone: this.data.mycard.Handphone,
-        },
-        success: res => {
-          console.log("被查看信息添加了")
-        }
+        // 登记本人名片
+        db.collection('NameCardViewed').add({
+          data: {
+            sysAddDate: new Date().getTime(),
+            AddDate: new Date().toLocaleString('chinese', {
+              hour12: false
+            }),
+            NameCardCreatorId: e.detail.cell.CreatorId,
+            ViewerId: app.globalData.Guserid,
+            ViewerCompany: this.data.mycard.CompanyName,
+            ViewerName: this.data.mycard.UserName,
+            ViewerTitle: this.data.mycard.Title,
+            ViewerHandPhone: this.data.mycard.Handphone,
+          },
+          success: res => {
+            console.log("被查看信息添加了")
+          }
+        })
       })
-    })
 
     }
 
   },
   _viewadd(creatorid) {
     utils.CloudInit(function (c1) {
-    c1.callFunction({
-      name: "DataRise",
-      data: {
-        collectionName: "NAMECARD",
-        key: "CreatorId",
-        value: creatorid,
-        key1: "View",
-        value1: 1
-      },
-      success: res => {
-        console.log("浏览量已更新", res)
+      c1.callFunction({
+        name: "DataRise",
+        data: {
+          collectionName: "NAMECARD",
+          key: "CreatorId",
+          value: creatorid,
+          key1: "View",
+          value1: 1
+        },
+        success: res => {
+          console.log("浏览量已更新", res)
 
-      }
+        }
+      })
     })
-  })
   },
   // 长按号码响应函数
   bvPhoneNumTap: function () {
@@ -244,15 +245,15 @@ Page({
     let that = this
     utils.CloudInit(function (c1) {
       const db = c1.database()
-    db.collection('NameCardSetting').doc('0122a5876443793e098bd33e0045f553').get({
-      success: res => {
-        this.setData({
-          businesssortarray: res.data.BusinessSortArray
-        })
-        console.log("行业类别更新成功")
-      }
+      db.collection('NameCardSetting').doc('0122a5876443793e098bd33e0045f553').get({
+        success: res => {
+          that.setData({
+            businesssortarray: res.data.BusinessSortArray
+          })
+          console.log("行业类别更新成功")
+        }
+      })
     })
-  })
     this.setData({
       image: app.globalData.Gimagearray,
       userphone: app.globalData.Guserdata.UserInfo.UserPhone,
@@ -264,18 +265,17 @@ Page({
     // })
     if (app.globalData.Guserdata.NameCardStatus == "Published") {
       // 本地函数查询名片信息
-      let that = this
       utils.CloudInit(function (c1) {
         const db = c1.database()
-      db.collection('NAMECARD').where({
-        CreatorId: app.globalData.Guserid
-      }).get({
-        success: res => {
-          // 登记本人名片
-          that.data.mycard = res.data[0]
-        }
+        db.collection('NAMECARD').where({
+          CreatorId: app.globalData.Guserid
+        }).get({
+          success: res => {
+            // 登记本人名片
+            that.data.mycard = res.data[0]
+          }
+        })
       })
-    })
     }
 
   },

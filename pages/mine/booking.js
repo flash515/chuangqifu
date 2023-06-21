@@ -1,5 +1,5 @@
 const app = getApp()
-
+const utils = require("../../utils/utils");
 Page({
 
   /**
@@ -13,45 +13,37 @@ Page({
     data: "",
     time: "",
     status: "",
-    btnhidden:false,
+    btnhidden: false,
     // 轮播头图
     image: [],
-    indicatorDots: true,
-    vertical: false,
-    autoplay: true,
-    circular: true,
-    interval: 4000,
-    duration: 500,
-    previousMargin: 0,
-    nextMargin: 0
+
   },
   bvBookingCancel(e) {
     console.log(e.currentTarget.dataset.id)
+    console.log(e.currentTarget.dataset.index)
     let that = this
     utils.CloudInit(function (c1) {
       const db = c1.database()
-    db.collection('BOOKING').doc(e.currentTarget.dataset.id).update({
+      db.collection('BOOKING').doc(e.currentTarget.dataset.id).update({
         data: {
           BookingStatus: "canceled"
         },
-      success: res => {
-        console.log(res)
-        that.setData({
-          btnhidden:true
-        })
-        wx.showToast({
-          title: '当前预约已取消',
-          icon: 'success',
-          duration: 2000 //持续的时间
-        })
-      }
+        success: res => {
+          console.log(res)
+          that.data.bookingarray[e.currentTarget.dataset.index].BookingStatus = "canceled"
+          that.setData({
+            btnhidden: true,
+            bookingarray: that.data.bookingarray
+          })
+          utils._SuccessToast('当前预约已取消')
+        }
+      })
     })
-  })
   },
-  bvNewBooking(e){
-wx.navigateTo({
-  url: '../mine/newbooking',
-})
+  bvNewBooking(e) {
+    wx.navigateTo({
+      url: '../mine/newbooking',
+    })
   },
   bvBookingChange(e) {
     console.log(e.currentTarget.dataset.id)
@@ -69,16 +61,16 @@ wx.navigateTo({
     let that = this
     utils.CloudInit(function (c1) {
       const db = c1.database()
-    db.collection('BOOKING').where({
-      UserId: app.globalData.Guserid,
-    }).get({
-      success: res => {
-        that.setData({
-          bookingarray: res.data,
-        })
-      },
+      db.collection('BOOKING').where({
+        UserId: app.globalData.Guserid,
+      }).get({
+        success: res => {
+          that.setData({
+            bookingarray: res.data,
+          })
+        },
+      })
     })
-  })
   },
 
   /**
@@ -106,7 +98,7 @@ wx.navigateTo({
   /**
    * 生命周期函数--监听页面卸载
    */
-    onUnload: function () {
+  onUnload: function () {
 
   },
 
@@ -117,16 +109,16 @@ wx.navigateTo({
     let that = this
     utils.CloudInit(function (c1) {
       const db = c1.database()
-    db.collection('BOOKING').where({
-      UserId: app.globalData.Guserid,
-    }).get({
-      success: res => {
-        that.setData({
-          bookingarray: res.data,
-        })
-      },
+      db.collection('BOOKING').where({
+        UserId: app.globalData.Guserid,
+      }).get({
+        success: res => {
+          that.setData({
+            bookingarray: res.data,
+          })
+        },
+      })
     })
-  })
     wx.stopPullDownRefresh()
   },
 

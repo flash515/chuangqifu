@@ -72,6 +72,9 @@
     <l-checkbox-group bind:linchange="bvPrivate">
       <l-checkbox placement="right" key="1" l-class="checkbox" checked="{{private}}">非公开发布(只能通过资讯分享链接打开)</l-checkbox>
     </l-checkbox-group>
+    <l-checkbox-group bind:linchange="bvMemberOnly">
+      <l-checkbox placement="right" key="1" l-class="checkbox" checked="{{memberonly}}">仅限会员可见</l-checkbox>
+    </l-checkbox-group>
   </view>
   <text>\n</text>
   <view style="display:flex; flex-direction:row; justify-content:space-between;">

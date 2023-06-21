@@ -25,7 +25,7 @@
       <view>
         <text user-select="true" space="emsp">户 名：深圳市南山区商企服务中心</text>
       </view>
-      <view><text user-select="true" space="emsp">卡 号：79180078801500001985</text></view>
+      <view><text user-select="true" space="emsp">账 号：79180078801500001985</text></view>
       <view><text user-select="true" space="emsp">开户行：上海浦东发展银行深圳沙井支行</text></view>
     </l-card>
   </l-collapse-item>
@@ -35,7 +35,7 @@
   <l-collapse-item title="预约当面转账">
     <l-card type="cover" plaintext="{{true}}">
       <view>
-        <text space="emsp" decode="{{true}}">  超过一千元的款项创企服可提供当面转账服务，目前仅支持粤港澳大湾区范围，客户如需当面转账服务，请提供联系人详细地址信息并预约时间。</text>
+        <text space="emsp" decode="{{true}}">  超过5000元的款项创企服可提供上门收取款服务，目前支持广州市、深圳市、东莞市、惠州市范围，客户如需上门收取款服务，请提供联系人详细地址信息并预约时间。</text>
       </view>
     </l-card>
       <l-card type="cover" plaintext="{{true}}">

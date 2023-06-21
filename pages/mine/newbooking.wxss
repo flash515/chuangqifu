@@ -1,1 +1,12 @@
-/* pages/mine/newbooking.wxss */
+.labal {
+  font-size: 28rpx;
+  color: rgb(0, 0, 0);
+  margin-left: 25rpx;
+  line-height:80rpx;
+}
+.line {
+  margin-left: 0rpx;
+  margin-right: 0rpx;
+  height: 0.5px;
+  background-color: #f3f3f3;
+}

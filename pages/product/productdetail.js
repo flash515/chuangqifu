@@ -15,9 +15,9 @@ Page({
     time: "获取验证码",
 
     //通过对页面内容分区域设置隐藏，达到分栏显示效果,hidden要反着写，显示的值为false,不显示的值为true
-    DetailHidden: false,
-    Hidden: true,
-    AttachmentHidden: true,
+    DetailShow: true,
+    QAShow: false,
+    AttachmentShow: false,
     pageParam: [],
     productid: "",
     usertype: "client",
@@ -70,23 +70,23 @@ Page({
 
   bvDetailView() {
     this.setData({
-      DetailHidden: false,
-      QAHidden: true,
-      AttachmentHidden: true,
+      DetailShow: true,
+      QAShow: false,
+      AttachmentShow: false,
     })
   },
   bvQAView() {
     this.setData({
-      DetailHidden: true,
-      QAHidden: false,
-      AttachmentHidden: true,
+      DetailShow: false,
+      QAShow: true,
+      AttachmentShow: false,
     })
   },
   bvAttachmentView() {
     this.setData({
-      DetailHidden: true,
-      QAHidden: true,
-      AttachmentHidden: false,
+      DetailShow: false,
+      QAShow: false,
+      AttachmentShow: true,
     })
   },
 
