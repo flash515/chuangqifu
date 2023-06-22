@@ -8,6 +8,7 @@
     "pages/manage/productview",
     "pages/manage/userview",
     "pages/manage/infomanage",
+    "pages/manage/infosharemanage",
     "pages/manage/commentmanage",
     "pages/manage/scheme",
     "pages/manage/manageindex",

@@ -8,10 +8,10 @@ Page({
    * 页面的初始数据
    */
   data: {
-        // 初始化相关
-        params: {},
-        tempinviterid: "",
-        remark: "",
+    // 初始化相关
+    params: {},
+    tempinviterid: "",
+    remark: "",
     // 登录框相关变量
     loginshow: false,
     loginbtnshow: false,
@@ -93,6 +93,9 @@ Page({
   //  */
   onLoad: async function (options) {
     let that = this
+    wx.showLoading({
+      title: '加载中',
+    })
     var c1 = new wx.cloud.Cloud({
       // 资源方 AppID
       resourceAppid: 'wx810b87f0575b9a47',
@@ -182,7 +185,7 @@ Page({
         usertype: "管理员"
       })
     }
-
+    wx.hideLoading()
     utils.CloudInit(function (c1) {
       const db = c1.database()
       db.collection('notice').where({
@@ -201,6 +204,7 @@ Page({
         }
       })
     })
+
   },
 
 

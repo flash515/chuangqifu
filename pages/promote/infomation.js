@@ -285,13 +285,11 @@ Page({
         }]
       },
       success: res => {
-        console.log(res)
         that.setData({
           comments: res.result.data
         })
       },
       fail: res => {
-        console.log(res)
         that.setData({
           comments: []
         })

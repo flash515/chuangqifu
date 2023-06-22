@@ -61,7 +61,7 @@
     </navigator>
   </l-grid-item>
   <l-grid-item key="seven" slot="seven">
-    <navigator url="../manage/infomanage">
+    <navigator url="../manage/infosharemanage">
       <view class="num">{{infosharecheck.length}}/{{infosharearray.length}}</view>
       <view class="text">待审/分享</view>
     </navigator>
@@ -123,8 +123,8 @@
     <l-list title="快捷推广" icon="user" url="../promote/express" />
     <l-list title="待办事项" icon="setting" url="../manage/pending" />
     <l-list title="用户管理" icon="setting" url="../manage/userview" />
-    <l-list title="资讯分享管理" icon="setting" url="../manage/infomanage" />
-    <l-list title="资讯管理" icon="setting" url="../manage/infomanage" />
+    <l-list title="资讯分享管理" icon="setting" url="../manage/infosharemanage" />
+    <l-list title="供求简讯管理" icon="setting" url="../manage/infomanage" />
     <l-list title="评论管理" icon="setting" url="../manage/commentmanage" />
     <l-list title="税筹项目管理" icon="setting" url="../manage/scheme" />
     <l-list title="商品类别管理" icon="setting" url="../manage/sortedit" />
@@ -133,7 +133,6 @@
     <l-list title="客户订阅消息发送" icon="setting" url="../manage/messgae" />
     <l-list title="名片编辑" icon="user" url="../promote/namecardedit" />
     <l-list title="资讯编辑" icon="user" url="../promote/infoshareedit" />
-    <l-list title="供求信息编辑" icon="user" url="../promote/infoedit" />
     <l-list title="测试页面" icon="address" url="../test/test1" />
   </l-card>
 </view>
