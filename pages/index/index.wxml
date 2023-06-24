@@ -99,7 +99,7 @@
     </l-grid-item>
 
     <l-grid-item key='three' slot='three' l-grid-item-class="grid-item">
-      <navigator id="资讯分享" bindtap="handlerClick" url='../promote/infoshare'>
+      <navigator id="资讯分享" bindtap="handlerClick" url='../promote/mediashare'>
         <l-icon name='order' />
         <view class="text">资讯分享</view>
       </navigator>

@@ -8,7 +8,7 @@
     "pages/manage/productview",
     "pages/manage/userview",
     "pages/manage/infomanage",
-    "pages/manage/infosharemanage",
+    "pages/manage/mediamanage",
     "pages/manage/commentmanage",
     "pages/manage/scheme",
     "pages/manage/manageindex",
@@ -42,10 +42,9 @@
     "pages/promote/namecard",
     "pages/promote/infomation",
     "pages/promote/infoedit",
-    "pages/promote/infoshare",
-    "pages/promote/infoshareedit",
+    "pages/promote/mediashare",
+    "pages/promote/mediaedit",
     "pages/promote/companysquare",
-    "pages/promote/infosquare",
     "pages/promote/express",
     "pages/promote/luckydraw"
 

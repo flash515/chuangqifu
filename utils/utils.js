@@ -925,7 +925,9 @@ async function _UploadFile(file, path) {
   var promise = new Promise((resolve, reject) => {
     const filePath = file
     const cloudPath = path + file.match(/\.[^.]+?$/)
-    wx.cloud.uploadFile({
+    let _this = this;
+    CloudInit(function (c1) {
+    c1.uploadFile({
       cloudPath,
       filePath,
       success: res => {
@@ -933,6 +935,7 @@ async function _UploadFile(file, path) {
         resolve(res.fileID)
       }
     })
+  })
   });
   return promise;
 }
@@ -946,7 +949,9 @@ async function _UploadFiles(filelist, cloudpath) {
       tempfiles = tempfiles.concat(new Promise((resolve, reject) => {
         const filePath = filelist[i]
         const cloudPath = cloudpath + [i + 1] + filePath.match(/\.[^.]+?$/)
-        wx.cloud.uploadFile({
+        let _this = this;
+        CloudInit(function (c1) {
+        c1.uploadFile({
           cloudPath,
           filePath,
           success: res => {
@@ -954,6 +959,7 @@ async function _UploadFiles(filelist, cloudpath) {
             resolve(res.fileID)
           }
         })
+      })
       }))
     }
     Promise.all(tempfiles).then(res => {
@@ -967,7 +973,9 @@ async function _UploadFiles(filelist, cloudpath) {
 }
 async function getTempFileURL(filelist) {
   var promise = new Promise((resolve, reject) => {
-    wx.cloud.getTempFileURL({
+    let _this = this;
+    CloudInit(function (c1) {
+    c1.getTempFileURL({
       fileList: filelist,
       success: res => {
         // get temp file URL
@@ -978,17 +986,21 @@ async function getTempFileURL(filelist) {
         // handle error
       }
     })
+  })
   });
   return promise;
 }
 
 async function _RemoveFiles(filelist) {
-  wx.cloud.deleteFile({
+  let _this = this;
+  CloudInit(function (c1) {
+  c1.deleteFile({
     fileList: filelist,
     success: res => {
 
     }
   })
+})
 }
 
 module.exports = {
