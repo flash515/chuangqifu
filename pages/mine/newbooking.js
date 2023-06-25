@@ -1,6 +1,7 @@
 const app = getApp()
 const { startToTrack, startByClick, startByBack } = require("../../utils/track");
 const track = require("../../utils/track");
+const Time= require("../../utils/getDates");
 const utils = require("../../utils/utils");
 Page({
 
@@ -73,7 +74,8 @@ Page({
             BookingContent: this.data.content,
             BookingStatus: "unchecked",
             UserId:app.globalData.Guserid,
-            AddDate: new Date().toLocaleString('chinese',{ hour12: false })
+            AddDate: Time.getCurrentTime(),
+            From:"创企服"
           },
           success: res => {
             utils._SuccessToast('预约提交成功')
@@ -99,7 +101,7 @@ Page({
           BookingDate: that.data.date,
           BookingTime: that.data.time,
           BookingStatus: "unchecked",
-          UpdateDate: new Date().toLocaleString('chinese',{ hour12: false })
+          UpdateDate: Time.getCurrentTime(),
         },
         success: res => {
           utils._SuccessToast('预约更新成功')

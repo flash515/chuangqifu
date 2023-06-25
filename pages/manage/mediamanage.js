@@ -1,5 +1,6 @@
 const app = getApp()
 var utils = require("../../utils/utils")
+const Time= require("../../utils/getDates")
 const wxpay = require("../../utils/WxPay")
 Page({
   /**
@@ -82,7 +83,7 @@ Page({
 
   bvReplySend(e) {
     // 新增回复
-    console.log(e.currentTarget.dataset.id)
+    console.log(e.target.dataset.id)
     utils.CloudInit(function (c1) {
     c1.callFunction({
       // 要调用的云函数名称
@@ -90,15 +91,13 @@ Page({
       // 传递给云函数的参数
       data: {
         collectionName: "InfoShareComment",
-        id: e.currentTarget.dataset.id,
+        id: e.target.dataset.id,
         key1: "Reply",
         value1: this.data.replycontent,
         key2: "ReplyStatus",
         value2: "unchecked",
         key3: "ReplyDate",
-        value3: new Date().toLocaleString('chinese', {
-          hour12: false
-        })
+        value3: Time.getCurrentTime()
       },
       success: res => {
         console.log(res)
@@ -112,14 +111,14 @@ Page({
 
 
   bvCheck: function (e) {
-    console.log(e.currentTarget.dataset.id)
+    console.log(e.target.dataset.id)
     utils.CloudInit(function (c1) {
     c1.callFunction({
       name: "NormalUpdate",
       data: {
         collectionName: "INFOSHARE",
         key:"InfoId",
-        id: e.currentTarget.dataset.id,
+        id: e.target.dataset.id,
         key1: "InfoStatus",
         value1: "checked"
       },

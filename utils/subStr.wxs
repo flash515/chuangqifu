@@ -1,0 +1,4 @@
+var sub = function (val) {
+  return val.subString(0, 11)
+}
+module.exports.sub = sub;

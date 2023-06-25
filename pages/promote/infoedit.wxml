@@ -27,11 +27,11 @@
   <text>\n</text>
 
   <view style="display: flex;flex-direction:column;">
-    <view style="display: flex;flex-direction:row;">
+    <view style="display: flex;flex-direction:row;align-items: center;">
       <label class="labal">信息类型：</label>
       <l-radio-group none-checked="{{false}}" placement="row" current="1" bind:linchange="bvInfomationType">
-        <l-radio key="1" placement="right"> <label class="labal">供应</label></l-radio>
-        <l-radio key="2" placement="right"> <label class="labal">求购</label></l-radio>
+        <l-radio key="1" placement="left"> <label class="labal">供应</label></l-radio>
+        <l-radio key="2" placement="left"> <label class="labal">求购</label></l-radio>
       </l-radio-group>
     </view>
     <label class="labal">供求信息：</label>

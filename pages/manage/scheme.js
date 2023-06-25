@@ -1,5 +1,5 @@
 const app = getApp()
-
+const Time= require("../../utils/getDates");
 const track = require("../../utils/track");
 Page({
 
@@ -57,7 +57,7 @@ Page({
         const db = c1.database()
       db.collection('SCHEME').add({
         data: {
-          AddDate: new Date().toLocaleString('chinese',{ hour12: false }),
+          AddDate: Time.getCurrentTime(),
           SchemeType: this.data.schemetype,
           Condition: this.data.condition,
           Scheme: this.data.scheme,
@@ -90,7 +90,7 @@ Page({
         Scheme: this.data.scheme,
         RefProduct: this.data.refproduct,
         Status: this.data.status,
-        UpdateDate: new Date().toLocaleString('chinese',{ hour12: false })
+        UpdateDate: Time.getCurrentTime()
       }
     })
   })

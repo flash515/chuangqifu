@@ -1,4 +1,5 @@
 const app = getApp()
+const Time= require("../../utils/getDates");
 var utils = require("../../utils/utils")
 var interval = null //倒计时函数
 Page({
@@ -147,9 +148,7 @@ Page({
           avatarUrl: this.data.avatarurl,
           nickName: this.data.nickname,
           CreatorPhone:app.globalData.Guserdata.UserInfo.UserPhone,
-          PublishDate: new Date().toLocaleString('chinese', {
-            hour12: false
-          }),
+          PublishDate: Time.getCurrentTime(),
           InfoStatus: "unchecked",
         },
         success: res => {
@@ -195,10 +194,9 @@ Page({
           CreatorPhone: app.globalData.Guserdata.UserInfo.UserPhone,
           avatarUrl: this.data.avatarurl,
           nickName: this.data.nickname,
-          PublishDate: new Date().toLocaleString('chinese', {
-            hour12: false
-          }),
+          PublishDate: Time.getCurrentTime(),
           InfoStatus: "unchecked",
+          From:"创企服"
         },
         success: res => {
           utils._SuccessToast("已发布等待审核")

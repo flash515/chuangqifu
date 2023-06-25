@@ -1,4 +1,5 @@
 const app = getApp()
+const Time= require("../../utils/getDates")
 var utils = require("../../utils/utils")
 Page({
   data: {
@@ -629,9 +630,7 @@ Page({
         // 新增数据
         db.collection("PRODUCT").add({
           data: {
-            AddDate: new Date().toLocaleString('chinese', {
-              hour12: false
-            }),
+            AddDate: Time.getCurrentTime(),
             Status: that.data.status,
             ProductName: that.data.productname,
             Outline: that.data.outline,
@@ -664,6 +663,7 @@ Page({
             Score: Number(that.data.score),
             ProductImage: that.data.productimage,
             AttachmentFile: that.data.attachmentfile,
+            From:"创企服"
           },
           success: res => {
             console.log('新增数据成功', res)
@@ -720,9 +720,7 @@ Page({
           ProductImage: that.data.productimage,
           AttachmentFile: that.data.attachmentfile,
           Score: that.data.score,
-          UpdateDate: new Date().toLocaleString('chinese', {
-            hour12: false
-          })
+          UpdateDate: Time.getCurrentTime()
         },
         success: res => {
           console.log('更新数据成功', res)

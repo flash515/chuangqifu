@@ -1,4 +1,5 @@
-const app = getApp()
+const app = getApp();
+const Time= require("../../utils/getDates");
 var utils = require("../../utils/utils")
 Page({
   /**
@@ -143,10 +144,9 @@ Page({
           avatarUrl: this.data.avatarurl,
           nickName: this.data.nickname,
           Comment: this.data.comment,
-          PublishDate: new Date().toLocaleString('chinese', {
-            hour12: false
-          }),
+          PublishDate: Time.getCurrentTime(),
           Status: "unchecked",
+          From:"创企服"
         },
         success: res => {
           utils._SuccessToast("留言发送成功")
@@ -177,9 +177,7 @@ Page({
         key2: "ReplyStatus",
         value2: "unchecked",
         key3: "ReplyDate",
-        value3: new Date().toLocaleString('chinese', {
-          hour12: false
-        })
+        value3: Time.getCurrentTime(),
       },
       success: res => {
         console.log(res)

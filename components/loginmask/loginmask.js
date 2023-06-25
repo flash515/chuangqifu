@@ -1,5 +1,5 @@
 // components/loginmask/loginmask.js
-const app = getApp()
+const app = getApp();
 const utils = require("../../utils/utils");
 Component({
   //properties为接收父组件传过来的参数

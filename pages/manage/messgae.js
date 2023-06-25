@@ -1,4 +1,4 @@
-// pages/manage/messgae.js
+const Time= require("../../utils/getDates")
 Page({
 
   /**
@@ -57,7 +57,7 @@ Page({
           id: e.currentTarget.dataset.id,
           answer: that.data.answer,
           status: "onshow",
-          updatedate: new Date().toLocaleString('chinese',{ hour12: false })
+          updatedate: Time.getCurrentTime()
         },
         success: res => {
           console.log(res)

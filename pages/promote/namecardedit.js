@@ -1,4 +1,5 @@
 const app = getApp()
+const Time= require("../../utils/getDates");
 const utils = require("../../utils/utils");
 var interval = null //倒计时函数
 Page({
@@ -337,9 +338,7 @@ Page({
 
         db.collection('NAMECARD').add({
           data: {
-            PublishDate: new Date().toLocaleString('chinese', {
-              hour12: false
-            }),
+            PublishDate: Time.getCurrentTime(),
             CardBg: this.data.cardbg,
             CompanyLogo: this.data.companylogo,
             CardImages: this.data.cardimages,
@@ -358,7 +357,8 @@ Page({
             Category2: this.data.category2,
             Category3: this.data.category3,
             View: 0,
-            CreatorId: app.globalData.Guserid
+            CreatorId: app.globalData.Guserid,
+            From:"创企服"
           },
           success: res => {
             that.data.publishstatus = true
@@ -385,9 +385,7 @@ Page({
           CreatorId: app.globalData.Guserid
         }).update({
           data: {
-            PublishDate: new Date().toLocaleString('chinese', {
-              hour12: false
-            }),
+            PublishDate: Time.getCurrentTime(),
             CardBg: this.data.cardbg,
             CompanyLogo: this.data.companylogo,
             CardImages: this.data.cardimages,
@@ -439,9 +437,7 @@ Page({
       ["Category1"]: this.data.category1,
       ["Category2"]: this.data.category2,
       ["Category3"]: this.data.category3,
-      ["UpdateDate"]: new Date().toLocaleString('chinese', {
-        hour12: false
-      })
+      ["UpdateDate"]: Time.getCurrentTime(),
     }
     wx.setStorageSync('namecard', this.data.cardinfo)
   },

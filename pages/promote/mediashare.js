@@ -1,5 +1,6 @@
 const app = getApp()
 var utils = require("../../utils/utils")
+const Time= require("../../utils/getDates");
 const wxpay = require("../../utils/WxPay")
 Page({
   /**
@@ -176,9 +177,7 @@ Page({
           key2: "ReplyStatus",
           value2: "unchecked",
           key3: "ReplyDate",
-          value3: new Date().toLocaleString('chinese', {
-            hour12: false
-          })
+          value3: Time.getCurrentTime(),
         },
         success: res => {
           console.log(res)
@@ -204,10 +203,9 @@ Page({
             avatarUrl: this.data.avatarurl,
             nickName: this.data.nickname,
             Comment: this.data.comment,
-            PublishDate: new Date().toLocaleString('chinese', {
-              hour12: false
-            }),
+            PublishDate:Time.getCurrentTime(),
             Status: "unchecked",
+            From:"创企服"
           },
           success: res => {
             that.setData({
@@ -365,10 +363,9 @@ Page({
           IndirectInviterId: this.data.creatorindirectinviterid,
           IndirectInviterPoints: this.data.indirectinviterpoints,
           SysAddDate: new Date().getTime(),
-          AddDate: new Date().toLocaleString('chinese', {
-            hour12: false
-          }),
+          AddDate: Time.getCurrentTime(),
           PointsStatus: "checked",
+          From:"创企服"
         },
         success: res => {
           resolve(res)
@@ -388,11 +385,10 @@ Page({
           ProductId: this.data.infoid,
           ProductName: "资讯赞赏",
           TotalFee: this.data.totalfee,
-          AddDate: new Date().toLocaleString('chinese', {
-            hour12: false
-          }),
+          AddDate: Time.getCurrentTime(),
           PaymentStatus: "checked",
-          UserId: app.globalData.Guserid
+          UserId: app.globalData.Guserid,
+          From:"创企服"
         },
         success: res => {
           console.log("paymentadd成功")

@@ -20,15 +20,15 @@ function compareDate(d1, d2) {
 }
 
 //当前时间获取
-function getCurrentToday(){
+function getCurrentTime(){
   const date = new Date()
   var year = date.getFullYear();
   var mouths = (date.getMonth() + 1) < 10 ? ("0" + (date.getMonth() + 1)) : (date.getMonth() + 1);
   var day = date.getDate() < 10 ? ("0" + date.getDate()) : date.getDate();
   var hours = date.getHours();
   var Minutes = date.getMinutes();//当前分
-  var currentdate = year + "-" + mouths + "-" + day + "\t" + hours + ":" + Minutes;
-  return currentdate
+  var currentDate = year + "-" + mouths + "-" + day + "\t" + hours + ":" + Minutes;
+  return currentDate
 }
 
 /**
@@ -53,6 +53,6 @@ function dateLater(dates, later) {
 module.exports = {
   formatTime: formatTime,
   compareDate: compareDate,
-  getCurrentToday: getCurrentToday,
+  getCurrentTime: getCurrentTime,
   dateLater: dateLater
 }

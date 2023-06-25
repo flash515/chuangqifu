@@ -1,4 +1,5 @@
-const app = getApp()
+const app = getApp();
+const Time= require("../../utils/getDates");
 const utils = require("../../utils/utils")
 Page({
 
@@ -301,9 +302,8 @@ _balanceupdate: async function () {
               BookingContent: "上门当面收款服务",
               BookingStatus: "unchecked",
               UserId:app.globalData.Guserid,
-              AddDate: new Date().toLocaleString('chinese', {
-                hour12: false
-              })
+              AddDate: Time.getCurrentTime(),
+              From:"创企服"
             },
             success: res => {
               console.log('预约提交成功', res.data)

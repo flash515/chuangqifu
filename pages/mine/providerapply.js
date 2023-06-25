@@ -1,5 +1,6 @@
 // pages/mine/providerapply.js
 const app = getApp()
+const Time= require("../../utils/getDates");
 const util = require('../../utils/utils')
 Page({
 
@@ -102,9 +103,7 @@ if(this.applysubmit==true|| this.data.providerapplydate!=''){
             ["UserInfo.CompanyId"]: this.data.companyid,
             ["UserInfo.Address"]: this.data.address,
             ["UserInfo.BusinessScope"]: this.data.businessscope,
-            ["UserInfo.ProviderApplyDate"]: new Date().toLocaleString('chinese', {
-              hour12: false
-            })
+            ["UserInfo.ProviderApplyDate"]: Time.getCurrentTime(),
           },
           success: res => {
             utils._SuccessToast("申请信息已发送")

@@ -1,5 +1,6 @@
 const app = getApp()
-const utils = require("../utils/utils")
+const utils = require("../utils/utils");
+const Time= require("../utils/getDates");
 
 function bvBuy(e) {
   if (e.currentTarget.dataset.startdate == "" || e.currentTarget.dataset.startdate == undefined) {
@@ -45,12 +46,11 @@ function _orderadd() {
         DLEndDate: this.data.discountenddate,
         TotalFee: this.data.discounttotalfee,
         SysAddDate: new Date().getTime(),
-        AddDate: new Date().toLocaleString('chinese', {
-          hour12: false
-        }),
+        AddDate:Time.getCurrentTime(),
         PaymentStatus: "unchecked",
         OrderStatus: "unchecked",
-        Available: false
+        Available: false,
+        From:"创企服"
       },
       success: res => {
         that.setData({
@@ -79,11 +79,10 @@ function _paymentadd() {
         ProductId: this.data.discountid,
         ProductName: this.data.discountname,
         TotalFee: this.data.discounttotalfee,
-        AddDate: new Date().toLocaleString('chinese', {
-          hour12: false
-        }),
+        AddDate: Time.getCurrentTime(),
         PaymentStatus: "unchecked",
-        Database: "DISCOUNTORDER"
+        Database: "DISCOUNTORDER",
+        From:"创企服"
       },
       success: res => {
         console.log("paymentadd成功")
@@ -214,9 +213,7 @@ function _userupdate() {
       ['TradeInfo.DiscountLevel']: this.data.orderlevel,
       ['TradeInfo.DLStartDate']: this.data.orderstartdate,
       ['TradeInfo.DLEndDate']: this.data.orderenddate,
-      ['TradeInfo.DLUpdateTime']: new Date().toLocaleString('chinese', {
-        hour12: false
-      }),
+      ['TradeInfo.DLUpdateTime']: Time.getCurrentTime(),
     },
     success: res => {
       console.log("用户信息更新成功")

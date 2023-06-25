@@ -1,4 +1,5 @@
-var utils = require("../../utils/utils")
+var utils = require("../../utils/utils");
+const Time= require("../../utils/getDates");
 const app = getApp()
 Page({
 
@@ -148,10 +149,9 @@ Page({
         DoneeId: app.globalData.Guserid,
         DoneePoints: this.data.doneepoints,
         SysAddDate: new Date().getTime(),
-        AddDate: new Date().toLocaleString('chinese', {
-          hour12: false
-        }),
+        AddDate: Time.getCurrentTime(),
         PointsStatus: "checked",
+        From:"创企服"
       },
       success: res => {
         utils._SuccessToast("积分已领取入账")

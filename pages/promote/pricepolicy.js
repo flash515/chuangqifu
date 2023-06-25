@@ -1,6 +1,4 @@
-const {
-  dateLater
-} = require("../../utils/getDates.js")
+const Time= require("../../utils/getDates");
 const utils = require("../../utils/utils")
 const app = getApp()
 Page({
@@ -36,25 +34,25 @@ Page({
   bvDL3_360(e) {
     this.setData({
       dl3_360startdate: e.detail.value,
-      dl3_360enddate: dateLater(e.detail.value, 360).year + '-' + dateLater(e.detail.value, 360).newdates
+      dl3_360enddate: Time.dateLater(e.detail.value, 360).year + '-' + Time.dateLater(e.detail.value, 360).newdates
     })
   },
   bvDL3_180(e) {
     this.setData({
       dl3_180startdate: e.detail.value,
-      dl3_180enddate: dateLater(e.detail.value, 180).year + '-' + dateLater(e.detail.value, 180).newdates
+      dl3_180enddate: Time.dateLater(e.detail.value, 180).year + '-' + Time.dateLater(e.detail.value, 180).newdates
     })
   },
   bvDL3_90(e) {
     this.setData({
       dl3_90startdate: e.detail.value,
-      dl3_90enddate: dateLater(e.detail.value, 90).year + '-' + dateLater(e.detail.value, 90).newdates
+      dl3_90enddate: Time.dateLater(e.detail.value, 90).year + '-' + Time.dateLater(e.detail.value, 90).newdates
     })
   },
   bvDL3_30(e) {
     this.setData({
       dl3_30startdate: e.detail.value,
-      dl3_30enddate: dateLater(e.detail.value, 30).year + '-' + dateLater(e.detail.value, 30).newdates
+      dl3_30enddate: Time.dateLater(e.detail.value, 30).year + '-' + Time.dateLater(e.detail.value, 30).newdates
     })
   },
   bvBuy(e) {
@@ -101,10 +99,11 @@ Page({
           DLEndDate: this.data.discountenddate,
           TotalFee: this.data.discounttotalfee,
           SysAddDate: new Date().getTime(),
-          AddDate: new Date().toLocaleString('chinese',{ hour12: false }),
+          AddDate: Time.getCurrentTime(),
           PaymentStatus:"unchecked",
           OrderStatus:"unchecked",
-          Available:false
+          Available:false,
+          From:"创企服"
         },
         success: res => {
           that.setData({
@@ -132,9 +131,10 @@ Page({
           ProductId: this.data.discountid,
           ProductName: this.data.discountname,
           TotalFee: this.data.discounttotalfee,
-          AddDate: new Date().toLocaleString('chinese',{ hour12: false }),
+          AddDate: Time.getCurrentTime(),
           PaymentStatus: "unchecked",
-          Database:"DISCOUNTORDER"
+          Database:"DISCOUNTORDER",
+          From:"创企服"
         },
         success: res => {
           console.log("paymentadd成功")
@@ -269,7 +269,7 @@ Page({
           ['TradeInfo.DiscountLevel']: this.data.orderlevel,
           ['TradeInfo.DLStartDate']:this.data.orderstartdate,
           ['TradeInfo.DLEndDate']:this.data.orderenddate,
-          ['TradeInfo.DLUpdateTime']:new Date().toLocaleString('chinese',{ hour12: false }),
+          ['TradeInfo.DLUpdateTime']:Time.getCurrentTime(),
         },
         success: res => {
           console.log("用户信息更新成功")
