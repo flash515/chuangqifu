@@ -35,3 +35,15 @@
   font-size: 28rpx;
   margin-left: 25rpx;
 }
+.content {
+  font-size: 28rpx;
+  margin-left: 25rpx;
+  margin-right: 25rpx;
+}
+.line {
+  margin-left: 0rpx;
+  margin-right: 0rpx;
+  height: 0.5px;
+  background-color: #f3f3f3;
+
+}

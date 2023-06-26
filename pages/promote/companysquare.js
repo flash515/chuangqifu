@@ -55,11 +55,17 @@ Page({
       const _ = db.command
       db.collection('NAMECARD').where(
         _.or([{
-            KeyWords: {
+          BusinessScope: {
               $regex: '.*' + e.detail.value,
               $options: 'i'
             }
           },
+          {
+            KeyWords: {
+              $regex: '.*' + e.detail.value,
+              $options: 'i'
+            }
+          }, 
           {
             CompanyName: {
               $regex: '.*' + e.detail.value,

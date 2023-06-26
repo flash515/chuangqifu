@@ -14,7 +14,7 @@
   </view>
   <!-- 搜索栏 -->
   <view>
-    <l-search-bar placeholder="关键词搜索" bind:linconfirm="onSearch" />
+    <l-search-bar placeholder="关键词、经营范围搜索" bind:linconfirm="onSearch" />
   </view>
 
   <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
@@ -54,7 +54,8 @@
     </view>
   </view>
   <view wx:if="{{cards[0]}}">
-    <label class="label">共有{{cards.length}}条搜索结果：</label>
+    <label class="label">搜索到{{cards.length}}条企业信息：</label>
+    <view class="line"></view>
     <scroll-view scroll-y="true" style="display: flex;flex-direction:column; width: 100%;height: 400rpx; box-sizing: border-box;padding-left: 20rpx;padding-right: 20rpx;">
       <view style="display: flex;flex-direction: row;align-items: center;justify-content:space-between;">
         <l-radio-group placement="column" bind:linchange="bvNameCardSelect">
@@ -66,6 +67,9 @@
         </l-radio-group>
       </view>
     </scroll-view>
+    <view class="line"></view>
+    <label class="label">企业信息：</label>
+    <view class="content">
     <view wx:if="{{namecard.CompanyName}}">公司：{{namecard.CompanyName}}</view>
     <view wx:if="{{namecard.UserName}}">姓名：{{namecard.UserName}}</view>
     <view wx:if="{{namecard.WeChat}}">职务：{{namecard.WeChat}}</view>
@@ -75,5 +79,10 @@
     <view wx:if="{{namecard.Email}}">邮箱：{{namecard.Email}}</view>
     <view wx:if="{{namecard.Website}}">网站：{{namecard.Website}}</view>
     <view wx:if="{{namecard.Address}}">地址：{{namecard.Address}}</view>
+    <view wx:if="{{namecard.Category1}}">一级分类：{{namecard.Category1}}</view>
+    <view wx:if="{{namecard.Category2}}">二级分类：{{namecard.Category2}}</view>
+    <view wx:if="{{namecard.KeyWords}}">关键词：{{namecard.KeyWords}}</view>
+    <view wx:if="{{namecard.BusinessScope}}">经营范围：{{namecard.BusinessScope}}</view>
+  </view>
   </view>
 </view>
