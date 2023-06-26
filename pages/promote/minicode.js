@@ -18,11 +18,15 @@ Page({
     tempfilepath: "",
     qrcodeuploadlock: false,
     // 附带的参数
-    usertype:"",
-    unionid:"",
+    usertype: "",
+    unionid: "",
     page: 'pages/index/index',
     params: "",
-    color:{"r":0,"g":0,"b":0},
+    color: {
+      "r": 0,
+      "g": 0,
+      "b": 0
+    },
   },
   onChooseAvatar(e) {
     const {
@@ -34,14 +38,14 @@ Page({
     // 更新数据
     utils.CloudInit(function (c1) {
       const db = c1.database()
-    db.collection('USER').where({
-      UserId: app.globalData.Guserid
-    }).update({
-      data: {
-        ["UserInfo.avatarUrl"]: this.data.avatarUrl,
-      },
+      db.collection('USER').where({
+        UserId: app.globalData.Guserid
+      }).update({
+        data: {
+          ["UserInfo.avatarUrl"]: this.data.avatarUrl,
+        },
+      })
     })
-  })
 
   },
   bvUnionId(e) {
@@ -59,29 +63,29 @@ Page({
   bvColor(e) {
     console.log(e.detail.value)
     this.data.color = e.detail.value
-        console.log(this.data.color)
+    console.log(this.data.color)
   },
   getUrlLink() {
     // 调用云函数
     let that = this
     utils.CloudInit(function (c1) {
-    c1.callFunction({
-      name: 'URLLink',
-      data: {
-        quey: 'userid=' + app.globalData.Guserid + "&page=" + this.data.page + "&params=" + this.data.params
-      },
-      success: res => {
-        console.log('result', res.result)
-        console.log('urllink', res.result.urlLink)
-        that.setData({
-          urllink: res.result.urlLink
-        })
-      },
-      fail: err => {
-        console.error('[云函数] [URLLink] 调用失败', err)
-      }
+      c1.callFunction({
+        name: 'URLLink',
+        data: {
+          quey: 'userid=' + app.globalData.Guserid + "&page=" + this.data.page + "&params=" + this.data.params
+        },
+        success: res => {
+          console.log('result', res.result)
+          console.log('urllink', res.result.urlLink)
+          that.setData({
+            urllink: res.result.urlLink
+          })
+        },
+        fail: err => {
+          console.error('[云函数] [URLLink] 调用失败', err)
+        }
+      })
     })
-  })
   },
 
   bvCopy: function (e) {
@@ -104,28 +108,28 @@ Page({
 
     let that = this;
     utils.CloudInit(function (c1) {
-    c1.callFunction({
-      name: 'getQRCode',
-      data: {
-        // userid参数是使用在上传文件夹命名中
-        path: 'minicode/'+app.globalData.Guserid + '/' + app.globalData.Guserdata.UserInfo.UserPhone+'tempqrcode.png',
-        // 小程序码中包含的用户信息,scene长度不能超过32字符，否则报错
-        scene: this.data.unionid+'&'+this.data.params,
-        page: this.data.page,
-        color:this.data.color,
-        // userid: "1234",
-        // scene: "5678"
-      },
-      success: res => {
-        that.setData({
-          tempqrcodeurl: res.result
-        })
-        console.log("tempqrcodeurl", that.data.tempqrcodeurl);
-        // 执行下一个方法的方法，把头像合并到小程序码里
-        // that.drawCanvas()
-      }
+      c1.callFunction({
+        name: 'getQRCode',
+        data: {
+          // userid参数是使用在上传文件夹命名中
+          path: 'minicode/' + app.globalData.Guserid + '/' + app.globalData.Guserdata.UserInfo.UserPhone + 'tempqrcode.png',
+          // 小程序码中包含的用户信息,scene长度不能超过32字符，否则报错
+          scene: this.data.unionid + '&' + this.data.params,
+          page: this.data.page,
+          color: this.data.color,
+          // userid: "1234",
+          // scene: "5678"
+        },
+        success: res => {
+          that.setData({
+            tempqrcodeurl: res.result
+          })
+          console.log("tempqrcodeurl", that.data.tempqrcodeurl);
+          // 执行下一个方法的方法，把头像合并到小程序码里
+          // that.drawCanvas()
+        }
+      })
     })
-  })
   },
 
   getUserQRCode() {
@@ -134,28 +138,28 @@ Page({
 
     let that = this;
     utils.CloudInit(function (c1) {
-    c1.callFunction({
-      name: 'getQRCode',
-      data: {
-        // userid参数是使用在上传文件夹命名中
-        path: 'minicode/'+app.globalData.Guserid + '/' + app.globalData.Guserdata.UserInfo.UserPhone+'tempqrcode.png',
-        // 小程序码中包含的用户信息,scene长度不能超过32字符，否则报错
-        scene: app.globalData.Guserid+'&'+this.data.params,
-        page: this.data.page,
-        color:this.data.color,
-        // userid: "1234",
-        // scene: "5678"
-      },
-      success: res => {
-        that.setData({
-          tempqrcodeurl: res.result
-        })
-        console.log("tempqrcodeurl", that.data.tempqrcodeurl);
-        // 执行下一个方法的方法，把头像合并到小程序码里
-        that.drawCanvas()
-      }
+      c1.callFunction({
+        name: 'getQRCode',
+        data: {
+          // userid参数是使用在上传文件夹命名中
+          path: 'minicode/' + app.globalData.Guserid + '/' + app.globalData.Guserdata.UserInfo.UserPhone + 'tempqrcode.png',
+          // 小程序码中包含的用户信息,scene长度不能超过32字符，否则报错
+          scene: app.globalData.Guserid + '&' + this.data.params,
+          page: this.data.page,
+          color: this.data.color,
+          // userid: "1234",
+          // scene: "5678"
+        },
+        success: res => {
+          that.setData({
+            tempqrcodeurl: res.result
+          })
+          console.log("tempqrcodeurl", that.data.tempqrcodeurl);
+          // 执行下一个方法的方法，把头像合并到小程序码里
+          that.drawCanvas()
+        }
+      })
     })
-  })
   },
 
   //通过https方式调用wxacodeunlimit获取二维码，有效，但当前方法用不到了
@@ -258,25 +262,25 @@ Page({
     if (this.data.qrcodeuploadlock) {} else {
       console.log("res6", this.data.tempfilepath)
       const filePath = this.data.tempfilepath
-      const cloudPath = 'minicode/'+app.globalData.Guserid + '/' + app.globalData.Guserdata.UserInfo.UserPhone+'qrcode.png'
-      wx.cloud.uploadFile({
-        cloudPath,
-        filePath,
-        success: res => {
-          console.log("fileID", res.fileID)
-          // 获取数据库引用
-          utils.CloudInit(function (c1) {
-          const db = c1.database()
-          // 更新数据
-          db.collection('USER').where({
-            UserId: app.globalData.Guserid
-          }).update({
-            data: {
-              QRCode: res.fileID
-            },
-          })
+      const cloudPath = 'minicode/' + app.globalData.Guserid + '/' + app.globalData.Guserdata.UserInfo.UserPhone + 'qrcode.png'
+      utils.CloudInit(function (c1) {
+        c1.uploadFile({
+          cloudPath,
+          filePath,
+          success: res => {
+            console.log("fileID", res.fileID)
+            // 获取数据库引用
+            const db = c1.database()
+            // 更新数据
+            db.collection('USER').where({
+              UserId: app.globalData.Guserid
+            }).update({
+              data: {
+                QRCode: res.fileID
+              },
+            })
+          }
         })
-        }
       })
       this.data.qrcodeuploadlock = true // 修改上传状态为锁定
     }
@@ -289,7 +293,7 @@ Page({
       windowW: app.globalData.Gsysteminfo.windowWidth - 40,
       windowH: app.globalData.Gsysteminfo.windowWidth - 40,
       image: app.globalData.Gimagearray,
-      usertype:app.globalData.Guserdata.UserInfo.UserType,
+      usertype: app.globalData.Guserdata.UserInfo.UserType,
       avatarUrl: app.globalData.Guserdata.UserInfo.avatarUrl,
       nickName: app.globalData.Guserdata.UserInfo.nickName,
     })

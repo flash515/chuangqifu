@@ -257,11 +257,13 @@ Page({
   },
 
   bvDeleteBg(e) {
-    wx.cloud.deleteFile({
+    let that = this
+    utils.CloudInit(function (c1) {
+    c1.deleteFile({
       fileList: this.data.bgview,
       success: res => {
         console.log(res)
-        this.setData({
+        that.setData({
           bgview: "",
           cardbg: "",
           bgedit: "",
@@ -269,19 +271,23 @@ Page({
         })
       }
     })
+  })
   },
   bvDeleteLogo(e) {
-    wx.cloud.deleteFile({
+    let that = this
+    utils.CloudInit(function (c1) {
+    c1.deleteFile({
       fileList: this.data.companylogo,
       success: res => {
         console.log(res)
-        this.setData({
+        that.setData({
           companylogo: "",
           logoedit: "",
           templogo: [],
         })
       }
     })
+     })
   },
 
   async bvChooseImage(e) {
@@ -302,13 +308,14 @@ Page({
     })
     console.log("cardimages", this.data.cardimages)
     console.log(fileList)
-    wx.cloud.deleteFile({
+    utils.CloudInit(function (c1) {
+    c1.deleteFile({
       fileList,
       success: res => {
         console.log("res", res)
       }
     })
-
+  })
   },
 
   //发布到企业广场

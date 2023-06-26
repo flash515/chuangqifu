@@ -134,19 +134,22 @@ Page({
   onChooseAvatar(e) {
     console.log(e.detail)
     const cloudPath = 'user/' + app.globalData.Guserid + '/' + "avatarUrl" + e.detail.avatarUrl.match(/\.[^.]+?$/)
-    wx.cloud.uploadFile({
+    let that = this
+    utils.CloudInit(function (c1) {
+    c1.uploadFile({
       cloudPath, // 上传至云端的路径
       filePath: e.detail.avatarUrl, // 小程序临时文件路径
       success: res => {
         // 返回文件 ID
         console.log(res.fileID)
         // do something
-        this.setData({
+        that.setData({
           avatarurl: res.fileID,
         })
       },
       fail: console.error
     })
+  })
   },
 
   bvNickName(e) {

@@ -476,8 +476,15 @@ Page({
       productimageuploadlock: false
     })
   },
-  bvUploadProductImage(e) {
+ async bvUploadProductImage(e) {
     let that = this
+    var c1 = new wx.cloud.Cloud({
+      // 资源方 AppID
+      resourceAppid: 'wx810b87f0575b9a47',
+      // 资源方环境 ID
+      resourceEnv: 'xsbmain-9gvsp7vo651fd1a9',
+    })
+    await c1.init()
     // 判断商品id是否空值
     if (this.data.productname == "" || this.data.productname == null) {
       utils._ErrorToast("商品名称不能为空")
@@ -493,7 +500,7 @@ Page({
           for (let i = 0; i < this.data.productview.length; i++) {
             const filePath = this.data.productview[i]
             const cloudPath = 'product/' + this.data.productname + '/' + this.data.productname + (new Date()).getTime() + filePath.match(/\.[^.]+?$/)
-            wx.cloud.uploadFile({
+            c1.uploadFile({
               cloudPath,
               filePath,
               success: res => {
@@ -515,7 +522,8 @@ Page({
   bvDownloadFile(e) {
     console.log(e.currentTarget.dataset.link)
     // get temp file URL
-    wx.cloud.downloadFile({
+    utils.CloudInit(function (c1) {
+    c1.downloadFile({
       fileID: e.currentTarget.dataset.link,
       success: res => {
         // get temp file path
@@ -535,29 +543,39 @@ Page({
         console.log(err)
       }
     })
-
+  })
   },
   bvDeleteFile(e) {
     console.log(this.data.attachmentfile)
-    wx.cloud.deleteFile({
+    let that = this
+    utils.CloudInit(function (c1) {
+    c1.deleteFile({
       //微信云储存中的文件唯一身份fileID，最多可删除50条
       fileList: [e.currentTarget.dataset.link],
       success: (res => {
         console.log(res)
         // 注意这里数组删除方法的细节，splice删除完以后还要setDate重新赋值才可以
-        this.data.attachmentfile.splice([e.currentTarget.dataset.name], 1)
-        this.setData({
-          attachmentfile: this.data.attachmentfile
+        that.data.attachmentfile.splice([e.currentTarget.dataset.name], 1)
+        that.setData({
+          attachmentfile: that.data.attachmentfile
         })
-        console.log("修改后this.data.attachmentfile", this.data.attachmentfile)
+        console.log("修改后this.data.attachmentfile", that.data.attachmentfile)
       }),
       fail: (err => {
         console.log(err)
       })
     })
+  })
     console.log(this.data.attachmentfile)
   },
-  bvUploadFile(e) {
+ async bvUploadFile(e) {
+    var c1 = new wx.cloud.Cloud({
+      // 资源方 AppID
+      resourceAppid: 'wx810b87f0575b9a47',
+      // 资源方环境 ID
+      resourceEnv: 'xsbmain-9gvsp7vo651fd1a9',
+    })
+    await c1.init()
     // 判断individualname是否空值
     if (this.data.productname == "" || this.data.productname == null) {
       utils._ErrorToast("商品名称不能空")
@@ -571,7 +589,7 @@ Page({
         for (let i = 0; i < this.data.tempFilePaths.length; i++) {
           const filePath = this.data.tempFilePaths[i].path
           const cloudPath = 'product/' + this.data.productname + '/' + this.data.tempFilePaths[i].name
-          wx.cloud.uploadFile({
+          c1.uploadFile({
             cloudPath,
             filePath,
             success: res => {
