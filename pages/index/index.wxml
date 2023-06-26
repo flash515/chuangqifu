@@ -1,3 +1,4 @@
+<wxs src="../../utils/sub.wxs" module="tools" />
 <!-- 登录层 -->
 <l-mask show="{{loginshow}}" center="true" >
 <loginmask bind:myevent="onLogin"></loginmask>
@@ -13,7 +14,7 @@
     <l-button size="large" shape="semicircle" plain="{{true}}" bind:lintap="bvLoginShow">请登录后浏览</l-button>
   </view>
   <view wx:else style="display:flex; flex-direction:column; justify-content:space-between;font-size: 32rpx;color: #3683d6;">
-    <view>用户号码：{{userphone}}</view>
+    <view>手机尾号：{{tools.subNum([userphone])}}</view>
     <view>用户类型：{{usertype}}</view>
     <view>会员级别：{{promotelevel}}</view>
     <!-- <view>

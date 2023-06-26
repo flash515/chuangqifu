@@ -1,0 +1,22 @@
+var subDate = function (val) {
+  if (val.length == 0 || val == undefined || "") {
+    return;
+  }
+  if (val.length > 0) {
+    var date = val.toString().substring(0, 11)
+    return date;
+  }
+}
+// 截取后四位,注意要先单独转换成string，否则str.length不起作用，substr在wxs中使用无效
+var subNum = function (val) {
+  if (val.length == 0 || val == undefined || "") {
+    return;
+  }
+  if (val.length > 0) {
+    var str=val.toString()
+    var last = str.substring(str.length-4, str.length)
+    return last;
+  }
+}
+module.exports.subDate = subDate;
+module.exports.subNum = subNum;

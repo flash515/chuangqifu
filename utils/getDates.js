@@ -26,9 +26,10 @@ function getCurrentTime(){
   var mouths = (date.getMonth() + 1) < 10 ? ("0" + (date.getMonth() + 1)) : (date.getMonth() + 1);
   var day = date.getDate() < 10 ? ("0" + date.getDate()) : date.getDate();
   var hours = date.getHours();
-  var Minutes = date.getMinutes();//当前分
-  var currentDate = year + "-" + mouths + "-" + day + "\t" + hours + ":" + Minutes;
-  return currentDate
+  var minutes = date.getMinutes();//当前分
+  var second = date.getSeconds()
+  var currenttime = year + "-" + mouths + "-" + day + "\t" + hours + ":" + minutes + ":" + second;
+  return currenttime
 }
 
 /**
