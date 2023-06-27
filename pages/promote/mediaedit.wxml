@@ -19,16 +19,14 @@
   </scroll-view>
   <view class="line"></view> 
   <text>\n</text>
-  <view wx:if="{{tempvideo}}">
+  <view wx:if="{{tempvideo}}" style="display: flex;flex-direction: column;">
     <label class="labal">视频预览：</label>
     <video class="videoCss" id="myVideo" src="{{tempvideo}}" object-fit="contain" binderror="videoErrorCallback" show-play-btn="{{true}}" controls></video>
   </view>
-  <view wx:if="{{tempimage}}">
+  <view wx:if="{{tempimage}}" style="display: flex;flex-direction: column;">
     <label class="labal">图片预览：</label>
     <image style="width: {{width}}px;height: {{height}}px;" src="{{tempimage}}" mode="scaleToFill" />
   </view>
-
-
   <view style="display: flex;flex-direction: column;">
     <view wx:if="{{tempcover}}">
       <label class="labal">资讯封面：</label>
@@ -54,18 +52,19 @@
     <view wx:if="{{!tempcover}}" style="display: flex;flex-direction: column;justify-content:center;">
       <l-button plain="{{true}}" size="long" bind:lintap="bvChooseMedia">点击这里添加视频（小于20M）或图片</l-button>
     </view>
+    <text>\n</text>
     <view style="display:flex; flex-direction:row; justify-content:flex-start;align-items:center">
       <label class="labal">资讯标题：</label>
       <input type="text" class="input" value="{{infotitle}}" placeholder="请在这里填写资讯标题" bind:input="bvInfoTitle" />
     </view>
+    <label class="labal">资讯内容：</label>
+    <l-textarea indicator="{{true}}" maxlength="140" type="text" placeholder="请在这里填写资讯内容" value="{{infocontent}}" bind:lininput="bvInfoContent">
+    </l-textarea>
     <view style="display:flex; flex-direction:row; justify-content:flex-start;align-items:center">
       <label class="labal">商品链接：</label>
       <input type="text" class="input" value="{{link}}" placeholder="../product/allproduct" bind:input="bvLink" />
     </view>
-    <label class="labal">资讯内容：</label>
-    <l-textarea indicator="{{true}}" maxlength="140" type="text" placeholder="请在这里填写资讯内容" value="{{infocontent}}" bind:lininput="bvInfoContent">
-    </l-textarea>
-
+    <text>\n</text>
     <label class="labal">资讯设置：</label>
     <l-checkbox-group bind:linchange="bvInfoTitleShow">
       <l-checkbox placement="right" key="1" l-class="checkbox" checked="{{infotitleshow}}">显示标题</l-checkbox>

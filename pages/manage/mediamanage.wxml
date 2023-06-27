@@ -1,8 +1,11 @@
+<view class="title">
+  <text>资讯分享管理</text>
+</view>
 <!-- 内容层 -->
 <swiper vertical="true" bindchange="nextVideo" current-item-id="{{infoid}}">
   <swiper-item wx:for="{{infoshares}}" wx:key="index">
     <view wx:if="{{item.InfoImage!='' && item.InfoImage!=undefined}}">
-      <image style="width: 750rpx;height: 600rpx;" src="{{item.InfoImage}}" mode="scaleToFill" />
+      <image style="width: {{width}}px;height: {{height}}px;" src="{{item.InfoImage}}" mode="scaleToFill" />
     </view>
     <view wx:if="{{item.InfoVideo}}">
       <video loop="true" enable-progress-gesture="true" object-fit="contain" src="{{item.InfoVideo}}" id="video{{index}}" show-snapshot-button />

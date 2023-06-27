@@ -21,7 +21,8 @@ Page({
     replycontent: "",
     replyshow: false,
     infoshow: true,
-
+    width:"",
+    height:"",
   },
   toCreator(e) {
     console.log(e.currentTarget.dataset.id)
@@ -32,6 +33,7 @@ Page({
       // 如果用户是资讯创建者,显示本人全部发布资讯
       db.collection('INFOSHARE').where({
         CreatorId: e.currentTarget.dataset.id,
+        InfoType:"Media",
       }).get({
         success: res => {
           console.log(res)
@@ -47,6 +49,7 @@ Page({
       // 如果用户不是资讯创建者,只打开创建者公开发布资讯
       db.collection('INFOSHARE').where({
         CreatorId: e.currentTarget.dataset.id,
+        InfoType:"Media",
         InfoStatus: 'checked',
         Private: false
       }).get({
@@ -133,25 +136,50 @@ Page({
 
 
 
-  onLoad: async function (options) {
+  onLoad: function (options) {
 
     // 查询公开发布的视频，数量少于20条用本地函数就可以
     let that=this
     utils.CloudInit(function (c1) {
       const db = c1.database()
     db.collection('INFOSHARE').where({
+      InfoType:"Media",
       InfoStatus: 'unchecked',
       Private: false
     }).get({
-      success: res => {
+      success:async res => {
         console.log(res)
+        that.data.infotitle = res.data[0].InfoTitle
+        that.data.infoid = res.data[0].InfoId
+        var fliter = res.data
+        for (let i = 0; i < res.data.length; i++) {
+          console.log(i)
+          if (res.data[i].InfoVideo != "") {
+            var filelist = [res.data[i].InfoCover, res.data[i].InfoVideo]
+          } else {
+            var filelist = [res.data[i].InfoCover, res.data[i].InfoImage]
+          }
+          await c1.getTempFileURL({
+            fileList: filelist
+          }).then(res => {
+            console.log(i)
+            console.log(res.fileList)
+            if (fliter[i].InfoVideo != "") {
+              fliter[i].InfoCover = res.fileList[0].tempFileURL
+              fliter[i].InfoVideo = res.fileList[1].tempFileURL
+            } else {
+              fliter[i].InfoCover = res.fileList[0].tempFileURL
+              fliter[i].InfoImage = res.fileList[1].tempFileURL
+            }
+          })
+        }
         // 展示查询到的结果
         that.setData({
-          infoshares: res.data,
-          creatorid: res.data[0].CreatorId,
+          infoshares: fliter,
+          creatorid: fliter[0].CreatorId
         })
-        that.data.infoid = res.data[0].InfoId
-        console.log("公开资讯", this.data.infoshares)
+        that.data.infocover = fliter[0].InfoCover
+        console.log("公开资讯", that.data.infoshares)
       }
     })
   })
@@ -159,6 +187,8 @@ Page({
       userid: app.globalData.Guserid,
       avatarurl: app.globalData.Guserdata.UserInfo.avatarUrl,
       nickname: app.globalData.Guserdata.UserInfo.nickName,
+      width:app.globalData.Gsysteminfo.windowWidth,
+      height:app.globalData.Gsysteminfo.windowHeight,
     })
     // 调用播放视频方法
     this.startUp()

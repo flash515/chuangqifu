@@ -163,6 +163,7 @@ Page({
               command: "and",
               where: [{
                 CreatorId: app.globalData.Guserid,
+                InfoType: "Simple",
               }]
             },
             success: res => {

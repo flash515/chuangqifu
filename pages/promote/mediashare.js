@@ -78,6 +78,7 @@ Page({
         // 如果用户是资讯创建者,显示本人全部发布资讯
         db.collection('INFOSHARE').where({
           CreatorId: e.currentTarget.dataset.id,
+          InfoType:"Media",
         }).get({
           success: res => {
             console.log(res)
@@ -93,6 +94,7 @@ Page({
         // 如果用户不是资讯创建者,只打开创建者公开发布资讯
         db.collection('INFOSHARE').where({
           CreatorId: e.currentTarget.dataset.id,
+          InfoType:"Media",
           InfoStatus: 'checked',
           Private: false
         }).get({
@@ -484,6 +486,7 @@ Page({
       utils.CloudInit(function (c1) {
         const db = c1.database()
         db.collection('INFOSHARE').where({
+          InfoType:"Media",
           InfoStatus: 'checked',
           Private: false
         }).get({

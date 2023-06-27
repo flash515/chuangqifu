@@ -2,7 +2,9 @@
 <text>pages/manage/sortedit.wxml</text>
 <!--pages/manage/sortedit.wxml-->
 <text>pages/manage/sortedit.wxml</text>
-
+<view class="title">
+  <text>商品分类管理</text>
+</view>
 
 <view style="display: flex;flex-direction: column;">
   <text>\n</text>

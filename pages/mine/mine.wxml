@@ -123,7 +123,7 @@
     <l-list title="快捷推广" icon="user" url="../promote/express" />
     <l-list title="待办事项" icon="setting" url="../manage/pending" />
     <l-list title="用户管理" icon="setting" url="../manage/userview" />
-    <l-list title="资讯分享管理" icon="setting" url="../manage/infosharemanage" />
+    <l-list title="资讯分享管理" icon="setting" url="../manage/mediamanage" />
     <l-list title="供求简讯管理" icon="setting" url="../manage/infomanage" />
     <l-list title="评论管理" icon="setting" url="../manage/commentmanage" />
     <l-list title="税筹项目管理" icon="setting" url="../manage/scheme" />
@@ -132,7 +132,7 @@
     <l-list title="管理员订阅消息管理" icon="notification" bind:lintap="bvSubMessage" />
     <l-list title="客户订阅消息发送" icon="setting" url="../manage/messgae" />
     <l-list title="名片编辑" icon="user" url="../promote/namecardedit" />
-    <l-list title="资讯编辑" icon="user" url="../promote/infoshareedit" />
+    <l-list title="资讯编辑" icon="user" url="../promote/mediaedit" />
     <l-list title="测试页面" icon="address" url="../test/test1" />
   </l-card>
 </view>

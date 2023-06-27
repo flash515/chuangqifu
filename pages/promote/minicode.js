@@ -72,7 +72,7 @@ Page({
       c1.callFunction({
         name: 'URLLink',
         data: {
-          quey: 'userid=' + app.globalData.Guserid + "&page=" + this.data.page + "&params=" + this.data.params
+          quey: 'userid=' + app.globalData.Guserid + "&page=" + that.data.page + "&params=" + that.data.params
         },
         success: res => {
           console.log('result', res.result)
@@ -114,17 +114,27 @@ Page({
           // userid参数是使用在上传文件夹命名中
           path: 'minicode/' + app.globalData.Guserid + '/' + app.globalData.Guserdata.UserInfo.UserPhone + 'tempqrcode.png',
           // 小程序码中包含的用户信息,scene长度不能超过32字符，否则报错
-          scene: this.data.unionid + '&' + this.data.params,
-          page: this.data.page,
-          color: this.data.color,
+          scene: that.data.unionid + '&' + that.data.params,
+          page: that.data.page,
+          color: that.data.color,
           // userid: "1234",
           // scene: "5678"
         },
         success: res => {
-          that.setData({
-            tempqrcodeurl: res.result
+          console.log(res.result)
+          c1.getTempFileURL({
+            fileList: [res.result]
+          }).then(res => {
+            console.log(res.fileList)
+            that.setData({
+              tempqrcodeurl: res.fileList[0].tempFileURL
+            })
+            console.log("tempqrcodeurl", that.data.tempqrcodeurl);
+
+          }).catch(error => {
+            // handle error
           })
-          console.log("tempqrcodeurl", that.data.tempqrcodeurl);
+
           // 执行下一个方法的方法，把头像合并到小程序码里
           // that.drawCanvas()
         }
@@ -144,19 +154,27 @@ Page({
           // userid参数是使用在上传文件夹命名中
           path: 'minicode/' + app.globalData.Guserid + '/' + app.globalData.Guserdata.UserInfo.UserPhone + 'tempqrcode.png',
           // 小程序码中包含的用户信息,scene长度不能超过32字符，否则报错
-          scene: app.globalData.Guserid + '&' + this.data.params,
-          page: this.data.page,
-          color: this.data.color,
+          scene: app.globalData.Guserid + '&' + that.data.params,
+          page: that.data.page,
+          color: that.data.color,
           // userid: "1234",
           // scene: "5678"
         },
         success: res => {
-          that.setData({
-            tempqrcodeurl: res.result
+          console.log(res.result)
+          c1.getTempFileURL({
+            fileList: [res.result]
+          }).then(res => {
+            console.log(res.fileList)
+            that.setData({
+              tempqrcodeurl: res.fileList[0].tempFileURL
+            })
+            console.log("tempqrcodeurl", that.data.tempqrcodeurl);
+            // 执行下一个方法的方法，把头像合并到小程序码里
+            that.drawCanvas()
+          }).catch(error => {
+            // handle error
           })
-          console.log("tempqrcodeurl", that.data.tempqrcodeurl);
-          // 执行下一个方法的方法，把头像合并到小程序码里
-          that.drawCanvas()
         }
       })
     })

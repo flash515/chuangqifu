@@ -89,6 +89,29 @@ Page({
 
   bvInfoShareSelect(e) {
     console.log(e.detail)
+    // 取消选取各参数恢复初始值
+    this.setData({
+      infoselected: false,
+      infoid: "",
+      infotitle: "",
+      link: "../product/allproduct",
+      infotitleshow: false,
+      linkshow: true,
+      private: true,
+      memberonly:true,
+      infostatus: "unchecked",
+      infocontent: "",
+      infoimage: "",
+      infovideo: "",
+      infocover: "",
+      tempcover: "",
+      tempimage: "",
+      tempvideo: "",
+      editbtn: false,
+      clipershow: false,
+      coveredit: "", //剪裁封面临时路径
+      timestamp: "", //时间戳
+    })
     if (e.detail.checked == true) {
       this.setData({
         infoid: e.detail.cell.InfoId,
@@ -102,31 +125,13 @@ Page({
         infovideo: e.detail.cell.InfoVideo,
         infocover: e.detail.cell.InfoCover,
         infoimage: e.detail.cell.InfoImage,
-        tempvideo: e.detail.cell.InfoVideo,
-        tempcover: e.detail.cell.InfoCover,
-        tempimage: e.detail.cell.InfoImage,
+        tempvideo: e.detail.cell.TempInfoVideo,
+        tempcover: e.detail.cell.TempInfoCover,
+        tempimage: e.detail.cell.TempInfoImage,
         infostatus: e.detail.cell.InfoStatus,
         editbtn: true
       })
-    } else {
-      this.setData({
-        infoid: "",
-        infotitle: "",
-        infotitleshow: true,
-        linkshow: true,
-        private: true,
-        memberonly:true,
-        infostatus: "unchecked",
-        infocontent: "",
-        infoimage: "",
-        infovideo: "",
-        infocover: "",
-        tempcover: "",
-        tempimage: "",
-        tempvideo: "",
-        editbtn: false
-      })
-    }
+    } 
   },
 
   async bvDelInfo(e) {
@@ -142,7 +147,7 @@ Page({
     }).remove({
       success: res => {
         utils._SuccessToast("资讯删除成功")
-        // 查询本人提交的InfoShare
+        // 更新infoshare列表
         that.data.infoshares.splice(e.currentTarget.dataset.index, 1)
         that.setData({
           infoshares: that.data.infoshares
@@ -380,23 +385,23 @@ bvDeleteTempMedia(e) {
     }
     utils.CloudInit(function (c1) {
       const db = c1.database()
-    if (this.data.infoid != "") {
+    if (that.data.infoid != "") {
       db.collection('INFOSHARE').where({
-        InfoId: this.data.infoid
+        InfoId: that.data.infoid
       }).update({
         data: {
-          InfoTitle: this.data.infotitle,
-          Link: this.data.link,
-          InfoContent: this.data.infocontent,
-          InfoVideo: this.data.infovideo,
-          InfoImage: this.data.infoimage,
-          InfoCover: this.data.infocover,
-          InfoTitleShow: this.data.infotitleshow,
-          Private: this.data.private,
-          MemberOnly:this.data.memberonly,
-          LinkShow: this.data.linkshow,
-          avatarUrl: this.data.avatarurl,
-          nickName: this.data.nickname,
+          InfoTitle: that.data.infotitle,
+          Link: that.data.link,
+          InfoContent: that.data.infocontent,
+          InfoVideo: that.data.infovideo,
+          InfoImage: that.data.infoimage,
+          InfoCover: that.data.infocover,
+          InfoTitleShow: that.data.infotitleshow,
+          Private: that.data.private,
+          MemberOnly:that.data.memberonly,
+          LinkShow: that.data.linkshow,
+          avatarUrl: that.data.avatarurl,
+          nickName: that.data.nickname,
           PublishDate: Time.getCurrentTime(),
           InfoStatus: "unchecked",
         },
@@ -410,11 +415,35 @@ bvDeleteTempMedia(e) {
               command: "and",
               where: [{
                 CreatorId: app.globalData.Guserid,
+                InfoType: "Media",
               }]
             },
-            success: res => {
+            success:async res => {
+              console.log(res)
+              var fliter = res.result.data
+              for (let i = 0; i < res.result.data.length; i++) {
+                console.log(i)
+                if (res.result.data[i].InfoVideo != "") {
+                  var filelist = [res.result.data[i].InfoCover, res.result.data[i].InfoVideo]
+                } else {
+                  var filelist = [res.result.data[i].InfoCover, res.result.data[i].InfoImage]
+                }
+                await c1.getTempFileURL({
+                  fileList: filelist
+                }).then(res => {
+                  console.log(i)
+                  console.log(res.fileList)
+                  if (fliter[i].InfoVideo != "") {
+                    fliter[i].TempInfoCover = res.fileList[0].tempFileURL
+                    fliter[i].TempInfoVideo = res.fileList[1].tempFileURL
+                  } else {
+                    fliter[i].TempInfoCover = res.fileList[0].tempFileURL
+                    fliter[i].TempInfoImage = res.fileList[1].tempFileURL
+                  }
+                })
+              }
               that.setData({
-                infoshares: res.result.data,
+                infoshares: fliter,
               })
               console.log("本人全部资讯", that.data.infoshares)
             }
@@ -425,8 +454,8 @@ bvDeleteTempMedia(e) {
         UserId: app.globalData.Guserid
       }).update({
         data: {
-          ["UserInfo.avatarUrl"]: this.data.avatarurl,
-          ["UserInfo.nickName"]: this.data.nickname,
+          ["UserInfo.avatarUrl"]: that.data.avatarurl,
+          ["UserInfo.nickName"]: that.data.nickname,
         },
         success: res => {}
       })
@@ -435,24 +464,24 @@ bvDeleteTempMedia(e) {
         data: {
           CreatorId: app.globalData.Guserid,
           InfoId: app.globalData.Guserdata.UserInfo.UserPhone + new Date().getTime(),
-          InfoTitle: this.data.infotitle,
-          Link: this.data.link,
-          InfoContent: this.data.infocontent,
-          InfoVideo: this.data.infovideo,
-          InfoImage: this.data.infoimage,
-          InfoCover: this.data.infocover,
+          InfoTitle: that.data.infotitle,
+          Link: that.data.link,
+          InfoContent: that.data.infocontent,
+          InfoVideo: that.data.infovideo,
+          InfoImage: that.data.infoimage,
+          InfoCover: that.data.infocover,
           View: 0,
           Praise: 0,
           Commont: 0,
-          InfoTitleShow: this.data.infotitleshow,
-          Private: this.data.private,
-          MemberOnly:this.data.memberonly,
-          LinkShow: this.data.linkshow,
-          avatarUrl: this.data.avatarurl,
-          nickName: this.data.nickname,
+          InfoTitleShow: that.data.infotitleshow,
+          Private: that.data.private,
+          MemberOnly:that.data.memberonly,
+          LinkShow: that.data.linkshow,
+          avatarUrl: that.data.avatarurl,
+          nickName: that.data.nickname,
           PublishDate: Time.getCurrentTime(),
           InfoType: "Media",
-          InfoStatus: this.data.infostatus,
+          InfoStatus: that.data.infostatus,
           From:"创企服"
         },
         success: res => {
@@ -465,11 +494,35 @@ bvDeleteTempMedia(e) {
               command: "and",
               where: [{
                 CreatorId: app.globalData.Guserid,
+                InfoType:"Media",
               }]
             },
-            success: res => {
+            success:async res => {
+              console.log(res)
+              var fliter = res.result.data
+              for (let i = 0; i < res.result.data.length; i++) {
+                console.log(i)
+                if (res.result.data[i].InfoVideo != "") {
+                  var filelist = [res.result.data[i].InfoCover, res.result.data[i].InfoVideo]
+                } else {
+                  var filelist = [res.result.data[i].InfoCover, res.result.data[i].InfoImage]
+                }
+                await c1.getTempFileURL({
+                  fileList: filelist
+                }).then(res => {
+                  console.log(i)
+                  console.log(res.fileList)
+                  if (fliter[i].InfoVideo != "") {
+                    fliter[i].TempInfoCover = res.fileList[0].tempFileURL
+                    fliter[i].TempInfoVideo = res.fileList[1].tempFileURL
+                  } else {
+                    fliter[i].TempInfoCover = res.fileList[0].tempFileURL
+                    fliter[i].TempInfoImage = res.fileList[1].tempFileURL
+                  }
+                })
+              }
               that.setData({
-                infoshares: res.result.data,
+                infoshares: fliter,
               })
               console.log("本人全部资讯", that.data.infoshares)
             }
@@ -487,7 +540,7 @@ bvDeleteTempMedia(e) {
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: async function (options) {
+  onLoad: function (options) {
 
     this.setData({
       avatarurl: app.globalData.Guserdata.UserInfo.avatarUrl,
@@ -508,9 +561,32 @@ bvDeleteTempMedia(e) {
           InfoType: "Media"
         }]
       },
-      success: res => {
+      success:async res => {
+        console.log(res)
+        var fliter = res.result.data
+        for (let i = 0; i < res.result.data.length; i++) {
+          console.log(i)
+          if (res.result.data[i].InfoVideo != "") {
+            var filelist = [res.result.data[i].InfoCover, res.result.data[i].InfoVideo]
+          } else {
+            var filelist = [res.result.data[i].InfoCover, res.result.data[i].InfoImage]
+          }
+          await c1.getTempFileURL({
+            fileList: filelist
+          }).then(res => {
+            console.log(i)
+            console.log(res.fileList)
+            if (fliter[i].InfoVideo != "") {
+              fliter[i].TempInfoCover = res.fileList[0].tempFileURL
+              fliter[i].TempInfoVideo = res.fileList[1].tempFileURL
+            } else {
+              fliter[i].TempInfoCover = res.fileList[0].tempFileURL
+              fliter[i].TempInfoImage = res.fileList[1].tempFileURL
+            }
+          })
+        }
         that.setData({
-          infoshares: res.result.data,
+          infoshares: fliter,
         })
         console.log("本人全部资讯", that.data.infoshares)
       }
