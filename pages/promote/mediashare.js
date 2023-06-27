@@ -82,12 +82,44 @@ Page({
         }).get({
           success: res => {
             console.log(res)
-            // 展示接收到的info
-            that.setData({
-              infoshares: res.data,
-              // currentinfoid: options.infoid
-              creatorid: res.data[0].CreatorId
-            })
+            var fliter = res.data
+            for (let i = 0; i < res.data.length; i++) {
+              if (res.data[i].InfoVideo != "") {
+                var filelist = [res.data[i].InfoCover, res.data[i].InfoVideo]
+              } else {
+                var filelist = [res.data[i].InfoCover, res.data[i].InfoImage]
+              }
+              c1.getTempFileURL({
+                fileList: filelist
+              }).then(res => {
+                console.log(res.fileList)
+                if (fliter[i].InfoVideo != "") {
+                  fliter[i].InfoCover = res.fileList[0].tempFileURL
+                  fliter[i].InfoVideo = res.fileList[1].tempFileURL
+                } else {
+                  fliter[i].InfoCover = res.fileList[0].tempFileURL
+                  fliter[i].InfoImage = res.fileList[1].tempFileURL
+                }
+                if (i + 1 == fliter.length) {
+                  console.log("执行了")
+                  // 展示接收到的info
+                  that.setData({
+                    infoshares: fliter,
+                    creatorid: fliter[0].CreatorId
+                  })
+                  that.data.infocover = fliter[0].InfoCover
+                  that.data.infotitle = fliter[0].InfoTitle
+                  // 调用播放视频方法
+                  that.startUp()
+                } else {
+                  console.log("没执行")
+                }
+
+              }).catch(error => {
+                // handle error
+              })
+
+            }
           }
         })
       } else {
@@ -100,12 +132,44 @@ Page({
         }).get({
           success: res => {
             console.log(res)
-            // 展示接收到的info
-            that.setData({
-              infoshares: res.data,
-              // currentinfoid: options.infoid
-              creatorid: res.data[0].CreatorId
-            })
+            var fliter = res.data
+            for (let i = 0; i < res.data.length; i++) {
+              if (res.data[i].InfoVideo != "") {
+                var filelist = [res.data[i].InfoCover, res.data[i].InfoVideo]
+              } else {
+                var filelist = [res.data[i].InfoCover, res.data[i].InfoImage]
+              }
+              c1.getTempFileURL({
+                fileList: filelist
+              }).then(res => {
+                console.log(res.fileList)
+                if (fliter[i].InfoVideo != "") {
+                  fliter[i].InfoCover = res.fileList[0].tempFileURL
+                  fliter[i].InfoVideo = res.fileList[1].tempFileURL
+                } else {
+                  fliter[i].InfoCover = res.fileList[0].tempFileURL
+                  fliter[i].InfoImage = res.fileList[1].tempFileURL
+                }
+                if (i + 1 == fliter.length) {
+                  console.log("执行了")
+                  // 展示接收到的info
+                  that.setData({
+                    infoshares: fliter,
+                    creatorid: fliter[0].CreatorId
+                  })
+                  that.data.infocover = fliter[0].InfoCover
+                  that.data.infotitle = fliter[0].InfoTitle
+                  // 调用播放视频方法
+                  that.startUp()
+                } else {
+                  console.log("没执行")
+                }
+
+              }).catch(error => {
+                // handle error
+              })
+
+            }
           }
         })
       }
