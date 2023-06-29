@@ -149,6 +149,10 @@ Page({
     }).get({
       success:async res => {
         console.log(res)
+        if(res.data.length==0){
+          utils._ErrorToast("没有待审核资讯")
+          return
+        }
         that.data.infotitle = res.data[0].InfoTitle
         that.data.infoid = res.data[0].InfoId
         var fliter = res.data

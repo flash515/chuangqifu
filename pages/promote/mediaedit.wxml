@@ -60,8 +60,8 @@
     <label class="labal">资讯内容：</label>
     <l-textarea indicator="{{true}}" maxlength="140" type="text" placeholder="请在这里填写资讯内容" value="{{infocontent}}" bind:lininput="bvInfoContent">
     </l-textarea>
-    <view style="display:flex; flex-direction:row; justify-content:flex-start;align-items:center">
-      <label class="labal">商品链接：</label>
+    <view wx:if="{{usertype=='admin'}}" style="display:flex; flex-direction:row; justify-content:flex-start;align-items:center">
+      <label class="labal">商品推荐：</label>
       <input type="text" class="input" value="{{link}}" placeholder="../product/allproduct" bind:input="bvLink" />
     </view>
     <text>\n</text>
@@ -70,7 +70,7 @@
       <l-checkbox placement="right" key="1" l-class="checkbox" checked="{{infotitleshow}}">显示标题</l-checkbox>
     </l-checkbox-group>
     <l-checkbox-group bind:linchange="bvLinkShow">
-      <l-checkbox placement="right" key="1" l-class="checkbox" checked="{{linkshow}}">显示商品链接</l-checkbox>
+      <l-checkbox placement="right" key="1" l-class="checkbox" checked="{{linkshow}}">显示商品推荐</l-checkbox>
     </l-checkbox-group>
     <l-checkbox-group bind:linchange="bvPrivate">
       <l-checkbox placement="right" key="1" l-class="checkbox" checked="{{private}}">非公开发布(只能通过资讯分享链接打开)</l-checkbox>

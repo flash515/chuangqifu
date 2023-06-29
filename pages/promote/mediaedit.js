@@ -9,6 +9,7 @@ Page({
    */
   data: {
     // 用户信息
+    usertype:"",
     avatarurl: "",
     nickname: "",
     width:"",
@@ -356,7 +357,7 @@ bvDeleteTempMedia(e) {
       utils._ErrorToast("标题不能为空")
       return
     }
-    if (app.globalData.Guserdata.UserInfo.UserType == "admin") {} else {
+    if (this.data.usertype == "admin") {} else {
       // 普能会员只能发布最多3条资讯
       if (app.globalData.Guserdata.TradeInfo.PromoteLevel == "member" && this.data.infoshares.length > 2) {
         utils._ErrorToast("超出会员权限")
@@ -543,6 +544,7 @@ bvDeleteTempMedia(e) {
   onLoad: function (options) {
 
     this.setData({
+      usertype:app.globalData.Guserdata.UserInfo.UserType,
       avatarurl: app.globalData.Guserdata.UserInfo.avatarUrl,
       nickname: app.globalData.Guserdata.UserInfo.nickName,
       width:app.globalData.Gsysteminfo.windowWidth/2,

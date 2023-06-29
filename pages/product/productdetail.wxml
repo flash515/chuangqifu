@@ -52,7 +52,7 @@
         <view>{{product.ProcessingTime}}</view>
       </view>
       <view wx:if="{{product.Reward != undefined && product.Reward != ''}}">
-        <label class="title1">税收奖励：</label>
+        <label class="title1">奖励情况：</label>
         <view>{{product.Reward}}</view>
       </view>
       <view wx:if="{{product.RewardTime != undefined && product.RewardTime != ''}}">

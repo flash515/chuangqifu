@@ -51,7 +51,7 @@
         </view>
         <view class="content">{{item.InfoContent}}</view>
         <view wx:if="{{item.LinkShow}}">
-          <l-button type="warning" size="mini" bind:lintap="bvLink" data-link="{{item.Link}}">商品链接</l-button>
+          <l-button type="warning" size="mini" bind:lintap="bvLink" data-link="{{item.Link}}">创企服商品推荐</l-button>
         </view>
       </view>
     </view>

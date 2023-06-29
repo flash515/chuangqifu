@@ -31,8 +31,9 @@
 
 .nickname {
   font-size: 28rpx;
-  height: 30rpx;
+align-items: center;
   color: #3683d6;
+  line-height: 60rpx;
 }
 .nicknameinput {
   font-size: 28rpx;
