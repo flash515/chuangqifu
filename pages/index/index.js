@@ -42,15 +42,13 @@ Page({
     this.setData({
       region: e.detail.value
     })
-    await utils.CloudInit(function (c1) {
-      const db = c1.database()
+      const db = app.globalData.c1.database()
       db.collection('USER').where({
         UserId: app.globalData.Guserid,
       }).update({
         data: {
           ['UserInfo.Region']: this.data.region
         }
-      })
     })
   },
   // 转发小程序功能
@@ -93,18 +91,7 @@ Page({
   //  */
   onLoad: async function (options) {
     let that = this
-    wx.showLoading({
-      title: '加载中',
-    })
-    // var c1 = new wx.cloud.Cloud({
-    //   // 资源方 AppID
-    //   resourceAppid: 'wx810b87f0575b9a47',
-    //   // 资源方环境 ID
-    //   resourceEnv: 'xsbmain-9gvsp7vo651fd1a9',
-    // })
-    // 跨账号调用，必须等待 init 完成
-    // init 过程中，资源方小程序对应环境下的 cloudbase_auth 函数会被调用，并需返回协议字段（见下）来确认允许访问、并可自定义安全规则
-    // await c1.init()
+
     //options内容：scene扫码参数，page跳转页面，type跳转类型，path1路径1，path2路径2，userid推荐人ID,productid产品id
     console.log("接收到的参数", options)
     if (options.userid) {
@@ -132,9 +119,12 @@ Page({
       this.data.tempinviterid = "oo7kw5rohI15ogf6TCX_SGAxYUao"
       this.data.remark = "创企服无参数进入指定推荐人"
     }
-
+    wx.showLoading({
+      title: '加载中',
+    })
     // 调用方法初始化
     await utils.UserLogon(this.data.tempinviterid, this.data.params, this.data.remark)
+    wx.hideLoading()
     this.setData({
       image: app.globalData.Gimagearray,
     })
@@ -185,8 +175,7 @@ Page({
         usertype: "管理员"
       })
     }
-    wx.hideLoading()
-    // utils.CloudInit(function (c1) {
+
       const db = app.globalData.c1.database()
       db.collection('notice').where({
         Status: "onshow"
@@ -202,9 +191,7 @@ Page({
           })
           console.log("noticearray", that.data.noticearray)
         }
-      // })
     })
-
   },
 
 

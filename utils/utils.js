@@ -1,6 +1,6 @@
 // 新建页面埋点
 const app = getApp()
-const Time= require("../utils/getDates")
+const Time = require("../utils/getDates")
 // 新用户信息初始化字段
 var newuserinfo = {
   nickName: "",
@@ -28,33 +28,30 @@ var newusertradeinfo = {
 async function _GetPhoneNumber(code) {
   var promise = new Promise((resolve, reject) => {
     console.log('步骤2获取accessToken')
-    CloudInit(function (c1) {
-        c1.callFunction({
-            // 云函数名称
-            name: 'getAccessToken',
-            // 传给云函数的参数
-            data: {},
-          })
-          .then(res => {
-            let accessToken = res.result
-            console.log('云函数获取this.data.accessToken：', accessToken);
-            wx.request({
-              method: 'POST',
-              url: 'https://api.weixin.qq.com/wxa/business/getuserphonenumber?access_token=' + accessToken,
-              data: {
-                code: code
-              },
-              success: function (res) {
-                console.log("步骤三获取手机号码", res.data.phone_info.phoneNumber);
-                resolve(res.data.phone_info.phoneNumber)
-              },
-              fail: function (res) {
-                console.log("fail", res);
-              }
-            })
-          })
+    app.globalData.c1.callFunction({
+        // 云函数名称
+        name: 'getAccessToken',
+        // 传给云函数的参数
+        data: {},
       })
-      .catch(console.error)
+      .then(res => {
+        let accessToken = res.result
+        console.log('云函数获取this.data.accessToken：', accessToken);
+        wx.request({
+          method: 'POST',
+          url: 'https://api.weixin.qq.com/wxa/business/getuserphonenumber?access_token=' + accessToken,
+          data: {
+            code: code
+          },
+          success: function (res) {
+            console.log("步骤三获取手机号码", res.data.phone_info.phoneNumber);
+            resolve(res.data.phone_info.phoneNumber)
+          },
+          fail: function (res) {
+            console.log("fail", res);
+          }
+        })
+      })
   });
   return promise;
 }
@@ -66,23 +63,21 @@ function _sendcode(userphone) {
       _ErrorToast("请输入手机号码")
     } else {
       let _this = this;
-      CloudInit(function (c1) {
-        c1.callFunction({
-          name: 'sendmessage',
-          data: {
-            templateId: "985130",
-            nocode: false,
-            mobile: userphone,
-            nationcode: '86'
-          },
-          success: res => {
-            let code = res.result.res.body.params[0];
-            resolve(code)
-          },
-          fail: err => {
-            _ErrorToast("发送失败请重试")
-          }
-        })
+      app.globalData.c1.callFunction({
+        name: 'sendmessage',
+        data: {
+          templateId: "985130",
+          nocode: false,
+          mobile: userphone,
+          nationcode: '86'
+        },
+        success: res => {
+          let code = res.result.res.body.params[0];
+          resolve(code)
+        },
+        fail: err => {
+          _ErrorToast("发送失败请重试")
+        }
       })
     }
   });
@@ -91,20 +86,19 @@ function _sendcode(userphone) {
 
 async function _NewMember(userphone, phoneremark) {
   var promise = new Promise((resolve, reject) => {
-    CloudInit(function (c1) {
-      const db = c1.database()
-      db.collection('USER').where({
-        UserId: app.globalData.Guserid
-      }).update({
-        data: {
-          ["UserInfo.UserPhone"]: userphone,
-          ["UserInfo.PhoneRemark"]: phoneremark,
-          ["TradeInfo.MemberTime"]: Time.getCurrentTime(),
-        },
-        success: res => {
-          resolve(res)
-        },
-      })
+
+    const db = app.globalData.c1.database()
+    db.collection('USER').where({
+      UserId: app.globalData.Guserid
+    }).update({
+      data: {
+        ["UserInfo.UserPhone"]: userphone,
+        ["UserInfo.PhoneRemark"]: phoneremark,
+        ["TradeInfo.MemberTime"]: Time.getCurrentTime(),
+      },
+      success: res => {
+        resolve(res)
+      },
     })
   });
   return promise;
@@ -113,30 +107,29 @@ async function _NewMember(userphone, phoneremark) {
 async function _RegistPointsAdd() { // 通过云函数获取用户本人的小程序ID
   var promise = new Promise((resolve, reject) => {
     console.log('新会员手机认证积分')
-    CloudInit(function (c1) {
-      const db = c1.database()
-      db.collection("POINTS").add({
-        data: {
-          PointsType: "promote",
-          RegistrantId: app.globalData.Guserid,
-          RegistrantPoints: 30,
-          ProductName: "新会员手机认证积分",
-          // 直接推荐人
-          InviterId: app.globalData.Ginviterid,
-          InviterPoints: 20,
-          // 间接推荐人
-          IndirectInviterId: app.globalData.Gindirectinviterid,
-          IndirectInviterPoints: 10,
-          SysAddDate: new Date().getTime(),
-          AddDate:Time.getCurrentTime(),
-          PointsStatus: "checked",
-          From:"创企服"
-        },
-        success: res => {
-          resolve(res)
-        },
-      })
+    const db = app.globalData.c1.database()
+    db.collection("POINTS").add({
+      data: {
+        PointsType: "promote",
+        RegistrantId: app.globalData.Guserid,
+        RegistrantPoints: 30,
+        ProductName: "新会员手机认证积分",
+        // 直接推荐人
+        InviterId: app.globalData.Ginviterid,
+        InviterPoints: 20,
+        // 间接推荐人
+        IndirectInviterId: app.globalData.Gindirectinviterid,
+        IndirectInviterPoints: 10,
+        SysAddDate: new Date().getTime(),
+        AddDate: Time.getCurrentTime(),
+        PointsStatus: "checked",
+        From: "创企服"
+      },
+      success: res => {
+        resolve(res)
+      },
     })
+
   });
   return promise;
 }
@@ -149,30 +142,27 @@ async function _SendNewUserSMS() { // 通过云函数获取用户本人的小程
       var tempmobile = [18954744612]
     }
     // 调用云函数发短信给推荐人和管理员
-    CloudInit(function (c1) {
-      c1.callFunction({
-        name: 'sendsms',
-        data: {
-          templateId: "1569087",
-          nocode: true,
-          mobile: tempmobile
-        },
-        success: res => {
-          console.log("短信发送结果", res)
-          resolve(res)
-        },
-        fail: res => {
-          console.log(res)
-        },
-      })
+    app.globalData.c1.callFunction({
+      name: 'sendsms',
+      data: {
+        templateId: "1569087",
+        nocode: true,
+        mobile: tempmobile
+      },
+      success: res => {
+        console.log("短信发送结果", res)
+        resolve(res)
+      },
+      fail: res => {
+        console.log(res)
+      },
     })
   });
   return promise;
 }
 
-async function CloudInit(callback) { // 用户登录时的操作
-
-  var c1 = new wx.cloud.Cloud({
+async function CloudInit() { // 用户登录时的操作
+  var cc = new wx.cloud.Cloud({
     // 资源方 AppID
     resourceAppid: 'wx810b87f0575b9a47',
     // 资源方环境 ID
@@ -180,11 +170,12 @@ async function CloudInit(callback) { // 用户登录时的操作
   })
   // 跨账号调用，必须等待 init 完成
   // init 过程中，资源方小程序对应环境下的 cloudbase_auth 函数会被调用，并需返回协议字段（见下）来确认允许访问、并可自定义安全规则
-  await c1.init()
-  callback(c1)
+  await cc.init()
+  app.globalData.c1 = cc
 }
 
 async function UserLogon(tempinviterid, params, remark) { // 用户登录时的操作
+  await CloudInit()
   await _setting();
   await _login();
   let data = await _usercheck(app.globalData.Guserid)
@@ -209,23 +200,19 @@ async function UserLogon(tempinviterid, params, remark) { // 用户登录时的�
 }
 
 async function _setting() { // 通过本地数据库查询指令取得小程序设置参数
-  var promise =new Promise(async(resolve, reject) => {
+  var promise = new Promise(async (resolve, reject) => {
     console.log("setting执行了")
-    // CloudInit(function (c1) {
-     await app.globalData.c1.init()
-      const db = app.globalData.c1.database()
-      db.collection('setting')
-        .doc('28ee4e3e60c48c3821c54eee6564dec5')
-        .get({
-          success: res => {
-            console.log("成功获取设置参数", res);
-            app.globalData.Gsetting = res.data;
-            app.globalData.Gimagearray = res.data.swiper
-            resolve(app.globalData.Gimagearray)
-          }
-        })
-
-    // })
+    const db = app.globalData.c1.database()
+    db.collection('setting')
+      .doc('28ee4e3e60c48c3821c54eee6564dec5')
+      .get({
+        success: res => {
+          console.log("成功获取设置参数", res);
+          app.globalData.Gsetting = res.data;
+          app.globalData.Gimagearray = res.data.swiper
+          resolve(app.globalData.Gimagearray)
+        }
+      })
   });
   return promise;
 }
@@ -234,19 +221,17 @@ async function _login() { // 通过云函数查询在售商品
     wx.login({
       success: res => {
         console.log("用户code:", res.code)
-        // CloudInit(function (c1) {
-          app.globalData.c1.callFunction({
-            name: "CQFLogin",
-            data: {
-              code: res.code,
-         },
-            success: res => {
-              console.log(res)
-              app.globalData.Guserid = res.result.unionid
-              resolve(res.result.unionid)
-            }
-          })
-        // })
+        app.globalData.c1.callFunction({
+          name: "CQFLogin",
+          data: {
+            code: res.code,
+          },
+          success: res => {
+            console.log(res)
+            app.globalData.Guserid = res.result.unionid
+            resolve(res.result.unionid)
+          }
+        })
       }
     })
     console.log("login执行了")
@@ -258,45 +243,42 @@ async function _login() { // 通过云函数查询在售商品
 function _usercheck(eventid) { // 通过本地函数查询当前用户是否是老用户
   var promise = new Promise((resolve, reject) => {
     console.log("usercheck执行中")
-    // CloudInit(function (c1) {
-      const db = app.globalData.c1.database()
-      db.collection('USER').where({
-        UserId: eventid,
-      }).get({
-        success: res => {
-          console.log("当前用户信息", res);
-          resolve(res.data)
-        }
-      })
-    // })
+    const db = app.globalData.c1.database()
+    db.collection('USER').where({
+      UserId: eventid,
+    }).get({
+      success: res => {
+        console.log("当前用户信息", res);
+        resolve(res.data)
+      }
+    })
   });
   return promise;
 }
-
 function _invitercheck(inviterid) {
   var promise = new Promise((resolve, reject) => {
     console.log("invitercheck执行了")
     // 新用户查询直接推荐人和间接推荐人信息，并存入本人USERINFO
-    // CloudInit(function (c1) {
-      const db = app.globalData.c1.database()
-      db.collection('USER').where({
-        UserId: inviterid
-      }).get({
-        success: res => {
-          console.log(res)
-          // 给本地数据赋值
-          app.globalData.Ginviterphone = res.data[0].UserInfo.UserPhone
-          app.globalData.Gindirectinviterid = res.data[0].UserInfo.InviterId
 
-          newuserinfo.InviterId = res.data[0].UserId
-          newuserinfo.InviterPhone = res.data[0].UserInfo.UserPhone
-          newuserinfo.InviterAvatar = res.data[0].UserInfo.avatarUrl
-          newuserinfo.InviterNickName = res.data[0].UserInfo.nickName
-          newuserinfo.IndirectInviterId = res.data[0].UserInfo.InviterId
-          resolve(res)
-        },
-      })
-    // })
+    const db = app.globalData.c1.database()
+    db.collection('USER').where({
+      UserId: inviterid
+    }).get({
+      success: res => {
+        console.log(res)
+        // 给本地数据赋值
+        app.globalData.Ginviterphone = res.data[0].UserInfo.UserPhone
+        app.globalData.Gindirectinviterid = res.data[0].UserInfo.InviterId
+
+        newuserinfo.InviterId = res.data[0].UserId
+        newuserinfo.InviterPhone = res.data[0].UserInfo.UserPhone
+        newuserinfo.InviterAvatar = res.data[0].UserInfo.avatarUrl
+        newuserinfo.InviterNickName = res.data[0].UserInfo.nickName
+        newuserinfo.IndirectInviterId = res.data[0].UserInfo.InviterId
+        resolve(res)
+      },
+    })
+
   });
   return promise;
 }
@@ -316,52 +298,51 @@ function _newuser(params, remark) {
 
     console.log("Guserdata", app.globalData.Guserdata)
     // 在USER数据库中新增用户信息
-    CloudInit(function (c1) {
-      const db = c1.database()
-      db.collection("USER").add({
-        data: {
-          SysAddDate: new Date().getTime(),
-          AddDate: Time.getCurrentTime(),
-          UserId: app.globalData.Guserid,
-          Params: params,
-          SystemInfo: app.globalData.Gsysteminfo,
-          UserInfo: newuserinfo,
-          TradeInfo: newusertradeinfo,
-          Remark: remark,
-          From:"创企服"
-        },
-        success: res => {
-          console.log("新增用户数据执行成功")
-          resolve(res)
-        },
-      })
+
+    const db = app.globalData.c1.database()
+    db.collection("USER").add({
+      data: {
+        SysAddDate: new Date().getTime(),
+        AddDate: Time.getCurrentTime(),
+        UserId: app.globalData.Guserid,
+        Params: params,
+        SystemInfo: app.globalData.Gsysteminfo,
+        UserInfo: newuserinfo,
+        TradeInfo: newusertradeinfo,
+        Remark: remark,
+        From: "创企服"
+      },
+      success: res => {
+        console.log("新增用户数据执行成功")
+        resolve(res)
+      },
     })
+
   });
   return promise;
 }
 
 function _newuserpoints() {
   var promise = new Promise((resolve, reject) => {
-    CloudInit(function (c1) {
-      const db = c1.database()
-    db.collection("POINTS").add({
-      data: {
-        PointsType: "promote",
-        UserId: app.globalData.Guserid,
-        ProductName: "直接推广新用户积分",
-        InviterId: app.globalData.Ginviterid,
-        InviterPoints: 5,
-        SysAddDate: new Date().getTime(),
-        AddDate: Time.getCurrentTime(),
-        PointsStatus: "checked",
-        From:"创企服"
-      },
-      success: res => {
-        console.log("执行到最后位置了", res)
-        resolve(res)
-      },
-    })
-  })
+      const db = app.globalData.c1.database()
+      db.collection("POINTS").add({
+        data: {
+          PointsType: "promote",
+          UserId: app.globalData.Guserid,
+          ProductName: "直接推广新用户积分",
+          InviterId: app.globalData.Ginviterid,
+          InviterPoints: 5,
+          SysAddDate: new Date().getTime(),
+          AddDate: Time.getCurrentTime(),
+          PointsStatus: "checked",
+          From: "创企服"
+        },
+        success: res => {
+          console.log("执行到最后位置了", res)
+          resolve(res)
+        },
+      })
+
   });
   return promise;
 }
@@ -371,39 +352,37 @@ async function _productcheck() { // 通过云函数查询在售商品
     let that = this
     console.log("productcheck执行了")
     // 使用云函数避免每次20条数据限制
-    // CloudInit(function (c1) {
-      app.globalData.c1.callFunction({
-        name: "NormalQuery",
-        data: {
-          collectionName: "PRODUCT",
-          command: "or",
-          where: [{
-            Status: "在售"
-          }]
-        },
-        success: res => {
-          console.log(res.result.data.length)
-          var fliter = res.result.data
-          for (let i = 0; i < res.result.data.length; i++) {
-            app.globalData.c1.getTempFileURL({
-              fileList: res.result.data[i].ProductImage,
-            }).then(res => {
-              fliter[i].ProductImage = [res.fileList[0].tempFileURL]
-              if (i + 1 == fliter.length) {
-                console.log("执行了", fliter)
-                app.globalData.Gproduct = fliter
-                resolve(fliter)
-              } else {
-                console.log("没执行")
-              }
-            }).catch(error => {
-              // handle error
-            })
-
-          }
+    app.globalData.c1.callFunction({
+      name: "NormalQuery",
+      data: {
+        collectionName: "PRODUCT",
+        command: "or",
+        where: [{
+          Status: "在售"
+        }]
+      },
+      success: res => {
+        console.log(res.result.data.length)
+        var fliter = res.result.data
+        for (let i = 0; i < res.result.data.length; i++) {
+          app.globalData.c1.getTempFileURL({
+            fileList: res.result.data[i].ProductImage,
+          }).then(res => {
+            fliter[i].ProductImage = [res.fileList[0].tempFileURL]
+            if (i + 1 == fliter.length) {
+              console.log("执行了", fliter)
+              app.globalData.Gproduct = fliter
+              resolve(fliter)
+            } else {
+              console.log("没执行")
+            }
+          }).catch(error => {
+            // handle error
+          })
         }
-      })
-    // })
+      }
+    })
+
   });
   return promise;
 }
@@ -414,8 +393,7 @@ function _discountcheck() {
     console.log("未更新折扣级别", app.globalData.Guserdata.TradeInfo)
 
     // 老用户确认价格等级，这一步放在index操作是便于直接跳转到其他页面
-    CloudInit(function (c1) {
-      const db = c1.database()
+      const db = app.globalData.c1.database()
       db.collection('DISCOUNTORDER').where({
         UserId: app.globalData.Guserid,
         PaymentStatus: "checked",
@@ -451,7 +429,6 @@ function _discountcheck() {
           resolve(res)
         }
       })
-    })
   });
   return promise;
 }
@@ -459,48 +436,44 @@ function _discountcheck() {
 function _directuser(eventid) {
   // 查询当前用户的推广总人数
   var promise = new Promise((resolve, reject) => {
-    CloudInit(function (c1) {
-      c1.callFunction({
-        name: "NormalQuery",
-        data: {
-          collectionName: "USER",
-          command: "and",
-          where: [{
-            ["UserInfo.InviterId"]: eventid
-          }]
-        },
-        success: res => {
-          wx.setStorageSync('LDirectUser', res.result.data);
-          // 查询结果赋值给数组参数
-          console.log("云函数查询直接推广用户", res.result.data)
-          resolve(res.result.data)
-        }
-      })
+    app.globalData.c1.callFunction({
+      name: "NormalQuery",
+      data: {
+        collectionName: "USER",
+        command: "and",
+        where: [{
+          ["UserInfo.InviterId"]: eventid
+        }]
+      },
+      success: res => {
+        wx.setStorageSync('LDirectUser', res.result.data);
+        // 查询结果赋值给数组参数
+        console.log("云函数查询直接推广用户", res.result.data)
+        resolve(res.result.data)
+      }
     })
+
   });
   return promise;
 }
 
 function _indirectuser(eventid) {
   var promise = new Promise((resolve, reject) => {
-    CloudInit(function (c1) {
-      c1.callFunction({
-        name: "NormalQuery",
-        data: {
-          collectionName: "USER",
-          command: "and",
-          where: [{
-            ["UserInfo.IndirectInviterId"]: eventid
-          }]
-        },
-        success: res => {
-          wx.setStorageSync('LIndirectUser', res.result.data);
-          // 查询结果赋值给数组参数
-          console.log("云函数查询间接推广用户", res.result.data)
-          resolve(res.result.data)
-
-        }
-      })
+    app.globalData.c1.callFunction({
+      name: "NormalQuery",
+      data: {
+        collectionName: "USER",
+        command: "and",
+        where: [{
+          ["UserInfo.IndirectInviterId"]: eventid
+        }]
+      },
+      success: res => {
+        wx.setStorageSync('LIndirectUser', res.result.data);
+        // 查询结果赋值给数组参数
+        console.log("云函数查询间接推广用户", res.result.data)
+        resolve(res.result.data)
+      }
     })
   });
   return promise;
@@ -569,35 +542,34 @@ function _discount() {
 async function _PLcheck(eventid) {
   var promise = new Promise((resolve, reject) => {
     // 查询是否是会员
-    CloudInit(function (c1) {
-      const db = c1.database()
-      const _ = db.command
-      c1.callFunction({
-        name: "NormalQuery",
-        data: {
-          collectionName: "USER",
-          command: "and",
-          where: [{
-            ["UserId"]: eventid,
-          }]
-        },
-        success: async res => {
-          console.log(res)
-          if (res.result.data[0].UserInfo.UserPhone == "" || res.result.data[0].UserInfo.UserPhone == undefined) {
-            console.log("普客")
-            // 赋值
-            let PL = "normal"
-            resolve(PL)
-          } else {
-            console.log("是会员继续查询是否有PL订单")
-            let validuser = await _validuser1year(eventid)
-            console.log(validuser)
-            let PL = await _PLordercheck(validuser, eventid)
-            console.log(PL)
-            resolve(PL)
-          }
+    const db = app.globalData.c1.database()
+    const _ = db.command
+    app.globalData.c1.callFunction({
+      name: "NormalQuery",
+      data: {
+        collectionName: "USER",
+        command: "and",
+        where: [{
+          ["UserId"]: eventid,
+        }]
+      },
+      success: async res => {
+        console.log(res)
+        if (res.result.data[0].UserInfo.UserPhone == "" || res.result.data[0].UserInfo.UserPhone == undefined) {
+          console.log("普客")
+          // 赋值
+          let PL = "normal"
+          resolve(PL)
+        } else {
+          console.log("是会员继续查询是否有PL订单")
+          let validuser = await _validuser1year(eventid)
+          console.log(validuser)
+          let PL = await _PLordercheck(validuser, eventid)
+          console.log(PL)
+          resolve(PL)
         }
-      })
+      }
+
     })
   })
   return promise;
@@ -607,57 +579,54 @@ function _PLordercheck(validuser, eventid) {
   var promise = new Promise((resolve, reject) => {
     var now = new Date().getTime()
     console.log("本地函数查询推荐人的Promoter订单")
-    CloudInit(function (c1) {
-      const db = c1.database()
-      const _ = db.command
-      db.collection('PROMOTEORDER').where({
-        UserId: eventid,
-        PaymentStatus: "checked",
-        OrderStatus: "checked",
-      }).orderBy('SysAddDate', 'desc').limit(1).get({
-        // 根据添加日期排序,只需要提取最后一条购买记录就可以
-        success: res => {
-
-          console.log("推广订单查询", res.data)
-          console.log("有效推广用户数", validuser)
-          console.log("当前时间戳", now)
-          if (res.data.length != 0) {
-            // 判断是否有效，根据购买规则，只存在有效或过期的情况，不存在购买后未生效的情况
-            if (new Date(res.data[0].PLStartDate).getTime() < now && now < new Date(res.data[0].PLEndDate).getTime()) {
-              // 在有效期内的PL
-              var PL = res.data[0].PromoteLevel
-              console.log("PL在有效期内")
-
-              resolve(PL)
-            } else if (new Date(res.data[0].PLEndDate).getTime() < now) {
-              // 已过期的PL,进一步查询有效人数，不符合维持条件就转为member
-              if (res.data[0].PromoteLevel == "platinum" && validuser >= 60) {
-                var PL = "platinum"
-                console.log("PL为白金")
-                resolve(PL)
-              } else if (res.data[0].PromoteLevel == "gold" && validuser >= 20) {
-                var PL = "gold"
-                console.log("PL为黄金")
-                resolve(PL)
-              } else if (res.data[0].PromoteLevel == "silver" && validuser >= 2) {
-                var PL = "silver"
-                console.log("PL白银")
-                resolve(PL)
-              } else {
-                var PL = "member"
-                console.log("PL为会员")
-                resolve(PL)
-              }
-            }
-          } else {
-            // length=0,没有任何购买记录,之前已确认最低是会员
-            var PL = "member"
-            console.log("PL为会员")
+    const db = app.globalData.c1.database()
+    const _ = db.command
+    db.collection('PROMOTEORDER').where({
+      UserId: eventid,
+      PaymentStatus: "checked",
+      OrderStatus: "checked",
+    }).orderBy('SysAddDate', 'desc').limit(1).get({
+      // 根据添加日期排序,只需要提取最后一条购买记录就可以
+      success: res => {
+        console.log("推广订单查询", res.data)
+        console.log("有效推广用户数", validuser)
+        console.log("当前时间戳", now)
+        if (res.data.length != 0) {
+          // 判断是否有效，根据购买规则，只存在有效或过期的情况，不存在购买后未生效的情况
+          if (new Date(res.data[0].PLStartDate).getTime() < now && now < new Date(res.data[0].PLEndDate).getTime()) {
+            // 在有效期内的PL
+            var PL = res.data[0].PromoteLevel
+            console.log("PL在有效期内")
             resolve(PL)
+          } else if (new Date(res.data[0].PLEndDate).getTime() < now) {
+            // 已过期的PL,进一步查询有效人数，不符合维持条件就转为member
+            if (res.data[0].PromoteLevel == "platinum" && validuser >= 60) {
+              var PL = "platinum"
+              console.log("PL为白金")
+              resolve(PL)
+            } else if (res.data[0].PromoteLevel == "gold" && validuser >= 20) {
+              var PL = "gold"
+              console.log("PL为黄金")
+              resolve(PL)
+            } else if (res.data[0].PromoteLevel == "silver" && validuser >= 2) {
+              var PL = "silver"
+              console.log("PL白银")
+              resolve(PL)
+            } else {
+              var PL = "member"
+              console.log("PL为会员")
+              resolve(PL)
+            }
           }
+        } else {
+          // length=0,没有任何购买记录,之前已确认最低是会员
+          var PL = "member"
+          console.log("PL为会员")
+          resolve(PL)
         }
-      })
+      }
     })
+
   })
   return promise;
 }
@@ -665,28 +634,27 @@ function _PLordercheck(validuser, eventid) {
 async function _validuser1year(eventid) {
   var promise = new Promise((resolve, reject) => {
     var now = new Date().getTime()
-    CloudInit(function (c1) {
-      const db = c1.database()
-      const _ = db.command
-      c1.callFunction({
-        name: "NormalQuery",
-        data: {
-          collectionName: "USER",
-          command: "and",
-          where: [{
-            ["UserInfo.InviterId"]: eventid,
-            ["UserInfo.UserPhone"]: _.neq(""),
-            ["SysAddDate"]: _.gte(now - 365 * 86400000)
-          }]
-        },
-        success: res => {
-          var validuser1year = res.result.data.length
-          // 查询结果赋值给数组参数
-          console.log("云函数查询直接推广用户", res.result.data)
-          resolve(validuser1year)
-        }
-      })
+    const db = app.globalData.c1.database()
+    const _ = db.command
+    app.globalData.c1.callFunction({
+      name: "NormalQuery",
+      data: {
+        collectionName: "USER",
+        command: "and",
+        where: [{
+          ["UserInfo.InviterId"]: eventid,
+          ["UserInfo.UserPhone"]: _.neq(""),
+          ["SysAddDate"]: _.gte(now - 365 * 86400000)
+        }]
+      },
+      success: res => {
+        var validuser1year = res.result.data.length
+        // 查询结果赋值给数组参数
+        console.log("云函数查询直接推广用户", res.result.data)
+        resolve(validuser1year)
+      }
     })
+
   })
   return promise;
 }
@@ -694,24 +662,23 @@ async function _validuser1year(eventid) {
 async function _packetcheck(eventid) {
   var promise = new Promise((resolve, reject) => {
     var now = new Date().getTime()
-    CloudInit(function (c1) {
-      const db = c1.database()
-      const _ = db.command
-      c1.callFunction({
-        name: "NormalQuery",
-        data: {
-          collectionName: "POINTS",
-          command: "and",
-          where: [{
-            TransferPacketId: eventid,
-          }]
-        },
-        success: res => {
-          console.log(res)
-          resolve([res.result.data[0].RemainPoints, res.result.data[0].RemainPacket])
-        }
-      })
+    const db = app.globalData.c1.database()
+    const _ = db.command
+    app.globalData.c1.callFunction({
+      name: "NormalQuery",
+      data: {
+        collectionName: "POINTS",
+        command: "and",
+        where: [{
+          TransferPacketId: eventid,
+        }]
+      },
+      success: res => {
+        console.log(res)
+        resolve([res.result.data[0].RemainPoints, res.result.data[0].RemainPacket])
+      }
     })
+
   })
   return promise;
 }
@@ -719,92 +686,90 @@ async function _packetcheck(eventid) {
 function _pointshistory() {
   console.log(app.globalData.Guserdata.TradeInfo.MemberTime)
   var promise = new Promise((resolve, reject) => {
-    CloudInit(function (c1) {
-      const db = c1.database()
-      const _ = db.command
-      // 查询成为会员后的全部相关points记录
-      c1.callFunction({
-        name: "NormalQuery",
-        data: {
-          collectionName: "POINTS",
-          command: "or",
-          where: [{
-              // 手机认证积分
-              ["RegistrantId"]: app.globalData.Guserid,
-              ["PointsStatus"]: "checked",
-              ["AddDate"]: _.gte(app.globalData.Guserdata.TradeInfo.MemberTime)
-            },
-            {
-              // 直接推荐积分
-              ["InviterId"]: app.globalData.Guserid,
-              ["PointsStatus"]: "checked",
-              ["AddDate"]: _.gte(app.globalData.Guserdata.TradeInfo.MemberTime)
-            },
-            {
-              // 间接推荐积分
-              ["IndirectInviterId"]: app.globalData.Guserid,
-              ["PointsStatus"]: "checked",
-              ["AddDate"]: _.gte(app.globalData.Guserdata.TradeInfo.MemberTime)
-            },
-            {
-              // 推广积分抵减
-              ["ConsumeId"]: app.globalData.Guserid,
-              ["PointsStatus"]: "checked",
-              ["AddDate"]: _.gte(app.globalData.Guserdata.TradeInfo.MemberTime)
-            },
-            {
-              // 推广积分转让
-              ["TransferId"]: app.globalData.Guserid,
-              ["PointsStatus"]: "checked",
-              ["AddDate"]: _.gte(app.globalData.Guserdata.TradeInfo.MemberTime)
-            },
-            {
-              // 积分兑换
-              ["ExchangeId"]: app.globalData.Guserid,
-              ["PointsStatus"]: "checked",
-              ["AddDate"]: _.gte(app.globalData.Guserdata.TradeInfo.MemberTime)
-            },
-            {
-              // 消费积分提现
-              ["WithdrawId"]: app.globalData.Guserid,
-              ["PointsStatus"]: "checked",
-              ["AddDate"]: _.gte(app.globalData.Guserdata.TradeInfo.MemberTime)
-            },
-            {
-              // 消费积分转让
-              ["PointsType"]: "transfer",
-              ["PointsStatus"]: "checked",
-              ["DoneeId"]: app.globalData.Guserid,
-              ["AddDate"]: _.gte(app.globalData.Guserdata.TradeInfo.MemberTime)
-            }
-          ]
-        },
-        success: res => {
-          console.log("云函数查询积分记录", res.result.data)
-          // 根据查询结果筛选
-          let promotehistory = []
-          let tradehistory = []
-          for (let i = 0; i < res.result.data.length; i++) {
-            if (res.result.data[i].PointsType == "promote") {
-              promotehistory.push(res.result.data[i])
-            } else if (res.result.data[i].PointsType == "trade") {
-              if (res.result.data[i].InviterId == app.globalData.Guserid || res.result.data[i].IndirectInviterId == app.globalData.Guserid) {
-                tradehistory.push(res.result.data[i])
-              } else if (res.result.data[i].ConsumeId == app.globalData.Guserid) {
-                promotehistory.push(res.result.data[i])
-              }
-            } else if (res.result.data[i].PointsType == "exchange") {
-              promotehistory.push(res.result.data[i])
-              tradehistory.push(res.result.data[i])
-            } else if (res.result.data[i].PointsType == "withdraw") {
-              tradehistory.push(res.result.data[i])
-            } else if (res.result.data[i].PointsType == "transfer") {
-              promotehistory.push(res.result.data[i])
-            }
+    const db = app.globalData.c1.database()
+    const _ = db.command
+    // 查询成为会员后的全部相关points记录
+    app.globalData.c1.callFunction({
+      name: "NormalQuery",
+      data: {
+        collectionName: "POINTS",
+        command: "or",
+        where: [{
+            // 手机认证积分
+            ["RegistrantId"]: app.globalData.Guserid,
+            ["PointsStatus"]: "checked",
+            ["AddDate"]: _.gte(app.globalData.Guserdata.TradeInfo.MemberTime)
+          },
+          {
+            // 直接推荐积分
+            ["InviterId"]: app.globalData.Guserid,
+            ["PointsStatus"]: "checked",
+            ["AddDate"]: _.gte(app.globalData.Guserdata.TradeInfo.MemberTime)
+          },
+          {
+            // 间接推荐积分
+            ["IndirectInviterId"]: app.globalData.Guserid,
+            ["PointsStatus"]: "checked",
+            ["AddDate"]: _.gte(app.globalData.Guserdata.TradeInfo.MemberTime)
+          },
+          {
+            // 推广积分抵减
+            ["ConsumeId"]: app.globalData.Guserid,
+            ["PointsStatus"]: "checked",
+            ["AddDate"]: _.gte(app.globalData.Guserdata.TradeInfo.MemberTime)
+          },
+          {
+            // 推广积分转让
+            ["TransferId"]: app.globalData.Guserid,
+            ["PointsStatus"]: "checked",
+            ["AddDate"]: _.gte(app.globalData.Guserdata.TradeInfo.MemberTime)
+          },
+          {
+            // 积分兑换
+            ["ExchangeId"]: app.globalData.Guserid,
+            ["PointsStatus"]: "checked",
+            ["AddDate"]: _.gte(app.globalData.Guserdata.TradeInfo.MemberTime)
+          },
+          {
+            // 消费积分提现
+            ["WithdrawId"]: app.globalData.Guserid,
+            ["PointsStatus"]: "checked",
+            ["AddDate"]: _.gte(app.globalData.Guserdata.TradeInfo.MemberTime)
+          },
+          {
+            // 消费积分转让
+            ["PointsType"]: "transfer",
+            ["PointsStatus"]: "checked",
+            ["DoneeId"]: app.globalData.Guserid,
+            ["AddDate"]: _.gte(app.globalData.Guserdata.TradeInfo.MemberTime)
           }
-          resolve([promotehistory, tradehistory])
+        ]
+      },
+      success: res => {
+        console.log("云函数查询积分记录", res.result.data)
+        // 根据查询结果筛选
+        let promotehistory = []
+        let tradehistory = []
+        for (let i = 0; i < res.result.data.length; i++) {
+          if (res.result.data[i].PointsType == "promote") {
+            promotehistory.push(res.result.data[i])
+          } else if (res.result.data[i].PointsType == "trade") {
+            if (res.result.data[i].InviterId == app.globalData.Guserid || res.result.data[i].IndirectInviterId == app.globalData.Guserid) {
+              tradehistory.push(res.result.data[i])
+            } else if (res.result.data[i].ConsumeId == app.globalData.Guserid) {
+              promotehistory.push(res.result.data[i])
+            }
+          } else if (res.result.data[i].PointsType == "exchange") {
+            promotehistory.push(res.result.data[i])
+            tradehistory.push(res.result.data[i])
+          } else if (res.result.data[i].PointsType == "withdraw") {
+            tradehistory.push(res.result.data[i])
+          } else if (res.result.data[i].PointsType == "transfer") {
+            promotehistory.push(res.result.data[i])
+          }
         }
-      })
+        resolve([promotehistory, tradehistory])
+      }
     })
   })
   return promise;
@@ -812,24 +777,22 @@ function _pointshistory() {
 
 function _balanceupdate(promotebalance, tradebalance, balanceupdatetime) {
   var promise = new Promise((resolve, reject) => {
-    CloudInit(function (c1) {
-      const db = c1.database()
-      db.collection('USER').where({
-        UserId: app.globalData.Guserid
-      }).update({
-        data: {
-          // 给数据库字库更新
-          ["TradeInfo.PromoteBalance"]: promotebalance,
-          ["TradeInfo.TradeBalance"]: tradebalance,
-          ["TradeInfo.BalanceUpdateTime"]: balanceupdatetime,
-        },
-        success: res => {
-          app.globalData.Guserdata.TradeInfo.PromoteBalance = promotebalance
-          app.globalData.Guserdata.TradeInfo.TradeBalance = tradebalance
-          app.globalData.Guserdata.TradeInfo.BalanceUpdateTime = balanceupdatetime
-          resolve(res)
-        }
-      })
+    const db = app.globalData.c1.database()
+    db.collection('USER').where({
+      UserId: app.globalData.Guserid
+    }).update({
+      data: {
+        // 给数据库字库更新
+        ["TradeInfo.PromoteBalance"]: promotebalance,
+        ["TradeInfo.TradeBalance"]: tradebalance,
+        ["TradeInfo.BalanceUpdateTime"]: balanceupdatetime,
+      },
+      success: res => {
+        app.globalData.Guserdata.TradeInfo.PromoteBalance = promotebalance
+        app.globalData.Guserdata.TradeInfo.TradeBalance = tradebalance
+        app.globalData.Guserdata.TradeInfo.BalanceUpdateTime = balanceupdatetime
+        resolve(res)
+      }
     })
   });
   return promise;
@@ -889,24 +852,22 @@ function _ErrorToast(title) {
 // 快捷会议室
 function _roomapply(promotebalance, tradebalance, balanceupdatetime) {
   var promise = new Promise((resolve, reject) => {
-    CloudInit(function (c1) {
-      const db = c1.database()
-      db.collection('USER').where({
-        UserId: app.globalData.Guserid
-      }).update({
-        data: {
-          // 给数据库字库更新
-          ["TradeInfo.PromoteBalance"]: promotebalance,
-          ["TradeInfo.TradeBalance"]: tradebalance,
-          ["TradeInfo.BalanceUpdateTime"]: balanceupdatetime,
-        },
-        success: res => {
-          app.globalData.Guserdata.TradeInfo.PromoteBalance = promotebalance
-          app.globalData.Guserdata.TradeInfo.TradeBalance = tradebalance
-          app.globalData.Guserdata.TradeInfo.BalanceUpdateTime = balanceupdatetime
-          resolve(res)
-        }
-      })
+    const db = app.globalData.c1.database()
+    db.collection('USER').where({
+      UserId: app.globalData.Guserid
+    }).update({
+      data: {
+        // 给数据库字库更新
+        ["TradeInfo.PromoteBalance"]: promotebalance,
+        ["TradeInfo.TradeBalance"]: tradebalance,
+        ["TradeInfo.BalanceUpdateTime"]: balanceupdatetime,
+      },
+      success: res => {
+        app.globalData.Guserdata.TradeInfo.PromoteBalance = promotebalance
+        app.globalData.Guserdata.TradeInfo.TradeBalance = tradebalance
+        app.globalData.Guserdata.TradeInfo.BalanceUpdateTime = balanceupdatetime
+        resolve(res)
+      }
     })
   });
   return promise;
@@ -917,8 +878,7 @@ async function _UploadFile(file, path) {
     const filePath = file
     const cloudPath = path + file.match(/\.[^.]+?$/)
     let _this = this;
-    CloudInit(function (c1) {
-    c1.uploadFile({
+    app.globalData.c1.uploadFile({
       cloudPath,
       filePath,
       success: res => {
@@ -926,7 +886,6 @@ async function _UploadFile(file, path) {
         resolve(res.fileID)
       }
     })
-  })
   });
   return promise;
 }
@@ -941,8 +900,7 @@ async function _UploadFiles(filelist, cloudpath) {
         const filePath = filelist[i]
         const cloudPath = cloudpath + [i + 1] + filePath.match(/\.[^.]+?$/)
         let _this = this;
-        CloudInit(function (c1) {
-        c1.uploadFile({
+        app.globalData.c1.uploadFile({
           cloudPath,
           filePath,
           success: res => {
@@ -950,7 +908,6 @@ async function _UploadFiles(filelist, cloudpath) {
             resolve(res.fileID)
           }
         })
-      })
       }))
     }
     Promise.all(tempfiles).then(res => {
@@ -965,8 +922,7 @@ async function _UploadFiles(filelist, cloudpath) {
 async function getTempFileURL(filelist) {
   var promise = new Promise((resolve, reject) => {
     let _this = this;
-    CloudInit(function (c1) {
-    c1.getTempFileURL({
+    app.globalData.c1.getTempFileURL({
       fileList: filelist,
       success: res => {
         // get temp file URL
@@ -977,21 +933,17 @@ async function getTempFileURL(filelist) {
         // handle error
       }
     })
-  })
   });
   return promise;
 }
 
 async function _RemoveFiles(filelist) {
   let _this = this;
-  CloudInit(function (c1) {
-  c1.deleteFile({
+  app.globalData.c1.deleteFile({
     fileList: filelist,
     success: res => {
-
     }
   })
-})
 }
 
 module.exports = {

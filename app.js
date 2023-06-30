@@ -24,21 +24,7 @@ App({
       // })
 
       /*调用方关键代码如下*/
-      // 声明新的 cloud 实例
-      // var c1 = new wx.cloud.Cloud({
-      //   // 资源方 AppID
-      //   resourceAppid: 'wx810b87f0575b9a47',
-      //   // 资源方环境 ID
-      //   resourceEnv: 'xsbmain-9gvsp7vo651fd1a9',
-      // })
-      // await c1.init()
-      this.globalData.c1 = new wx.cloud.Cloud({
-        // 资源方 AppID
-        resourceAppid: 'wx810b87f0575b9a47',
-        // 资源方环境 ID
-        resourceEnv: 'xsbmain-9gvsp7vo651fd1a9',
-      })
-      await this.globalData.c1.init()
+
       // 获取用户授权信息
       wx.getSetting({
         success: res => {
