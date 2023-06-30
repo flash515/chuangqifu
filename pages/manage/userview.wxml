@@ -11,19 +11,19 @@
     <view wx:if="{{item.UserInfo.nickName}}">用户微信昵称：{{item.UserInfo.nickName}}</view>
     <view wx:if="{{item.UserInfo.avatarUrl}}">用户微信头像：<image class="avatar" src="{{item.UserInfo.avatarUrl}}"></image></view>
     <view wx:if="{{item.UserInfo.UserPhone}}">用户手机：{{item.UserInfo.UserPhone}}</view>
-    <view wx:if="{{item.UserInfo.UserType}}">用户类型：{{item.UserInfo.UserType}}</view>
+    <view wx:if="{{item.UserInfo.UserType!='client'}}">用户类型：{{item.UserInfo.UserType}}</view>
     <view wx:if="{{item.TradeInfo.TradeBalance}}">消费积分余额：{{item.TradeInfo.TradeBalance}}</view>
     <view wx:if="{{item.TradeInfo.PromoteBalance}}">推广积分余额：{{item.TradeInfo.PromoteBalance}}</view>
-    <view wx:if="{{item.TradeInfo.BalanceUpdateTime}}">积分更新时间：{{item.TradeInfo.BalanceUpdateTime}}</view>
-    <view wx:if="{{item.TradeInfo.DiscountLevel}}">优惠等级：{{item.TradeInfo.DiscountLevel}}</view>
+    <!-- <view wx:if="{{item.TradeInfo.BalanceUpdateTime}}">积分更新时间：{{item.TradeInfo.BalanceUpdateTime}}</view> -->
+    <view wx:if="{{item.TradeInfo.DiscountLevel!='DL4'}}">优惠等级：{{item.TradeInfo.DiscountLevel}}</view>
+    <view wx:if="{{item.TradeInfo.DiscountLevel!='DL4'}}">优惠更新时间：{{item.TradeInfo.DLUpdateTime}}</view>
     <view wx:if="{{item.TradeInfo.DLStartDate}}">优惠起始日期：{{item.TradeInfo.DLStartDate}}</view>
     <view wx:if="{{item.TradeInfo.DLEndDate}}">优惠终止日期：{{item.TradeInfo.DLEndDate}}</view>
-    <view wx:if="{{item.TradeInfo.DLUpdateTime}}">优惠更新时间：{{item.TradeInfo.DLUpdateTime}}</view>
-    <view wx:if="{{item.TradeInfo.PromoteLevel}}">会员推广等级：{{item.TradeInfo.PromoteLevel}}</view>
-    <view wx:if="{{item.TradeInfo.PLUpdateTime}}">推广更新时间：{{item.TradeInfo.PLUpdateTime}}</view>
+    <view wx:if="{{item.TradeInfo.PromoteLevel!='normal'}}">会员推广等级：{{item.TradeInfo.PromoteLevel}}</view>
+    <view wx:if="{{item.TradeInfo.PromoteLevel!='normal'}}">推广更新时间：{{item.TradeInfo.PLUpdateTime}}</view>
     <view wx:if="{{item.Params}}">首次登录参数：{{item.Params}}</view>
     <view wx:if="{{item.Remark}}">用户备注：{{item.Remark}}</view>
-    <view wx:if="{{item.UserInfo.InviterAvatar}}">推荐人头像：<image class="avatar" src="{{item.UserInfo.InviterAvatar}}"></image></view>
+    <view wx:if="{{item.UserInfo.InviterAvatar && item.UserInfo.InviterNickName!='小税宝'}}">推荐人头像：<image class="avatar" src="{{item.UserInfo.InviterAvatar}}"></image></view>
     <view wx:if="{{item.UserInfo.InviterNickName}}">推荐人昵称：{{item.UserInfo.InviterNickName}}</view>
 
   <!-- 具有经典借鉴的多级展示 -->
