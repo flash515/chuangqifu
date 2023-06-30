@@ -25,14 +25,20 @@ App({
 
       /*调用方关键代码如下*/
       // 声明新的 cloud 实例
-      var c1 = new wx.cloud.Cloud({
+      // var c1 = new wx.cloud.Cloud({
+      //   // 资源方 AppID
+      //   resourceAppid: 'wx810b87f0575b9a47',
+      //   // 资源方环境 ID
+      //   resourceEnv: 'xsbmain-9gvsp7vo651fd1a9',
+      // })
+      // await c1.init()
+      this.globalData.c1 = new wx.cloud.Cloud({
         // 资源方 AppID
         resourceAppid: 'wx810b87f0575b9a47',
         // 资源方环境 ID
         resourceEnv: 'xsbmain-9gvsp7vo651fd1a9',
       })
-      await c1.init()
-
+      await this.globalData.c1.init()
       // 获取用户授权信息
       wx.getSetting({
         success: res => {
@@ -99,6 +105,7 @@ App({
   globalData: {
     //全局变量要考虑新用户初始情况及老用户赋值情况，尽量避免过于概括或过于琐碎
     // 接收到的参数数组,包含推荐人userid,页面路径page，来源编号source等
+    c1:[],
     Gsysteminfo: [], //系统参数
 
     GWidth: "", // 屏幕可用宽度

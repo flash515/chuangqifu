@@ -15,10 +15,15 @@
 <text>\r\n\r\n</text>
 <view>{{accessToken}}</view> -->
   <view class="content" wx:if="{{usertype=='admin'}}">
-    <l-input type="text" label="UNIONID：" bind:lininput="bvUserUnionId"></l-input>
     <l-input type="text" label="自定页面：" placeholder="pages/promote/namecard" bind:lininput="bvPage"></l-input>
-    <l-input type="text" label="自定参数：" placeholder="三个字符以内，不能用中文" bind:lininput="bvParams"></l-input>
+    <l-input type="text" label="UNIONID：" bind:lininput="bvUserUnionId"></l-input> 
+    <l-input type="text" label="产品ID：" placeholder="不能用中文" bind:lininput="bvProductId"></l-input> 
+    <l-input type="text" label="自定参数：" placeholder="不能用中文，三项参数总和30位" bind:lininput="bvParams"></l-input> 
     <l-input type="text" label="自定颜色：" placeholder="{'r':0,'g':0,'b':0}" bind:lininput="bvColor"></l-input>
+    <label class="text">点击选择个人头像替换小程序码中LOGO：</label>
+  <button class="avatarBtn" open-type="chooseAvatar" bind:chooseavatar="onChooseImage">
+    <image class="avatar" src="{{imageUrl}}"></image>
+  </button>
     <view class="btn" bindtap="getQRCode">生成定制创企服推广码</view>
   <view wx:if="{{tempqrcodeurl}}">
       <image style='width:{{windowW}}px;height:{{windowW}}px;' src="{{tempqrcodeurl}}"></image>

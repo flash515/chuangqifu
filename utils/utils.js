@@ -209,10 +209,11 @@ async function UserLogon(tempinviterid, params, remark) { // 用户登录时的�
 }
 
 async function _setting() { // 通过本地数据库查询指令取得小程序设置参数
-  var promise = new Promise((resolve, reject) => {
+  var promise =new Promise(async(resolve, reject) => {
     console.log("setting执行了")
-    CloudInit(function (c1) {
-      const db = c1.database()
+    // CloudInit(function (c1) {
+     await app.globalData.c1.init()
+      const db = app.globalData.c1.database()
       db.collection('setting')
         .doc('28ee4e3e60c48c3821c54eee6564dec5')
         .get({
@@ -224,7 +225,7 @@ async function _setting() { // 通过本地数据库查询指令取得小程序�
           }
         })
 
-    })
+    // })
   });
   return promise;
 }
@@ -233,8 +234,8 @@ async function _login() { // 通过云函数查询在售商品
     wx.login({
       success: res => {
         console.log("用户code:", res.code)
-        CloudInit(function (c1) {
-          c1.callFunction({
+        // CloudInit(function (c1) {
+          app.globalData.c1.callFunction({
             name: "CQFLogin",
             data: {
               code: res.code,
@@ -245,7 +246,7 @@ async function _login() { // 通过云函数查询在售商品
               resolve(res.result.unionid)
             }
           })
-        })
+        // })
       }
     })
     console.log("login执行了")
@@ -257,8 +258,8 @@ async function _login() { // 通过云函数查询在售商品
 function _usercheck(eventid) { // 通过本地函数查询当前用户是否是老用户
   var promise = new Promise((resolve, reject) => {
     console.log("usercheck执行中")
-    CloudInit(function (c1) {
-      const db = c1.database()
+    // CloudInit(function (c1) {
+      const db = app.globalData.c1.database()
       db.collection('USER').where({
         UserId: eventid,
       }).get({
@@ -267,7 +268,7 @@ function _usercheck(eventid) { // 通过本地函数查询当前用户是否是�
           resolve(res.data)
         }
       })
-    })
+    // })
   });
   return promise;
 }
@@ -276,8 +277,8 @@ function _invitercheck(inviterid) {
   var promise = new Promise((resolve, reject) => {
     console.log("invitercheck执行了")
     // 新用户查询直接推荐人和间接推荐人信息，并存入本人USERINFO
-    CloudInit(function (c1) {
-      const db = c1.database()
+    // CloudInit(function (c1) {
+      const db = app.globalData.c1.database()
       db.collection('USER').where({
         UserId: inviterid
       }).get({
@@ -295,7 +296,7 @@ function _invitercheck(inviterid) {
           resolve(res)
         },
       })
-    })
+    // })
   });
   return promise;
 }
@@ -370,8 +371,8 @@ async function _productcheck() { // 通过云函数查询在售商品
     let that = this
     console.log("productcheck执行了")
     // 使用云函数避免每次20条数据限制
-    CloudInit(function (c1) {
-      c1.callFunction({
+    // CloudInit(function (c1) {
+      app.globalData.c1.callFunction({
         name: "NormalQuery",
         data: {
           collectionName: "PRODUCT",
@@ -384,7 +385,7 @@ async function _productcheck() { // 通过云函数查询在售商品
           console.log(res.result.data.length)
           var fliter = res.result.data
           for (let i = 0; i < res.result.data.length; i++) {
-            c1.getTempFileURL({
+            app.globalData.c1.getTempFileURL({
               fileList: res.result.data[i].ProductImage,
             }).then(res => {
               fliter[i].ProductImage = [res.fileList[0].tempFileURL]
@@ -402,7 +403,7 @@ async function _productcheck() { // 通过云函数查询在售商品
           }
         }
       })
-    })
+    // })
   });
   return promise;
 }
