@@ -24,7 +24,8 @@
   <button class="avatarBtn" open-type="chooseAvatar" bind:chooseavatar="onChooseImage">
     <image class="avatar" src="{{imageUrl}}"></image>
   </button>
-    <view class="btn" bindtap="getQRCode">生成定制创企服推广码</view>
+  <image style='width:{{windowW}}px;height:{{windowW}}px;' src="{{ewmPath}}"></image>
+    <view class="btn" bindtap="getcode">生成定制创企服推广码</view>
   <view wx:if="{{tempqrcodeurl}}">
       <image style='width:{{windowW}}px;height:{{windowW}}px;' src="{{tempqrcodeurl}}"></image>
     </view>

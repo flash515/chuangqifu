@@ -1,3 +1,4 @@
+const app = getApp()
 const FATAL_REBUILD_TOLERANCE = 10
 const SETDATA_SCROLL_TO_BOTTOM = {
   scrollTop: 100000,
@@ -50,7 +51,7 @@ Component({
           envId,
           collection
         } = this.properties
-        this.db = wx.cloud.database({
+        this.db = app.globalData.c1.database({
           env: envId,
         })
         const db = this.db
@@ -249,7 +250,7 @@ Component({
           })
           this.scrollToBottom(true)
 
-          const uploadTask = wx.cloud.uploadFile({
+          const uploadTask = app.globalData.c1.uploadFile({
             cloudPath: `${this.data.openId}/${Math.random()}_${Date.now()}.${res.tempFilePaths[0].match(/\.(\w+)$/)[1]}`,
             filePath: res.tempFilePaths[0],
             config: {

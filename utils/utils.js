@@ -175,7 +175,7 @@ async function CloudInit() { // 用户登录时的操作
 }
 
 async function UserLogon(tempinviterid, params, remark) { // 用户登录时的操作
-  await CloudInit()
+  await CloudInit();
   await _setting();
   await _login();
   let data = await _usercheck(app.globalData.Guserid)
@@ -193,8 +193,6 @@ async function UserLogon(tempinviterid, params, remark) { // 用户登录时的�
     app.globalData.Ginviterid = data[0].UserInfo.InviterId
     app.globalData.Ginviterphone = data[0].UserInfo.InviterPhone
     console.log("当前用户信息", app.globalData.Guserdata);
-    // 价格折扣查询不宜放在初始化中，改在产品页面
-    // await _discountcheck()
   }
 
 }
@@ -482,7 +480,7 @@ function _indirectuser(eventid) {
 function _discount() {
   var promise = new Promise((resolve, reject) => {
     const _ = db.command
-    wx.cloud.collection('DISCOUNTORDER').where({
+    app.globalData.c1.collection('DISCOUNTORDER').where({
       UserId: app.globalData.Guserid,
       PaymentStatus: "checked",
       OrderStatus: "checked",

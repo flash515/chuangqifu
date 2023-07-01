@@ -71,7 +71,7 @@ Page({
       return this.openid
     }
 
-    const { result } = await wx.cloud.callFunction({
+    const { result } = await app.globalData.c1.callFunction({
       name: 'login',
     })
 

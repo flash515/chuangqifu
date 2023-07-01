@@ -1,6 +1,6 @@
 const app = getApp()
 var utils = require("../../utils/utils")
-const Time= require("../../utils/getDates");
+const Time = require("../../utils/getDates");
 const wxpay = require("../../utils/WxPay")
 Page({
   /**
@@ -14,8 +14,8 @@ Page({
     remark: "",
     indirectinviterid: "",
     userinfo: {},
-    width:"",
-    height:"",
+    width: "",
+    height: "",
     // 登录框相关变量
     loginshow: false,
 
@@ -72,107 +72,107 @@ Page({
   toCreator(e) {
     console.log(e.currentTarget.dataset.id)
     let that = this
-    
-      const db = app.globalData.c1.database()
-      if (e.currentTarget.dataset.id == app.globalData.Guserid) {
-        // 如果用户是资讯创建者,显示本人全部发布资讯
-        db.collection('INFOSHARE').where({
-          CreatorId: e.currentTarget.dataset.id,
-          InfoType:"Media",
-        }).get({
-          success: res => {
-            console.log(res)
-            var fliter = res.data
-            for (let i = 0; i < res.data.length; i++) {
-              if (res.data[i].InfoVideo != "") {
-                var filelist = [res.data[i].InfoCover, res.data[i].InfoVideo]
-              } else {
-                var filelist = [res.data[i].InfoCover, res.data[i].InfoImage]
-              }
-              app.globalData.c1.getTempFileURL({
-                fileList: filelist
-              }).then(res => {
-                console.log(res.fileList)
-                if (fliter[i].InfoVideo != "") {
-                  fliter[i].InfoCover = res.fileList[0].tempFileURL
-                  fliter[i].InfoVideo = res.fileList[1].tempFileURL
-                } else {
-                  fliter[i].InfoCover = res.fileList[0].tempFileURL
-                  fliter[i].InfoImage = res.fileList[1].tempFileURL
-                }
-                if (i + 1 == fliter.length) {
-                  console.log("执行了")
-                  // 展示接收到的info
-                  that.setData({
-                    infoshares: fliter,
-                    creatorid: fliter[0].CreatorId
-                  })
-                  that.data.infocover = fliter[0].InfoCover
-                  that.data.infotitle = fliter[0].InfoTitle
-                  // 调用播放视频方法
-                  that.startUp()
-                } else {
-                  console.log("没执行")
-                }
 
-              }).catch(error => {
-                // handle error
-              })
-
+    const db = app.globalData.c1.database()
+    if (e.currentTarget.dataset.id == app.globalData.Guserid) {
+      // 如果用户是资讯创建者,显示本人全部发布资讯
+      db.collection('INFOSHARE').where({
+        CreatorId: e.currentTarget.dataset.id,
+        InfoType: "Media",
+      }).get({
+        success: res => {
+          console.log(res)
+          var fliter = res.data
+          for (let i = 0; i < res.data.length; i++) {
+            if (res.data[i].InfoVideo != "") {
+              var filelist = [res.data[i].InfoCover, res.data[i].InfoVideo]
+            } else {
+              var filelist = [res.data[i].InfoCover, res.data[i].InfoImage]
             }
-          }
-        })
-      } else {
-        // 如果用户不是资讯创建者,只打开创建者公开发布资讯
-        db.collection('INFOSHARE').where({
-          CreatorId: e.currentTarget.dataset.id,
-          InfoType:"Media",
-          InfoStatus: 'checked',
-          Private: false
-        }).get({
-          success: res => {
-            console.log(res)
-            var fliter = res.data
-            for (let i = 0; i < res.data.length; i++) {
-              if (res.data[i].InfoVideo != "") {
-                var filelist = [res.data[i].InfoCover, res.data[i].InfoVideo]
+            app.globalData.c1.getTempFileURL({
+              fileList: filelist
+            }).then(res => {
+              console.log(res.fileList)
+              if (fliter[i].InfoVideo != "") {
+                fliter[i].InfoCover = res.fileList[0].tempFileURL
+                fliter[i].InfoVideo = res.fileList[1].tempFileURL
               } else {
-                var filelist = [res.data[i].InfoCover, res.data[i].InfoImage]
+                fliter[i].InfoCover = res.fileList[0].tempFileURL
+                fliter[i].InfoImage = res.fileList[1].tempFileURL
               }
-              app.globalData.c1.getTempFileURL({
-                fileList: filelist
-              }).then(res => {
-                console.log(res.fileList)
-                if (fliter[i].InfoVideo != "") {
-                  fliter[i].InfoCover = res.fileList[0].tempFileURL
-                  fliter[i].InfoVideo = res.fileList[1].tempFileURL
-                } else {
-                  fliter[i].InfoCover = res.fileList[0].tempFileURL
-                  fliter[i].InfoImage = res.fileList[1].tempFileURL
-                }
-                if (i + 1 == fliter.length) {
-                  console.log("执行了")
-                  // 展示接收到的info
-                  that.setData({
-                    infoshares: fliter,
-                    creatorid: fliter[0].CreatorId
-                  })
-                  that.data.infocover = fliter[0].InfoCover
-                  that.data.infotitle = fliter[0].InfoTitle
-                  // 调用播放视频方法
-                  that.startUp()
-                } else {
-                  console.log("没执行")
-                }
+              if (i + 1 == fliter.length) {
+                console.log("执行了")
+                // 展示接收到的info
+                that.setData({
+                  infoshares: fliter,
+                  creatorid: fliter[0].CreatorId
+                })
+                that.data.infocover = fliter[0].InfoCover
+                that.data.infotitle = fliter[0].InfoTitle
+                // 调用播放视频方法
+                that.startUp()
+              } else {
+                console.log("没执行")
+              }
 
-              }).catch(error => {
-                // handle error
-              })
+            }).catch(error => {
+              // handle error
+            })
 
-            }
           }
-        })
-      }
+        }
+      })
+    } else {
+      // 如果用户不是资讯创建者,只打开创建者公开发布资讯
+      db.collection('INFOSHARE').where({
+        CreatorId: e.currentTarget.dataset.id,
+        InfoType: "Media",
+        InfoStatus: 'checked',
+        Private: false
+      }).get({
+        success: res => {
+          console.log(res)
+          var fliter = res.data
+          for (let i = 0; i < res.data.length; i++) {
+            if (res.data[i].InfoVideo != "") {
+              var filelist = [res.data[i].InfoCover, res.data[i].InfoVideo]
+            } else {
+              var filelist = [res.data[i].InfoCover, res.data[i].InfoImage]
+            }
+            app.globalData.c1.getTempFileURL({
+              fileList: filelist
+            }).then(res => {
+              console.log(res.fileList)
+              if (fliter[i].InfoVideo != "") {
+                fliter[i].InfoCover = res.fileList[0].tempFileURL
+                fliter[i].InfoVideo = res.fileList[1].tempFileURL
+              } else {
+                fliter[i].InfoCover = res.fileList[0].tempFileURL
+                fliter[i].InfoImage = res.fileList[1].tempFileURL
+              }
+              if (i + 1 == fliter.length) {
+                console.log("执行了")
+                // 展示接收到的info
+                that.setData({
+                  infoshares: fliter,
+                  creatorid: fliter[0].CreatorId
+                })
+                that.data.infocover = fliter[0].InfoCover
+                that.data.infotitle = fliter[0].InfoTitle
+                // 调用播放视频方法
+                that.startUp()
+              } else {
+                console.log("没执行")
+              }
+
+            }).catch(error => {
+              // handle error
+            })
+
+          }
+        }
+      })
+    }
 
   },
   bvDonateShow() {
@@ -201,7 +201,7 @@ Page({
     console.log(e.detail)
     const cloudPath = 'user/' + app.globalData.Guserid + '/' + "avatarUrl" + e.detail.avatarUrl.match(/\.[^.]+?$/)
     let that = this
-    
+
     app.globalData.c1.uploadFile({
       cloudPath, // 上传至云端的路径
       filePath: e.detail.avatarUrl, // 小程序临时文件路径
@@ -233,26 +233,26 @@ Page({
   bvReplySend(e) {
     // 新增回复
     console.log(e.currentTarget.dataset.id)
-    
-      app.globalData.c1.callFunction({
-        // 要调用的云函数名称
-        name: 'NormalReply',
-        // 传递给云函数的参数
-        data: {
-          collectionName: "InfoShareComment",
-          id: e.currentTarget.dataset.id,
-          key1: "Reply",
-          value1: this.data.replycontent,
-          key2: "ReplyStatus",
-          value2: "unchecked",
-          key3: "ReplyDate",
-          value3: Time.getCurrentTime(),
-        },
-        success: res => {
-          console.log(res)
-          utils._SuccessToast("回复发送成功")
-        },
-      })
+
+    app.globalData.c1.callFunction({
+      // 要调用的云函数名称
+      name: 'NormalReply',
+      // 传递给云函数的参数
+      data: {
+        collectionName: "InfoShareComment",
+        id: e.currentTarget.dataset.id,
+        key1: "Reply",
+        value1: this.data.replycontent,
+        key2: "ReplyStatus",
+        value2: "unchecked",
+        key3: "ReplyDate",
+        value3: Time.getCurrentTime(),
+      },
+      success: res => {
+        console.log(res)
+        utils._SuccessToast("回复发送成功")
+      },
+    })
   },
 
   bvPublish() {
@@ -261,28 +261,28 @@ Page({
     } else {
       // 新增留言
       let that = this
-      
-        const db = app.globalData.c1.database()
-        db.collection("InfoShareComment").add({
-          data: {
-            InfoId: this.data.infoid,
-            UserId: app.globalData.Guserid,
-            avatarUrl: this.data.avatarurl,
-            nickName: this.data.nickname,
-            Comment: this.data.comment,
-            PublishDate:Time.getCurrentTime(),
-            Status: "unchecked",
-            From:"创企服"
-          },
-          success: res => {
-            that.setData({
-              replyshow: false
-            })
-          },
-          fail: res => {
-            utils._ErrorToast("提交失败请重试")
-          }
-        })
+
+      const db = app.globalData.c1.database()
+      db.collection("InfoShareComment").add({
+        data: {
+          InfoId: this.data.infoid,
+          UserId: app.globalData.Guserid,
+          avatarUrl: this.data.avatarurl,
+          nickName: this.data.nickname,
+          Comment: this.data.comment,
+          PublishDate: Time.getCurrentTime(),
+          Status: "unchecked",
+          From: "创企服"
+        },
+        success: res => {
+          that.setData({
+            replyshow: false
+          })
+        },
+        fail: res => {
+          utils._ErrorToast("提交失败请重试")
+        }
+      })
     }
   },
   onLogin(e) {
@@ -337,207 +337,201 @@ Page({
   // 请求WXPay云函数,调用支付能力
   _callWXPay(body, goodsnum, payVal) {
     let that = this
-    
-      app.globalData.c1.callFunction({
-          name: 'WXPay',
-          data: {
-            // 需要将data里面的参数传给WXPay云函数
-            body,
-            goodsnum, // 商品订单号不能重复
-            payVal, // 这里必须整数,不能是小数,而且类型是number,否则就会报错
+
+    app.globalData.c1.callFunction({
+        name: 'WXPay',
+        data: {
+          // 需要将data里面的参数传给WXPay云函数
+          body,
+          goodsnum, // 商品订单号不能重复
+          payVal, // 这里必须整数,不能是小数,而且类型是number,否则就会报错
+        },
+      })
+      .then((res) => {
+        console.log(res);
+        const payment = res.result.payment;
+        console.log(payment); // 里面包含appId,nonceStr,package,paySign,signType,timeStamp这些支付参数
+        wx.requestPayment({
+          // 根据获取到的参数调用支付 API 发起支付
+          ...payment, // 解构参数appId,nonceStr,package,paySign,signType,timeStamp
+          success: (res) => {
+            console.log('支付成功', res);
+            that._paymentadd(goodsnum)
+            that._pointsadd()
+            that._praiseadd()
           },
-        })
-        .then((res) => {
-          console.log(res);
-          const payment = res.result.payment;
-          console.log(payment); // 里面包含appId,nonceStr,package,paySign,signType,timeStamp这些支付参数
-          wx.requestPayment({
-            // 根据获取到的参数调用支付 API 发起支付
-            ...payment, // 解构参数appId,nonceStr,package,paySign,signType,timeStamp
-            success: (res) => {
-              console.log('支付成功', res);
-              that._paymentadd(goodsnum)
-              that._pointsadd()
-              that._praiseadd()
-            },
-            fail: (err) => {
-              console.error('支付失败', err);
-            },
-          });
-        })
-        .catch((err) => {
-          console.error(err);
+          fail: (err) => {
+            console.error('支付失败', err);
+          },
         });
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   },
 
   _viewadd(infoid) {
-    
-      app.globalData.c1.callFunction({
-        name: "DataRise",
-        data: {
-          collectionName: "INFOSHARE",
-          key: "InfoId",
-          value: infoid,
-          key1: "View",
-          value1: 1
-        },
-        success: res => {
-          console.log("播放量已更新", res)
-
-        }
-      })
-
+    app.globalData.c1.callFunction({
+      name: "DataRise",
+      data: {
+        collectionName: "INFOSHARE",
+        key: "InfoId",
+        value: infoid,
+        key1: "View",
+        value1: 1
+      },
+      success: res => {
+        console.log("播放量已更新", res)
+      }
+    })
   },
   _praiseadd() {
     let that = this
-    
-      app.globalData.c1.callFunction({
-        name: "DataRise",
-        data: {
-          collectionName: "INFOSHARE",
-          key: "InfoId",
-          value: that.data.infoid,
-          key1: "Praise",
-          value1: that.data.praise
-        },
-        success: res => {
-          console.log(res)
-          that.setData({
-            donateshow: false
-          })
-        }
-      })
+    app.globalData.c1.callFunction({
+      name: "DataRise",
+      data: {
+        collectionName: "INFOSHARE",
+        key: "InfoId",
+        value: that.data.infoid,
+        key1: "Praise",
+        value1: that.data.praise
+      },
+      success: res => {
+        console.log(res)
+        that.setData({
+          donateshow: false
+        })
+      }
+    })
 
   },
 
   _pointsadd() {
     // 赞赏点数记录
-    
-      const db = app.globalData.c1.database()
-      db.collection("POINTS").add({
-        data: {
-          PointsType: "donate",
-          UserId: app.globalData.Guserid,
-          ProductId: this.data.infoid,
-          ProductName: "资讯赞赏",
-          TotalFee: this.data.price,
-          CreatorId: this.data.creatorid,
-          CreatorPoints: this.data.creatorpoints,
-          InviterId: this.data.creatorinviterid,
-          InviterPoints: this.data.inviterpoints,
-          IndirectInviterId: this.data.creatorindirectinviterid,
-          IndirectInviterPoints: this.data.indirectinviterpoints,
-          SysAddDate: new Date().getTime(),
-          AddDate: Time.getCurrentTime(),
-          PointsStatus: "checked",
-          From:"创企服"
-        },
-        success: res => {
-          resolve(res)
-        },
-      })
+    const db = app.globalData.c1.database()
+    db.collection("POINTS").add({
+      data: {
+        PointsType: "donate",
+        UserId: app.globalData.Guserid,
+        ProductId: this.data.infoid,
+        ProductName: "资讯赞赏",
+        TotalFee: this.data.price,
+        CreatorId: this.data.creatorid,
+        CreatorPoints: this.data.creatorpoints,
+        InviterId: this.data.creatorinviterid,
+        InviterPoints: this.data.inviterpoints,
+        IndirectInviterId: this.data.creatorindirectinviterid,
+        IndirectInviterPoints: this.data.indirectinviterpoints,
+        SysAddDate: new Date().getTime(),
+        AddDate: Time.getCurrentTime(),
+        PointsStatus: "checked",
+        From: "创企服"
+      },
+      success: res => {
+        resolve(res)
+      },
+    })
 
   },
 
   _paymentadd(goodsnum) {
     // 支付成功后增加付款记录
     let that = this
-    
-      const db = app.globalData.c1.database()
-      db.collection("PAYMENT").add({
-        data: {
-          OrderId: goodsnum,
-          ProductId: this.data.infoid,
-          ProductName: "资讯赞赏",
-          TotalFee: this.data.totalfee,
-          AddDate: Time.getCurrentTime(),
-          PaymentStatus: "checked",
-          UserId: app.globalData.Guserid,
-          From:"创企服"
-        },
-        success: res => {
-          console.log("paymentadd成功")
-          that.setData({
-            isPaying: false,
-            btnname: "赞赏"
-          })
-        },
-        fail: res => {
-          utils._ErrorToast("提交失败请重试")
-        }
-      })
+
+    const db = app.globalData.c1.database()
+    db.collection("PAYMENT").add({
+      data: {
+        OrderId: goodsnum,
+        ProductId: this.data.infoid,
+        ProductName: "资讯赞赏",
+        TotalFee: this.data.totalfee,
+        AddDate: Time.getCurrentTime(),
+        PaymentStatus: "checked",
+        UserId: app.globalData.Guserid,
+        From: "创企服"
+      },
+      success: res => {
+        console.log("paymentadd成功")
+        that.setData({
+          isPaying: false,
+          btnname: "赞赏"
+        })
+      },
+      fail: res => {
+        utils._ErrorToast("提交失败请重试")
+      }
+    })
 
   },
 
   onLoad: async function (options) {
     console.log("接收到的参数", options)
+
+    let that = this
     if (options.infoid) {
       // 如果是通过分享链接进入
       this.data.params = options
       this.data.remark = "通过创企服用户分享资讯进入"
       this.data.tempinviterid = options.userid
+      // 通过分享进入，执行用户登录操作
+      await utils.UserLogon(this.data.tempinviterid, this.data.params, this.data.remark)
       this.data.infoid = options.infoid
       this._getComments(options.infoid)
       this._viewadd(that.data.infoid)
+
       // 本地函数查询分享的资讯
-      let that = this
-      
-        const db = app.globalData.c1.database()
-        db.collection('INFOSHARE').where({
-          InfoId: options.infoid,
-          InfoStatus: 'checked'
-        }).get({
-          success: res => {
-            console.log(res)
-            var fliter = res.data
-            for (let i = 0; i < res.data.length; i++) {
-              if (res.data[i].InfoVideo != "") {
-                var filelist = [res.data[i].InfoCover, res.data[i].InfoVideo]
-              } else {
-                var filelist = [res.data[i].InfoCover, res.data[i].InfoImage]
-              }
-              app.globalData.c1.getTempFileURL({
-                fileList: filelist
-              }).then(res => {
-                console.log(res.fileList)
-                if (fliter[i].InfoVideo != "") {
-                  fliter[i].InfoCover = res.fileList[0].tempFileURL
-                  fliter[i].InfoVideo = res.fileList[1].tempFileURL
-                } else {
-                  fliter[i].InfoCover = res.fileList[0].tempFileURL
-                  fliter[i].InfoImage = res.fileList[1].tempFileURL
-                }
-                if (i + 1 == fliter.length) {
-                  console.log("执行了")
-                  // 展示接收到的info
-                  that.setData({
-                    infoshares: fliter,
-                    creatorid: fliter[0].CreatorId
-                  })
-                  that.data.infocover = fliter[0].InfoCover
-                  that.data.infotitle = fliter[0].InfoTitle
-                  // 调用播放视频方法
-                  that.startUp()
-                } else {
-                  console.log("没执行")
-                }
-
-              }).catch(error => {
-                // handle error
-              })
-
+      const db = app.globalData.c1.database()
+      db.collection('INFOSHARE').where({
+        InfoId: options.infoid,
+        InfoStatus: 'checked'
+      }).get({
+        success:async res => {
+          console.log(res)
+          that.setData({
+            creatorid: res.data[0].CreatorId
+          })
+          var fliter = res.data
+          for (let i = 0; i < res.data.length; i++) {
+            if (res.data[i].InfoVideo != "") {
+              var filelist = [res.data[i].InfoCover, res.data[i].InfoVideo]
+            } else {
+              var filelist = [res.data[i].InfoCover, res.data[i].InfoImage]
             }
+            app.globalData.c1.getTempFileURL({
+              fileList: filelist
+            }).then(res => {
+              console.log(res.fileList)
+              if (fliter[i].InfoVideo != "") {
+                fliter[i].InfoCover = res.fileList[0].tempFileURL
+                fliter[i].InfoVideo = res.fileList[1].tempFileURL
+              } else {
+                fliter[i].InfoCover = res.fileList[0].tempFileURL
+                fliter[i].InfoImage = res.fileList[1].tempFileURL
+              }
+              if (i + 1 == fliter.length) {
+                console.log("执行了")
+                // 展示接收到的info
+                that.setData({
+                  infoshares: fliter,
 
+                })
+                that.data.infocover = fliter[0].InfoCover
+                that.data.infotitle = fliter[0].InfoTitle
+                // 调用播放视频方法
+                that.startUp()
+              } else {
+                console.log("没执行")
+              }
+            }).catch(error => {
+              // handle error
+            })
           }
-
+          // 查询创作者的推荐人及间接推荐人，以便打赏时记录
+          let creator =await utils._usercheck(that.data.creatorid)
+          that.data.creatorinviterid = creator[0].UserInfo.InviterId
+          that.data.creatorindirectinviterid = creator[0].UserInfo.IndirectInviterId
+        }
       })
-      // 通过分享进入，执行用户登录操作
-      await utils.UserLogon(this.data.tempinviterid, this.data.params, this.data.remark)
-      // 查询创作者的推荐人及间接推荐人，以便打赏时记录
-      let creator = await utils._usercheck(this.data.creatorid)
-      this.data.creatorinviterid = creator[0].UserInfo.InviterId
-      this.data.creatorindirectinviterid = creator[0].UserInfo.IndirectInviterId
-
     } else if (options.scene) {
       // 如果是通过扫码进入（scene中只有参数值，通过&和顺序区分）
       let scene = decodeURIComponent(options.scene);
@@ -552,97 +546,128 @@ Page({
       if (this.data.tempinviterid == "") {
         this.data.tempinviterid = "oo7kw5rohI15ogf6TCX_SGAxYUao"
       }
-      console.log("小程序码进入参数:", this.data.tempinviterid)
-      console.log("infoid:", this.data.infoid)
       // 通过分享进入，执行用户登录操作
       await utils.UserLogon(this.data.tempinviterid, this.data.params, this.data.remark)
+      this._getComments(this.data.infoid)
+      this._viewadd(this.data.infoid)
+
       // 本地函数查询分享的资讯
-      const db = wx.cloud.database()
+      const db = app.globalData.c1.database()
       db.collection('INFOSHARE').where({
         InfoId: this.data.infoid,
         InfoStatus: 'checked'
       }).get({
         success: async res => {
           console.log(res)
-          // 展示接收到的info
-          this.setData({
-            infoshares: res.data,
+          that.setData({
             creatorid: res.data[0].CreatorId
           })
-          this.data.infocover = res.data[0].InfoCover
-          this.data.infotitle = res.data[0].InfoTitle
-          this._getComments(this.data.infoid)
-          this._viewadd(this.data.infoid)
-          // 调用播放视频方法
-          this.startUp()
+
+          // 展示接收到的info
+          var fliter = res.data
+          for (let i = 0; i < res.data.length; i++) {
+            if (res.data[i].InfoVideo != "") {
+              var filelist = [res.data[i].InfoCover, res.data[i].InfoVideo]
+            } else {
+              var filelist = [res.data[i].InfoCover, res.data[i].InfoImage]
+            }
+            app.globalData.c1.getTempFileURL({
+              fileList: filelist
+            }).then(async res => {
+              console.log(res.fileList)
+              if (fliter[i].InfoVideo != "") {
+                fliter[i].InfoCover = res.fileList[0].tempFileURL
+                fliter[i].InfoVideo = res.fileList[1].tempFileURL
+              } else {
+                fliter[i].InfoCover = res.fileList[0].tempFileURL
+                fliter[i].InfoImage = res.fileList[1].tempFileURL
+              }
+              if (i + 1 == fliter.length) {
+                console.log("执行了")
+                // 展示接收到的info
+                that.setData({
+                  infoshares: fliter,
+                })
+                console.log(that.data.infoshares)
+                that.data.infocover = fliter[0].InfoCover
+                that.data.infotitle = fliter[0].InfoTitle
+
+                // 调用播放视频方法
+                that.startUp()
+              } else {
+                console.log("没执行")
+              }
+            }).catch(error => {
+              // handle error
+            })
+          }
           // 查询创作者的推荐人及间接推荐人，以便打赏时记录
-          let creator = await utils._usercheck(this.data.creatorid)
-          this.data.creatorinviterid = creator[0].UserInfo.InviterId
-          this.data.creatorindirectinviterid = creator[0].UserInfo.IndirectInviterId
+          let creator = await utils._usercheck(that.data.creatorid)
+          // creator是异步，不需要使用await,所以放在后面让其自然完成后赋值
+          console.log(creator)
+          that.data.creatorinviterid = creator[0].UserInfo.InviterId
+          that.data.creatorindirectinviterid = creator[0].UserInfo.IndirectInviterId
         }
       })
+
     } else {
       // 在本人小程序中打开
       console.log("在本人小程序中打开展示全部公开资讯")
       // 查询公开发布的视频，数量少于20条用本地函数就可以
-      let that = this
-      
-        const db = app.globalData.c1.database()
-        db.collection('INFOSHARE').where({
-          InfoType:"Media",
-          InfoStatus: 'checked',
-          Private: false
-        }).get({
-          success: async res => {
-            console.log(res)
-            that.data.infotitle = res.data[0].InfoTitle
-            that.data.infoid = res.data[0].InfoId
-            that._getComments(res.data[0].InfoId)
-            // 本人打开浏览量也增加
-            that._viewadd(res.data[0].InfoId)
-            var fliter = res.data
-            for (let i = 0; i < res.data.length; i++) {
-              console.log(i)
-              if (res.data[i].InfoVideo != "") {
-                var filelist = [res.data[i].InfoCover, res.data[i].InfoVideo]
-              } else {
-                var filelist = [res.data[i].InfoCover, res.data[i].InfoImage]
-              }
-              await app.globalData.c1.getTempFileURL({
-                fileList: filelist
-              }).then(res => {
-                console.log(i)
-                console.log(res.fileList)
-                if (fliter[i].InfoVideo != "") {
-                  fliter[i].InfoCover = res.fileList[0].tempFileURL
-                  fliter[i].InfoVideo = res.fileList[1].tempFileURL
-                } else {
-                  fliter[i].InfoCover = res.fileList[0].tempFileURL
-                  fliter[i].InfoImage = res.fileList[1].tempFileURL
-                }
-              })
+      const db = app.globalData.c1.database()
+      db.collection('INFOSHARE').where({
+        InfoType: "Media",
+        InfoStatus: 'checked',
+        Private: false
+      }).get({
+        success: async res => {
+          console.log(res)
+          that.data.infotitle = res.data[0].InfoTitle
+          that.data.infoid = res.data[0].InfoId
+          that._getComments(res.data[0].InfoId)
+          // 本人打开浏览量也增加
+          that._viewadd(res.data[0].InfoId)
+          var fliter = res.data
+          for (let i = 0; i < res.data.length; i++) {
+            console.log(i)
+            if (res.data[i].InfoVideo != "") {
+              var filelist = [res.data[i].InfoCover, res.data[i].InfoVideo]
+            } else {
+              var filelist = [res.data[i].InfoCover, res.data[i].InfoImage]
             }
-              // 展示接收到的info
-              console.log("执行了")
-              that.setData({
-                infoshares: fliter,
-                creatorid: fliter[0].CreatorId
-              })
-              console.log("公开资讯", that.data.infoshares)
-              that.data.infocover = fliter[0].InfoCover
-              // 调用播放视频方法
-              that.startUp()
-
+            await app.globalData.c1.getTempFileURL({
+              fileList: filelist
+            }).then(res => {
+              console.log(i)
+              console.log(res.fileList)
+              if (fliter[i].InfoVideo != "") {
+                fliter[i].InfoCover = res.fileList[0].tempFileURL
+                fliter[i].InfoVideo = res.fileList[1].tempFileURL
+              } else {
+                fliter[i].InfoCover = res.fileList[0].tempFileURL
+                fliter[i].InfoImage = res.fileList[1].tempFileURL
+              }
+            })
           }
-        })
-  
+          // 展示接收到的info
+          console.log("执行了")
+          that.setData({
+            infoshares: fliter,
+            creatorid: fliter[0].CreatorId
+          })
+          console.log("公开资讯", that.data.infoshares)
+          that.data.infocover = fliter[0].InfoCover
+          // 调用播放视频方法
+          that.startUp()
+        }
+      })
     }
     this.setData({
       userid: app.globalData.Guserid,
       avatarurl: app.globalData.Guserdata.UserInfo.avatarUrl,
       nickname: app.globalData.Guserdata.UserInfo.nickName,
-      width:app.globalData.Gsysteminfo.windowWidth,
-      height:app.globalData.Gsysteminfo.windowHeight,
+      width: app.globalData.Gsysteminfo.windowWidth,
+      height: app.globalData.Gsysteminfo.windowHeight,
     })
 
   },
@@ -650,28 +675,27 @@ Page({
   _getComments(infoid) {
     // 云函数查询评论内容
     let that = this
-    
-      app.globalData.c1.callFunction({
-        name: "NormalQuery",
-        data: {
-          collectionName: "InfoShareComment",
-          command: "and",
-          where: [{
-            InfoId: infoid,
-            Status: "checked"
-          }]
-        },
-        success: res => {
-          that.setData({
-            comments: res.result.data
-          })
-        },
-        fail: res => {
-          that.setData({
-            comments: []
-          })
-        }
-      })
+    app.globalData.c1.callFunction({
+      name: "NormalQuery",
+      data: {
+        collectionName: "InfoShareComment",
+        command: "and",
+        where: [{
+          InfoId: infoid,
+          Status: "checked"
+        }]
+      },
+      success: res => {
+        that.setData({
+          comments: res.result.data
+        })
+      },
+      fail: res => {
+        that.setData({
+          comments: []
+        })
+      }
+    })
 
   },
   // 进页面时播放视频

@@ -93,7 +93,7 @@ Page({
 
     const {
       result
-    } = await wx.cloud.callFunction({
+    } = await app.globalData.c1.callFunction({
       name: 'login',
     })
 

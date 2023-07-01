@@ -21,8 +21,8 @@ Page({
     usertype: "",
     unionid: "",
     page: 'pages/index/index',
-    imageUrl:"",
-    productid:"",
+    imageUrl: "",
+    productid: "",
     params: "",
     color: {
       "r": 0,
@@ -38,19 +38,19 @@ Page({
       avatarUrl,
     })
     // 更新数据
-    
-      const db = app.globalData.c1.database()
-      db.collection('USER').where({
-        UserId: app.globalData.Guserid
-      }).update({
-        data: {
-          ["UserInfo.avatarUrl"]: this.data.avatarUrl,
-        },
-      })
+    const db = app.globalData.c1.database()
+    db.collection('USER').where({
+      UserId: app.globalData.Guserid
+    }).update({
+      data: {
+        ["UserInfo.avatarUrl"]: this.data.avatarUrl,
+      },
+    })
   },
   onChooseImage(e) {
+    console.log(e.detail.avatarUrl)
     this.setData({
-      avatarUrl:e.detail,
+      imageUrl: e.detail.avatarUrl,
     })
   },
   bvUnionId(e) {
@@ -77,23 +77,23 @@ Page({
   getUrlLink() {
     // 调用云函数
     let that = this
-    
-      app.globalData.c1.callFunction({
-        name: 'URLLink',
-        data: {
-          quey: 'userid=' + app.globalData.Guserid + "&page=" + that.data.page + "&params=" + that.data.params
-        },
-        success: res => {
-          console.log('result', res.result)
-          console.log('urllink', res.result.urlLink)
-          that.setData({
-            urllink: res.result.urlLink
-          })
-        },
-        fail: err => {
-          console.error('[云函数] [URLLink] 调用失败', err)
-        }
-      })
+
+    app.globalData.c1.callFunction({
+      name: 'URLLink',
+      data: {
+        quey: 'userid=' + app.globalData.Guserid + "&page=" + that.data.page + "&params=" + that.data.params
+      },
+      success: res => {
+        console.log('result', res.result)
+        console.log('urllink', res.result.urlLink)
+        that.setData({
+          urllink: res.result.urlLink
+        })
+      },
+      fail: err => {
+        console.error('[云函数] [URLLink] 调用失败', err)
+      }
+    })
   },
 
   bvCopy: function (e) {
@@ -110,119 +110,93 @@ Page({
     })
   },
 
-  getQRCode() {
-    // 调用云函数
-    // var scene = app.globalData.Guserid; //scene参数不能有参数名，可以拼接你要添加的参数值
-
-    let that = this;
-    
-      app.globalData.c1.callFunction({
-        name: 'getQRCode',
-        data: {
-          // userid参数是使用在上传文件夹命名中
-          path: 'minicode/' + app.globalData.Guserid + '/' + app.globalData.Guserdata.UserInfo.UserPhone + 'tempqrcode.png',
-          // 小程序码中包含的用户信息,scene长度不能超过32字符，否则报错
-          scene: this.data.unionid + '&' + this.data.productid+ '&' + this.data.params, 
-          page: that.data.page,
-          color: that.data.color,
-          // userid: "1234",
-          // scene: "5678"
-        },
-        success: res => {
-          console.log(res.result)
-          app.globalData.c1.getTempFileURL({
-            fileList: [res.result]
-          }).then(res => {
-            console.log(res.fileList)
-            that.setData({
-              tempqrcodeurl: res.fileList[0].tempFileURL
-            })
-            console.log("tempqrcodeurl", that.data.tempqrcodeurl);
-
-          }).catch(error => {
-            // handle error
-          })
-
-          // 执行下一个方法的方法，把头像合并到小程序码里
-          that.drawCanvas(this.data.imageUrl)
-        }
-      })
-  },
-
   getUserQRCode() {
     // 调用云函数
     // var scene = app.globalData.Guserid; //scene参数不能有参数名，可以拼接你要添加的参数值
 
     let that = this;
-    
-      app.globalData.c1.callFunction({
-        name: 'getQRCode',
-        data: {
-          // userid参数是使用在上传文件夹命名中
-          path: 'minicode/' + app.globalData.Guserid + '/' + app.globalData.Guserdata.UserInfo.UserPhone + 'tempqrcode.png',
-          // 小程序码中包含的用户信息,scene长度不能超过32字符，否则报错
-          scene: app.globalData.Guserid + '&' + that.data.params,
-          page: that.data.page,
-          color: that.data.color,
-          // userid: "1234",
-          // scene: "5678"
-        },
-        success: res => {
-          console.log(res.result)
-          app.globalData.c1.getTempFileURL({
-            fileList: [res.result]
-          }).then(res => {
-            console.log(res.fileList)
-            that.setData({
-              tempqrcodeurl: res.fileList[0].tempFileURL
-            })
-            console.log("tempqrcodeurl", that.data.tempqrcodeurl);
-            // 执行下一个方法的方法，把头像合并到小程序码里
-            that.drawCanvas(this.data.avatarUrl)
-          }).catch(error => {
-            // handle error
+
+    app.globalData.c1.callFunction({
+      name: 'getQRCode',
+      data: {
+        // userid参数是使用在上传文件夹命名中
+        path: 'minicode/' + app.globalData.Guserid + '/' + app.globalData.Guserdata.UserInfo.UserPhone + 'tempqrcode.png',
+        // 小程序码中包含的用户信息,scene长度不能超过32字符，否则报错
+        scene: app.globalData.Guserid + '&' + that.data.params,
+        page: that.data.page,
+        color: that.data.color,
+        // userid: "1234",
+        // scene: "5678"
+      },
+      success: res => {
+        console.log(res.result)
+        app.globalData.c1.getTempFileURL({
+          fileList: [res.result]
+        }).then(res => {
+          console.log(res.fileList)
+          that.setData({
+            tempqrcodeurl: res.fileList[0].tempFileURL
           })
-        }
-      })
+          console.log("tempqrcodeurl", that.data.tempqrcodeurl);
+          // 执行下一个方法的方法，把头像合并到小程序码里
+          that.drawCanvas(this.data.avatarUrl)
+        }).catch(error => {
+          // handle error
+        })
+      }
+    })
 
   },
 
-  //通过https方式调用wxacodeunlimit获取二维码，有效，但当前方法用不到了
+  //通过https方式调用wxacodeunlimit获取二维码
   getcode(getAccessToken) {
     var that = this;
-    var scene = app.globalData.Guserid; //scene参数不能有参数名，可以拼接你要添加的参数值
-    console.log('scene：', scene);
     wx.request({
-      url: 'https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=' + this.data.accessToken,
+      url: 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential',
       data: {
-        scene: scene,
-        page: 'pages/index/index', //线上的小程序一定要有这个页面
+        appid: "wxf43d2aed3e5b6370",
+        secret: "f880fc2af3f06d340166b0750cac2a78",
       },
-      method: 'POST',
-      responseType: 'arraybuffer',
+      method: 'GET',
       success: function (res) {
-        // var qrcode = wx.arrayBufferToBase64(res.data); //对数据进行转换
-        that.setData({
-          qrcode: wx.arrayBufferToBase64(res.data) //对数据进行转换
-        })
-        // console.log("小程序码", that.data.qrcode);
-        //保存base64小程序码到本地临时文件
-        // data为base64的图片数据（注意：没有前缀 data:image/png;base64,）
-        let random = new Date().getTime();
-        let tempPath = wx.env.USER_DATA_PATH + `/${random}.png`;
-        wx.getFileSystemManager().writeFile({
-          filePath: tempPath,
-          data: that.data.qrcode,
-          encoding: 'base64',
-          success: res => {
-            that.setData({
-              ewmPath: tempPath
-            })
-            console.log('success', that.data.ewmPath);
-            // that.drawCanvas();
+        console.log(res.data.access_token)
+        that.data.accessToken = res.data.access_token
+        
+        var scene = that.data.unionid + '&' + that.data.productid+ '&' + that.data.params //scene参数不能有参数名，可以拼接你要添加的参数值
+        console.log('scene：', scene);
+        wx.request({
+          url: 'https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=' + that.data.accessToken,
+          data: {
+            scene: scene,
+            page: that.data.page, //线上的小程序一定要有这个页面
           },
-          fail: err => {
-            console.log(err);
+          method: 'POST',
+          responseType: 'arraybuffer',
+          success: function (res) {
+            // var qrcode = wx.arrayBufferToBase64(res.data); //对数据进行转换
+            that.setData({
+              qrcode: wx.arrayBufferToBase64(res.data) //对数据进
+            })
+            // console.log("小程序码", that.data.qrcode);
+            //保存base64小程序码到本地临时文件
+            // data为base64的图片数据（注意：没有前缀 data:image/png;base64,）
+            let random = new Date().getTime();
+            let tempPath = wx.env.USER_DATA_PATH + `/${random}.png`;
+            wx.getFileSystemManager().writeFile({
+              filePath: tempPath,
+              data: that.data.qrcode,
+              encoding: 'base64',
+              success: res => {
+                that.setData({
+                  ewmPath: tempPath
+                })
+                console.log('success', that.data.ewmPath);
+                that.drawCanvas(that.data.imageUrl);
+              },
+              fail: err => {
+                console.log(err);
+              }
+            })
           }
         })
       }
@@ -230,7 +204,7 @@ Page({
   },
 
   drawCanvas: function (image) {
-    // var that = this;
+    console.log("执行了")
     let ctx = wx.createCanvasContext('myCanvas');
     wx.getImageInfo({
       src: this.data.tempqrcodeurl,
@@ -289,23 +263,23 @@ Page({
       const filePath = this.data.tempfilepath
       const cloudPath = 'minicode/' + app.globalData.Guserid + '/' + app.globalData.Guserdata.UserInfo.UserPhone + 'qrcode.png'
 
-        app.globalData.c1.uploadFile({
-          cloudPath,
-          filePath,
-          success: res => {
-            console.log("fileID", res.fileID)
-            // 获取数据库引用
-            const db = app.globalData.c1.database()
-            // 更新数据
-            db.collection('USER').where({
-              UserId: app.globalData.Guserid
-            }).update({
-              data: {
-                QRCode: res.fileID
-              },
-            })
-          }
-        })
+      app.globalData.c1.uploadFile({
+        cloudPath,
+        filePath,
+        success: res => {
+          console.log("fileID", res.fileID)
+          // 获取数据库引用
+          const db = app.globalData.c1.database()
+          // 更新数据
+          db.collection('USER').where({
+            UserId: app.globalData.Guserid
+          }).update({
+            data: {
+              QRCode: res.fileID
+            },
+          })
+        }
+      })
 
       this.data.qrcodeuploadlock = true // 修改上传状态为锁定
     }

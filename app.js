@@ -1,4 +1,3 @@
-//app.js
 App({
   onLaunch: async function () {
     // 测试async，await可用
@@ -14,8 +13,6 @@ App({
     } else {
       // 初始化全局参数
       this.globalData = {}
-
-
       // 清除本地存储数据,调试发布后可去除
       // wx.clearStorage({
       //   success: (res) => {
