@@ -72,8 +72,8 @@ Page({
   toCreator(e) {
     console.log(e.currentTarget.dataset.id)
     let that = this
-    utils.CloudInit(function (c1) {
-      const db = c1.database()
+    
+      const db = app.globalData.c1.database()
       if (e.currentTarget.dataset.id == app.globalData.Guserid) {
         // 如果用户是资讯创建者,显示本人全部发布资讯
         db.collection('INFOSHARE').where({
@@ -89,7 +89,7 @@ Page({
               } else {
                 var filelist = [res.data[i].InfoCover, res.data[i].InfoImage]
               }
-              c1.getTempFileURL({
+              app.globalData.c1.getTempFileURL({
                 fileList: filelist
               }).then(res => {
                 console.log(res.fileList)
@@ -139,7 +139,7 @@ Page({
               } else {
                 var filelist = [res.data[i].InfoCover, res.data[i].InfoImage]
               }
-              c1.getTempFileURL({
+              app.globalData.c1.getTempFileURL({
                 fileList: filelist
               }).then(res => {
                 console.log(res.fileList)
@@ -173,7 +173,7 @@ Page({
           }
         })
       }
-    })
+
   },
   bvDonateShow() {
     this.setData({
@@ -201,8 +201,8 @@ Page({
     console.log(e.detail)
     const cloudPath = 'user/' + app.globalData.Guserid + '/' + "avatarUrl" + e.detail.avatarUrl.match(/\.[^.]+?$/)
     let that = this
-    utils.CloudInit(function (c1) {
-    c1.uploadFile({
+    
+    app.globalData.c1.uploadFile({
       cloudPath, // 上传至云端的路径
       filePath: e.detail.avatarUrl, // 小程序临时文件路径
       success: res => {
@@ -215,7 +215,7 @@ Page({
       },
       fail: console.error
     })
-  })
+
   },
 
   bvNickName(e) {
@@ -233,8 +233,8 @@ Page({
   bvReplySend(e) {
     // 新增回复
     console.log(e.currentTarget.dataset.id)
-    utils.CloudInit(function (c1) {
-      c1.callFunction({
+    
+      app.globalData.c1.callFunction({
         // 要调用的云函数名称
         name: 'NormalReply',
         // 传递给云函数的参数
@@ -253,8 +253,6 @@ Page({
           utils._SuccessToast("回复发送成功")
         },
       })
-    })
-
   },
 
   bvPublish() {
@@ -263,8 +261,8 @@ Page({
     } else {
       // 新增留言
       let that = this
-      utils.CloudInit(function (c1) {
-        const db = c1.database()
+      
+        const db = app.globalData.c1.database()
         db.collection("InfoShareComment").add({
           data: {
             InfoId: this.data.infoid,
@@ -285,7 +283,6 @@ Page({
             utils._ErrorToast("提交失败请重试")
           }
         })
-      })
     }
   },
   onLogin(e) {
@@ -340,8 +337,8 @@ Page({
   // 请求WXPay云函数,调用支付能力
   _callWXPay(body, goodsnum, payVal) {
     let that = this
-    utils.CloudInit(function (c1) {
-      c1.callFunction({
+    
+      app.globalData.c1.callFunction({
           name: 'WXPay',
           data: {
             // 需要将data里面的参数传给WXPay云函数
@@ -371,12 +368,11 @@ Page({
         .catch((err) => {
           console.error(err);
         });
-    })
   },
 
   _viewadd(infoid) {
-    utils.CloudInit(function (c1) {
-      c1.callFunction({
+    
+      app.globalData.c1.callFunction({
         name: "DataRise",
         data: {
           collectionName: "INFOSHARE",
@@ -390,12 +386,12 @@ Page({
 
         }
       })
-    })
+
   },
   _praiseadd() {
     let that = this
-    utils.CloudInit(function (c1) {
-      c1.callFunction({
+    
+      app.globalData.c1.callFunction({
         name: "DataRise",
         data: {
           collectionName: "INFOSHARE",
@@ -411,13 +407,13 @@ Page({
           })
         }
       })
-    })
+
   },
 
   _pointsadd() {
     // 赞赏点数记录
-    utils.CloudInit(function (c1) {
-      const db = c1.database()
+    
+      const db = app.globalData.c1.database()
       db.collection("POINTS").add({
         data: {
           PointsType: "donate",
@@ -440,14 +436,14 @@ Page({
           resolve(res)
         },
       })
-    })
+
   },
 
   _paymentadd(goodsnum) {
     // 支付成功后增加付款记录
     let that = this
-    utils.CloudInit(function (c1) {
-      const db = c1.database()
+    
+      const db = app.globalData.c1.database()
       db.collection("PAYMENT").add({
         data: {
           OrderId: goodsnum,
@@ -470,7 +466,7 @@ Page({
           utils._ErrorToast("提交失败请重试")
         }
       })
-    })
+
   },
 
   onLoad: async function (options) {
@@ -485,8 +481,8 @@ Page({
       this._viewadd(that.data.infoid)
       // 本地函数查询分享的资讯
       let that = this
-      utils.CloudInit(function (c1) {
-        const db = c1.database()
+      
+        const db = app.globalData.c1.database()
         db.collection('INFOSHARE').where({
           InfoId: options.infoid,
           InfoStatus: 'checked'
@@ -500,7 +496,7 @@ Page({
               } else {
                 var filelist = [res.data[i].InfoCover, res.data[i].InfoImage]
               }
-              c1.getTempFileURL({
+              app.globalData.c1.getTempFileURL({
                 fileList: filelist
               }).then(res => {
                 console.log(res.fileList)
@@ -533,7 +529,7 @@ Page({
             }
 
           }
-        })
+
       })
       // 通过分享进入，执行用户登录操作
       await utils.UserLogon(this.data.tempinviterid, this.data.params, this.data.remark)
@@ -590,8 +586,8 @@ Page({
       console.log("在本人小程序中打开展示全部公开资讯")
       // 查询公开发布的视频，数量少于20条用本地函数就可以
       let that = this
-      utils.CloudInit(function (c1) {
-        const db = c1.database()
+      
+        const db = app.globalData.c1.database()
         db.collection('INFOSHARE').where({
           InfoType:"Media",
           InfoStatus: 'checked',
@@ -612,7 +608,7 @@ Page({
               } else {
                 var filelist = [res.data[i].InfoCover, res.data[i].InfoImage]
               }
-              await c1.getTempFileURL({
+              await app.globalData.c1.getTempFileURL({
                 fileList: filelist
               }).then(res => {
                 console.log(i)
@@ -639,7 +635,7 @@ Page({
 
           }
         })
-      })
+  
     }
     this.setData({
       userid: app.globalData.Guserid,
@@ -654,8 +650,8 @@ Page({
   _getComments(infoid) {
     // 云函数查询评论内容
     let that = this
-    utils.CloudInit(function (c1) {
-      c1.callFunction({
+    
+      app.globalData.c1.callFunction({
         name: "NormalQuery",
         data: {
           collectionName: "InfoShareComment",
@@ -676,7 +672,7 @@ Page({
           })
         }
       })
-    })
+
   },
   // 进页面时播放视频
   startUp() {

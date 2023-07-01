@@ -47,8 +47,8 @@ Page({
 
     if (Date.parse(new Date()) - this.data.starttime < "3600000") {
       // 查询推荐人
-      utils.CloudInit(function (c1) {
-        const db = c1.database()
+      
+        const db = app.globalData.c1.database()
       db.collection('USER').where({
         UserId: this.data.inviterid
       }).get({
@@ -56,8 +56,6 @@ Page({
           app.globalData.Ginviter=res.data[0].UserInfo
         }
       })
-    })
-
       this.setData({
         // onGetUserInfo: this.onGetUserInfo,
         getOpenID: this.getOpenID,

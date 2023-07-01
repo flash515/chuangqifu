@@ -38,8 +38,7 @@ Page({
  async bvFail(e) {
     console.log(e)
     let that = this
-    await utils.CloudInit(function (c1) {
-      c1.callFunction({
+      app.globalData.c1.callFunction({
         name: "NormalUpdate",
         data: {
           collectionName: "INFOSHARE",
@@ -57,13 +56,11 @@ Page({
           })
         }
       })
-    })
   },
  async bvPass(e) {
     console.log(e)
     let that = this
-    await utils.CloudInit(function (c1) {
-      c1.callFunction({
+    app.globalData.c1.callFunction({
         name: "NormalUpdate",
         data: {
           collectionName: "INFOSHARE",
@@ -81,7 +78,6 @@ Page({
           })
         }
       })
-    })
   },
 
 
@@ -98,8 +94,7 @@ Page({
       creatorphone: app.globalData.Guserdata.UserInfo.UserPhone,
     })
     // 查询本人提交的InfoShare
-    await utils.CloudInit(function (c1) {
-      c1.callFunction({
+    app.globalData.c1.callFunction({
       name: "NormalQuery",
       data: {
         collectionName: "INFOSHARE",
@@ -116,7 +111,6 @@ Page({
         })
         console.log("全部待审资讯", that.data.infomations)
       }
-    })
   })
   },
 

@@ -1,5 +1,5 @@
 const app = getApp()
-const Time= require("../../utils/getDates");
+const Time = require("../../utils/getDates");
 const utils = require("../../utils/utils")
 Page({
 
@@ -60,8 +60,7 @@ Page({
     // 兑换前check一下balance
     this._balancecheck()
     let that = this
-    utils.CloudInit(function (c1) {
-      const db = c1.database()
+    const db = app.globalData.c1.database()
     db.collection("POINTS").add({
       data: {
         PointsType: "exchange",
@@ -70,9 +69,9 @@ Page({
         ExchangeId: app.globalData.Guserid,
         ExchangePoints: this.data.exchangepoints,
         SysAddDate: new Date().getTime(),
-        AddDate:Time.getCurrentTime(),
+        AddDate: Time.getCurrentTime(),
         PointsStatus: "checked",
-        From:"创企服"
+        From: "创企服"
       },
       success: res => {
         utils._SuccessToast("积分兑换成功")
@@ -86,8 +85,6 @@ Page({
         utils._ErrorToast("提交失败请重试")
       }
     })
-  })
-
   },
   bvTradePointsWithdraw: async function (e) {
 
@@ -152,7 +149,7 @@ Page({
       tradebalance: tradepoints,
     })
     this.setData({
-      balanceupdatetime:Time.getCurrentTime(),
+      balanceupdatetime: Time.getCurrentTime(),
     })
     utils._balanceupdate(this.data.promotebalance, this.data.tradebalance, this.data.balanceupdatetime)
   },
@@ -225,8 +222,7 @@ Page({
     console.log(this.data.transferpacketid)
     var promise = new Promise((resolve, reject) => {
       let that = this
-      utils.CloudInit(function (c1) {
-        const db = c1.database()
+      const db = app.globalData.c1.database()
       db.collection("POINTS").add({
         data: {
           PointsType: "transfer",
@@ -241,7 +237,7 @@ Page({
           SysAddDate: new Date().getTime(),
           AddDate: Time.getCurrentTime(),
           PointsStatus: "checked",
-          From:"创企服"
+          From: "创企服"
         },
         success: res => {
           that.setData({
@@ -256,7 +252,7 @@ Page({
           utils._ErrorToast("提交失败请重试")
         }
       })
-    })
+
     });
     return promise;
   },

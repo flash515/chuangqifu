@@ -258,8 +258,8 @@ Page({
 
   bvDeleteBg(e) {
     let that = this
-    utils.CloudInit(function (c1) {
-    c1.deleteFile({
+    
+    app.globalData.c1.deleteFile({
       fileList: this.data.bgview,
       success: res => {
         console.log(res)
@@ -271,12 +271,12 @@ Page({
         })
       }
     })
-  })
+
   },
   bvDeleteLogo(e) {
     let that = this
-    utils.CloudInit(function (c1) {
-    c1.deleteFile({
+    
+    app.globalData.c1.deleteFile({
       fileList: this.data.companylogo,
       success: res => {
         console.log(res)
@@ -287,7 +287,7 @@ Page({
         })
       }
     })
-     })
+
   },
 
   async bvChooseImage(e) {
@@ -308,14 +308,14 @@ Page({
     })
     console.log("cardimages", this.data.cardimages)
     console.log(fileList)
-    utils.CloudInit(function (c1) {
-    c1.deleteFile({
+    
+    app.globalData.c1.deleteFile({
       fileList,
       success: res => {
         console.log("res", res)
       }
     })
-  })
+
   },
 
   //发布到企业广场
@@ -338,8 +338,8 @@ Page({
       return
     }
 
-    utils.CloudInit(function (c1) {
-      const db = c1.database()
+    
+      const db = app.globalData.c1.database()
       if (app.globalData.Guserdata.NameCardStatus == undefined) {
         // 首次发布新增记录
 
@@ -419,8 +419,6 @@ Page({
           },
         })
       }
-
-    })
   },
 
   //保存名片信息
@@ -453,12 +451,11 @@ Page({
    */
   onLoad: function (options) {
     let that = this
-    utils.CloudInit(function (c1) {
-      const db = c1.database()
+      const db = app.globalData.c1.database()
       db.collection('NameCardSetting').doc('0122a5876443793e098bd33e0045f553').get({
         success: async res => {
           var filelist = res.data.NameCardBg
-          await c1.getTempFileURL({
+          await app.globalData.c1.getTempFileURL({
             fileList: filelist
           }).then(res => {
             console.log("res.fileList", res.fileList)
@@ -479,7 +476,7 @@ Page({
       })
       if (app.globalData.Guserdata.NameCardStatus == "Published") {
         console.log("查询执行了")
-        const db = c1.database()
+        const db = app.globalData.c1.database()
         db.collection('NAMECARD').where({
           CreatorId: app.globalData.Guserid
         }).get({
@@ -492,7 +489,7 @@ Page({
             } else {
               var filelist = [res.data[0].CardBg]
             }
-            await c1.getTempFileURL({
+            await app.globalData.c1.getTempFileURL({
               fileList: filelist
             }).then(res => {
               console.log(res.fileList)
@@ -505,7 +502,7 @@ Page({
             })
             if (res.data[0].CardImages[0] != "" && res.data[0].CardImages[0] !=undefined) {
               var filelist = res.data[0].CardImages
-              await c1.getTempFileURL({
+              await app.globalData.c1.getTempFileURL({
                 fileList: filelist
               }).then(res => {
                 console.log(res.fileList)
@@ -544,7 +541,7 @@ Page({
         console.log("缓存执行了")
 
       }
-    })
+
   },
 
   /**

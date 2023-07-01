@@ -11,8 +11,7 @@ Page({
   onLoad: function (options) {
     // 查询本人提交的全部商品
     let that=this
-    utils.CloudInit(function (c1) {
-    c1.callFunction({
+      app.globalData.c1.callFunction({
       name: "NormalQuery",
       data: {
         collectionName: "USER",
@@ -30,7 +29,6 @@ Page({
         console.log("全部用户",that.data.userarray)
       }
     })
-  })
   },
 
   /**

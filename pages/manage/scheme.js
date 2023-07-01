@@ -53,8 +53,7 @@ Page({
       })
     } else {
       let that = this
-      utils.CloudInit(function (c1) {
-        const db = c1.database()
+        const db = app.globalData.c1.database()
       db.collection('SCHEME').add({
         data: {
           AddDate: Time.getCurrentTime(),
@@ -76,13 +75,11 @@ Page({
           })
         },
       })
-    })
     }
   },
   updateData(e) {
     let that = this
-    utils.CloudInit(function (c1) {
-      const db = c1.database()
+      const db = app.globalData.c1.database()
     db.collection('SCHEME').doc(this.data._id).update({
       data: {
         SchemeType: this.data.schemetype,
@@ -93,12 +90,10 @@ Page({
         UpdateDate: Time.getCurrentTime()
       }
     })
-  })
   },
   onsearch(e) {
     let that = this
-    utils.CloudInit(function (c1) {
-      const db = c1.database()
+      const db = app.globalData.c1.database()
     db.collection('SCHEME').where({
       UserId:app.globalData.Guserid,
       SchemeType: {
@@ -128,7 +123,6 @@ Page({
         }
       }
     })
-  })
   },
   onshowChange(e) {
     if (e.detail.value == true) {

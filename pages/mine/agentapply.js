@@ -92,8 +92,8 @@ if(this.applysubmit==true|| this.data.agentapplydate!=''){
       console.log('已完善信息')
       if (this.data.contractchecked == true) {
         let that = this
-        utils.CloudInit(function (c1) {
-          const db = c1.database()
+        
+          const db = app.globalData.c1.database()
         db.collection('USER').where({
           UserId: app.globalData.Guserid
         }).update({
@@ -129,8 +129,6 @@ if(this.applysubmit==true|| this.data.agentapplydate!=''){
             utils._ErrorToast("更新信息失败")
           }
         })
-      })
-
       } else {
         utils._ErrorToast("请确认协议条款")
       }

@@ -27,8 +27,7 @@ Page({
   toCreator(e) {
     console.log(e.currentTarget.dataset.id)
         let that=this
-    utils.CloudInit(function (c1) {
-      const db = c1.database()
+      const db = app.globalData.c1.database()
     if (e.currentTarget.dataset.id == app.globalData.Guserid) {
       // 如果用户是资讯创建者,显示本人全部发布资讯
       db.collection('INFOSHARE').where({
@@ -64,7 +63,6 @@ Page({
         }
       })
     }
-  })
   },
 
   bvCommentShow() {
@@ -87,8 +85,7 @@ Page({
   bvReplySend(e) {
     // 新增回复
     console.log(e.target.dataset.id)
-    utils.CloudInit(function (c1) {
-    c1.callFunction({
+      app.globalData.c1.callFunction({
       // 要调用的云函数名称
       name: 'NormalReply',
       // 传递给云函数的参数
@@ -107,16 +104,13 @@ Page({
         utils._SuccessToast("回复发送成功")
       },
     })
-  })
-
   },
 
 
 
   bvCheck: function (e) {
     console.log(e.target.dataset.id)
-    utils.CloudInit(function (c1) {
-    c1.callFunction({
+      app.globalData.c1.callFunction({
       name: "NormalUpdate",
       data: {
         collectionName: "INFOSHARE",
@@ -130,7 +124,6 @@ Page({
         utils._SuccessToast("状态更新完成")
       }
     })
-  })
   },
 
 
@@ -140,8 +133,7 @@ Page({
 
     // 查询公开发布的视频，数量少于20条用本地函数就可以
     let that=this
-    utils.CloudInit(function (c1) {
-      const db = c1.database()
+      const db = app.globalData.c1.database()
     db.collection('INFOSHARE').where({
       InfoType:"Media",
       InfoStatus: 'unchecked',
@@ -163,7 +155,7 @@ Page({
           } else {
             var filelist = [res.data[i].InfoCover, res.data[i].InfoImage]
           }
-          await c1.getTempFileURL({
+          await app.globalData.c1.getTempFileURL({
             fileList: filelist
           }).then(res => {
             console.log(i)
@@ -186,7 +178,6 @@ Page({
         console.log("公开资讯", that.data.infoshares)
       }
     })
-  })
     this.setData({
       userid: app.globalData.Guserid,
       avatarurl: app.globalData.Guserdata.UserInfo.avatarUrl,

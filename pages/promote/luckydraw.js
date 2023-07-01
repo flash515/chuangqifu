@@ -24,8 +24,8 @@ Page({
 
  onLoad: function () {
   let that = this
-  utils.CloudInit(function (c1) {
-    const db = c1.database()
+  
+    const db = app.globalData.c1.database()
   db.collection('LuckyDrawSetting').doc('fc8e6465644388a50984815c60e9e919').get({
     success: res => {
       console.log(res)
@@ -36,7 +36,7 @@ Page({
     complete:res=>{
       console.log(res)
     }
-  })
+
 })
   var _this = this;
   //圆点设置

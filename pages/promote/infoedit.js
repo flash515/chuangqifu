@@ -26,8 +26,8 @@ Page({
     console.log(e.detail)
     const cloudPath = 'user/' + app.globalData.Guserid + '/' + "avatarUrl" + e.detail.avatarUrl.match(/\.[^.]+?$/)
     let that = this
-    utils.CloudInit(function (c1) {
-    c1.uploadFile({
+    
+    app.globalData.c1.uploadFile({
       cloudPath, // 上传至云端的路径
       filePath: e.detail.avatarUrl, // 小程序临时文件路径
       success: res => {
@@ -50,7 +50,7 @@ Page({
       },
       fail: console.error
     })
-  })
+
   },
 
   bvNickName(e) {
@@ -93,8 +93,8 @@ Page({
   async bvDelInfo(e) {
     console.log(e)
     let that = this
-    utils.CloudInit(function (c1) {
-      const db = c1.database()
+    
+      const db = app.globalData.c1.database()
       db.collection('INFOSHARE').where({
         InfoId: e.currentTarget.dataset.id
       }).remove({
@@ -107,7 +107,7 @@ Page({
           })
         }
       })
-    })
+
   },
   bvInfomationType(e) {
     console.log(e.detail)
@@ -128,18 +128,11 @@ Page({
   //发布到供求信息
   async bvPublish(e) {
     let that = this
-    var c1 = new wx.cloud.Cloud({
-      // 资源方 AppID
-      resourceAppid: 'wx810b87f0575b9a47',
-      // 资源方环境 ID
-      resourceEnv: 'xsbmain-9gvsp7vo651fd1a9',
-    })
-    await c1.init()
     if (this.data.infocontent == "") {
       utils._ErrorToast("请填写信息内容")
       return
     }
-      const db = c1.database()
+      const db = app.globalData.c1.database()
     if (this.data.infoid != "") {
       db.collection('INFOSHARE').where({
         InfoId: this.data.infoid
@@ -156,7 +149,7 @@ Page({
         success: res => {
           utils._SuccessToast("信息发布成功")
           // 查询本人提交的InfoShare
-          c1.callFunction({
+          app.globalData.c1.callFunction({
             name: "NormalQuery",
             data: {
               collectionName: "INFOSHARE",
@@ -204,7 +197,7 @@ Page({
         success: res => {
           utils._SuccessToast("已发布等待审核")
           // 查询本人提交的InfoShare
-          c1.callFunction({
+          app.globalData.c1.callFunction({
             name: "NormalQuery",
             data: {
               collectionName: "INFOSHARE",
@@ -243,8 +236,8 @@ Page({
     })
     // 查询本人提交的InfoShare
     let that = this
-    utils.CloudInit(function (c1) {
-    c1.callFunction({
+    
+    app.globalData.c1.callFunction({
       name: "NormalQuery",
       data: {
         collectionName: "INFOSHARE",
@@ -261,7 +254,7 @@ Page({
         console.log("本人全部资讯", that.data.infomations)
       }
     })
-  })
+
   },
 
   /**

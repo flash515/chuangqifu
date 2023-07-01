@@ -56,8 +56,8 @@ Page({
 
     //获取小程序全局设置
     let that = this
-    utils.CloudInit(function (c1) {
-      const db = c1.database()
+    
+      const db = app.globalData.c1.database()
     db.collection('setting')
       .where({
         CurrentStatus: "effect"
@@ -74,8 +74,6 @@ Page({
           console.log(that.data.sortarray)
         }
       })
-    })
-
   },
 
   /**

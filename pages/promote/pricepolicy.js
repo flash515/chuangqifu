@@ -85,8 +85,8 @@ Page({
     if (this.data.ordersublock) {
       that._hidden()
     } else {
-      utils.CloudInit(function (c1) {
-        const db = c1.database()
+      
+        const db = app.globalData.c1.database()
       // 新增数据
       db.collection("DISCOUNTORDER").add({
         data: {
@@ -115,7 +115,7 @@ Page({
           utils._ErrorToast("提交失败请重试")
         }
       })
-    })
+
     }
   },
   _paymentadd() {
@@ -123,8 +123,8 @@ Page({
     if (this.data.paymentsublock) {
       that._hidden()
     } else {
-      utils.CloudInit(function (c1) {
-        const db = c1.database()
+      
+        const db = app.globalData.c1.database()
       db.collection("PAYMENT").add({
         data: {
           OrderId:this.data.orderid,
@@ -148,7 +148,7 @@ Page({
 
         }
       })
-    })
+
     }
   },
   _hidden() {
@@ -190,8 +190,8 @@ Page({
     // 请求WXPay云函数,调用支付能力
     _callWXPay(body, goodsnum, subMchId, payVal) {
       let that = this
-      utils.CloudInit(function (c1) {
-      c1.callFunction({
+      
+      app.globalData.c1.callFunction({
           name: 'WXPay',
           data: {
             // 需要将data里面的参数传给WXPay云函数
@@ -225,11 +225,11 @@ Page({
         .catch((err) => {
           console.error(err);
         });
-      })
+
     },
     _orderupdate() {
-      utils.CloudInit(function (c1) {
-        const db = c1.database()
+      
+        const db = app.globalData.c1.database()
       db.collection('DISCOUNTORDER').where({
         OrderId: this.data.orderid
       }).update({
@@ -242,11 +242,11 @@ Page({
           console.log("商品订单付款成功")
         }
       })
-    })
+
     },
     _paymentupdate() {
-      utils.CloudInit(function (c1) {
-        const db = c1.database()
+      
+        const db = app.globalData.c1.database()
       db.collection('PAYMENT').where({
         OrderId: this.data.orderid
       }).update({
@@ -257,11 +257,11 @@ Page({
           console.log("支付订单付款成功")
         },
       })
-    })
+
     },
     _userupdate(){
-      utils.CloudInit(function (c1) {
-        const db = c1.database()
+      
+        const db = app.globalData.c1.database()
       db.collection('USER').where({
         UserId: app.globalData.Guserid
       }).update({
@@ -275,7 +275,7 @@ Page({
           console.log("用户信息更新成功")
         },
       })
-    })
+
     },
     bvOtherPay() {
       wx.navigateTo({
@@ -294,8 +294,8 @@ Page({
     // 查询当前的价格折扣卡
     console.log(this.data.startdate)
     let that=this
-    utils.CloudInit(function (c1) {
-      const db = c1.database()
+    
+      const db = app.globalData.c1.database()
     const _ = db.command
     db.collection('DISCOUNTORDER').where({
       UserId: app.globalData.Guserid,
@@ -352,8 +352,6 @@ Page({
         }
       }
     })
-  })
-  
   },
 
   /**

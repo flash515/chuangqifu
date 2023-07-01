@@ -48,8 +48,7 @@ Page({
       })
     } else {
       // 未锁定时执行
-      utils.CloudInit(function (c1) {
-      c1.callFunction({
+        app.globalData.c1.callFunction({
         // 要调用的云函数名称
         name: 'ProductQAUpdate',
         // 传递给云函数的参数
@@ -70,7 +69,7 @@ Page({
       })
 
       this.data.replylock = true // 修改上传状态为锁定
-      c1.callFunction({
+      app.globalData.c1.callFunction({
         // 要调用的云函数名称
         name: 'SendReply',
         // 传递给云函数的参数
@@ -94,7 +93,6 @@ Page({
           // handle error
         },
       })
-    })
     }
   },
   bvSendNewProductMessage(e) {
@@ -109,8 +107,7 @@ Page({
       })
     } else {
       // 未锁定时执行
-      utils.CloudInit(function (c1) {
-      c1.callFunction({
+        app.globalData.c1.callFunction({
         // 要调用的云函数名称
         name: 'SendNewProduct',
         // 传递给云函数的参数
@@ -134,7 +131,7 @@ Page({
           // handle error
         },
       })
-    })
+
       this.data.sendlock = true // 修改上传状态为锁定
     }
   },

@@ -22,8 +22,8 @@ Page({
     console.log(e.currentTarget.dataset.id)
     console.log(e.currentTarget.dataset.index)
     let that = this
-    utils.CloudInit(function (c1) {
-      const db = c1.database()
+
+      const db = app.globalData.c1.database()
       db.collection('BOOKING').doc(e.currentTarget.dataset.id).update({
         data: {
           BookingStatus: "canceled"
@@ -38,7 +38,7 @@ Page({
           utils._SuccessToast('当前预约已取消')
         }
       })
-    })
+
   },
   bvNewBooking(e) {
     wx.navigateTo({
@@ -59,8 +59,8 @@ Page({
       image: app.globalData.Gimagearray,
     })
     let that = this
-    utils.CloudInit(function (c1) {
-      const db = c1.database()
+    
+      const db = app.globalData.c1.database()
       db.collection('BOOKING').where({
         UserId: app.globalData.Guserid,
       }).get({
@@ -70,7 +70,7 @@ Page({
           })
         },
       })
-    })
+
   },
 
   /**
@@ -107,8 +107,8 @@ Page({
    */
   onPullDownRefresh: function () {
     let that = this
-    utils.CloudInit(function (c1) {
-      const db = c1.database()
+    
+      const db = app.globalData.c1.database()
       db.collection('BOOKING').where({
         UserId: app.globalData.Guserid,
       }).get({
@@ -118,7 +118,7 @@ Page({
           })
         },
       })
-    })
+
     wx.stopPullDownRefresh()
   },
 

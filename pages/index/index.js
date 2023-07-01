@@ -206,9 +206,9 @@ Page({
    * 生命周期函数--监听页面显示
    */
   // 点击 tab 时用此方法触发埋点
-  onTabItemTap: () => track.startToTrack(),
+
   onShow: function () {
-    track.startToTrack()
+
   },
   handlerClick(e) {
     track.startByClick(e.currentTarget.id);
@@ -224,7 +224,7 @@ Page({
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-    track.startByBack()
+
   },
 
   /**

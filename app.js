@@ -12,9 +12,9 @@ App({
     if (!wx.cloud) {
       console.error('请使用 2.2.3 或以上的基础库以使用云能力')
     } else {
-
       // 初始化全局参数
       this.globalData = {}
+
 
       // 清除本地存储数据,调试发布后可去除
       // wx.clearStorage({

@@ -49,8 +49,8 @@ Page({
 
       // 在邀请有效期内才进行下一步查询
       let that = this
-      utils.CloudInit(function (c1) {
-        const db = c1.database()
+      
+        const db = app.globalData.c1.database()
       db.collection('setting').where({
         CurrentStatus: "effect"
       }).get({
@@ -85,7 +85,7 @@ Page({
           app.globalData.Ginviter = res.data[0].UserInfo
         }
       })
-    })
+
 
       this.setData({
         // onGetUserInfo: this.onGetUserInfo,

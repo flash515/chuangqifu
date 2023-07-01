@@ -86,8 +86,8 @@ Page({
       // 控制页面组件显示和隐藏的参数是异步赋值的，因此需要在数据库操作执行前再次检查参数，避免重复提交
       that._hidden()
     } else {
-      utils.CloudInit(function (c1) {
-        const db = c1.database()
+      
+        const db = app.globalData.c1.database()
       // 新增数据
       db.collection("PROMOTEORDER").add({
         data: {
@@ -114,7 +114,6 @@ Page({
           utils._ErrorToast("提交失败请重试")
         }
       })
-    })
     }
   },
 
@@ -124,8 +123,7 @@ Page({
       // 控制页面组件显示和隐藏的参数是异步赋值的，因此需要在数据库操作执行前再次检查参数，避免重复提交
       that._hidden()
     } else {
-      utils.CloudInit(function (c1) {
-        const db = c1.database()
+        const db = app.globalData.c1.database()
       db.collection("PAYMENT").add({
         data: {
           ProductId: this.data.orderlevel,
@@ -148,7 +146,6 @@ Page({
           utils._ErrorToast("提交失败请重试")
         }
       })
-    })
     }
   },
   _hidden() {
@@ -170,8 +167,8 @@ Page({
   // 请求WXPay云函数,调用支付能力
   _callWXPay(body, goodsnum, subMchId, payVal) {
     let that = this
-    utils.CloudInit(function (c1) {
-    c1.callFunction({
+    
+    app.globalData.c1.callFunction({
         name: 'WXPay',
         data: {
           // 需要将data里面的参数传给WXPay云函数
@@ -205,11 +202,11 @@ Page({
       .catch((err) => {
         console.error(err);
       });
-    })
+
   },
   _orderupdate() {
-    utils.CloudInit(function (c1) {
-      const db = c1.database()
+    
+      const db = app.globalData.c1.database()
     db.collection('PROMOTEORDER').where({
       OrderId: this.data.orderid
     }).update({
@@ -221,11 +218,11 @@ Page({
         console.log("商品订单付款成功")
       }
     })
-  })
+
   },
   _paymentupdate() {
-    utils.CloudInit(function (c1) {
-      const db = c1.database()
+    
+      const db = app.globalData.c1.database()
     db.collection('PAYMENT').where({
       OrderId: this.data.orderid
     }).update({
@@ -236,11 +233,11 @@ Page({
         console.log("支付订单付款成功")
       },
     })
-  })
+
   },
   _userupdate() {
-    utils.CloudInit(function (c1) {
-      const db = c1.database()
+    
+      const db = app.globalData.c1.database()
     db.collection('USER').where({
       UserId: app.globalData.Guserid
     }).update({
@@ -252,7 +249,7 @@ Page({
         console.log("支付订单付款成功")
       },
     })
-  })
+
   },
   bvOtherPay() {
     // 转到其他付款页面时，需要传递的参数orderid、productid、productname、totalfee、database
@@ -307,8 +304,8 @@ Page({
   // 查询推广等级
   _plcheck() {
     let that = this
-    utils.CloudInit(function (c1) {
-      const db = c1.database()
+    
+      const db = app.globalData.c1.database()
     const _ = db.command
     db.collection('PROMOTEORDER').where({
       UserId: app.globalData.Guserid,
@@ -341,7 +338,7 @@ Page({
         utils._ErrorToast("查询失败请刷新")
       }
     })
-  })
+
   },
   // 有效推广用户数量
   _condition() {

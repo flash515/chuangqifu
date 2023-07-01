@@ -20,8 +20,8 @@ Page({
   },
   bvRefresh(e) {
     let that = this
-    utils.CloudInit(function (c1) {
-    c1.callFunction({
+    
+    app.globalData.c1.callFunction({
       name: "NormalQuery",
       data: {
         collectionName: e.currentTarget.dataset.name,
@@ -47,7 +47,7 @@ Page({
         
       }
     })
-  })
+
   },
   bvToPay(e) {
     wx.navigateTo({
@@ -62,8 +62,8 @@ Page({
       image: app.globalData.Gimagearray
     })
     let that = this
-    utils.CloudInit(function (c1) {
-      const db = c1.database()
+    
+      const db = app.globalData.c1.database()
     // 查询当前用户所有的订单,数据库已做权限设置，用户只能查询本人订单
     db.collection('PAYMENT').get({
       success: res => {
@@ -76,7 +76,7 @@ Page({
         console.log(that.data.paymenthistory);
       }
     })
-  })
+
   },
 
   /**
@@ -112,8 +112,8 @@ Page({
    */
   onPullDownRefresh: function () {
     let that = this
-    utils.CloudInit(function (c1) {
-    c1.callFunction({
+    
+    app.globalData.c1.callFunction({
       name: "NormalQuery",
       data: {
         collectionName: "PAYMENT",
@@ -128,7 +128,7 @@ Page({
         })
       }
     })
-    c1.callFunction({
+    app.globalData.c1.callFunction({
       name: "NormalQuery",
       data: {
         collectionName: "REWARD",
@@ -143,7 +143,7 @@ Page({
         })
       }
     })
-  })
+
     wx.stopPullDownRefresh()
   },
 

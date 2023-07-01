@@ -40,8 +40,8 @@ balance:0,
         app.globalData.GavatarUrl=res.userInfo.avatarUrl
         app.globalData.GnickName=res.userInfo.nickName
         // 获取数据库引用
-        utils.CloudInit(function (c1) {
-          const db = c1.database()
+        
+          const db = app.globalData.c1.database()
         // 更新数据
         db.collection('USER').where({
           _openid: app.globalData.Gopenid
@@ -56,7 +56,7 @@ balance:0,
             province: res.userInfo.province
           },
         })
-              })
+
         // 以上更新数据结束
         wx.showToast({
           icon:'success',
@@ -77,8 +77,8 @@ balance:0,
   },
   bvRefresh(e) {
     let that = this
-    utils.CloudInit(function (c1) {
-    c1.callFunction({
+    
+    app.globalData.c1.callFunction({
       name: "NormalQuery",
       data: {
         collectionName: e.currentTarget.dataset.name,
@@ -94,7 +94,7 @@ balance:0,
           })
       }
     })
-  })
+
   },
 
   /**
@@ -107,8 +107,8 @@ balance:0,
       balance: app.globalData.Gbalance,
     })
     let that = this
-    utils.CloudInit(function (c1) {
-  c1.callFunction({
+    
+  app.globalData.c1.callFunction({
     name: "NormalQuery",
     data: {
       collectionName: "POINTS",
@@ -124,7 +124,7 @@ balance:0,
     })
   }
 })
-c1.callFunction({
+app.globalData.c1.callFunction({
   name: "NormalQuery",
   data: {
     collectionName: "POINTS",
@@ -140,7 +140,7 @@ c1.callFunction({
   })
 }
 })
-c1.callFunction({
+app.globalData.c1.callFunction({
   name: "NormalQuery",
   data: {
     collectionName: "POINTS",
@@ -156,7 +156,7 @@ c1.callFunction({
   })
 }
 })
-c1.callFunction({
+app.globalData.c1.callFunction({
   name: "NormalQuery",
   data: {
     collectionName: "POINTS",
@@ -172,8 +172,6 @@ c1.callFunction({
   })
 }
 })
-})
-
   },
 
   /**

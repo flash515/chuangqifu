@@ -153,8 +153,8 @@ Page({
 
     } else {
       // 未锁定时执行
-      utils.CloudInit(function (c1) {
-      c1.callFunction({
+      
+      app.globalData.c1.callFunction({
         // 要调用的云函数名称
         name: 'ProductQAUpdate',
         // 传递给云函数的参数
@@ -171,7 +171,7 @@ Page({
       })
 
       this.data.replylock = true // 修改上传状态为锁定
-      c1.callFunction({
+      app.globalData.c1.callFunction({
         // 要调用的云函数名称
         name: 'SendReply',
         // 传递给云函数的参数
@@ -191,7 +191,7 @@ Page({
           // handle error
         },
       })
-    })
+
     }
   },
   bvUnlock(e) {
@@ -209,8 +209,7 @@ Page({
       // 未锁定时执行
       // 获取数据库引用
       let that = this
-      utils.CloudInit(function (c1) {
-        const db = c1.database()
+        const db = app.globalData.c1.database()
       db.collection('PRODUCTQA').add({
           data: {
             DataId: this.data.pageParam.productid,
@@ -225,7 +224,7 @@ Page({
             utils._SuccessToast("留言发送成功")
             var tempmobile = [18954744612]
             // 调用云函数发短信给推荐人和管理员
-            c1.callFunction({
+            app.globalData.c1.callFunction({
               name: 'sendsms',
               data: {
                 templateId: "1569089",
@@ -249,7 +248,7 @@ Page({
       wx.requestSubscribeMessage({
         tmplIds: ['tXhFEK36Dqkasd9Cmmuh5EKZ6LZycrWfgn4xqBreQz4'],
       })
-    })
+
     }
   },
   /**
@@ -274,8 +273,7 @@ Page({
   _productQA() {
     // 云函数查询商品的QA内容
     let that = this
-    utils.CloudInit(function (c1) {
-    c1.callFunction({
+    app.globalData.c1.callFunction({
       name: "NormalQuery",
       data: {
         collectionName: "PRODUCTQA",
@@ -291,7 +289,7 @@ Page({
         })
       }
     })
-  })
+
   },
   onLoad: async function (options) {
     console.log("页面接收参数", options)

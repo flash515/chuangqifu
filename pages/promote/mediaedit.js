@@ -41,8 +41,8 @@ Page({
     console.log(e.detail)
     const cloudPath = 'user/' + app.globalData.Guserid + '/' + "avatarUrl" + e.detail.avatarUrl.match(/\.[^.]+?$/)
     let that = this
-    utils.CloudInit(function (c1) {
-    c1.uploadFile({
+    
+    app.globalData.c1.uploadFile({
       cloudPath, // 上传至云端的路径
       filePath: e.detail.avatarUrl, // 小程序临时文件路径
       success: res => {
@@ -65,7 +65,7 @@ Page({
       },
       fail: console.error
     })
-  })
+
   },
 
   bvNickName(e) {
@@ -141,8 +141,8 @@ Page({
     await utils._RemoveFiles([e.target.dataset.video])
     await utils._RemoveFiles([e.target.dataset.cover])
     await utils._RemoveFiles([e.target.dataset.image])
-    utils.CloudInit(function (c1) {
-      const db = c1.database()
+    
+      const db = app.globalData.c1.database()
     db.collection('INFOSHARE').where({
       InfoId: e.currentTarget.dataset.id
     }).remove({
@@ -155,7 +155,7 @@ Page({
         })
       }
     })
-  })
+
   },
 
   bvInfoTitle(e) {
@@ -267,8 +267,8 @@ Page({
           // 只上传一个video时
           const filePath = res.tempFilePath
           const cloudPath = 'mediashare/' + app.globalData.Guserid + '/' + app.globalData.Guserdata.UserInfo.UserPhone + 'video' + that.data.timestamp + filePath.match(/\.[^.]+?$/)
-          utils.CloudInit(function (c1) {
-          c1.uploadFile({
+          
+          app.globalData.c1.uploadFile({
             cloudPath,
             filePath,
             success: (res) => {
@@ -277,7 +277,7 @@ Page({
               that.data.infovideo = res.fileID
             },
           });
-        })
+
         },
       })
     }
@@ -384,8 +384,8 @@ bvDeleteTempMedia(e) {
     if (this.data.private == true) {
       this.data.infostatus = "checked"
     }
-    utils.CloudInit(function (c1) {
-      const db = c1.database()
+    
+      const db = app.globalData.c1.database()
     if (that.data.infoid != "") {
       db.collection('INFOSHARE').where({
         InfoId: that.data.infoid
@@ -409,7 +409,7 @@ bvDeleteTempMedia(e) {
         success: res => {
           utils._SuccessToast("资讯更新成功")
           // 查询本人提交的InfoShare
-          c1.callFunction({
+          app.globalData.c1.callFunction({
             name: "NormalQuery",
             data: {
               collectionName: "INFOSHARE",
@@ -429,7 +429,7 @@ bvDeleteTempMedia(e) {
                 } else {
                   var filelist = [res.result.data[i].InfoCover, res.result.data[i].InfoImage]
                 }
-                await c1.getTempFileURL({
+                await app.globalData.c1.getTempFileURL({
                   fileList: filelist
                 }).then(res => {
                   console.log(i)
@@ -488,7 +488,7 @@ bvDeleteTempMedia(e) {
         success: res => {
           utils._SuccessToast("已发布等待审核")
           // 查询本人提交的InfoShare
-          c1.callFunction({
+          app.globalData.c1.callFunction({
             name: "NormalQuery",
             data: {
               collectionName: "INFOSHARE",
@@ -508,7 +508,7 @@ bvDeleteTempMedia(e) {
                 } else {
                   var filelist = [res.result.data[i].InfoCover, res.result.data[i].InfoImage]
                 }
-                await c1.getTempFileURL({
+                await app.globalData.c1.getTempFileURL({
                   fileList: filelist
                 }).then(res => {
                   console.log(i)
@@ -535,7 +535,7 @@ bvDeleteTempMedia(e) {
         }
       })
     }
-  })
+
   },
 
   /**
@@ -552,8 +552,8 @@ bvDeleteTempMedia(e) {
     })
     // 查询本人提交的InfoShare
     let that = this
-    utils.CloudInit(function (c1) {
-    c1.callFunction({
+    
+    app.globalData.c1.callFunction({
       name: "NormalQuery",
       data: {
         collectionName: "INFOSHARE",
@@ -573,7 +573,7 @@ bvDeleteTempMedia(e) {
           } else {
             var filelist = [res.result.data[i].InfoCover, res.result.data[i].InfoImage]
           }
-          await c1.getTempFileURL({
+          await app.globalData.c1.getTempFileURL({
             fileList: filelist
           }).then(res => {
             console.log(i)
@@ -593,7 +593,7 @@ bvDeleteTempMedia(e) {
         console.log("本人全部资讯", that.data.infoshares)
       }
     })
-  })
+
   },
 
   bindButtonTap() {

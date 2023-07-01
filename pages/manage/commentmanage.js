@@ -12,8 +12,7 @@ Page({
   bvCheck: function (e) {
     console.log(e.currentTarget.dataset.id)
     console.log(e.currentTarget.dataset.key)
-    utils.CloudInit(function (c1) {
-    c1.callFunction({
+      app.globalData.c1.callFunction({
       name: "NormalUpdate",
       data: {
         collectionName: "InfoShareComment",
@@ -26,7 +25,6 @@ Page({
         console.log(res)
         utils._SuccessToast("状态更新完成")
       }
-    })
   })
   },
   /**
@@ -34,8 +32,7 @@ Page({
    */
   onLoad(options) {
     let that = this
-    utils.CloudInit(function (c1) {
-    c1.callFunction({
+      app.globalData.c1.callFunction({
       name: "NormalQuery",
       data: {
         collectionName: "InfoShareComment",
@@ -54,7 +51,6 @@ Page({
           comments: res.result.data
         })
       }
-    })
   })
   },
 

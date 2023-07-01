@@ -2048,8 +2048,7 @@ Page({
 
   ProductSortUpdate() {
     // 数据库的设置不是管理员本人所以需要用云函数更新
-    utils.CloudInit(function (c1) {
-    c1.callFunction({
+    app.globalData.c1.callFunction({
       // 云函数名称
       name: 'MeetingRoomSetting',
       // 传给云函数的参数
@@ -2061,12 +2060,10 @@ Page({
         console.log("更新产品类别执行了")
       }
     })
-  })
   },
   BusinessSortUpdate() {
     let that = this
-    utils.CloudInit(function (c1) {
-      const db = c1.database()
+    const db = app.globalData.c1.database()
     db.collection('NameCardSetting').doc('0122a5876443793e098bd33e0045f553').update({
       data: {
         BusinessSortArray: BusinessSortArray,
@@ -2075,7 +2072,6 @@ Page({
         console.log(res)
       }
     })
-  })
   },
   bvCategory1Code(e) {
     let index = e.currentTarget.dataset.index

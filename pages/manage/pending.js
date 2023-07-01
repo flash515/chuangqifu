@@ -64,14 +64,7 @@ Page({
    */
   onLoad: async function (options) {
     let that = this
-    var c1 = new wx.cloud.Cloud({
-      // 资源方 AppID
-      resourceAppid: 'wx810b87f0575b9a47',
-      // 资源方环境 ID
-      resourceEnv: 'xsbmain-9gvsp7vo651fd1a9',
-    })
-    await c1.init()
-    c1.callFunction({
+    app.globalData.c1.callFunction({
       name: "NormalQuery",
       data: {
         collectionName: "DKORDER",
@@ -89,7 +82,7 @@ Page({
         })
       }
     })
-    c1.callFunction({
+    app.globalData.c1.callFunction({
       name: "NormalQuery",
       data: {
         collectionName: "ZCORDER",
@@ -107,7 +100,7 @@ Page({
         })
       }
     })
-    c1.callFunction({
+    app.globalData.c1.callFunction({
       name: "NormalQuery",
       data: {
         collectionName: "DELEGATEISSUE",
@@ -125,7 +118,7 @@ Page({
         })
       }
     })
-    c1.callFunction({
+    app.globalData.c1.callFunction({
       name: "NormalQuery",
       data: {
         collectionName: "PROMOTEORDER",
@@ -143,7 +136,7 @@ Page({
         })
       }
     })
-    c1.callFunction({
+    app.globalData.c1.callFunction({
       name: "NormalQuery",
       data: {
         collectionName: "DISCOUNTORDER",
@@ -161,7 +154,7 @@ Page({
         })
       }
     })
-    c1.callFunction({
+    app.globalData.c1.callFunction({
       name: "NormalQuery",
       data: {
         collectionName: "BOOKING",

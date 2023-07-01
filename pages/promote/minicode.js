@@ -38,8 +38,8 @@ Page({
       avatarUrl,
     })
     // 更新数据
-    utils.CloudInit(function (c1) {
-      const db = c1.database()
+    
+      const db = app.globalData.c1.database()
       db.collection('USER').where({
         UserId: app.globalData.Guserid
       }).update({
@@ -47,8 +47,6 @@ Page({
           ["UserInfo.avatarUrl"]: this.data.avatarUrl,
         },
       })
-    })
-
   },
   onChooseImage(e) {
     this.setData({
@@ -79,8 +77,8 @@ Page({
   getUrlLink() {
     // 调用云函数
     let that = this
-    utils.CloudInit(function (c1) {
-      c1.callFunction({
+    
+      app.globalData.c1.callFunction({
         name: 'URLLink',
         data: {
           quey: 'userid=' + app.globalData.Guserid + "&page=" + that.data.page + "&params=" + that.data.params
@@ -96,7 +94,6 @@ Page({
           console.error('[云函数] [URLLink] 调用失败', err)
         }
       })
-    })
   },
 
   bvCopy: function (e) {
@@ -118,8 +115,8 @@ Page({
     // var scene = app.globalData.Guserid; //scene参数不能有参数名，可以拼接你要添加的参数值
 
     let that = this;
-    utils.CloudInit(function (c1) {
-      c1.callFunction({
+    
+      app.globalData.c1.callFunction({
         name: 'getQRCode',
         data: {
           // userid参数是使用在上传文件夹命名中
@@ -133,7 +130,7 @@ Page({
         },
         success: res => {
           console.log(res.result)
-          c1.getTempFileURL({
+          app.globalData.c1.getTempFileURL({
             fileList: [res.result]
           }).then(res => {
             console.log(res.fileList)
@@ -150,7 +147,6 @@ Page({
           that.drawCanvas(this.data.imageUrl)
         }
       })
-    })
   },
 
   getUserQRCode() {
@@ -158,8 +154,8 @@ Page({
     // var scene = app.globalData.Guserid; //scene参数不能有参数名，可以拼接你要添加的参数值
 
     let that = this;
-    utils.CloudInit(function (c1) {
-      c1.callFunction({
+    
+      app.globalData.c1.callFunction({
         name: 'getQRCode',
         data: {
           // userid参数是使用在上传文件夹命名中
@@ -173,7 +169,7 @@ Page({
         },
         success: res => {
           console.log(res.result)
-          c1.getTempFileURL({
+          app.globalData.c1.getTempFileURL({
             fileList: [res.result]
           }).then(res => {
             console.log(res.fileList)
@@ -188,7 +184,7 @@ Page({
           })
         }
       })
-    })
+
   },
 
   //通过https方式调用wxacodeunlimit获取二维码，有效，但当前方法用不到了
@@ -292,14 +288,14 @@ Page({
       console.log("res6", this.data.tempfilepath)
       const filePath = this.data.tempfilepath
       const cloudPath = 'minicode/' + app.globalData.Guserid + '/' + app.globalData.Guserdata.UserInfo.UserPhone + 'qrcode.png'
-      utils.CloudInit(function (c1) {
-        c1.uploadFile({
+
+        app.globalData.c1.uploadFile({
           cloudPath,
           filePath,
           success: res => {
             console.log("fileID", res.fileID)
             // 获取数据库引用
-            const db = c1.database()
+            const db = app.globalData.c1.database()
             // 更新数据
             db.collection('USER').where({
               UserId: app.globalData.Guserid
@@ -310,7 +306,7 @@ Page({
             })
           }
         })
-      })
+
       this.data.qrcodeuploadlock = true // 修改上传状态为锁定
     }
   },

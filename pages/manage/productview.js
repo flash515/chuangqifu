@@ -12,8 +12,7 @@ Page({
   },
   onSearch(e) {
     let that = this
-    utils.CloudInit(function (c1) {
-      const db = c1.database()
+      const db = app.globalData.c1.database()
     const _ = db.command
     db.collection('PRODUCT').where(_.and([{
         UserId: app.globalData.Guserid
@@ -50,7 +49,6 @@ Page({
         that.setcurrentdata()
       }
     })
-  })
   },
   bvAddProduct(e) {
     wx.navigateTo({
@@ -95,8 +93,7 @@ Page({
   onLoad: function (options) {
     console.log(options)
     let that = this
-    utils.CloudInit(function (c1) {
-    c1.callFunction({
+      app.globalData.c1.callFunction({
       name: "NormalQuery",
       data: {
         collectionName: "PRODUCT",
@@ -129,9 +126,6 @@ Page({
         this._setproductarray()
       }
     })
-
-  })
-
   },
 
   /**

@@ -116,8 +116,8 @@ Page({
     this.data.temppacket = this.data.remainpacket - 1
     console.log(this.data.temppoints, this.data.temppacket)
     let that = this
-    utils.CloudInit(function (c1) {
-      const db = c1.database()
+    
+      const db = app.globalData.c1.database()
     db.collection("POINTS").where({
       TransferPacketId: this.data.transferpacketid
     }).update({
@@ -133,13 +133,11 @@ Page({
 
       }
     })
-  })
-
   },
   bvAccept() {
     let that = this
-    utils.CloudInit(function (c1) {
-      const db = c1.database()
+    
+      const db = app.globalData.c1.database()
     db.collection("POINTS").add({
       data: {
         PointsType: "transfer",
@@ -162,7 +160,7 @@ Page({
 
       }
     })
-  })
+
   },
   /**
    * 生命周期函数--监听页面加载

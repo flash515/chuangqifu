@@ -6,7 +6,7 @@ Page({
    */
   data: {
     user: [],
-    promoterlevel:"",
+    promoterlevel: "",
     directorder: [],
     direct30order: [],
     direct30value: 0,
@@ -30,18 +30,17 @@ Page({
    */
   onLoad: function (options) {
     this.setData({
-      image:app.globalData.Gimagearray,
-      promoterlevel:app.globalData.Guserdata.UserInfo.PromoterLevel
+      image: app.globalData.Gimagearray,
+      promoterlevel: app.globalData.Guserdata.UserInfo.PromoterLevel
     })
-        // 直接分享价值查询
+    // 直接分享价值查询
     // 从本地存储中读取
     wx.getStorage({
       key: 'LDirectUser',
     }).then(res => {
       console.log("读取", res.data)
       let that = this
-      utils.CloudInit(function (c1) {
-      c1.callFunction({
+      app.globalData.c1.callFunction({
         name: 'ShareValueQuery',
         data: {
           userarray: res.data
@@ -84,7 +83,7 @@ Page({
         // console.log("云函数价值查询", res.result.temparray)
       })
     })
-    })
+
     // 间接价值查询
     // 从本地存储中读取
     wx.getStorage({
@@ -92,8 +91,7 @@ Page({
     }).then(res => {
       console.log("读取间接分享用户", res.data)
       let that = this
-      utils.CloudInit(function (c1) {
-      c1.callFunction({
+     app.globalData.c1.callFunction({
         name: 'ShareValueQuery',
         data: {
           userarray: res.data
@@ -138,7 +136,6 @@ Page({
         // console.log("云函数价值查询", res.result.temparray)
       })
     })
-  })
   },
 
   /**
@@ -151,8 +148,8 @@ Page({
   /**
    * 生命周期函数--监听页面显示
    */
-    	// 点击 tab 时用此方法触发埋点
-	onTabItemTap: () => startToTrack(),
+  // 点击 tab 时用此方法触发埋点
+  onTabItemTap: () => startToTrack(),
   onShow: function () {
     startToTrack()
   },
@@ -167,7 +164,7 @@ Page({
   /**
    * 生命周期函数--监听页面卸载
    */
-    onUnload: function () {
+  onUnload: function () {
     startByBack()
   },
 

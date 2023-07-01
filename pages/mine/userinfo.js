@@ -34,8 +34,7 @@ Page({
     console.log(e.detail)
     const cloudPath = 'user/' + app.globalData.Guserid + '/' + "avatarUrl" + e.detail.avatarUrl.match(/\.[^.]+?$/)
     let that = this
-    utils.CloudInit(function (c1) {
-    c1.uploadFile({
+      app.globalData.c1.uploadFile({
       cloudPath, // 上传至云端的路径
       filePath: e.detail.avatarUrl, // 小程序临时文件路径
       success: res => {
@@ -48,7 +47,6 @@ Page({
       },
       fail: console.error
     })
-  })
   },
   bvNickName(e) {
     console.log("真机测试才能获取到", e.detail.value)
@@ -127,8 +125,7 @@ Page({
     if (this.data.u_phonecode == this.data.s_phonecode && this.data.u_phonecode != "") {
       console.log('手机验证码正确')
       let that = this
-      utils.CloudInit(function (c1) {
-        const db = c1.database()
+        const db = app.globalData.c1.database()
      db.collection('USER').where({
         UserId: app.globalData.Guserid
       }).update({
@@ -151,7 +148,6 @@ Page({
           }
         },
       })
-    })
     } else {
       utils._ErrorToast("验证码错误")
     }

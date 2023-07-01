@@ -30,7 +30,7 @@ let getSession = () => {
 }
 
 // 停止统计 && 保存埋点数据 && 初始化页面变量
-let setSession = () => {
+let setSession =() => {
   // trackarray是在本方法中赋值，初始化要放在本方法中，避免没有初始化而造成数据重复
   var trackarray = []
   clearInterval(TIME); // 停止统计
@@ -57,8 +57,7 @@ let setSession = () => {
     trackarray.push(item);
   }
   // 更新USER数据库里的Track字段
-  utils.CloudInit(function (c1) {
-    const db = c1.database()
+    const db = app.globalData.c1.database()
     console.log(app.globalData.Guserid)
     db.collection("USER").where({
       UserId: app.globalData.Guserid,
@@ -70,7 +69,7 @@ let setSession = () => {
         console.log("track更新", res)
       }
     })
-  })
+
   console.log("trackarray", trackarray)
   initData(); // 初始化
 }

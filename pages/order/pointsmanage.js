@@ -121,8 +121,8 @@ Page({
     // 兑换前check一下balance
     this._balancecheck()
     let that = this
-    utils.CloudInit(function (c1) {
-      const db = c1.database()
+    
+      const db = app.globalData.c1.database()
     db.collection("POINTS").add({
       data: {
         PointsType: "exchange",
@@ -148,8 +148,6 @@ Page({
 
       }
     })
-  })
-
   },
   bvTradePointsWithdraw: async function (e) {
 
@@ -293,8 +291,8 @@ Page({
     console.log(this.data.transferpacketid)
     var promise = new Promise((resolve, reject) => {
       let that = this
-      utils.CloudInit(function (c1) {
-        const db = c1.database()
+      
+        const db = app.globalData.c1.database()
       db.collection("POINTS").add({
         data: {
           PointsType: "transfer",
@@ -324,7 +322,7 @@ Page({
           utils._ErrorToast('提交失败请重试')
         }
       })
-    })
+
     });
     return promise;
   },

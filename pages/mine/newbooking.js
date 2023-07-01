@@ -1,7 +1,11 @@
 const app = getApp()
-const { startToTrack, startByClick, startByBack } = require("../../utils/track");
+const {
+  startToTrack,
+  startByClick,
+  startByBack
+} = require("../../utils/track");
 const track = require("../../utils/track");
-const Time= require("../../utils/getDates");
+const Time = require("../../utils/getDates");
 const utils = require("../../utils/utils");
 Page({
 
@@ -9,7 +13,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    bookingid:"",
+    bookingid: "",
     booklock: false,
     adddate: "",
     address: "",
@@ -62,8 +66,7 @@ Page({
       // 未锁定时执行
       // 获取数据库引用
       let that = this
-      utils.CloudInit(function (c1) {
-        const db = c1.database()
+      const db = app.globalData.c1.database()
       db.collection('BOOKING').add({
           data: {
             Address: this.data.address,
@@ -73,9 +76,9 @@ Page({
             BookingTime: this.data.time,
             BookingContent: this.data.content,
             BookingStatus: "unchecked",
-            UserId:app.globalData.Guserid,
+            UserId: app.globalData.Guserid,
             AddDate: Time.getCurrentTime(),
-            From:"创企服"
+            From: "创企服"
           },
           success: res => {
             utils._SuccessToast('预约提交成功')
@@ -85,31 +88,29 @@ Page({
           }
         }),
         that.data.booklock = true // 修改上传状态为锁定
-      })
     }
   },
-  bvUpdateData(){
+  bvUpdateData() {
     let that = this
-    utils.CloudInit(function (c1) {
-      const db = c1.database()
+
+    const db = app.globalData.c1.database()
     db.collection('BOOKING').doc(that.data.bookingid).update({
-        data: {
-          BookingContent: that.data.content,
-          Address: that.data.address,
-          Phone: that.data.phone,
-          Contacts: that.data.contacts,
-          BookingDate: that.data.date,
-          BookingTime: that.data.time,
-          BookingStatus: "unchecked",
-          UpdateDate: Time.getCurrentTime(),
-        },
-        success: res => {
-          utils._SuccessToast('预约更新成功')
-        },
-        fail: res => {
-          utils._ErrorToast('预约更新失败')
-        }
-      })
+      data: {
+        BookingContent: that.data.content,
+        Address: that.data.address,
+        Phone: that.data.phone,
+        Contacts: that.data.contacts,
+        BookingDate: that.data.date,
+        BookingTime: that.data.time,
+        BookingStatus: "unchecked",
+        UpdateDate: Time.getCurrentTime(),
+      },
+      success: res => {
+        utils._SuccessToast('预约更新成功')
+      },
+      fail: res => {
+        utils._ErrorToast('预约更新失败')
+      }
     })
   },
   /**
@@ -126,8 +127,7 @@ Page({
     console.log(this.data.bookingid)
     if (this.data.bookingid != "" && this.data.bookingid != undefined) {
       let that = this
-      utils.CloudInit(function (c1) {
-        const db = c1.database()
+      const db = app.globalData.c1.database()
       db.collection('BOOKING').doc(that.data.bookingid).get({
         success: res => {
           console.log(res)
@@ -143,7 +143,6 @@ Page({
           })
         },
       })
-    })
     } else {
       this.setData({
         content: "业务沟通"
@@ -160,8 +159,8 @@ Page({
   /**
    * 生命周期函数--监听页面显示
    */
-    	// 点击 tab 时用此方法触发埋点
-	onTabItemTap: () => startToTrack(),
+  // 点击 tab 时用此方法触发埋点
+  onTabItemTap: () => startToTrack(),
   onShow: function () {
     startToTrack()
   },
@@ -176,7 +175,7 @@ Page({
   /**
    * 生命周期函数--监听页面卸载
    */
-    onUnload: function () {
+  onUnload: function () {
     startByBack()
   },
 

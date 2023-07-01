@@ -46,8 +46,8 @@ Page({
     // 接收参数方法一结束
 
     if (Date.parse(new Date()) - this.data.starttime < "3600000") {
-      utils.CloudInit(function (c1) {
-        const db = c1.database()
+      
+        const db = app.globalData.c1.database()
       db.collection('USER').where({
         UserId: this.data.inviterid
       }).get({
@@ -56,8 +56,6 @@ Page({
 
         }
       })
-    })
-
       this.setData({
         // onGetUserInfo: this.onGetUserInfo,
         getOpenID: this.getOpenID,

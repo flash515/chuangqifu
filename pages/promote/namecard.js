@@ -46,8 +46,8 @@ Page({
   },
   bvViewed: function (e) {
     let that = this
-    utils.CloudInit(function (c1) {
-    c1.callFunction({
+    
+    app.globalData.c1.callFunction({
       name: "NormalQuery",
       data: {
         collectionName: "NameCardViewed",
@@ -65,7 +65,7 @@ Page({
         })
       }
     })
-  })
+
   },
   bvEdit: function (e) {
     // 待更新，用户手机登录后如何更新参数
@@ -113,14 +113,7 @@ Page({
   onLoad: async function (options) {
     console.log("传入的参数为", options)
     let that = this
-    var c1 = new wx.cloud.Cloud({
-      // 资源方 AppID
-      resourceAppid: 'wx810b87f0575b9a47',
-      // 资源方环境 ID
-      resourceEnv: 'xsbmain-9gvsp7vo651fd1a9',
-    })
-    await c1.init()
-      const db = c1.database()
+      const db = app.globalData.c1.database()
     if (options.userid) {
       // 如果是通过分享链接进入
       this.data.params = options
@@ -141,7 +134,7 @@ Page({
           } else {
             var filelist = [res.data[0].CardBg]
           }
-          await c1.getTempFileURL({
+          await app.globalData.c1.getTempFileURL({
             fileList: filelist
           }).then(res => {
             console.log(res.fileList)
@@ -154,7 +147,7 @@ Page({
           })
           if (res.data[0].CardImages[0] != "" && res.data[0].CardImages[0] !=undefined) {
             var filelist = res.data[0].CardImages
-            await c1.getTempFileURL({
+            await app.globalData.c1.getTempFileURL({
               fileList: filelist
             }).then(res => {
               console.log(res.fileList)
@@ -215,7 +208,7 @@ Page({
             } else {
               var filelist = [res.data[0].CardBg]
             }
-            await c1.getTempFileURL({
+            await app.globalData.c1.getTempFileURL({
               fileList: filelist
             }).then(res => {
               console.log(res.fileList)
@@ -228,7 +221,7 @@ Page({
             })
             if (res.data[0].CardImages[0] != "" && res.data[0].CardImages[0] !=undefined) {
               var filelist = res.data[0].CardImages
-              await c1.getTempFileURL({
+              await app.globalData.c1.getTempFileURL({
                 fileList: filelist
               }).then(res => {
                 console.log(res.fileList)
@@ -263,7 +256,7 @@ Page({
               } else {
                 var filelist = [res.data[0].CardBg]
               }
-              await c1.getTempFileURL({
+              await app.globalData.c1.getTempFileURL({
                 fileList: filelist
               }).then(res => {
                 console.log(res.fileList)
@@ -276,7 +269,7 @@ Page({
               })
               if (res.data[0].CardImages[0] != "" && res.data[0].CardImages[0] !=undefined) {
                 var filelist = res.data[0].CardImages
-                await c1.getTempFileURL({
+                await app.globalData.c1.getTempFileURL({
                   fileList: filelist
                 }).then(res => {
                   console.log(res.fileList)
@@ -293,8 +286,8 @@ Page({
     }
   },
   _viewadd(creatorid) {
-    utils.CloudInit(function (c1) {
-    c1.callFunction({
+    
+    app.globalData.c1.callFunction({
       name: "DataRise",
       data: {
         collectionName: "NAMECARD",
@@ -308,7 +301,7 @@ Page({
 
       }
     })
-  })
+
   },
   /**
    * 生命周期函数--监听页面初次渲染完成

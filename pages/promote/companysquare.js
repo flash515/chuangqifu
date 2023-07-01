@@ -50,8 +50,8 @@ Page({
   },
   onSearch(e) {
     let that = this
-    utils.CloudInit(function (c1) {
-      const db = c1.database()
+    
+      const db = app.globalData.c1.database()
       const _ = db.command
       db.collection('NAMECARD').where(
         _.or([{
@@ -100,7 +100,7 @@ Page({
           })
         }
       })
-    })
+
   },
   // 展示弹框
   getbox: function () {
@@ -126,8 +126,7 @@ Page({
       inputShow: false,
     })
     let that = this
-    utils.CloudInit(function (c1) {
-      c1.callFunction({
+      app.globalData.c1.callFunction({
         name: "NormalQuery",
         data: {
           collectionName: "NAMECARD",
@@ -146,7 +145,7 @@ Page({
           })
         }
       })
-    })
+
   },
   changeCategory1: function (e) {
     const val = e.detail.value
@@ -196,8 +195,8 @@ Page({
       // 浏览人已发布的名片信息会发送给被浏览人
 
       // 本地函数查询名片信息
-      utils.CloudInit(function (c1) {
-        const db = c1.database()
+      
+        const db = app.globalData.c1.database()
         // 登记本人名片
         db.collection('NameCardViewed').add({
           data: {
@@ -215,14 +214,10 @@ Page({
             console.log("被查看信息添加了")
           }
         })
-      })
-
     }
-
   },
   _viewadd(creatorid) {
-    utils.CloudInit(function (c1) {
-      c1.callFunction({
+          app.globalData.c1.callFunction({
         name: "DataRise",
         data: {
           collectionName: "NAMECARD",
@@ -233,10 +228,8 @@ Page({
         },
         success: res => {
           console.log("浏览量已更新", res)
-
         }
       })
-    })
   },
   // 长按号码响应函数
   bvPhoneNumTap: function () {
@@ -249,8 +242,7 @@ Page({
    */
   async onLoad(options) {
     let that = this
-    utils.CloudInit(function (c1) {
-      const db = c1.database()
+          const db = app.globalData.c1.database()
       db.collection('NameCardSetting').doc('0122a5876443793e098bd33e0045f553').get({
         success: res => {
           that.setData({
@@ -259,7 +251,6 @@ Page({
           console.log("行业类别更新成功")
         }
       })
-    })
     this.setData({
       image: app.globalData.Gimagearray,
       userphone: app.globalData.Guserdata.UserInfo.UserPhone,
@@ -271,8 +262,7 @@ Page({
     // })
     if (app.globalData.Guserdata.NameCardStatus == "Published") {
       // 本地函数查询名片信息
-      utils.CloudInit(function (c1) {
-        const db = c1.database()
+              const db = app.globalData.c1.database()
         db.collection('NAMECARD').where({
           CreatorId: app.globalData.Guserid
         }).get({
@@ -281,9 +271,7 @@ Page({
             that.data.mycard = res.data[0]
           }
         })
-      })
     }
-
   },
 
   /**

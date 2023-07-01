@@ -29,8 +29,8 @@ Page({
 
     if (Date.parse(new Date()) - this.data.starttime < "3600000") {
       let that = this
-      utils.CloudInit(function (c1) {
-        const db = c1.database()
+      
+        const db = app.globalData.c1.database()
       db.collection('USER').where({
         _openid: this.data.inviterid
       }).get({
@@ -45,8 +45,6 @@ Page({
           app.globalData.Ginviterpromoterlevel = res.data[0].PromoterLevel;
         }
       })
-    })
-
       this.setData({
         // onGetUserInfo: this.onGetUserInfo,
         getOpenID: this.getOpenID,

@@ -44,8 +44,7 @@ Page({
   },
   bvRefresh(e) {
     let that = this
-    utils.CloudInit(function (c1) {
-    c1.callFunction({
+    app.globalData.c1.callFunction({
       name: "NormalQuery",
       data: {
         collectionName: e.currentTarget.dataset.name,
@@ -70,7 +69,6 @@ Page({
         }
       }
     })
-  })
   },
 
   /**
@@ -88,8 +86,8 @@ Page({
       })
     }
     let that = this
-    utils.CloudInit(function (c1) {
-    c1.callFunction({
+    
+    app.globalData.c1.callFunction({
       name: "NormalQuery",
       data: {
         collectionName: "DISCOUNTORDER",
@@ -104,7 +102,7 @@ Page({
         })
       }
     })
-    c1.callFunction({
+    app.globalData.c1.callFunction({
       name: "NormalQuery",
       data: {
         collectionName: "ORDER",
@@ -119,7 +117,7 @@ Page({
         })
       }
     })
-    c1.callFunction({
+    app.globalData.c1.callFunction({
       name: "NormalQuery",
       data: {
         collectionName: "PROMOTEORDER",
@@ -134,7 +132,6 @@ Page({
         })
       }
     })
-  })
   },
 
   /**

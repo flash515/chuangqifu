@@ -478,13 +478,6 @@ Page({
   },
  async bvUploadProductImage(e) {
     let that = this
-    var c1 = new wx.cloud.Cloud({
-      // 资源方 AppID
-      resourceAppid: 'wx810b87f0575b9a47',
-      // 资源方环境 ID
-      resourceEnv: 'xsbmain-9gvsp7vo651fd1a9',
-    })
-    await c1.init()
     // 判断商品id是否空值
     if (this.data.productname == "" || this.data.productname == null) {
       utils._ErrorToast("商品名称不能为空")
@@ -500,7 +493,7 @@ Page({
           for (let i = 0; i < this.data.productview.length; i++) {
             const filePath = this.data.productview[i]
             const cloudPath = 'product/' + this.data.productname + '/' + this.data.productname + (new Date()).getTime() + filePath.match(/\.[^.]+?$/)
-            c1.uploadFile({
+            app.globalData.c1.uploadFile({
               cloudPath,
               filePath,
               success: res => {
@@ -522,8 +515,7 @@ Page({
   bvDownloadFile(e) {
     console.log(e.currentTarget.dataset.link)
     // get temp file URL
-    utils.CloudInit(function (c1) {
-    c1.downloadFile({
+      app.globalData.c1.downloadFile({
       fileID: e.currentTarget.dataset.link,
       success: res => {
         // get temp file path
@@ -542,14 +534,12 @@ Page({
       fail: err => {
         console.log(err)
       }
-    })
   })
   },
   bvDeleteFile(e) {
     console.log(this.data.attachmentfile)
     let that = this
-    utils.CloudInit(function (c1) {
-    c1.deleteFile({
+    app.globalData.c1.deleteFile({
       //微信云储存中的文件唯一身份fileID，最多可删除50条
       fileList: [e.currentTarget.dataset.link],
       success: (res => {
@@ -565,17 +555,10 @@ Page({
         console.log(err)
       })
     })
-  })
+
     console.log(this.data.attachmentfile)
   },
  async bvUploadFile(e) {
-    var c1 = new wx.cloud.Cloud({
-      // 资源方 AppID
-      resourceAppid: 'wx810b87f0575b9a47',
-      // 资源方环境 ID
-      resourceEnv: 'xsbmain-9gvsp7vo651fd1a9',
-    })
-    await c1.init()
     // 判断individualname是否空值
     if (this.data.productname == "" || this.data.productname == null) {
       utils._ErrorToast("商品名称不能空")
@@ -589,7 +572,7 @@ Page({
         for (let i = 0; i < this.data.tempFilePaths.length; i++) {
           const filePath = this.data.tempFilePaths[i].path
           const cloudPath = 'product/' + this.data.productname + '/' + this.data.tempFilePaths[i].name
-          c1.uploadFile({
+          app.globalData.c1.uploadFile({
             cloudPath,
             filePath,
             success: res => {
@@ -611,13 +594,10 @@ Page({
             }
           })
         }
-
-
         console.log("attachmentfile", this.data.attachmentfile)
         // 异步上传，打印attachment时尚未返回数据
       }
     }
-
   },
   bvChooseFile(e) {
     wx.chooseMessageFile({
@@ -643,8 +623,7 @@ Page({
       // 未锁定时执行
       // 获取数据库引用
       let that = this
-      utils.CloudInit(function (c1) {
-        const db = c1.database()
+        const db = app.globalData.c1.database()
         // 新增数据
         db.collection("PRODUCT").add({
           data: {
@@ -692,7 +671,6 @@ Page({
             utils._ErrorToast("新增数据失败")
           }
         })
-      })
       // 以上新增数据结束
       this.data.sublock = true // 修改上传状态为锁定
     }
@@ -701,8 +679,7 @@ Page({
   updateData() {
     // 获取数据库引用
     let that = this
-    utils.CloudInit(function (c1) {
-      const db = c1.database()
+      const db = app.globalData.c1.database()
       // 新增数据
       db.collection("PRODUCT").doc(this.data.recordid).update({
         data: {
@@ -744,7 +721,7 @@ Page({
           console.log('更新数据成功', res)
           utils._SuccessToast("更新数据成功")
           // 更新成功后再次云函数查询商品并存入本地
-          c1.callFunction({
+          app.globalData.c1.callFunction({
             name: "NormalQuery",
             data: {
               collectionName: "PRODUCT",
@@ -768,8 +745,6 @@ Page({
           utils._ErrorToast("更新数据失败")
         }
       })
-
-    })
     // 以上更新数据结束
   },
   /**
