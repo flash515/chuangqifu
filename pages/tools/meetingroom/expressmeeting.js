@@ -84,7 +84,7 @@ Page({
       console.log(res.target)
     }
     return {
-      title: '请加入快捷会议室，此邀请60分钟内有效',
+      title:'邀请您加入快捷会议室',
       path: '/pages/tools/meetingroom/expressmeeting?userid=' + app.globalData.Guserid,
       imageUrl: app.globalData.Gsetting.MeetingRoomImage, //封面
     }

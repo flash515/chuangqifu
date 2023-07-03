@@ -76,3 +76,8 @@
   font-size: 28rpx;
   border: 0;
  }
+ .labal {
+  font-size: 28rpx;
+  color: rgb(0, 0, 0);
+  margin-left: 25rpx;
+}

@@ -61,15 +61,15 @@ Component({
           console.log(i)
           if (initList[i].imgFileID != "" && initList[i].imgFileID != undefined) {
             var filelist = [initList[i].imgFileID]
-         
-          await app.globalData.c1.getTempFileURL({
-            fileList: filelist
-          }).then(res => {
-            console.log(i)
-            console.log(res.fileList)
-            initList[i].imgFileID = res.fileList[0].tempFileURL
-          })
-        }
+
+            await app.globalData.c1.getTempFileURL({
+              fileList: filelist
+            }).then(res => {
+              console.log(i)
+              console.log(res.fileList)
+              initList[i].imgFileID = res.fileList[0].tempFileURL
+            })
+          }
         }
 
         this.setData({
@@ -122,14 +122,15 @@ Component({
           console.log(i)
           if (snapshot.docChanges[i].doc.imgFileID != "" && snapshot.docChanges[i].doc.imgFileID != undefined) {
             var filelist = [snapshot.docChanges[i].doc.imgFileID]
+
+            await app.globalData.c1.getTempFileURL({
+              fileList: filelist
+            }).then(res => {
+              console.log(i)
+              console.log(res.fileList)
+              snapshot.docChanges[i].doc.imgFileID = res.fileList[0].tempFileURL
+            })
           }
-          await app.globalData.c1.getTempFileURL({
-            fileList: filelist
-          }).then(res => {
-            console.log(i)
-            console.log(res.fileList)
-            snapshot.docChanges[i].doc.imgFileID = res.fileList[0].tempFileURL
-          })
         }
       }
       if (snapshot.type === 'init') {

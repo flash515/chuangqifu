@@ -108,7 +108,7 @@
   </l-tabs>
   <view wx:if="{{usertype == 'admin'}}" style="display: flex;flex-direction:column; justify-content:center;">
     <text>\n</text>
-    <text>超级快捷会议室</text>
+    <text class="labal">超级快捷会议室</text>
     <text>\n</text>
     <view wx:if="{{expressroomavailable}}" style="display: flex;flex-direction:row; justify-content:space-between;align-items:center;">
       <l-button type="success" shape="semicircle" size="mini">可使用</l-button>

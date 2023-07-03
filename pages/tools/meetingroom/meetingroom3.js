@@ -61,7 +61,7 @@ Page({
     if (options.userid) {
       // 如果是通过分享链接进入
       this.data.params = options
-      this.data.remark = "通过创企服用户分享资讯进入"
+      this.data.remark = "通过创企服用户快捷会议邀请进入"
       this.data.tempinviterid = options.userid
       // 通过分享进入，执行用户登录操作
       await utils.UserLogon(this.data.tempinviterid, this.data.params, this.data.remark)
@@ -69,14 +69,12 @@ Page({
         openid: app.globalData.Gopenid
       })
       // 接收参数方法一结束
-      if (Date.parse(new Date()) - this.data.starttime < "3600000") {
-
-      } else {
+      if (new Date().getTime() - options.starttime > 1200000) {
         await utils._ErrorToast("链接已失效")
         wx.redirectTo({
           url: '../meetingroom/meetingroom',
         })
-      }
+      } 
     }else{
       this.setData({
         openid: app.globalData.Gopenid
@@ -86,8 +84,8 @@ Page({
 
   onShareAppMessage() {
     return {
-      title: app.globalData.Guserdata.UserInfo.nickName + '邀请您加入快捷会议室，此邀请60分钟内有效',
-      path: '/pages/tools/meetingroom/meetingroom3?type=express&userid=' + app.globalData.Guserid + '&starttime=' + this.data.starttime,
+      title: app.globalData.Guserdata.UserInfo.nickName + '邀请您加入快捷会议室，此邀请20分钟内有效',
+      path: '/pages/tools/meetingroom/meetingroom3?userid=' + app.globalData.Guserid + '&starttime=' + new Date().getTime(),
       imageUrl: '', //封面
     }
   },
