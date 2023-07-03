@@ -7,6 +7,7 @@ Page({
     starttime: "",
     avatarUrl: defaultAvatarUrl,
     nickName: "",
+    chatRoomEnvId:"xsbmain-9gvsp7vo651fd1a9",
     chatheight: 0,
     logged: false,
     takeSession: false,
@@ -15,7 +16,7 @@ Page({
     chatRoomGroupId: 'demo',
     chatRoomGroupName: '快捷会议室二',
     containerStyle: "",
-    getOpenID: null,
+    openid: "",
   },
   formsumit(e) {
     console.log(e)
@@ -35,71 +36,53 @@ Page({
       avatarUrl,
     })
   },
-  onLoad: function (options) {
-
+  onLoad:async function (options) {
     console.log(options)
-    this.data.inviterid = options.userid;
-    app.globalData.Ginviterid = options.userid;
-    this.data.starttime = options.starttime;
-    console.log("方法一如果参数以userid=格式存在，则显示接收到的参数", this.data.inviterid);
-    console.log(Date.parse(new Date()) - this.data.starttime);
-    // 接收参数方法一结束
+    wx.getSystemInfo({
+      success: res => {
+        console.log('system info', res)
+        if (res.safeArea) {
+          const {
+            top,
+            bottom
+          } = res.safeArea
+          this.setData({
+            containerStyle: `padding-top: ${(/ios/i.test(res.system) ? 10 : 20) + top}px; padding-bottom: ${20 + res.windowHeight - bottom}px`,
+          })
 
-    if (Date.parse(new Date()) - this.data.starttime < "3600000") {
-      
-        const db = app.globalData.c1.database()
-      db.collection('USER').where({
-        UserId: this.data.inviterid
-      }).get({
-        success: res => {
-          app.globalData.Ginviter=res.data[0].UserInfo
+          this.setData({
+            chatheight: res.windowHeight * 750 / res.windowWidth - 180
+          })
+          console.log("containerStyle", this.data.containerStyle)
+          console.log("chatheight", this.data.chatheight)
         }
-      })
-      this.setData({
-        // onGetUserInfo: this.onGetUserInfo,
-        getOpenID: this.getOpenID,
-      })
-
-      wx.getSystemInfo({
-        success: res => {
-          console.log('system info', res)
-          if (res.safeArea) {
-            const {
-              top,
-              bottom
-            } = res.safeArea
-            this.setData({
-              containerStyle: `padding-top: ${(/ios/i.test(res.system) ? 10 : 20) + top}px; padding-bottom: ${20 + res.windowHeight - bottom}px`,
-            })
-
-            this.setData({
-              chatheight: res.windowHeight* 750 / res.windowWidth - 180
-            })
-            console.log("containerStyle", this.data.containerStyle)
-            console.log("chatheight", this.data.chatheight)
-          }
-        },
-      })
-    } else {
-      wx.redirectTo({
-        url: '../meetingroom/meetingroom',
-      })
-    }
-  },
-  getOpenID: async function () {
-    if (this.openid) {
-      return this.openid
-    }
-
-    const {
-      result
-    } = await app.globalData.c1.callFunction({
-      name: 'login',
+      },
     })
+    if (options.userid) {
+      // 如果是通过分享链接进入
+      this.data.params = options
+      this.data.remark = "通过创企服用户分享资讯进入"
+      this.data.tempinviterid = options.userid
+      // 通过分享进入，执行用户登录操作
+      await utils.UserLogon(this.data.tempinviterid, this.data.params, this.data.remark)
+      this.setData({
+        openid: app.globalData.Gopenid
+      })
+      // 接收参数方法一结束
+      if (Date.parse(new Date()) - this.data.starttime < "3600000") {
 
-    return result.openid
+      } else {
+        await utils._ErrorToast("链接已失效")
+        wx.redirectTo({
+          url: '../meetingroom/meetingroom',
+        })
+      }
+    }else{
+      this.setData({
+        openid: app.globalData.Gopenid
+      })
+    }
   },
-
   onShareAppMessage() {
     return {
       title: app.globalData.Guserdata.UserInfo.nickName + '邀请您加入快捷会议室，此邀请60分钟内有效',

@@ -13,10 +13,9 @@ Page({
     chatRoomCollection: 'MeetingRoom4',
     chatRoomGroupId: 'demo',
     chatRoomGroupName: '创企服快捷会议室四',
+    containerStyle: "",
+    openid: "",
 
-    // functions for used in chatroom components
-    onGetUserInfo: null,
-    getOpenID: null,
   },
 
   onLoad: function (options) {
@@ -66,16 +65,29 @@ Page({
       })
     }
   },
-  getOpenID: async function () {
+  getOpenID: function () {
     if (this.openid) {
       return this.openid
     }
-
-    const { result } = await app.globalData.c1.callFunction({
-      name: 'login',
+    wx.login({
+      success: async res => {
+        console.log("用户code:", res.code)
+        const {
+          result
+        } = await app.globalData.c1.callFunction({
+          name: 'CQFLogin',
+          data: {
+            code: res.code,
+          },
+        })
+        console.log(result)
+        this.setData({
+          openid: result.openid,
+        })
+        console.log(this.data.openid)
+        return result.openid
+      }
     })
-
-    return result.openid
   },
 
   onGetUserInfo: function (e) {

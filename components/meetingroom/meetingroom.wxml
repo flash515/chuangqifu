@@ -11,7 +11,7 @@
   <!-- chats -->
 
   <scroll-view class="body" style="height: {{chatheight}}rpx;" scroll-y scroll-with-animation="{{scrollWithAnimation}}" scroll-top="{{scrollTop}}" scroll-into-view="{{scrollToMessage}}" bindscrolltoupper="onScrollToUpper" enable-flex="true">
-    <view wx:for="{{chats}}" wx:key="{{item._id}}" id="item-{{index}}" class="message {{openId == item._openid ? 'message__self' : ''}}">
+    <view wx:for="{{chats}}" wx:key="_id" id="item-{{index}}" class="message {{openId == item._openid ? 'message__self' : ''}}">
       <image class="avatar" src="{{item.avatar}}" mode="scaleToFill"></image>
       <view class="main">
         <view class="nickname">{{item.nickName}}</view>

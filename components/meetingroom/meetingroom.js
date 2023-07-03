@@ -15,9 +15,8 @@ Component({
     avatarUrl: String,
     nickName: String,
     chatheight: Number,
-    getOpenID: {
-      type: Function,
-    },
+    openid: String,
+
   },
 
   data: {
@@ -32,10 +31,6 @@ Component({
 
   methods: {
 
-    getOpenID() {
-      return this.properties.getOpenID()
-    },
-
     mergeCommonCriteria(criteria) {
       return {
         groupId: this.data.groupId,
@@ -44,15 +39,14 @@ Component({
     },
 
     async initRoom() {
-      this.try(async () => {
-        await this.initOpenID()
 
+      this.try(async () => {
         const {
           envId,
           collection
         } = this.properties
         this.db = app.globalData.c1.database({
-          env: envId,
+          env: this.properties.envId,
         })
         const db = this.db
         const _ = db.command
@@ -62,8 +56,24 @@ Component({
         } = await db.collection(collection).where(this.mergeCommonCriteria()).orderBy('sendTimeTS', 'desc').get()
 
         console.log('init query chats', initList)
+        // 把cloudid转为http
+        for (let i = 0; i < initList.length; i++) {
+          console.log(i)
+          if (initList[i].imgFileID != "" && initList[i].imgFileID != undefined) {
+            var filelist = [initList[i].imgFileID]
+         
+          await app.globalData.c1.getTempFileURL({
+            fileList: filelist
+          }).then(res => {
+            console.log(i)
+            console.log(res.fileList)
+            initList[i].imgFileID = res.fileList[0].tempFileURL
+          })
+        }
+        }
 
         this.setData({
+          openId: this.properties.openid,
           chats: initList.reverse(),
           scrollTop: 10000,
         })
@@ -74,21 +84,14 @@ Component({
       }, '初始化失败')
     },
 
-    async initOpenID() {
-      return this.try(async () => {
-        const openId = await this.getOpenID()
-
-        this.setData({
-          openId,
-        })
-      }, '初始化 openId 失败')
-    },
-
     async initWatch(criteria) {
       this.try(() => {
         const {
           collection
         } = this.properties
+        this.db = app.globalData.c1.database({
+          env: this.properties.envId,
+        })
         const db = this.db
         const _ = db.command
 
@@ -112,9 +115,23 @@ Component({
       }, '初始化监听失败')
     },
 
-    onRealtimeMessageSnapshot(snapshot) {
+    async onRealtimeMessageSnapshot(snapshot) {
       console.warn(`收到消息`, snapshot)
-
+      if (snapshot.docChanges.length != 0) {
+        for (let i = 0; i < snapshot.docChanges.length; i++) {
+          console.log(i)
+          if (snapshot.docChanges[i].doc.imgFileID != "" && snapshot.docChanges[i].doc.imgFileID != undefined) {
+            var filelist = [snapshot.docChanges[i].doc.imgFileID]
+          }
+          await app.globalData.c1.getTempFileURL({
+            fileList: filelist
+          }).then(res => {
+            console.log(i)
+            console.log(res.fileList)
+            snapshot.docChanges[i].doc.imgFileID = res.fileList[0].tempFileURL
+          })
+        }
+      }
       if (snapshot.type === 'init') {
         this.setData({
           chats: [
@@ -143,6 +160,7 @@ Component({
               } else {
                 hasNewMessage = true
                 chats.push(docChange.doc)
+                console.log(chats)
               }
               break
             }
@@ -359,4 +377,5 @@ Component({
     this.initRoom()
     this.fatalRebuildCount = 0
   },
+
 })

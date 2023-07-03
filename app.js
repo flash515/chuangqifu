@@ -8,11 +8,12 @@ App({
     //   console.log(p);
     // })();
 
+      // 初始化全局参数
+      this.globalData = {}
     if (!wx.cloud) {
       console.error('请使用 2.2.3 或以上的基础库以使用云能力')
     } else {
-      // 初始化全局参数
-      this.globalData = {}
+
       // 清除本地存储数据,调试发布后可去除
       // wx.clearStorage({
       //   success: (res) => {
@@ -98,7 +99,8 @@ App({
     Gproduct: [], // 在售商品
     Gproductlist: [], // 数据库中全部商品
 
-    Guserid: "", // 用户本人小程序id 
+    Guserid: "", // 用户本人小程序联合id 
+    Gopenid:"",// 用户本人小程序id
     Guserdata: [], //用户个人全部数据,
 
     Gdirect1yearvaliduser: "", //一年内有效推荐用户数

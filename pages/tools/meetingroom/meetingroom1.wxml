@@ -1,6 +1,6 @@
 <!--pages/tools/chatroom/chatroom.wxml-->
 <view class="container" style="{{containerStyle}}" wx:if="{{nickName}}">
-  <meetingroom style="width: 100%; height: 100%" envId="{{chatRoomEnvId}}" chatheight="{{chatheight}}" collection="{{chatRoomCollection}}" groupId="{{chatRoomGroupId}}" groupName="{{chatRoomGroupName}}" getOpenID="{{getOpenID}}" avatarUrl="{{avatarUrl}}" nickName="{{nickName}}"></meetingroom>
+  <meetingroom style="width: 100%; height: 100%" envId="{{chatRoomEnvId}}" chatheight="{{chatheight}}" collection="{{chatRoomCollection}}" groupId="{{chatRoomGroupId}}" groupName="{{chatRoomGroupName}}" openid="{{openid}}" avatarUrl="{{avatarUrl}}" nickName="{{nickName}}"></meetingroom>
 </view>
 
 <view style="margin-top: 200rpx;" wx:if="{{!nickName}}">
