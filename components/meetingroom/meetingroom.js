@@ -43,10 +43,11 @@ Component({
       this.try(async () => {
         const {
           envId,
-          collection
+          collection,
+          openid,
         } = this.properties
         this.db = app.globalData.c1.database({
-          env: this.properties.envId,
+          env: envId,
         })
         const db = this.db
         const _ = db.command
@@ -73,7 +74,7 @@ Component({
         }
 
         this.setData({
-          openId: this.properties.openid,
+          openId: openid,
           chats: initList.reverse(),
           scrollTop: 10000,
         })
@@ -87,10 +88,11 @@ Component({
     async initWatch(criteria) {
       this.try(() => {
         const {
-          collection
+          envId,
+          collection,
         } = this.properties
         this.db = app.globalData.c1.database({
-          env: this.properties.envId,
+          env: envId,
         })
         const db = this.db
         const _ = db.command
@@ -188,10 +190,13 @@ Component({
         if (!this.data.textInputValue) {
           return
         }
-
         const {
-          collection
+          envId,
+          collection,
         } = this.properties
+        this.db = app.globalData.c1.database({
+          env: envId,
+        })
         const db = this.db
         const _ = db.command
 

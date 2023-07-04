@@ -3,8 +3,9 @@ const defaultAvatarUrl = 'https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.q
 const utils = require("../../../utils/utils")
 Page({
   data: {
-    inviterid: "",
-    starttime: "",
+    params: "",
+    remark: "通过创企服用户快捷会议邀请进入",
+    tempinviterid: "",
     avatarUrl: defaultAvatarUrl,
     nickName: "",
     chatRoomEnvId:"xsbmain-9gvsp7vo651fd1a9",
@@ -36,7 +37,8 @@ Page({
       avatarUrl,
     })
   },
-  onLoad:async function (options) {
+  onLoad: async function (options) {
+
     console.log(options)
     wx.getSystemInfo({
       success: res => {
@@ -58,35 +60,32 @@ Page({
         }
       },
     })
+    this.setData({
+      openid: app.globalData.Gopenid
+    })
     if (options.userid) {
       // 如果是通过分享链接进入
+      wx.showLoading({
+        title: '加载中',
+      })
       this.data.params = options
-      this.data.remark = "通过创企服用户快捷会议邀请进入"
       this.data.tempinviterid = options.userid
       // 通过分享进入，执行用户登录操作
       await utils.UserLogon(this.data.tempinviterid, this.data.params, this.data.remark)
-      this.setData({
-        openid: app.globalData.Gopenid
-      })
-      // 接收参数方法一结束
-      if (new Date().getTime() - options.starttime > 1200000) {
-        await utils._ErrorToast("链接已失效")
+      wx.hideLoading()
+      if (new Date().getTime() - options.starttime > 600000) {
         wx.redirectTo({
           url: '../meetingroom/meetingroom',
         })
-      } 
-    }else{
-      this.setData({
-        openid: app.globalData.Gopenid
-      })
-    }
-  },
-  onShareAppMessage() {
-    return {
-      title: app.globalData.Guserdata.UserInfo.nickName + '邀请您加入快捷会议室，此邀请20分钟内有效',
-      path: '/pages/tools/meetingroom/meetingroom2?userid=' + app.globalData.Guserid + '&starttime=' + new Date().getTime(),
-      imageUrl: '', //封面
+      }
     }
   },
 
+  onShareAppMessage(res) {
+    return {
+      title: app.globalData.Guserdata.UserInfo.nickName + '邀请您加入快捷会议室，此邀请10分钟内有效',
+      path: '/pages/tools/meetingroom/meetingroom2?userid=' + app.globalData.Guserid + '&starttime=' + new Date().getTime(),
+      imageUrl: app.globalData.Gsetting.MeetingRoomImage, //封面
+    }
+  },
 })
