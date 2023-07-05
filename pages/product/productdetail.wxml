@@ -140,4 +140,10 @@
     </view>
     <!-- </view> -->
   </scroll-view>
+  <text>\n</text>
+  <view wx:if="{{usertype == 'admin'}}" style="display: flex;flex-direction: column;">
+      <text>当前商品链接:</text>
+      <text>{{pagelink}}</text>
+      <l-button type="default" size="mini" shape="semicircle" plain="{{true}}" bind:lintap="bvCopy">复制链接</l-button>
+    </view>
 </view>

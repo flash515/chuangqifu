@@ -18,7 +18,7 @@ Page({
     infoselected: false,
     infoid: "",
     infotitle: "",
-    link: "../product/allproduct",
+    link: "",
     infotitleshow: false,
     linkshow: true,
     private: true,
@@ -95,7 +95,7 @@ Page({
       infoselected: false,
       infoid: "",
       infotitle: "",
-      link: "../product/allproduct",
+      link: "",
       infotitleshow: false,
       linkshow: true,
       private: true,
@@ -173,7 +173,17 @@ Page({
       infocontent: e.detail.value
     })
   },
-
+  bvPaste(e) {
+    wx.getClipboardData({
+      success: res => {
+        console.log(res.data) // data
+        this.setData({
+          link: res.data
+        })
+        utils._SuccessToast("已粘贴")
+      }
+    })
+  },
   async bvChooseMedia(e) {
     let that = this
     console.log("上传视频的方法")

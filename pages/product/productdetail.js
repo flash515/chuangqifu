@@ -14,7 +14,7 @@ Page({
     loginshow: false,
     loginbtnshow: false,
     time: "获取验证码",
-
+pagelink:"", //提供管理员当前商品链接
     //通过对页面内容分区域设置隐藏，达到分栏显示效果,hidden要反着写，显示的值为false,不显示的值为true
     DetailShow: true,
     QAShow: false,
@@ -291,11 +291,21 @@ Page({
     })
 
   },
+  bvCopy: function (e) {
+    wx.setClipboardData({
+      data: this.data.pagelink, //这个是要复制的数据
+      success: res => {
+        utils._SuccessToast("已复制")
+      }
+    })
+  },
   onLoad: async function (options) {
     console.log("页面接收参数", options)
+    let page=getCurrentPages().pop()
     this.setData({
       image:app.globalData.Gimagearray,
       pageParam: options,
+      pagelink:"/"+page.route+'?productid='+options.productid,
     })
     wx.showLoading({
       title: '加载中',
