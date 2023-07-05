@@ -24,8 +24,8 @@
   <button class="avatarBtn" open-type="chooseAvatar" bind:chooseavatar="onChooseImage">
     <image class="avatar" src="{{imageUrl}}"></image>
   </button>
-  <image style='width:{{windowW}}px;height:{{windowW}}px;' src="{{ewmPath}}"></image>
-    <view class="btn" bindtap="getcode">管理员生成定制创企服推广码</view>
+  <!-- <image style='width:{{windowW}}px;height:{{windowW}}px;' src="{{ewmPath}}"></image> -->
+    <view class="btn" bindtap="getQRCode">管理员生成定制创企服推广码</view>
   <view wx:if="{{tempqrcodeurl}}">
       <image style='width:{{windowW}}px;height:{{windowW}}px;' src="{{tempqrcodeurl}}"></image>
     </view>
@@ -35,7 +35,7 @@
     <image class="avatar" src="{{avatarUrl}}"></image>
   </button>
   <text>\r\n</text>
-  <view class="btn" bindtap="getusercode">一键生成您的专属创企服推广码</view>
+  <view class="btn" bindtap="getUserQRCode">一键生成您的专属创企服推广码</view>
   <text>\r\n</text>
   <view class="content">
     <canvas canvas-id='myCanvas' style='width:{{windowW}}px;height:{{windowW}}px;margin:0;padding: 0;'></canvas>

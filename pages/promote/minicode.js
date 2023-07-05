@@ -38,14 +38,14 @@ Page({
       avatarUrl,
     })
     // 更新数据
-    // const db = app.globalData.c1.database()
-    // db.collection('USER').where({
-    //   UserId: app.globalData.Guserid
-    // }).update({
-    //   data: {
-    //     ["UserInfo.avatarUrl"]: this.data.avatarUrl,
-    //   },
-    // })
+    const db = app.globalData.c1.database()
+    db.collection('USER').where({
+      UserId: app.globalData.Guserid
+    }).update({
+      data: {
+        ["UserInfo.avatarUrl"]: this.data.avatarUrl,
+      },
+    })
   },
   onChooseImage(e) {
     console.log(e.detail.avatarUrl)
@@ -105,7 +105,41 @@ Page({
       }
     })
   },
+  getQRCode() {
+    // 调用云函数
+    // var scene = app.globalData.Guserid; //scene参数不能有参数名，可以拼接你要添加的参数值
+    let that = this;
+    app.globalData.c1.callFunction({
+      name: 'getQRCode',
+      data: {
+        // userid参数是使用在上传文件夹命名中
+        path: 'minicode/' + app.globalData.Guserid + '/' + app.globalData.Guserdata.UserInfo.UserPhone + 'tempqrcode.png',
+        // 小程序码中包含的用户信息,scene长度不能超过32字符，否则报错
+        scene:that.data.unionid + '&' + that.data.productid+ '&' + that.data.params, //scene参数不能有参数名，可以拼接你要添加的参数值
+        page: that.data.page,
+        color: that.data.color,
+        // userid: "1234",
+        // scene: "5678"
+      },
+      success: res => {
+        console.log(res.result)
+        app.globalData.c1.getTempFileURL({
+          fileList: [res.result]
+        }).then(res => {
+          console.log(res.fileList)
+          that.setData({
+            tempqrcodeurl: res.fileList[0].tempFileURL
+          })
+          console.log("tempqrcodeurl", that.data.tempqrcodeurl);
+          // 执行下一个方法的方法，把头像合并到小程序码里
+          that.drawCanvas(that.data.imageUrl)
+        }).catch(error => {
+          // handle error
+        })
+      }
+    })
 
+  },
   getUserQRCode() {
     // 调用云函数
     // var scene = app.globalData.Guserid; //scene参数不能有参数名，可以拼接你要添加的参数值
@@ -135,7 +169,7 @@ Page({
           })
           console.log("tempqrcodeurl", that.data.tempqrcodeurl);
           // 执行下一个方法的方法，把头像合并到小程序码里
-          that.drawCanvas(this.data.avatarUrl)
+          that.drawCanvas(that.data.avatarUrl)
         }).catch(error => {
           // handle error
         })
@@ -144,7 +178,7 @@ Page({
 
   },
 
-  //通过https方式调用wxacodeunlimit获取二维码
+  //共享云环境下通过https方式调用wxacodeunlimit获取二维码，有效，但是用不到了
   getcode(getAccessToken) {
     var that = this;
     wx.request({
@@ -198,65 +232,12 @@ Page({
       }
     })
   },
-  //通过https方式调用wxacodeunlimit获取二维码
-  getusercode(getAccessToken) {
-    var that = this;
-    wx.request({
-      url: 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential',
-      data: {
-        appid: "wxf43d2aed3e5b6370",
-        secret: "f880fc2af3f06d340166b0750cac2a78",
-      },
-      method: 'GET',
-      success: function (res) {
-        console.log(res.data.access_token)
-        that.data.accessToken = res.data.access_token
-        
-        var scene = that.data.unionid + '&' + that.data.productid+ '&' + that.data.params //scene参数不能有参数名，可以拼接你要添加的参数值
-        console.log('scene：', scene);
-        wx.request({
-          url: 'https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=' + that.data.accessToken,
-          data: {
-            scene: scene,
-            page: that.data.page, //线上的小程序一定要有这个页面
-          },
-          method: 'POST',
-          responseType: 'arraybuffer',
-          success: function (res) {
-            // var qrcode = wx.arrayBufferToBase64(res.data); //对数据进行转换
-            that.setData({
-              qrcode: wx.arrayBufferToBase64(res.data) //对数据进
-            })
-            // console.log("小程序码", that.data.qrcode);
-            //保存base64小程序码到本地临时文件
-            // data为base64的图片数据（注意：没有前缀 data:image/png;base64,）
-            let random = new Date().getTime();
-            let tempPath = wx.env.USER_DATA_PATH + `/${random}.png`;
-            wx.getFileSystemManager().writeFile({
-              filePath: tempPath,
-              data: that.data.qrcode,
-              encoding: 'base64',
-              success: res => {
-                that.setData({
-                  ewmPath: tempPath
-                })
-                console.log('success', that.data.ewmPath);
-                that.drawCanvas(that.data.avatarUrl);
-              },
-              fail: err => {
-                console.log(err);
-              }
-            })
-          }
-        })
-      }
-    })
-  },
+
   drawCanvas: function (image) {
     console.log("执行了")
     let ctx = wx.createCanvasContext('myCanvas');
     wx.getImageInfo({
-      src: this.data.ewmPath,
+      src: this.data.tempqrcodeurl,
       success: (res) => {
         console.log("res2", res)
         ctx.drawImage(res.path, 0, 0, this.data.windowW, this.data.windowW); // 二维码
@@ -298,13 +279,15 @@ Page({
           success(result) {
             utils._SuccessToast("推广码保存成功")
             console.log("res5", that.data.qrcodeuploadlock)
-            that.uploadqrcode()
+            // that.uploadqrcode()
           }
         })
       }
     })
 
   },
+
+  // 把生成的客户个人小程序码上传到云存储，有效但用不到了
   uploadqrcode() {
     // 判断是否重复提交
     if (this.data.qrcodeuploadlock) {} else {
