@@ -38,14 +38,14 @@ Page({
       avatarUrl,
     })
     // 更新数据
-    const db = app.globalData.c1.database()
-    db.collection('USER').where({
-      UserId: app.globalData.Guserid
-    }).update({
-      data: {
-        ["UserInfo.avatarUrl"]: this.data.avatarUrl,
-      },
-    })
+    // const db = app.globalData.c1.database()
+    // db.collection('USER').where({
+    //   UserId: app.globalData.Guserid
+    // }).update({
+    //   data: {
+    //     ["UserInfo.avatarUrl"]: this.data.avatarUrl,
+    //   },
+    // })
   },
   onChooseImage(e) {
     console.log(e.detail.avatarUrl)
@@ -198,12 +198,65 @@ Page({
       }
     })
   },
-
+  //通过https方式调用wxacodeunlimit获取二维码
+  getusercode(getAccessToken) {
+    var that = this;
+    wx.request({
+      url: 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential',
+      data: {
+        appid: "wxf43d2aed3e5b6370",
+        secret: "f880fc2af3f06d340166b0750cac2a78",
+      },
+      method: 'GET',
+      success: function (res) {
+        console.log(res.data.access_token)
+        that.data.accessToken = res.data.access_token
+        
+        var scene = that.data.unionid + '&' + that.data.productid+ '&' + that.data.params //scene参数不能有参数名，可以拼接你要添加的参数值
+        console.log('scene：', scene);
+        wx.request({
+          url: 'https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=' + that.data.accessToken,
+          data: {
+            scene: scene,
+            page: that.data.page, //线上的小程序一定要有这个页面
+          },
+          method: 'POST',
+          responseType: 'arraybuffer',
+          success: function (res) {
+            // var qrcode = wx.arrayBufferToBase64(res.data); //对数据进行转换
+            that.setData({
+              qrcode: wx.arrayBufferToBase64(res.data) //对数据进
+            })
+            // console.log("小程序码", that.data.qrcode);
+            //保存base64小程序码到本地临时文件
+            // data为base64的图片数据（注意：没有前缀 data:image/png;base64,）
+            let random = new Date().getTime();
+            let tempPath = wx.env.USER_DATA_PATH + `/${random}.png`;
+            wx.getFileSystemManager().writeFile({
+              filePath: tempPath,
+              data: that.data.qrcode,
+              encoding: 'base64',
+              success: res => {
+                that.setData({
+                  ewmPath: tempPath
+                })
+                console.log('success', that.data.ewmPath);
+                that.drawCanvas(that.data.avatarUrl);
+              },
+              fail: err => {
+                console.log(err);
+              }
+            })
+          }
+        })
+      }
+    })
+  },
   drawCanvas: function (image) {
     console.log("执行了")
     let ctx = wx.createCanvasContext('myCanvas');
     wx.getImageInfo({
-      src: this.data.tempqrcodeurl,
+      src: this.data.ewmPath,
       success: (res) => {
         console.log("res2", res)
         ctx.drawImage(res.path, 0, 0, this.data.windowW, this.data.windowW); // 二维码
