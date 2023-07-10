@@ -32,7 +32,6 @@
     "pages/tools/meetingroom/meetingroom1",
     "pages/tools/meetingroom/meetingroom2",
     "pages/tools/meetingroom/meetingroom3",
-
     "pages/promote/pricepolicy",
     "pages/promote/promotepolicy",
     "pages/promote/minicode",
@@ -86,8 +85,8 @@
     "l-checkbox-group": "/miniprogram_npm/lin-ui/checkbox-group/index",
     "l-checkbox": "/miniprogram_npm/lin-ui/checkbox/index",
     "meetingroom": "/components/meetingroom/meetingroom",
-    "Swiper":"/components/Swiper/Swiper",
-    "loginmask":"/components/loginmask/loginmask"
+    "Swiper": "/components/Swiper/Swiper",
+    "loginmask": "/components/loginmask/loginmask"
   },
   "tabBar": {
     "custom": false,

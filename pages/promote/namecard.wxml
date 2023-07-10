@@ -35,6 +35,10 @@
     <text space="emsp" decode='true' class="text">{{cardinfo.BusinessScope}}</text>
   </view>
   <text>\n</text>
+  <view wx:if="{{linkshow}}">
+          <l-button type="warning" size="large" shape="semicircle" bind:lintap="bvLink" data-link="{{link}}">创企服商品推荐</l-button>
+        </view>
+  <text>\n</text>
 
   <view wx:if="{{tempinviterid}}" style="display:flex; flex-direction:row; justify-content:space-between;">
     <l-button size="mini" shape="semicircle" plain="{{true}}" icon="edit" icon-color="#3683d6" bind:lintap="bvEdit">制作名片</l-button>

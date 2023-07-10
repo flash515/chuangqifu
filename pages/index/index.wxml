@@ -107,9 +107,9 @@
     </l-grid-item>
 
     <l-grid-item key='four' slot='four' l-grid-item-class="grid-item">
-      <navigator id="数字名片" bindtap="handlerClick" url='../promote/namecard'>
+      <navigator id="数智名片" bindtap="handlerClick" url='../promote/namecard'>
         <l-icon name='order' />
-        <view class="text">数字名片</view>
+        <view class="text">数智名片</view>
       </navigator>
     </l-grid-item>
 

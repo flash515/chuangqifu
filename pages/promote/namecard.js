@@ -11,14 +11,16 @@ Page({
     params: {},
     tempinviterid: "",
     creatorid: "",
-    title:"恭呈名片,敬请关照!",
+    title: "恭呈名片,敬请关照!",
     remark: "",
     // 登录框参数
     loginshow: false,
     // 名片参数
     type: "",
     cardinfo: [],
-    viewed:[],
+    viewed: [],
+    link: "/pages/product/allproduct",
+    linkshow: true,
     sample: {
       CardBg: "https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/setting/namecard/bg4.jpg?sign=d6efb4092f3b166f2dd79649a46f19a0&t=1682499042",
       CardImages: [],
@@ -46,7 +48,7 @@ Page({
   },
   bvViewed: function (e) {
     let that = this
-    
+
     app.globalData.c1.callFunction({
       name: "NormalQuery",
       data: {
@@ -55,8 +57,8 @@ Page({
         where: [{
           NameCardCreatorId: app.globalData.Guserid,
         }],
-        orderbykey:"SysAddDate",
-        orderby:"desc",
+        orderbykey: "SysAddDate",
+        orderby: "desc",
       },
       success: res => {
         console.log(res.result.data)
@@ -106,30 +108,59 @@ Page({
       }
     })
   },
-
+  bvLink(e) {
+    console.log(e.currentTarget.dataset.link)
+    // 注意navigate不能跳转到有导航的页面
+    wx.navigateTo({
+      // url: e.currentTarget.dataset.link,
+      url: '/pages/product/allproduct',
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: async function (options) {
     console.log("传入的参数为", options)
     let that = this
-      const db = app.globalData.c1.database()
-    if (options.userid) {
-      // 如果是通过分享链接进入
-      this.data.params = options
-      this.data.remark = "通过创企服用户分享名片进入"
-      this.setData({
-        // 页面根据tempinviterid的值设置了显隐渲染，所以需要用setData赋值
-        tempinviterid: options.userid
-      })
+    if (options.userid || options.scene) {
+      // 如果有传入参数，则是通过推广进入
+      if (options.userid) {
+        // 如果是通过分享链接进入
+        this.data.params = options
+        this.data.remark = "通过创企服用户分享名片进入"
+        this.data.creatorid = options.creatorid
+        this.setData({
+          // 页面根据tempinviterid的值设置了显隐渲染，所以需要用setData赋值
+          tempinviterid: options.userid
+        })
+
+      } else if (options.scene) {
+        // 如果是通过扫码进入（scene中只有参数值，通过&和顺序区分）
+        let scene = decodeURIComponent(options.scene);
+        //可以连接多个参数值，&是我们定义的参数链接方式
+        // let inviterid = scene.split('&')[0];
+        // let productid = scene.split("&")[1];
+        this.data.params = scene
+        this.data.tempinviterid = scene.split('&')[0]
+        this.data.creatorid = scene.split('&')[1]
+        this.data.remark = "通过创企服用户分享小程序码进入"
+        // 该功能仅管理员使用，默认使用管理员unionid做推荐人
+        if (this.data.tempinviterid == "") {
+          this.data.tempinviterid = "oo7kw5rohI15ogf6TCX_SGAxYUao"
+        }
+      }
+      // 通过分享进入，执行用户登录操作，展示分享人的名片信息
+      await utils.UserLogon(this.data.tempinviterid, this.data.params, this.data.remark)
       // 本地函数查询名片信息
+      const db = app.globalData.c1.database()
       db.collection('NAMECARD').where({
-        CreatorId: options.creatorid
+        CreatorId: this.data.creatorid
       }).get({
-        success:async res => {
+        success: async res => {
           // 展示名片分享人的名片
+          console.log(res.data)
           var fliter = res.data
-          if (res.data[0].CompanyLogo != "") {
+          if (res.data[0].CompanyLogo != "" && res.data[0].CompanyLogo != undefined) {
             var filelist = [res.data[0].CardBg, res.data[0].CompanyLogo]
           } else {
             var filelist = [res.data[0].CardBg]
@@ -145,7 +176,7 @@ Page({
               fliter[0].CardBg = res.fileList[0].tempFileURL
             }
           })
-          if (res.data[0].CardImages[0] != "" && res.data[0].CardImages[0] !=undefined) {
+          if (res.data[0].CardImages[0] != "" && res.data[0].CardImages[0] != undefined) {
             var filelist = res.data[0].CardImages
             await app.globalData.c1.getTempFileURL({
               fileList: filelist
@@ -158,12 +189,13 @@ Page({
             cardinfo: fliter[0]
           })
 
-          if (app.globalData.Guserid != options.creatorid) {
+          if (app.globalData.Guserid != this.data.creatorid) {
             // 浏览量更新
-            that._viewadd(options.creatorid)
+            that._viewadd(this.data.creatorid)
             // 浏览人已发布的名片信息会发送给被浏览人
-            if (app.globalData.Guserdata.NameCardStatus =="Published") {
+            if (app.globalData.Guserdata.NameCardStatus == "Published") {
               // 本地函数查询名片信息
+              const db = app.globalData.c1.database()
               db.collection('NAMECARD').where({
                 CreatorId: app.globalData.Guserid
               }).get({
@@ -171,13 +203,13 @@ Page({
                   // 登记本人名片
                   db.collection('NameCardViewed').add({
                     data: {
-                      NameCardCreatorId: options.creatorid,
+                      NameCardCreatorId: that.data.creatorid,
                       ViewerId: app.globalData.Guserid,
                       ViewerCompany: res.data[0].CompanyName,
                       ViewerName: res.data[0].UserName,
                       ViewerTitle: res.data[0].Title,
                       ViewerHandPhone: res.data[0].Handphone,
-                      From:"创企服"
+                      From: "创企服"
                     },
                     success: res => {
                       console.log("被查看信息添加了")
@@ -186,22 +218,19 @@ Page({
                 }
               })
             }
-            this.data.title=app.globalData.Guserdata.UserInfo.nickName+"推荐给您:"
+            this.data.title = app.globalData.Guserdata.UserInfo.nickName + "推荐给您:"
           }
         }
       })
-
-      // 通过分享进入，执行用户登录操作，展示分享人的名片信息
-      await utils.UserLogon(this.data.tempinviterid, this.data.params, this.data.remark)
     } else {
       if (options.creatorid) {
         // 通过编辑之后返回打开
         // 本地函数查询名片信息
-
+        const db = app.globalData.c1.database()
         db.collection('NAMECARD').where({
           CreatorId: options.creatorid
         }).get({
-          success:async res => {
+          success: async res => {
             var fliter = res.data
             if (res.data[0].CompanyLogo != "") {
               var filelist = [res.data[0].CardBg, res.data[0].CompanyLogo]
@@ -219,7 +248,7 @@ Page({
                 fliter[0].CardBg = res.fileList[0].tempFileURL
               }
             })
-            if (res.data[0].CardImages[0] != "" && res.data[0].CardImages[0] !=undefined) {
+            if (res.data[0].CardImages[0] != "" && res.data[0].CardImages[0] != undefined) {
               var filelist = res.data[0].CardImages
               await app.globalData.c1.getTempFileURL({
                 fileList: filelist
@@ -244,11 +273,11 @@ Page({
           })
         } else {
           // 本地函数查询名片信息
-
+          const db = app.globalData.c1.database()
           db.collection('NAMECARD').where({
             CreatorId: app.globalData.Guserid
           }).get({
-            success:async res => {
+            success: async res => {
               // 展示本人名片
               var fliter = res.data
               if (res.data[0].CompanyLogo != "") {
@@ -267,7 +296,7 @@ Page({
                   fliter[0].CardBg = res.fileList[0].tempFileURL
                 }
               })
-              if (res.data[0].CardImages[0] != "" && res.data[0].CardImages[0] !=undefined) {
+              if (res.data[0].CardImages[0] != "" && res.data[0].CardImages[0] != undefined) {
                 var filelist = res.data[0].CardImages
                 await app.globalData.c1.getTempFileURL({
                   fileList: filelist
@@ -286,7 +315,7 @@ Page({
     }
   },
   _viewadd(creatorid) {
-    
+
     app.globalData.c1.callFunction({
       name: "DataRise",
       data: {
@@ -349,7 +378,7 @@ Page({
   onShareTimeline: function () {
     return {
       title: this.data.title,
-      query: '/pages/promote/namecard?userid=' + app.globalData.Guserid+'&creatorid='+this.data.cardinfo.CreatorId,
+      query: '/pages/promote/namecard?userid=' + app.globalData.Guserid + '&creatorid=' + this.data.cardinfo.CreatorId,
       imageUrl: '', //封面
     }
   },
@@ -363,7 +392,7 @@ Page({
     }
     return {
       title: this.data.title,
-      path: '/pages/promote/namecard?userid=' + app.globalData.Guserid+'&creatorid='+this.data.cardinfo.CreatorId,
+      path: '/pages/promote/namecard?userid=' + app.globalData.Guserid + '&creatorid=' + this.data.cardinfo.CreatorId,
       imageUrl: '', //封面，留空自动抓取500*400生成图片，真机有效，电脑调试会抓取整个页面
       success: function (res) {
         // 转发成功之后的回调

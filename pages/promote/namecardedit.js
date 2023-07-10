@@ -220,7 +220,7 @@ Page({
   },
 
   async bvUploadBg() {
-    // 文件上传时要把tempbg组织换成string
+    // 文件上传时要把tempbg数组换成string
     let cloudpath1 = 'namecard/' + app.globalData.Guserid + '/' + app.globalData.Guserdata.UserInfo.UserPhone + 'cardbg'
     var files1 = await utils._UploadFile(this.data.tempbg[0], cloudpath1)
     this.setData({
@@ -231,7 +231,7 @@ Page({
     console.log(this.data.cardbg)
   },
   async bvUploadLogo() {
-    // 文件上传时要把tempbg组织换成string
+    // 文件上传时要把templogo数组换成string
     let cloudpath2 = 'namecard/' + app.globalData.Guserid + '/' + app.globalData.Guserdata.UserInfo.UserPhone + 'logo'
     var files2 = await utils._UploadFile(this.data.templogo[0], cloudpath2)
     this.setData({
@@ -376,7 +376,7 @@ Page({
                 ["NameCardStatus"]: "Published",
               },
               success: res => {
-                utils._SuccessToast("名片发布成功")
+                // utils._SuccessToast("名片发布成功")
                 wx.redirectTo({
                   url: "../promote/namecard?creatorid=" + app.globalData.Guserid
                 })
