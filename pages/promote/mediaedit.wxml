@@ -61,9 +61,11 @@
     <l-textarea indicator="{{true}}" maxlength="140" type="text" placeholder="请在这里填写资讯内容" value="{{infocontent}}" bind:lininput="bvInfoContent">
     </l-textarea>
     <view wx:if="{{usertype=='admin'}}" style="display:flex; flex-direction:column; justify-content:left;">
+    <view style="display:flex; flex-direction:row; ">
       <label class="labal">商品推荐：</label>
-      <input type="text" class="input" value="{{link}}" placeholder="pages/product/allproduct" bind:input="bvLink" />
       <l-button type="default" size="mini" shape="semicircle" plain="{{true}}" bind:lintap="bvPaste">粘贴链接</l-button>
+    </view>
+      <input type="text" class="input" value="{{link}}" placeholder="pages/product/allproduct" bind:input="bvLink" />
     </view>
     <text>\n</text>
     <label class="labal">资讯设置：</label>
