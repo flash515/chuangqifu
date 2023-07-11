@@ -14,7 +14,10 @@ Page({
     bgview: "", //自选背景的网络路径
     tempbg: [],
     bgedit: "", //剪裁背景临时路径
-
+tempbgarray:[],
+cardbgview:"", //展示http格式的内容
+companylogoview:"", //展示http格式的内容
+cardimagesview:"", //展示http格式的内容
     companylogo: "",
     templogo: [],
     logoedit: "", //剪裁背景临时路径
@@ -171,9 +174,10 @@ Page({
   bvBgSelect(e) {
     // 设定名片背景
     this.setData({
-      cardbg: e.detail.key
+      cardbgview: this.data.tempbgarray[e.detail.key],
+      cardbg: this.data.cardbgarray[e.detail.key]
     })
-    console.log("cardbg", e.detail.key)
+    console.log("cardbg", this.data.cardbgarray[e.detail.key])
   },
 
   bvChooseBg(e) {
@@ -454,6 +458,9 @@ Page({
       const db = app.globalData.c1.database()
       db.collection('NameCardSetting').doc('0122a5876443793e098bd33e0045f553').get({
         success: async res => {
+          this.setData({
+            cardbgarray:res.data.NameCardBg
+          })
           var filelist = res.data.NameCardBg
           await app.globalData.c1.getTempFileURL({
             fileList: filelist
@@ -464,7 +471,7 @@ Page({
               tempfiles = tempfiles.concat(res.fileList[i].tempFileURL)
             }
             that.setData({
-              cardbgarray: tempfiles,
+              tempbgarray: tempfiles,
             })
             console.log(tempfiles)
           })
