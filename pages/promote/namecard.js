@@ -160,31 +160,37 @@ Page({
           // 展示名片分享人的名片
           console.log(res.data)
           var fliter = res.data
-          if (res.data[0].CompanyLogo != "" && res.data[0].CompanyLogo != undefined) {
-            var filelist = [res.data[0].CardBg, res.data[0].CompanyLogo]
-          } else {
-            var filelist = [res.data[0].CardBg]
-          }
-          await app.globalData.c1.getTempFileURL({
-            fileList: filelist
-          }).then(res => {
-            console.log(res.fileList)
-            if (res.data[0].CompanyLogo != "") {
-              fliter[0].CardBg = res.fileList[0].tempFileURL
-              fliter[0].CompanyLogo = res.fileList[1].tempFileURL
-            } else {
-              fliter[0].CardBg = res.fileList[0].tempFileURL
-            }
-          })
-          if (res.data[0].CardImages[0] != "" && res.data[0].CardImages[0] != undefined) {
-            var filelist = res.data[0].CardImages
+          // 如果有背景，就进行转换
+          if (res.data[0].CardBg != "" && res.data[0].CardBg != undefined) {
+            var filelist1 = [res.data[0].CardBg]
             await app.globalData.c1.getTempFileURL({
-              fileList: filelist
+              fileList: filelist1
             }).then(res => {
-              console.log(res.fileList)
+              console.log("执行顺序1", res.fileList)
+              fliter[0].CardBg = res.fileList[0].tempFileURL
+            })
+          }
+          // 如果有LOGO，就进行转换
+          if (res.data[0].CompanyLogo != "" && res.data[0].CompanyLogo != undefined) {
+            var filelist2 = [res.data[0].CompanyLogo]
+            await app.globalData.c1.getTempFileURL({
+              fileList: filelist2
+            }).then(res => {
+              console.log("执行顺序2", res.fileList)
+              fliter[0].CompanyLogo = res.fileList[0].tempFileURL
+            })
+          }
+          // 如果有附图，就进行转换
+          if (res.data[0].CardImages[0] != "" && res.data[0].CardImages[0] != undefined) {
+            var filelist3 = res.data[0].CardImages
+            await app.globalData.c1.getTempFileURL({
+              fileList: filelist3
+            }).then(res => {
+              console.log("执行顺序3", res.fileList)
               fliter[0].CardImages = [res.fileList[0].tempFileURL]
             })
           }
+          console.log("执行顺序4")
           that.setData({
             cardinfo: fliter[0]
           })
@@ -232,31 +238,37 @@ Page({
         }).get({
           success: async res => {
             var fliter = res.data
-            if (res.data[0].CompanyLogo != "") {
-              var filelist = [res.data[0].CardBg, res.data[0].CompanyLogo]
-            } else {
-              var filelist = [res.data[0].CardBg]
-            }
-            await app.globalData.c1.getTempFileURL({
-              fileList: filelist
-            }).then(res => {
-              console.log(res.fileList)
-              if (fliter[0].CompanyLogo != "") {
-                fliter[0].CardBg = res.fileList[0].tempFileURL
-                fliter[0].CompanyLogo = res.fileList[1].tempFileURL
-              } else {
-                fliter[0].CardBg = res.fileList[0].tempFileURL
-              }
-            })
-            if (res.data[0].CardImages[0] != "" && res.data[0].CardImages[0] != undefined) {
-              var filelist = res.data[0].CardImages
+            // 如果有背景，就进行转换
+            if (res.data[0].CardBg != "" && res.data[0].CardBg != undefined) {
+              var filelist1 = [res.data[0].CardBg]
               await app.globalData.c1.getTempFileURL({
-                fileList: filelist
+                fileList: filelist1
               }).then(res => {
-                console.log(res.fileList)
+                console.log("执行顺序1", res.fileList)
+                fliter[0].CardBg = res.fileList[0].tempFileURL
+              })
+            }
+            // 如果有LOGO，就进行转换
+            if (res.data[0].CompanyLogo != "" && res.data[0].CompanyLogo != undefined) {
+              var filelist2 = [res.data[0].CompanyLogo]
+              await app.globalData.c1.getTempFileURL({
+                fileList: filelist2
+              }).then(res => {
+                console.log("执行顺序2", res.fileList)
+                fliter[0].CompanyLogo = res.fileList[0].tempFileURL
+              })
+            }
+            // 如果有附图，就进行转换
+            if (res.data[0].CardImages[0] != "" && res.data[0].CardImages[0] != undefined) {
+              var filelist3 = res.data[0].CardImages
+              await app.globalData.c1.getTempFileURL({
+                fileList: filelist3
+              }).then(res => {
+                console.log("执行顺序3", res.fileList)
                 fliter[0].CardImages = [res.fileList[0].tempFileURL]
               })
             }
+            console.log("执行顺序4")
             that.setData({
               cardinfo: fliter[0]
             })
@@ -275,36 +287,41 @@ Page({
           // 本地函数查询名片信息
           const db = app.globalData.c1.database()
           db.collection('NAMECARD').where({
-            CreatorId: app.globalData.Guserid
+            CreatorId: options.creatorid
           }).get({
             success: async res => {
-              // 展示本人名片
               var fliter = res.data
-              if (res.data[0].CompanyLogo != "") {
-                var filelist = [res.data[0].CardBg, res.data[0].CompanyLogo]
-              } else {
-                var filelist = [res.data[0].CardBg]
-              }
-              await app.globalData.c1.getTempFileURL({
-                fileList: filelist
-              }).then(res => {
-                console.log(res.fileList)
-                if (fliter[0].CompanyLogo != "") {
-                  fliter[0].CardBg = res.fileList[0].tempFileURL
-                  fliter[0].CompanyLogo = res.fileList[1].tempFileURL
-                } else {
-                  fliter[0].CardBg = res.fileList[0].tempFileURL
-                }
-              })
-              if (res.data[0].CardImages[0] != "" && res.data[0].CardImages[0] != undefined) {
-                var filelist = res.data[0].CardImages
+              // 如果有背景，就进行转换
+              if (res.data[0].CardBg != "" && res.data[0].CardBg != undefined) {
+                var filelist1 = [res.data[0].CardBg]
                 await app.globalData.c1.getTempFileURL({
-                  fileList: filelist
+                  fileList: filelist1
                 }).then(res => {
-                  console.log(res.fileList)
+                  console.log("执行顺序1", res.fileList)
+                  fliter[0].CardBg = res.fileList[0].tempFileURL
+                })
+              }
+              // 如果有LOGO，就进行转换
+              if (res.data[0].CompanyLogo != "" && res.data[0].CompanyLogo != undefined) {
+                var filelist2 = [res.data[0].CompanyLogo]
+                await app.globalData.c1.getTempFileURL({
+                  fileList: filelist2
+                }).then(res => {
+                  console.log("执行顺序2", res.fileList)
+                  fliter[0].CompanyLogo = res.fileList[0].tempFileURL
+                })
+              }
+              // 如果有附图，就进行转换
+              if (res.data[0].CardImages[0] != "" && res.data[0].CardImages[0] != undefined) {
+                var filelist3 = res.data[0].CardImages
+                await app.globalData.c1.getTempFileURL({
+                  fileList: filelist3
+                }).then(res => {
+                  console.log("执行顺序3", res.fileList)
                   fliter[0].CardImages = [res.fileList[0].tempFileURL]
                 })
               }
+              console.log("执行顺序4")
               that.setData({
                 cardinfo: fliter[0]
               })
