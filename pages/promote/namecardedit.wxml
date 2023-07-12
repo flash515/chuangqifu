@@ -1,5 +1,5 @@
 <!-- 背景层 -->
-<image class="bgimage" src="{{cardbg}}" mode="scaleToFill" />
+<image class="bgimage" src="{{tempbg}}" mode="scaleToFill" />
 <!-- 名片层 -->
 <view class="uplayout">
   <view class="namecard">
@@ -13,7 +13,7 @@
         <view wx:if="{{wechat}}" class="wechat">微信：{{wechat}}</view>
         <view wx:if="{{telephone}}" class="telephone">座机：{{telephone}}</view>
       </view>
-      <image class="companylogo" src="{{companylogo}}"></image>
+      <image class="companylogo" src="{{templogo}}"></image>
     </view>
     <view>
       <view wx:if="{{email}}" class="email">邮箱：{{email}}</view>
@@ -22,7 +22,7 @@
     </view>
   </view>
 </view>
-<view wx:if="{{cardimages}}" wx:for="{{cardimages}}" wx:key="key">
+<view wx:if="{{tempimages}}" wx:for="{{tempimages}}" wx:key="key">
   <image style="display: block;width: 100%;" src="{{item}}" mode="scaleToFill" />
 </view>
 <view class="mainframe">
@@ -93,27 +93,30 @@
       </scroll-view>
       <!-- 图片编辑 -->
       <label class="label">自选背景：</label>
-      <l-image-picker count="1" bind:linchange="bvChooseBg" bind:linremove="bvRemoveBg" urls="{{tempbg}}">
+      <l-image-picker count="1" bind:linchange="bvChooseBg" bind:linremove="bvRemoveBg" urls="{{[tempbg]}}">
         <view>
           <image class="companylogo" src="https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/setting/namecard/%E5%90%8D%E7%89%87%E8%83%8C%E6%99%AF.png?sign=fab490b454f8e1bc5f9d1fec8999a5b9&t=1682560242" />
         </view>
       </l-image-picker>
-      <l-image-clipper width="750" height="600" check-image="{{false}}" lock-ratio="{{false}}" show="{{bgclipershow}}" image-url="{{bgedit}}" bindlinclip="linclip">
+      <l-image-clipper width="750" height="600" check-image="{{false}}" lock-ratio="{{false}}" show="{{bgclipershow}}" image-url="{{bgedit}}" bindlinclip="linclipBg">
         <l-image-clipper-tools />
       </l-image-clipper>
-      <view wx:if="{{bgcliperbtn}}" style="display: flex;flex-direction: row;justify-content: space-between;">
-        <l-button size="mini" shape="semicircle" icon="checked" icon-color="#3683d6" plain="{{true}}" bind:lintap="bvClipBg">裁剪背景
-        </l-button>
-        <l-button size="mini" shape="semicircle" icon="checked" icon-color="#3683d6" plain="{{true}}" bind:lintap="bvUploadBg">上传背景
-        </l-button>
-        <l-button size="mini" shape="semicircle" icon="checked" icon-color="#3683d6" plain="{{true}}" bind:lintap="bvDeleteBg">删除背景
-        </l-button>
+      <view wx:if="{{bgcliperbtn}}" >
+        <view wx:if="{{cardbg}}">
+          <l-button size="mini" shape="semicircle" icon="checked" icon-color="#3683d6" plain="{{true}}" bind:lintap="bvDeleteBg">删除背景</l-button>
+        </view>
+        <view wx:else style="display: flex;flex-direction: row;justify-content: space-between;">
+          <l-button size="mini" shape="semicircle" icon="checked" icon-color="#3683d6" plain="{{true}}" bind:lintap="bvClipBg">裁剪背景
+          </l-button>
+          <l-button size="mini" shape="semicircle" icon="checked" icon-color="#3683d6" plain="{{true}}" bind:lintap="bvUploadBg">上传背景
+          </l-button>
+        </view>
       </view>
     </l-tabpanel>
 
     <l-tabpanel tab="公司LOGO" key="three" slot="three">
       <label class="label">选择公司LOGO：</label>
-      <l-image-picker count="1" bind:linchange="bvChooseLogo" bind:linremove="bvRemoveLogo" urls="{{templogo}}">
+      <l-image-picker count="1" bind:linchange="bvChooseLogo" bind:linremove="bvRemoveLogo" urls="{{[templogo]}}">
         <view>
           <image class="companylogo" src="https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/setting/namecard/%E9%80%89%E6%8B%A9logo.png?sign=def8ff07d55c4bfed15b3045d31ae164&t=1682560126" />
         </view>
@@ -122,13 +125,16 @@
       <l-image-clipper width="750" height="600" check-image="{{false}}" lock-ratio="{{false}}" show="{{logoclipershow}}" image-url="{{logoedit}}" bindlinclip="linclipLogo">
         <l-image-clipper-tools />
       </l-image-clipper>
-      <view wx:if="{{logocliperbtn}}" style="display: flex;flex-direction: row;justify-content: space-between;">
-        <l-button size="mini" shape="semicircle" icon="checked" icon-color="#3683d6" plain="{{true}}" bind:lintap="bvClipLogo">裁剪LOGO
-        </l-button>
-        <l-button size="mini" shape="semicircle" icon="checked" icon-color="#3683d6" plain="{{true}}" bind:lintap="bvUploadLogo">上传LOGO
-        </l-button>
-        <l-button size="mini" shape="semicircle" icon="checked" icon-color="#3683d6" plain="{{true}}" bind:lintap="bvDeleteLogo">删除LOGO
-        </l-button>
+      <view wx:if="{{logocliperbtn}}">
+        <view wx:if="{{companylogo}}">
+          <l-button size="mini" shape="semicircle" icon="checked" icon-color="#3683d6" plain="{{true}}" bind:lintap="bvDeleteLogo">删除LOGO</l-button>
+        </view>
+        <view wx:else style="display: flex;flex-direction: row;justify-content: space-between;">
+          <l-button size="mini" shape="semicircle" icon="checked" icon-color="#3683d6" plain="{{true}}" bind:lintap="bvClipLogo">裁剪LOGO
+          </l-button>
+          <l-button size="mini" shape="semicircle" icon="checked" icon-color="#3683d6" plain="{{true}}" bind:lintap="bvUploadLogo">上传LOGO
+          </l-button>
+        </view>
       </view>
     </l-tabpanel>
 

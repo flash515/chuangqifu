@@ -287,9 +287,10 @@ Page({
           // 本地函数查询名片信息
           const db = app.globalData.c1.database()
           db.collection('NAMECARD').where({
-            CreatorId: options.creatorid
+            CreatorId: app.globalData.Guserid
           }).get({
             success: async res => {
+              console.log(res)
               var fliter = res.data
               // 如果有背景，就进行转换
               if (res.data[0].CardBg != "" && res.data[0].CardBg != undefined) {
@@ -298,7 +299,7 @@ Page({
                   fileList: filelist1
                 }).then(res => {
                   console.log("执行顺序1", res.fileList)
-                  fliter[0].CardBg = res.fileList[0].tempFileURL
+                    fliter[0].CardBg = res.fileList[0].tempFileURL
                 })
               }
               // 如果有LOGO，就进行转换
@@ -318,7 +319,11 @@ Page({
                   fileList: filelist3
                 }).then(res => {
                   console.log("执行顺序3", res.fileList)
-                  fliter[0].CardImages = [res.fileList[0].tempFileURL]
+                  let num = res.fileList.map(function (item, index) {
+                    return item.tempFileURL
+                  })
+                  console.log(num) 
+                  fliter[0].CardImages = num
                 })
               }
               console.log("执行顺序4")
