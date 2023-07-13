@@ -1,3 +1,4 @@
+// 从时间值中仅提取日期
 var subDate = function (val) {
   if (val.length == 0 || val == undefined || "") {
     return;
@@ -18,5 +19,11 @@ var subNum = function (val) {
     return last;
   }
 }
+// 把object转成string
+var ObjToStr = function (val) {
+  var myJSON = JSON.stringify(val);
+  return myJSON
+}
 module.exports.subDate = subDate;
 module.exports.subNum = subNum;
+module.exports.ObjToStr = ObjToStr;
