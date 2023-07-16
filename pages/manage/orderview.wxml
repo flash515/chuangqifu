@@ -1,0 +1,97 @@
+<view class="title">
+  <text>未付订单记录</text>
+</view>
+<view class="mainframe">
+    <view style="display:flex; flex-direction:column; justify-content:space-between;font-size: 28rpx;color: #3683d6;">
+      <l-tabs>
+        <l-tabpanel tab="业务订单" key="one" slot="one">
+          <l-button class="mainbtn" width="600" data-name="ORDER" bind:lintap="bvRefresh" shape="semicircle" plain="{{true}}">刷新</l-button>
+          <view wx:for="{{orderhistory}}" wx:key="key">
+            <l-card type="primary" plaintext="{{true}}">
+              <view class="content">
+                <view>订单时间：{{item.AddDate}}</view>
+                <view>商品编号：{{item.ProductId}}</view>
+                <view>商品名称：{{item.ProductName}}</view>
+                <view>订单总价（元）：{{item.TotalFee}}</view>
+                <view>订单用户：{{item.UserId}}</view>
+                <view style="display:flex; flex-direction:row;">
+                  <view>付款状态：</view>
+                  <view wx:if="{{item.PaymentStatus =='unchecked'}}">未付款</view>
+                  <view wx:if="{{item.PaymentStatus =='checked'}}">已付款</view>
+                </view>
+                <view style="display:flex; flex-direction:row;">
+                  <view>订单状态：</view>
+                  <view wx:if="{{item.OrderStatus =='unchecked'}}">待确认</view>
+                  <view wx:if="{{item.OrderStatus =='checked'}}">已确认</view>
+                </view>
+                <view style="display:flex; flex-direction:row;">
+                  <view>
+                    <l-button data-id="{{item._id}}" bind:lintap="bvOrdertDetail" shape="semicircle" icon="more" size="mini" icon-color="#3683d6" plain="{{true}}">订单详情</l-button>
+                  </view>
+                  <view><text decode="{{true}}">&emsp;</text></view>
+                  <view hidden="{{item.PaymentStatus =='checked'}}">
+                    <l-button data-orderid="{{item.OrderId}}" data-productid="{{item.ProductId}}" data-productname="{{item.ProductName}}" data-totalfee="{{item.TotalFee}}" data-database="ORDER" bind:lintap="bvToPay" icon="order" icon-color="white" shape="semicircle" size="mini">支付费用</l-button>
+                  </view>
+                </view>
+              </view>
+
+            </l-card>
+          </view>
+        </l-tabpanel>
+        <l-tabpanel tab="折扣卡订单" key="two" slot="two">
+    <l-button class="mainbtn" width="600" data-name="DISCOUNTORDER" bind:lintap="bvRefresh"  shape="semicircle" plain="{{true}}">刷新</l-button>
+    <view wx:for="{{discounthistory}}" wx:key="key">
+      <l-card type="primary" plaintext="{{true}}">
+        <view class="content">
+          <view>订单日期：{{item.AddDate}}</view>
+          <view>折扣卡编号：{{item.DiscountId}}</view>
+          <view>折扣卡名称：{{item.DiscountName}}</view>
+          <view>折扣起始日期：{{item.DLStartDate}}</view>
+          <view>折扣终止日期：{{item.DLEndDate}}</view>
+          <view>折扣卡费用（元）：{{item.TotalFee}}</view>
+          <view>订单用户：{{item.UserId}}</view>
+          <view style="display:flex; flex-direction:row;">
+          <view>付款状态：</view>
+            <view wx:if="{{item.PaymentStatus =='unchecked'}}">未付款</view>
+            <view wx:if="{{item.PaymentStatus =='checked'}}">已付款</view>
+          </view>
+          <view style="display:flex; flex-direction:row;">
+          <view>订单状态：</view>
+            <view wx:if="{{item.OrderStatus =='unchecked'}}">待确认</view>
+            <view wx:if="{{item.OrderStatus =='checked'}}">已确认</view>
+          </view>
+          <view hidden="{{item.PaymentStatus =='checked'}}">
+                    <l-button data-orderid="{{item.OrderId}}" data-productname="{{item.DiscountName}}" data-totalfee="{{item.TotalFee}}" data-database="DISCOUNTORDER" bind:lintap="bvToPay" icon="order" icon-color="white" shape="semicircle" size="mini">支付费用</l-button>
+                  </view>
+        </view>
+      </l-card>
+    </view>
+  </l-tabpanel>
+        <l-tabpanel tab="推广等级订单" key="three" slot="three">
+          <l-button class="mainbtn" width="600" data-name="PROMOTEORDER" bind:lintap="bvRefresh" shape="semicircle" plain="{{true}}">刷新</l-button>
+          <view wx:for="{{promoterhistory}}" wx:key="key">
+            <l-card type="primary" plaintext="{{true}}">
+              <view>订单日期：{{item.AddDate}}</view>
+              <view>推广等级：{{item.PromoterName}}</view>
+              <view>起始日期：{{item.PLStartDate}}</view>
+              <view>推广等级费用（元）：{{item.TotalFee}}</view>
+              <view>订单用户：{{item.UserId}}</view>
+              <view style="display:flex; flex-direction:row;">
+                <view>付款状态：</view>
+                <view wx:if="{{item.PaymentStatus =='unchecked'}}">未付款</view>
+                <view wx:if="{{item.PaymentStatus =='checked'}}">已付款</view>
+              </view>
+              <view style="display:flex; flex-direction:row;">
+                <view>申请状态：</view>
+                <view wx:if="{{item.OrderStatus =='unchecked'}}">待确认</view>
+                <view wx:if="{{item.OrderStatus =='checked'}}">已确认</view>
+              </view>
+              <view hidden="{{item.PaymentStatus =='checked'}}">
+                <l-button data-orderid="{{item.OrderId}}" data-productname="{{item.PromoterName}}" data-totalfee="{{item.TotalFee}}" data-database="PROMOTEORDER" bind:lintap="bvToPay" icon="order" icon-color="white" shape="semicircle">支付费用</l-button>
+              </view>
+            </l-card>
+          </view>
+        </l-tabpanel>
+      </l-tabs>
+    </view>
+  </view>

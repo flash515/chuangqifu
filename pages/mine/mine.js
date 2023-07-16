@@ -323,7 +323,7 @@ if(app.globalData.Guserdata.UserInfo.UserType=="admin"){
       }
       this.setData({
         productqaarray: res.result.data,
-        producqatcheck:fliter10
+        productqacheck:fliter10
       })
       console.log("全部问答",this.data.productqaarray)
     }

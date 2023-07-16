@@ -1,0 +1,17 @@
+<view class="title">QA总览</view>
+<text>\n</text>
+<view class="mainframe">
+<view wx:for="{{QAarray}}" wx:key="key" style="font-size: 28rpx;">
+  <l-card type="primary" plaintext="{{true}}">
+    <view>序号：{{QAarray.length-index}}</view>
+    <view>订单日期：{{item.AddDate}}</view>
+    <view wx:if="{{item.Product_id}}">产品id：{{item.Product_id}}</view>
+    <view wx:if="{{item.Question}}">问题：{{item.Question}}</view>
+    <view wx:if="{{item.Answer}}">回复：{{item.Answer}}</view>
+    <view wx:if="{{item.Status}}">状态：{{item.Status}}</view>
+    <view wx:if="{{item.UserId}}">提问用户：{{item.UserId}}</view>
+    <view wx:if="{{item.From}}">订单来源：{{item.From}}</view>
+</l-card>
+  <text>\n</text>
+</view>
+</view>

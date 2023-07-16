@@ -24,26 +24,26 @@
 <view wx:if="{{usertype=='admin'}}">
 <l-grid show-border="true" row-num="4">
   <l-grid-item key="one" slot="one">
-    <navigator url="">
+    <navigator url="../manage/paymentview">
       <view class="num">{{paymentcheck.length}}/{{paymentarray.length}}</view>
       <view class="text">待付/支付</view>
     </navigator>
   </l-grid-item>
   <l-grid-item key="two" slot="two">
-    <navigator url="">
+    <navigator url="../manage/orderview">
       <view class="num">{{ordercheck.length}}/{{orderarray.length}}</view>
       <view class="text">待审/订单</view>
 
     </navigator>
   </l-grid-item>
   <l-grid-item key="three" slot="three">
-    <navigator url="">
+    <navigator url="../manage/orderview">
       <view class="num">{{discountcheck.length}}/{{discountarray.length}}</view>
       <view class="text">待审/折扣</view>
     </navigator>
   </l-grid-item>
   <l-grid-item key="four" slot="four">
-    <navigator url="">
+    <navigator url="../manage/orderview">
       <view class="num">{{promotecheck.length}}/{{promotearray.length}}</view>
       <view class="text">待审/推广</view>
     </navigator>
@@ -55,7 +55,7 @@
     </navigator>
   </l-grid-item>
   <l-grid-item key="six" slot="six">
-    <navigator url="">
+    <navigator url="../manage/bookingview">
       <view class="num">{{bookingcheck.length}}/{{bookingarray.length}}</view>
       <view class="text">待审/预约</view>
     </navigator>
@@ -79,8 +79,8 @@
     </navigator>
   </l-grid-item>
   <l-grid-item key="ten" slot="ten">
-    <navigator url="../manage/productview">
-      <view class="num">{{producqatcheck.length}}/{{producqatarray.length}}</view>
+    <navigator url="../manage/QAview">
+      <view class="num">{{productqacheck.length}}/{{productqaarray.length}}</view>
       <view class="text">待审/问答</view>
     </navigator>
   </l-grid-item>

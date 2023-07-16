@@ -1,0 +1,7 @@
+.avatar {
+  width: 80rpx;
+  height: 80rpx;
+  border: none;
+  background-size: cover;
+  background-color: white;
+}
