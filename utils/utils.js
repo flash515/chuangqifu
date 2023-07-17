@@ -17,13 +17,13 @@ var newuserinfo = {
 var newusertradeinfo = {
   PromoteBalance: 0,
   TradeBalance: 0,
-  BalanceUpdateTime: Time.getServerTime(),
+  BalanceUpdateTime: "",
   DiscountLevel: "DL4",
   DiscountType: "",
-  DLUpdateTime: Time.getServerTime(),
+  DLUpdateTime: "",
   PromoteLevel: "normal",
-  PLUpdateTime: Time.getServerTime(),
-  // MemberTime:""
+  PLUpdateTime: "",
+  MemberTime:""
 }
 async function _GetPhoneNumber(code) {
   var promise = new Promise((resolve, reject) => {
@@ -176,7 +176,7 @@ async function UserLogon(tempinviterid, params, remark) { // 用户登录时的�
   await _setting();
   await _login();
   let data = await _usercheck(app.globalData.Guserid)
-  console.log("data", data);
+  console.log("当前用户查询结果", data);
   if (data.length == 0) {
     // 新用户执行操作
     app.globalData.Ginviterid = tempinviterid
@@ -189,7 +189,7 @@ async function UserLogon(tempinviterid, params, remark) { // 用户登录时的�
     app.globalData.Gindirectinviterid = data[0].UserInfo.IndirectInviterId
     app.globalData.Ginviterid = data[0].UserInfo.InviterId
     app.globalData.Ginviterphone = data[0].UserInfo.InviterPhone
-    console.log("当前用户信息", app.globalData.Guserdata);
+    console.log("老用户信息", app.globalData.Guserdata);
   }
 
 }
@@ -244,7 +244,7 @@ function _usercheck(eventid) { // 通过本地函数查询当前用户是否是�
       UserId: eventid,
     }).get({
       success: res => {
-        console.log("当前用户信息", res);
+        console.log("用户查询结果", res);
         resolve(res.data)
       }
     })
