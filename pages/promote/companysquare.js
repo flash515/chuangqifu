@@ -201,7 +201,7 @@ Page({
         db.collection('NameCardViewed').add({
           data: {
             sysAddDate: new Date().getTime(),
-            AddDate: Time.getCurrentTime(),
+            AddDate: Time.getServerTime(),
             NameCardCreatorId: e.detail.cell.CreatorId,
             ViewerId: app.globalData.Guserid,
             ViewerCompany: this.data.mycard.CompanyName,

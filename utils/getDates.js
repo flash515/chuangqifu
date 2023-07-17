@@ -18,7 +18,32 @@ const formatNumber = n => {
 function compareDate(d1, d2) {
   return ((new Date(d1.replace(/-/g, "\/"))) > (new Date(d2.replace(/-/g, "\/"))));
 }
-
+//当前服务器时间获取
+function getServerTime() {
+  var promise = new Promise((resolve, reject) => {
+    wx.request({
+      url: 'https://api.weixin.qq.com', //仅为示例，并非真实的接口地址
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: res => {
+        console.log("服务器0时区时间",res.header.Date)
+        var date = new Date(res.header.Date)
+        console.log("转为东八区时间",date)
+        var year = date.getFullYear();
+        var mouths = (date.getMonth() + 1) < 10 ? ("0" + (date.getMonth() + 1)) : (date.getMonth() + 1);
+        var day = date.getDate() < 10 ? ("0" + date.getDate()) : date.getDate();
+        var hours = date.getHours() < 10 ? ("0" + date.getHours()) : date.getHours(); //当前时
+        var minutes = date.getMinutes() < 10 ? ("0" + date.getMinutes()) : date.getMinutes(); //当前分
+        var second = date.getSeconds() < 10 ? ("0" + date.getSeconds()) : date.getSeconds(); //当前秒
+        var servertime = year.toString() + "-" + mouths.toString() + "-" + day.toString() + "\t" + hours.toString() + ":" + minutes.toString() + ":" + second.toString();
+        console.log(servertime)
+        resolve(servertime)
+      }
+    })
+  });
+  return promise;
+}
 //当前时间获取
 function getCurrentTime(){
   const date = new Date()
@@ -54,6 +79,7 @@ function dateLater(dates, later) {
 module.exports = {
   formatTime: formatTime,
   compareDate: compareDate,
+  getServerTime:getServerTime,
   getCurrentTime: getCurrentTime,
   dateLater: dateLater
 }

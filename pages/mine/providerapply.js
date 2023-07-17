@@ -102,7 +102,7 @@ if(this.applysubmit==true|| this.data.providerapplydate!=''){
             ["UserInfo.CompanyId"]: this.data.companyid,
             ["UserInfo.Address"]: this.data.address,
             ["UserInfo.BusinessScope"]: this.data.businessscope,
-            ["UserInfo.ProviderApplyDate"]: Time.getCurrentTime(),
+            ["UserInfo.ProviderApplyDate"]: Time.getServerTime(),
           },
           success: res => {
             utils._SuccessToast("申请信息已发送")

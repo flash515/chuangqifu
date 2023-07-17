@@ -149,7 +149,7 @@ Page({
           avatarUrl: this.data.avatarurl,
           nickName: this.data.nickname,
           Comment: this.data.comment,
-          PublishDate: Time.getCurrentTime(),
+          PublishDate: Time.getServerTime(),
           Status: "unchecked",
           From:"创企服"
         },
@@ -181,7 +181,7 @@ Page({
         key2: "ReplyStatus",
         value2: "unchecked",
         key3: "ReplyDate",
-        value3: Time.getCurrentTime(),
+        value3: Time.getServerTime(),
       },
       success: res => {
         console.log(res)

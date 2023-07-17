@@ -99,7 +99,7 @@ Page({
           DLEndDate: this.data.discountenddate,
           TotalFee: this.data.discounttotalfee,
           SysAddDate: new Date().getTime(),
-          AddDate: Time.getCurrentTime(),
+          AddDate: Time.getServerTime(),
           PaymentStatus:"unchecked",
           OrderStatus:"unchecked",
           Available:false,
@@ -131,7 +131,7 @@ Page({
           ProductId: this.data.discountid,
           ProductName: this.data.discountname,
           TotalFee: this.data.discounttotalfee,
-          AddDate: Time.getCurrentTime(),
+          AddDate: Time.getServerTime(),
           PaymentStatus: "unchecked",
           Database:"DISCOUNTORDER",
           From:"创企服"
@@ -269,7 +269,7 @@ Page({
           ['TradeInfo.DiscountLevel']: this.data.orderlevel,
           ['TradeInfo.DLStartDate']:this.data.orderstartdate,
           ['TradeInfo.DLEndDate']:this.data.orderenddate,
-          ['TradeInfo.DLUpdateTime']:Time.getCurrentTime(),
+          ['TradeInfo.DLUpdateTime']:Time.getServerTime(),
         },
         success: res => {
           console.log("用户信息更新成功")

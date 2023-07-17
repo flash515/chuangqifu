@@ -283,7 +283,7 @@ Page({
           TotalFee: this.data.totalfee,
 
           SysAddDate: new Date().getTime(),
-          AddDate: Time.getCurrentTime(),
+          AddDate: Time.getServerTime(),
           PaymentStatus: "unchecked",
           OrderStatus: "unchecked",
           From:"创企服"
@@ -315,7 +315,7 @@ Page({
           Count: this.data.count,
           TotalFee: this.data.totalfee,
           SysAddDate: new Date().getTime(),
-          AddDate: Time.getCurrentTime(),
+          AddDate: Time.getServerTime(),
           PaymentStatus: "unchecked",
           From:"创企服"
         },
@@ -359,7 +359,7 @@ Page({
           ConsumeId: app.globalData.Guserid,
           ConsumePoints: this.data.consumepoints,
           SysAddDate: new Date().getTime(),
-          AddDate: Time.getCurrentTime(),
+          AddDate: Time.getServerTime(),
           PaymentStatus: "unchecked",
           PointsStatus: "unchecked",
           From:"创企服"

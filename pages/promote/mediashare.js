@@ -246,7 +246,7 @@ Page({
         key2: "ReplyStatus",
         value2: "unchecked",
         key3: "ReplyDate",
-        value3: Time.getCurrentTime(),
+        value3: Time.getServerTime(),
       },
       success: res => {
         console.log(res)
@@ -270,7 +270,7 @@ Page({
           avatarUrl: this.data.avatarurl,
           nickName: this.data.nickname,
           Comment: this.data.comment,
-          PublishDate: Time.getCurrentTime(),
+          PublishDate: Time.getServerTime(),
           Status: "unchecked",
           From: "创企服"
         },
@@ -429,7 +429,7 @@ Page({
         IndirectInviterId: this.data.creatorindirectinviterid,
         IndirectInviterPoints: this.data.indirectinviterpoints,
         SysAddDate: new Date().getTime(),
-        AddDate: Time.getCurrentTime(),
+        AddDate: Time.getServerTime(),
         PointsStatus: "checked",
         From: "创企服"
       },
@@ -451,7 +451,7 @@ Page({
         ProductId: this.data.infoid,
         ProductName: "资讯赞赏",
         TotalFee: this.data.totalfee,
-        AddDate: Time.getCurrentTime(),
+        AddDate: Time.getServerTime(),
         PaymentStatus: "checked",
         UserId: app.globalData.Guserid,
         From: "创企服"

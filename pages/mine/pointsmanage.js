@@ -69,7 +69,7 @@ Page({
         ExchangeId: app.globalData.Guserid,
         ExchangePoints: this.data.exchangepoints,
         SysAddDate: new Date().getTime(),
-        AddDate: Time.getCurrentTime(),
+        AddDate: Time.getServerTime(),
         PointsStatus: "checked",
         From: "创企服"
       },
@@ -149,7 +149,7 @@ Page({
       tradebalance: tradepoints,
     })
     this.setData({
-      balanceupdatetime: Time.getCurrentTime(),
+      balanceupdatetime: Time.getServerTime(),
     })
     utils._balanceupdate(this.data.promotebalance, this.data.tradebalance, this.data.balanceupdatetime)
   },
@@ -235,7 +235,7 @@ Page({
           PacketNumber: this.data.packetnumber,
           RemainPacket: this.data.packetnumber,
           SysAddDate: new Date().getTime(),
-          AddDate: Time.getCurrentTime(),
+          AddDate: Time.getServerTime(),
           PointsStatus: "checked",
           From: "创企服"
         },

@@ -131,7 +131,7 @@ Page({
       }).update({
         data: {
           ["UserInfo.UserPhone"]: this.data.inputphone,
-          ["TradeInfo.MemberTime"]: Time.getCurrentTime(),
+          ["TradeInfo.MemberTime"]: Time.getServerTime(),
           ["UserInfo.avatarUrl"]: this.data.avatarurl,
           ["UserInfo.nickName"]: this.data.nickname,
         },

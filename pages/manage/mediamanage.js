@@ -97,7 +97,7 @@ Page({
         key2: "ReplyStatus",
         value2: "unchecked",
         key3: "ReplyDate",
-        value3: Time.getCurrentTime()
+        value3: Time.getServerTime()
       },
       success: res => {
         console.log(res)

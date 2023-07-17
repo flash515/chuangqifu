@@ -56,7 +56,7 @@ Page({
           id: e.currentTarget.dataset.id,
           answer: that.data.answer,
           status: "onshow",
-          updatedate: Time.getCurrentTime()
+          updatedate: Time.getServerTime()
         },
         success: res => {
           console.log(res)

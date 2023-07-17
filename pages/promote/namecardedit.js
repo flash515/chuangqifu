@@ -363,7 +363,7 @@ Page({
 
       db.collection('NAMECARD').add({
         data: {
-          PublishDate: Time.getCurrentTime(),
+          PublishDate: Time.getServerTime(),
           CardBg: this.data.cardbg,
           CompanyLogo: this.data.companylogo,
           CardImages: this.data.cardimages,
@@ -410,7 +410,7 @@ Page({
         CreatorId: app.globalData.Guserid
       }).update({
         data: {
-          PublishDate: Time.getCurrentTime(),
+          PublishDate: Time.getServerTime(),
           CardBg: this.data.cardbg,
           CompanyLogo: this.data.companylogo,
           CardImages: this.data.cardimages,
@@ -460,7 +460,7 @@ Page({
       ["Category1"]: this.data.category1,
       ["Category2"]: this.data.category2,
       ["Category3"]: this.data.category3,
-      ["UpdateDate"]: Time.getCurrentTime(),
+      ["UpdateDate"]: Time.getServerTime(),
     }
     wx.setStorageSync('namecard', this.data.cardinfo)
   },

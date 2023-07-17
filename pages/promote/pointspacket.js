@@ -147,7 +147,7 @@ Page({
         DoneeId: app.globalData.Guserid,
         DoneePoints: this.data.doneepoints,
         SysAddDate: new Date().getTime(),
-        AddDate: Time.getCurrentTime(),
+        AddDate: Time.getServerTime(),
         PointsStatus: "checked",
         From:"创企服"
       },

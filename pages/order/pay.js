@@ -297,7 +297,7 @@ _balanceupdate: async function () {
               BookingContent: "上门当面收款服务",
               BookingStatus: "unchecked",
               UserId:app.globalData.Guserid,
-              AddDate: Time.getCurrentTime(),
+              AddDate: Time.getServerTime(),
               From:"创企服"
             },
             success: res => {

@@ -627,7 +627,7 @@ Page({
         // 新增数据
         db.collection("PRODUCT").add({
           data: {
-            AddDate: Time.getCurrentTime(),
+            AddDate: Time.getServerTime(),
             Status: that.data.status,
             ProductName: that.data.productname,
             Outline: that.data.outline,
@@ -715,7 +715,7 @@ Page({
           ProductImage: that.data.productimage,
           AttachmentFile: that.data.attachmentfile,
           Score: that.data.score,
-          UpdateDate: Time.getCurrentTime()
+          UpdateDate: Time.getServerTime()
         },
         success: res => {
           console.log('更新数据成功', res)

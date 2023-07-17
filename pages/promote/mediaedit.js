@@ -415,7 +415,7 @@ bvDeleteTempMedia(e) {
           LinkShow: that.data.linkshow,
           avatarUrl: that.data.avatarurl,
           nickName: that.data.nickname,
-          PublishDate: Time.getCurrentTime(),
+          PublishDate: Time.getServerTime(),
           InfoStatus: this.data.infostatus,
         },
         success: res => {
@@ -492,7 +492,7 @@ bvDeleteTempMedia(e) {
           LinkShow: that.data.linkshow,
           avatarUrl: that.data.avatarurl,
           nickName: that.data.nickname,
-          PublishDate: Time.getCurrentTime(),
+          PublishDate: Time.getServerTime(),
           InfoType: "Media",
           InfoStatus: that.data.infostatus,
           From:"创企服"

@@ -17,12 +17,12 @@ var newuserinfo = {
 var newusertradeinfo = {
   PromoteBalance: 0,
   TradeBalance: 0,
-  BalanceUpdateTime: Time.getCurrentTime(),
+  BalanceUpdateTime: Time.getServerTime(),
   DiscountLevel: "DL4",
   DiscountType: "",
-  DLUpdateTime: Time.getCurrentTime(),
+  DLUpdateTime: Time.getServerTime(),
   PromoteLevel: "normal",
-  PLUpdateTime: Time.getCurrentTime(),
+  PLUpdateTime: Time.getServerTime(),
   // MemberTime:""
 }
 async function _GetPhoneNumber(code) {
@@ -94,7 +94,7 @@ async function _NewMember(userphone, phoneremark) {
       data: {
         ["UserInfo.UserPhone"]: userphone,
         ["UserInfo.PhoneRemark"]: phoneremark,
-        ["TradeInfo.MemberTime"]: Time.getCurrentTime(),
+        ["TradeInfo.MemberTime"]: Time.getServerTime(),
       },
       success: res => {
         resolve(res)
@@ -121,7 +121,7 @@ async function _RegistPointsAdd() { // 通过云函数获取用户本人的小�
         IndirectInviterId: app.globalData.Gindirectinviterid,
         IndirectInviterPoints: 10,
         SysAddDate: new Date().getTime(),
-        AddDate: Time.getCurrentTime(),
+        AddDate: Time.getServerTime(),
         PointsStatus: "checked",
         From: "创企服"
       },
@@ -299,7 +299,7 @@ function _newuser(params, remark) {
     db.collection("USER").add({
       data: {
         SysAddDate: new Date().getTime(),
-        AddDate: Time.getCurrentTime(),
+        AddDate: Time.getServerTime(),
         UserId: app.globalData.Guserid,
         Params: params,
         SystemInfo: app.globalData.Gsysteminfo,
@@ -329,7 +329,7 @@ function _newuserpoints() {
           InviterId: app.globalData.Ginviterid,
           InviterPoints: 5,
           SysAddDate: new Date().getTime(),
-          AddDate: Time.getCurrentTime(),
+          AddDate: Time.getServerTime(),
           PointsStatus: "checked",
           From: "创企服"
         },

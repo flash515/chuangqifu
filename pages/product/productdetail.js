@@ -162,7 +162,7 @@ pagelink:"", //提供管理员当前商品链接
           id: e.currentTarget.dataset.id,
           answer: that.data.answer,
           status: "onshow",
-          updatedate: Time.getCurrentTime(),
+          updatedate: Time.getServerTime(),
         },
         success: res => {
           console.log(res)
@@ -216,7 +216,7 @@ pagelink:"", //提供管理员当前商品链接
             ProductId: this.data.pageParam.productid,
             Question: this.data.question,
             Status: "unchecked",
-            AddDate:Time.getCurrentTime(),
+            AddDate:Time.getServerTime(),
             From:"创企服"
           },
           success: res => {

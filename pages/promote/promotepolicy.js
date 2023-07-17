@@ -96,7 +96,7 @@ Page({
           PLName: this.data.ordername,
           PLStartDate: this.data.orderstartdate,
           TotalFee: this.data.orderfee,
-          AddDate: Time.getCurrentTime(),
+          AddDate: Time.getServerTime(),
           SysAddDate: new Date().getTime(),
           PaymentStatus: "unchecked",
           OrderStatus: "unchecked",
@@ -129,7 +129,7 @@ Page({
           ProductId: this.data.orderlevel,
           ProductName: this.data.ordername,
           TotalFee: this.data.orderfee,
-          AddDate: Time.getCurrentTime(),
+          AddDate: Time.getServerTime(),
           OrderId: this.data.orderid,
           PaymentStatus: "unchecked",
           Database: "PROMOTEORDER",
@@ -281,7 +281,7 @@ Page({
     this.setData({
       image: app.globalData.Gimagearray,
       // startdate: str.getFullYear() + "-" + (str.getMonth() + 1) + "-" + str.getDate()
-      startdate:Time.getCurrentTime(),
+      startdate:Time.getServerTime(),
     })
     console.log(this.data.startdate)
 
