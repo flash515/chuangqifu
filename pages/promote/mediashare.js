@@ -1,6 +1,5 @@
 const app = getApp()
 var utils = require("../../utils/utils")
-const Time = require("../../utils/getDates");
 const wxpay = require("../../utils/WxPay")
 Page({
   /**
@@ -230,7 +229,8 @@ Page({
     })
 
   },
-  bvReplySend(e) {
+  bvReplySend:async function(e) {
+    
     // 新增回复
     console.log(e.currentTarget.dataset.id)
 
@@ -243,10 +243,7 @@ Page({
         id: e.currentTarget.dataset.id,
         key1: "Reply",
         value1: this.data.replycontent,
-        key2: "ReplyStatus",
-        value2: "unchecked",
-        key3: "ReplyDate",
-        value3: Time.getServerTime(),
+
       },
       success: res => {
         console.log(res)
@@ -255,7 +252,8 @@ Page({
     })
   },
 
-  bvPublish() {
+  bvPublish:async function() {
+    
     if (this.data.avatarurl == "" || this.data.nickname == "") {
       utils._ErrorToast("需要头像和昵称")
     } else {
@@ -270,7 +268,7 @@ Page({
           avatarUrl: this.data.avatarurl,
           nickName: this.data.nickname,
           Comment: this.data.comment,
-          PublishDate: Time.getServerTime(),
+          PublishDate: db.serverDate(),
           Status: "unchecked",
           From: "创企服"
         },
@@ -412,7 +410,8 @@ Page({
 
   },
 
-  _pointsadd() {
+  _pointsadd:async function() {
+    
     // 赞赏点数记录
     const db = app.globalData.c1.database()
     db.collection("POINTS").add({
@@ -429,7 +428,7 @@ Page({
         IndirectInviterId: this.data.creatorindirectinviterid,
         IndirectInviterPoints: this.data.indirectinviterpoints,
         SysAddDate: new Date().getTime(),
-        AddDate: Time.getServerTime(),
+        AddDate: db.serverDate(),
         PointsStatus: "checked",
         From: "创企服"
       },
@@ -440,7 +439,8 @@ Page({
 
   },
 
-  _paymentadd(goodsnum) {
+  _paymentadd:async function(goodsnum) {
+    
     // 支付成功后增加付款记录
     let that = this
 
@@ -451,7 +451,7 @@ Page({
         ProductId: this.data.infoid,
         ProductName: "资讯赞赏",
         TotalFee: this.data.totalfee,
-        AddDate: Time.getServerTime(),
+        AddDate: db.serverDate(),
         PaymentStatus: "checked",
         UserId: app.globalData.Guserid,
         From: "创企服"
@@ -477,7 +477,7 @@ Page({
     if (options.infoid) {
       // 如果是通过分享链接进入
       this.data.params = options
-      this.data.remark = "通过创企服用户分享资讯进入"
+      this.data.remark = "创企服用户分享资讯进入"
       this.data.tempinviterid = options.userid
       // 通过分享进入，执行用户登录操作
       await utils.UserLogon(this.data.tempinviterid, this.data.params, this.data.remark)

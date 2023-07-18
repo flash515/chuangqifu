@@ -1,5 +1,4 @@
 const app = getApp();
-const Time= require("../../utils/getDates");
 var utils = require("../../utils/utils")
 Page({
   /**
@@ -134,7 +133,8 @@ Page({
 
   },
   
-  bvPublishComment() {
+  bvPublishComment:async function() {
+    
     if (this.data.avatarurl == "" || this.data.nickname == "") {
       utils._ErrorToast("需要头像和昵称")
     } else {
@@ -149,7 +149,7 @@ Page({
           avatarUrl: this.data.avatarurl,
           nickName: this.data.nickname,
           Comment: this.data.comment,
-          PublishDate: Time.getServerTime(),
+          PublishDate: db.serverDate(),
           Status: "unchecked",
           From:"创企服"
         },
@@ -165,7 +165,8 @@ Page({
       })
     }
   },
-  bvReplySend(e) {
+  bvReplySend:async function(e) {
+    
     // 新增回复
     console.log(e.currentTarget.dataset.id)
     
@@ -178,10 +179,6 @@ Page({
         id: e.currentTarget.dataset.id,
         key1: "Reply",
         value1: this.data.replycontent,
-        key2: "ReplyStatus",
-        value2: "unchecked",
-        key3: "ReplyDate",
-        value3: Time.getServerTime(),
       },
       success: res => {
         console.log(res)

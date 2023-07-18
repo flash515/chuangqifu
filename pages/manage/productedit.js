@@ -1,5 +1,4 @@
 const app = getApp()
-const Time= require("../../utils/getDates")
 var utils = require("../../utils/utils")
 Page({
   data: {
@@ -614,7 +613,8 @@ Page({
   },
 
   // 异步新增数据方法
-  addData() {
+  addData:async function() {
+    
     // 判断是否重复提交
     if (this.data.sublock) {
       // 锁定时很执行
@@ -627,7 +627,7 @@ Page({
         // 新增数据
         db.collection("PRODUCT").add({
           data: {
-            AddDate: Time.getServerTime(),
+            AddDate: db.serverDate(),
             Status: that.data.status,
             ProductName: that.data.productname,
             Outline: that.data.outline,
@@ -676,7 +676,8 @@ Page({
     }
   },
   // 更新数据
-  updateData() {
+  updateData:async function() {
+    
     // 获取数据库引用
     let that = this
       const db = app.globalData.c1.database()
@@ -715,7 +716,7 @@ Page({
           ProductImage: that.data.productimage,
           AttachmentFile: that.data.attachmentfile,
           Score: that.data.score,
-          UpdateDate: Time.getServerTime()
+          UpdateDate: db.serverDate()
         },
         success: res => {
           console.log('更新数据成功', res)

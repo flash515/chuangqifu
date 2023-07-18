@@ -1,6 +1,5 @@
 // pages/mine/providerapply.js
 const app = getApp()
-const Time= require("../../utils/getDates");
 const util = require('../../utils/utils')
 Page({
 
@@ -85,7 +84,8 @@ Page({
       contractchecked: e.detail.checked
     })
   },
-  bvProviderApply(e) {
+  bvProviderApply:async function(e) {
+    
 if(this.applysubmit==true|| this.data.providerapplydate!=''){
   utils._ErrorToast("请勿重复提交")
 }else{
@@ -102,7 +102,7 @@ if(this.applysubmit==true|| this.data.providerapplydate!=''){
             ["UserInfo.CompanyId"]: this.data.companyid,
             ["UserInfo.Address"]: this.data.address,
             ["UserInfo.BusinessScope"]: this.data.businessscope,
-            ["UserInfo.ProviderApplyDate"]: Time.getServerTime(),
+            ["UserInfo.ProviderApplyDate"]: db.serverDate(),
           },
           success: res => {
             utils._SuccessToast("申请信息已发送")

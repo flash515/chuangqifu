@@ -1,5 +1,4 @@
 const app = getApp()
-const Time= require("../../utils/getDates");
 const utils = require("../../utils/utils")
 Page({
   /**
@@ -143,8 +142,9 @@ pagelink:"", //提供管理员当前商品链接
       }
     })
   },
-  bvReply(e) {
+  bvReply:async function(e) {
     console.log(e.currentTarget.dataset.id)
+    
     const that = this;
     // 判断是否重复提交
     if (this.data.replylock) {
@@ -162,7 +162,7 @@ pagelink:"", //提供管理员当前商品链接
           id: e.currentTarget.dataset.id,
           answer: that.data.answer,
           status: "onshow",
-          updatedate: Time.getServerTime(),
+          updatedate: db.serverDate(),
         },
         success: res => {
           console.log(res)
@@ -199,8 +199,9 @@ pagelink:"", //提供管理员当前商品链接
       replylock: false
     })
   },
-  bvSubmit(e) {
+  bvSubmit:async function(e) {
     // 判断是否重复提交
+    
     if (this.data.sublock) {
       // 锁定时很执行
       utils._ErrorToast("请勿重复提交")
@@ -216,7 +217,7 @@ pagelink:"", //提供管理员当前商品链接
             ProductId: this.data.pageParam.productid,
             Question: this.data.question,
             Status: "unchecked",
-            AddDate:Time.getServerTime(),
+            AddDate:db.serverDate(),
             From:"创企服"
           },
           success: res => {
@@ -319,7 +320,7 @@ pagelink:"", //提供管理员当前商品链接
       // 如果是通过链接打开
       this.data.params = options
       this.data.tempinviterid = options.userid
-      this.data.remark = "通过创企服用户分享链接进入"
+      this.data.remark = "创企服用户分享产品链接进入"
       console.log("通过链接打开接收到的参数", this.data.tempinviterid)
       await utils.UserLogon(this.data.tempinviterid, this.data.params, this.data.remark)
     }

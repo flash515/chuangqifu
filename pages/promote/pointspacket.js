@@ -1,5 +1,4 @@
 var utils = require("../../utils/utils");
-const Time= require("../../utils/getDates");
 const app = getApp()
 Page({
 
@@ -134,7 +133,7 @@ Page({
       }
     })
   },
-  bvAccept() {
+  bvAccept:async function() {
     let that = this
     
       const db = app.globalData.c1.database()
@@ -147,7 +146,7 @@ Page({
         DoneeId: app.globalData.Guserid,
         DoneePoints: this.data.doneepoints,
         SysAddDate: new Date().getTime(),
-        AddDate: Time.getServerTime(),
+        AddDate: db.serverDate(),
         PointsStatus: "checked",
         From:"创企服"
       },

@@ -5,7 +5,7 @@ Page({
   data: {
     errorshow: false,
     params: "",
-    remark: "通过创企服用户快捷会议邀请进入",
+    remark: "创企服用户快捷会议邀请进入",
     tempinviterid: "",
     avatarUrl: defaultAvatarUrl,
     nickName: "",

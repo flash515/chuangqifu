@@ -127,7 +127,7 @@ Page({
       if (options.userid) {
         // 如果是通过分享链接进入
         this.data.params = options
-        this.data.remark = "通过创企服用户分享名片进入"
+        this.data.remark = "创企服用户分享名片进入"
         this.data.creatorid = options.creatorid
         this.setData({
           // 页面根据tempinviterid的值设置了显隐渲染，所以需要用setData赋值
@@ -143,7 +143,7 @@ Page({
         this.data.params = scene
         this.data.tempinviterid = scene.split('&')[0]
         this.data.creatorid = scene.split('&')[1]
-        this.data.remark = "通过创企服用户分享小程序码进入"
+        this.data.remark = "创企服用户分享小程序码进入"
         // 该功能仅管理员使用，默认使用管理员unionid做推荐人
         if (this.data.tempinviterid == "") {
           this.data.tempinviterid = "oo7kw5rohI15ogf6TCX_SGAxYUao"

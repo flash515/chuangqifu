@@ -1,5 +1,4 @@
 const app = getApp();
-const Time= require("../../utils/getDates");
 const utils = require("../../utils/utils")
 Page({
 
@@ -80,7 +79,8 @@ Page({
       this._paymentadd()
     }
   },
-  _orderadd(e) {
+  _orderadd:async function(e) {
+    
     let that = this
     if (this.data.applysublock) {
       // 控制页面组件显示和隐藏的参数是异步赋值的，因此需要在数据库操作执行前再次检查参数，避免重复提交
@@ -96,7 +96,7 @@ Page({
           PLName: this.data.ordername,
           PLStartDate: this.data.orderstartdate,
           TotalFee: this.data.orderfee,
-          AddDate: Time.getServerTime(),
+          AddDate: db.serverDate(),
           SysAddDate: new Date().getTime(),
           PaymentStatus: "unchecked",
           OrderStatus: "unchecked",
@@ -117,7 +117,8 @@ Page({
     }
   },
 
-  _paymentadd() {
+  _paymentadd:async function() {
+    
     let that = this
     if (this.data.paymentsublock) {
       // 控制页面组件显示和隐藏的参数是异步赋值的，因此需要在数据库操作执行前再次检查参数，避免重复提交
@@ -129,7 +130,7 @@ Page({
           ProductId: this.data.orderlevel,
           ProductName: this.data.ordername,
           TotalFee: this.data.orderfee,
-          AddDate: Time.getServerTime(),
+          AddDate: db.serverDate(),
           OrderId: this.data.orderid,
           PaymentStatus: "unchecked",
           Database: "PROMOTEORDER",
@@ -257,8 +258,9 @@ Page({
       url: '../order/pay?orderid=' + this.data.orderid + '&productid=' + this.data.orderlevel + '&productname=' + this.data.ordername + '&totalfee=' + this.data.orderfee + '&database=PROMOTEORDER'
     })
   },
-  // 随机生成支付订单号,订单号不能重复
+
   _getGoodsRandomNumber() {
+      // 随机生成支付订单号,订单号不能重复
     const date = new Date(); // 当前时间
     let Year = `${date.getFullYear()}`; // 获取年份
     let Month = `${date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1
@@ -274,17 +276,17 @@ Page({
     return `${Math.round(Math.random() * 1000)}${formateDate +
       Math.round(Math.random() * 89 + 100).toString()}`;
   },
-  onLoad: async function (options) {
 
+  onLoad: async function (options) {
+    
     let that = this
     var str = new Date()
     this.setData({
       image: app.globalData.Gimagearray,
       // startdate: str.getFullYear() + "-" + (str.getMonth() + 1) + "-" + str.getDate()
-      startdate:Time.getServerTime(),
+      startdate:db.serverDate(),
     })
     console.log(this.data.startdate)
-
 
     if (app.globalData.Guserdata.UserInfo.UserPhone != "" && app.globalData.Guserdata.UserInfo.UserPhone != "undefined") {
       // 手机号有效才执行

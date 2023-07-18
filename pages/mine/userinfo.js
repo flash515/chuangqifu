@@ -1,6 +1,5 @@
 const app = getApp()
 const defaultAvatarUrl = 'https://mmbiz.qpic.cn/mmbiz/icTdbqWNOwNRna42FI242Lcia07jQodd2FJGIYQfG0LAJGFxM4FbnQP6yfMxBgJ0F3YRqJCJ1aPAK2dQagdusBZg/0';
-const Time= require("../../utils/getDates");
 const utils = require("../../utils/utils");
 var interval = null //倒计时函数
 Page({
@@ -122,6 +121,7 @@ Page({
 
   //修改数据操作
   async bvUpdateData(e) {
+    
     if (this.data.u_phonecode == this.data.s_phonecode && this.data.u_phonecode != "") {
       console.log('手机验证码正确')
       let that = this
@@ -131,7 +131,7 @@ Page({
       }).update({
         data: {
           ["UserInfo.UserPhone"]: this.data.inputphone,
-          ["TradeInfo.MemberTime"]: Time.getServerTime(),
+          ["TradeInfo.MemberTime"]: db.serverDate(),
           ["UserInfo.avatarUrl"]: this.data.avatarurl,
           ["UserInfo.nickName"]: this.data.nickname,
         },

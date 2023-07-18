@@ -82,7 +82,8 @@ Page({
   },
 
 
-  bvReplySend(e) {
+  bvReplySend: async function(e) {
+    
     // 新增回复
     console.log(e.target.dataset.id)
       app.globalData.c1.callFunction({
@@ -94,10 +95,6 @@ Page({
         id: e.target.dataset.id,
         key1: "Reply",
         value1: this.data.replycontent,
-        key2: "ReplyStatus",
-        value2: "unchecked",
-        key3: "ReplyDate",
-        value3: Time.getServerTime()
       },
       success: res => {
         console.log(res)

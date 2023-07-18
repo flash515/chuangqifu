@@ -1,7 +1,6 @@
 const app = getApp()
-const Time = require("../../utils/getDates");
 const utils = require("../../utils/utils");
-var interval = null //倒计时函数
+
 Page({
 
   /**
@@ -338,6 +337,7 @@ Page({
 
   //发布到企业广场
   async bvPublish(e) {
+    
     let that = this
     if (this.data.username == '') {
       utils._ErrorToast("请填写姓名")
@@ -363,7 +363,7 @@ Page({
 
       db.collection('NAMECARD').add({
         data: {
-          PublishDate: Time.getServerTime(),
+          PublishDate: db.serverDate(),
           CardBg: this.data.cardbg,
           CompanyLogo: this.data.companylogo,
           CardImages: this.data.cardimages,
@@ -410,7 +410,7 @@ Page({
         CreatorId: app.globalData.Guserid
       }).update({
         data: {
-          PublishDate: Time.getServerTime(),
+          PublishDate: db.serverDate(),
           CardBg: this.data.cardbg,
           CompanyLogo: this.data.companylogo,
           CardImages: this.data.cardimages,
@@ -441,6 +441,7 @@ Page({
 
   //保存名片信息
   async bvPreView(e) {
+    
     console.log("保存执行了")
     this.data.cardinfo = {
       ["CardBg"]: this.data.cardbg,
@@ -460,7 +461,7 @@ Page({
       ["Category1"]: this.data.category1,
       ["Category2"]: this.data.category2,
       ["Category3"]: this.data.category3,
-      ["UpdateDate"]: Time.getServerTime(),
+      ["UpdateDate"]: db.serverDate(),
     }
     wx.setStorageSync('namecard', this.data.cardinfo)
   },

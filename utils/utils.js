@@ -1,6 +1,5 @@
 // 新建页面埋点
 const app = getApp()
-const Time = require("../utils/getDates")
 // 新用户信息初始化字段
 var newuserinfo = {
   nickName: "",
@@ -85,6 +84,7 @@ function _sendcode(userphone) {
 }
 
 async function _NewMember(userphone, phoneremark) {
+  
   var promise = new Promise((resolve, reject) => {
 
     const db = app.globalData.c1.database()
@@ -94,7 +94,7 @@ async function _NewMember(userphone, phoneremark) {
       data: {
         ["UserInfo.UserPhone"]: userphone,
         ["UserInfo.PhoneRemark"]: phoneremark,
-        ["TradeInfo.MemberTime"]: Time.getServerTime(),
+        ["TradeInfo.MemberTime"]: db.serverDate(),
       },
       success: res => {
         resolve(res)
@@ -105,6 +105,7 @@ async function _NewMember(userphone, phoneremark) {
 }
 
 async function _RegistPointsAdd() { // 通过云函数获取用户本人的小程序ID
+  
   var promise = new Promise((resolve, reject) => {
     console.log('新会员手机认证积分')
     const db = app.globalData.c1.database()
@@ -121,7 +122,7 @@ async function _RegistPointsAdd() { // 通过云函数获取用户本人的小�
         IndirectInviterId: app.globalData.Gindirectinviterid,
         IndirectInviterPoints: 10,
         SysAddDate: new Date().getTime(),
-        AddDate: Time.getServerTime(),
+        AddDate: db.serverDate(),
         PointsStatus: "checked",
         From: "创企服"
       },
@@ -195,7 +196,7 @@ async function UserLogon(tempinviterid, params, remark) { // 用户登录时的�
 }
 
 async function _setting() { // 通过本地数据库查询指令取得小程序设置参数
-  var promise = new Promise(async (resolve, reject) => {
+  var promise = new Promise((resolve, reject) => {
     console.log("setting执行了")
     const db = app.globalData.c1.database()
     db.collection('setting')
@@ -279,9 +280,10 @@ function _invitercheck(inviterid) {
   return promise;
 }
 
-function _newuser(params, remark) {
+async function _newuser(params, remark) {
   console.log(params)
   console.log(remark)
+  
   var promise = new Promise((resolve, reject) => {
     console.log("新用户操作执行了")
     // Guserdata的子项未在app中定义，须先构建obj再赋值给Guserdata
@@ -299,7 +301,7 @@ function _newuser(params, remark) {
     db.collection("USER").add({
       data: {
         SysAddDate: new Date().getTime(),
-        AddDate: Time.getServerTime(),
+        AddDate: db.serverDate(),
         UserId: app.globalData.Guserid,
         Params: params,
         SystemInfo: app.globalData.Gsysteminfo,
@@ -318,7 +320,8 @@ function _newuser(params, remark) {
   return promise;
 }
 
-function _newuserpoints() {
+async function _newuserpoints() {
+  
   var promise = new Promise((resolve, reject) => {
       const db = app.globalData.c1.database()
       db.collection("POINTS").add({
@@ -329,7 +332,7 @@ function _newuserpoints() {
           InviterId: app.globalData.Ginviterid,
           InviterPoints: 5,
           SysAddDate: new Date().getTime(),
-          AddDate: Time.getServerTime(),
+          AddDate: db.serverDate(),
           PointsStatus: "checked",
           From: "创企服"
         },

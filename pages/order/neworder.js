@@ -1,5 +1,4 @@
 const app = getApp()
-const Time= require("../../utils/getDates");
 var utils = require("../../utils/utils")
 Page({
 
@@ -256,7 +255,8 @@ Page({
   },
 
   // 异步新增数据方法
-  _orderadd() {
+  _orderadd:async function() {
+    
     let that = this
     // 判断是否重复提交
     if (this.data.ordersublock) {
@@ -283,7 +283,7 @@ Page({
           TotalFee: this.data.totalfee,
 
           SysAddDate: new Date().getTime(),
-          AddDate: Time.getServerTime(),
+          AddDate: db.serverDate(),
           PaymentStatus: "unchecked",
           OrderStatus: "unchecked",
           From:"创企服"
@@ -300,7 +300,8 @@ Page({
       })
     }
   },
-  _paymentadd() {
+  _paymentadd:async function() {
+    
     let that = this
     if (this.data.paymentsublock) {
       that._hidden()
@@ -315,7 +316,7 @@ Page({
           Count: this.data.count,
           TotalFee: this.data.totalfee,
           SysAddDate: new Date().getTime(),
-          AddDate: Time.getServerTime(),
+          AddDate: db.serverDate(),
           PaymentStatus: "unchecked",
           From:"创企服"
         },
@@ -331,8 +332,8 @@ Page({
       })
     }
   },
-  _pointsadd() {
-
+  _pointsadd:async function() {
+    
     let that = this
     if (this.data.paymentsublock) {
       that._hidden()
@@ -359,7 +360,7 @@ Page({
           ConsumeId: app.globalData.Guserid,
           ConsumePoints: this.data.consumepoints,
           SysAddDate: new Date().getTime(),
-          AddDate: Time.getServerTime(),
+          AddDate: db.serverDate(),
           PaymentStatus: "unchecked",
           PointsStatus: "unchecked",
           From:"创企服"

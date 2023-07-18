@@ -1,5 +1,4 @@
 const app = getApp();
-const Time= require("../../utils/getDates");
 const track = require("../../utils/track");
 var utils = require("../../utils/utils")
 Page({
@@ -118,6 +117,7 @@ Page({
   },
 
   bvTradePointsExchange: async function (e) {
+    
     // 兑换前check一下balance
     this._balancecheck()
     let that = this
@@ -131,7 +131,7 @@ Page({
         ExchangeId: app.globalData.Guserid,
         ExchangePoints: this.data.exchangepoints,
         SysAddDate: new Date().getTime(),
-        AddDate: Time.getServerTime(),
+        AddDate: db.serverDate(),
         PointsStatus: "checked",
         From:"创企服"
       },
@@ -167,6 +167,7 @@ Page({
     }
   },
   async _balancecheck() {
+    
     let res = await utils._pointshistory()
     console.log("积分记录", res)
     this.setData({
@@ -217,7 +218,7 @@ Page({
       tradebalance: tradepoints,
     })
     this.setData({
-      balanceupdatetime: Time.getServerTime(),
+      balanceupdatetime: db.serverDate(),
     })
     utils._balanceupdate(this.data.promotebalance, this.data.tradebalance, this.data.balanceupdatetime)
   },
@@ -285,8 +286,8 @@ Page({
   onReachBottom: function () {
 
   },
-  _transferpointsadd() {
-
+  _transferpointsadd:async function() {
+    
     this.data.transferpacketid=utils._getGoodsRandomNumber()
     console.log(this.data.transferpacketid)
     var promise = new Promise((resolve, reject) => {
@@ -305,7 +306,7 @@ Page({
           PacketNumber: this.data.packetnumber,
           RemainPacket:this.data.packetnumber,
           SysAddDate: new Date().getTime(),
-          AddDate: Time.getServerTime(),
+          AddDate: db.serverDate(),
           PointsStatus: "checked",
           From:"创企服"
         },

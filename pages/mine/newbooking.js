@@ -1,11 +1,5 @@
 const app = getApp()
-const {
-  startToTrack,
-  startByClick,
-  startByBack
-} = require("../../utils/track");
 const track = require("../../utils/track");
-const Time = require("../../utils/getDates");
 const utils = require("../../utils/utils");
 Page({
 
@@ -56,7 +50,8 @@ Page({
       content: e.detail.key,
     })
   },
-  bvBooking() {
+  bvBooking:async function() {
+    
     // 判断是否重复提交
     if (this.data.booklock) {
       // 锁定时很执行
@@ -77,7 +72,7 @@ Page({
             BookingContent: this.data.content,
             BookingStatus: "unchecked",
             UserId: app.globalData.Guserid,
-            AddDate: Time.getServerTime(),
+            AddDate: db.serverDate(),
             From: "创企服"
           },
           success: res => {
@@ -90,9 +85,9 @@ Page({
         that.data.booklock = true // 修改上传状态为锁定
     }
   },
-  bvUpdateData() {
+  bvUpdateData:async function() {
     let that = this
-
+    
     const db = app.globalData.c1.database()
     db.collection('BOOKING').doc(that.data.bookingid).update({
       data: {
@@ -103,7 +98,7 @@ Page({
         BookingDate: that.data.date,
         BookingTime: that.data.time,
         BookingStatus: "unchecked",
-        UpdateDate: Time.getServerTime(),
+        UpdateDate: db.serverDate(),
       },
       success: res => {
         utils._SuccessToast('预约更新成功')
@@ -160,9 +155,9 @@ Page({
    * 生命周期函数--监听页面显示
    */
   // 点击 tab 时用此方法触发埋点
-  onTabItemTap: () => startToTrack(),
+  onTabItemTap: () => track.startToTrack(),
   onShow: function () {
-    startToTrack()
+    track.startToTrack()
   },
 
   /**
@@ -176,7 +171,7 @@ Page({
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-    startByBack()
+    track.startByBack()
   },
 
   /**

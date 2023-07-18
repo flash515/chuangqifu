@@ -1,5 +1,4 @@
 const app = getApp();
-const Time= require("../../utils/getDates");
 const utils = require("../../utils/utils")
 Page({
 
@@ -273,7 +272,8 @@ _balanceupdate: async function () {
       address: e.detail.value,
     })
   },
-  bvBooking(e) {
+  bvBooking:async function(e) {
+    
     let that=this
     // 判断是否重复提交
     if (this.data.booklock) {
@@ -297,7 +297,7 @@ _balanceupdate: async function () {
               BookingContent: "上门当面收款服务",
               BookingStatus: "unchecked",
               UserId:app.globalData.Guserid,
-              AddDate: Time.getServerTime(),
+              AddDate: db.serverDate(),
               From:"创企服"
             },
             success: res => {

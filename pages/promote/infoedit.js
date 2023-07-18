@@ -1,7 +1,5 @@
 const app = getApp()
-const Time= require("../../utils/getDates");
 var utils = require("../../utils/utils")
-var interval = null //倒计时函数
 Page({
 
   /**
@@ -127,6 +125,7 @@ Page({
 
   //发布到供求信息
   async bvPublish(e) {
+    
     let that = this
     if (this.data.infocontent == "") {
       utils._ErrorToast("请填写信息内容")
@@ -143,7 +142,7 @@ Page({
           avatarUrl: this.data.avatarurl,
           nickName: this.data.nickname,
           CreatorPhone:app.globalData.Guserdata.UserInfo.UserPhone,
-          PublishDate: Time.getServerTime(),
+          PublishDate: db.serverDate(),
           InfoStatus: "unchecked",
         },
         success: res => {
@@ -190,7 +189,7 @@ Page({
           CreatorPhone: app.globalData.Guserdata.UserInfo.UserPhone,
           avatarUrl: this.data.avatarurl,
           nickName: this.data.nickname,
-          PublishDate: Time.getServerTime(),
+          PublishDate: db.serverDate(),
           InfoStatus: "unchecked",
           From:"创企服"
         },

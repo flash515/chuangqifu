@@ -84,7 +84,8 @@ Page({
       contractchecked: e.detail.checked
     })
   },
-  bvApplyAgent(e) {
+  bvApplyAgent:async function(e) {
+    
 if(this.applysubmit==true|| this.data.agentapplydate!=''){
   utils._ErrorToast("请勿重复提交")
 }else{
@@ -102,7 +103,7 @@ if(this.applysubmit==true|| this.data.agentapplydate!=''){
             ["UserInfo.CompanyId"]: this.data.companyid,
             ["UserInfo.Address"]: this.data.address,
             ["UserInfo.BusinessScope"]: this.data.businessscope,
-            ["UserInfo.AgentApplyDate"]: Time.getServerTime(),
+            ["UserInfo.AgentApplyDate"]: db.serverDate(),
           },
           success: res => {
             utils._SuccessToast("申请信息已发送")

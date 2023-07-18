@@ -1,7 +1,5 @@
 const app = getApp();
-const Time= require("../../utils/getDates");
 var utils = require("../../utils/utils");
-var interval = null //倒计时函数
 Page({
 
   /**
@@ -362,6 +360,7 @@ bvDeleteTempMedia(e) {
   },
   //发布到资讯广场
   async bvPublish(e) {
+    
     let that = this
     if (this.data.infotitle == "") {
       utils._ErrorToast("标题不能为空")
@@ -415,7 +414,7 @@ bvDeleteTempMedia(e) {
           LinkShow: that.data.linkshow,
           avatarUrl: that.data.avatarurl,
           nickName: that.data.nickname,
-          PublishDate: Time.getServerTime(),
+          PublishDate: db.serverDate(),
           InfoStatus: this.data.infostatus,
         },
         success: res => {
@@ -492,7 +491,7 @@ bvDeleteTempMedia(e) {
           LinkShow: that.data.linkshow,
           avatarUrl: that.data.avatarurl,
           nickName: that.data.nickname,
-          PublishDate: Time.getServerTime(),
+          PublishDate: db.serverDate(),
           InfoType: "Media",
           InfoStatus: that.data.infostatus,
           From:"创企服"
