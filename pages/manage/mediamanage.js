@@ -1,7 +1,5 @@
 const app = getApp()
 var utils = require("../../utils/utils")
-const Time= require("../../utils/getDates")
-const wxpay = require("../../utils/WxPay")
 Page({
   /**
    * 页面的初始数据

@@ -1,7 +1,5 @@
 const app = getApp()
 const utils = require("../utils/utils");
-const Time= require("../utils/getDates");
-
 function bvBuy(e) {
   if (e.currentTarget.dataset.startdate == "" || e.currentTarget.dataset.startdate == undefined) {
     // 未选定日期时弹窗
