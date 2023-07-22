@@ -1,6 +1,7 @@
 const app = getApp();
 const track = require("../../utils/track");
 var utils = require("../../utils/utils")
+const Time= require("../../utils/getDates");
 Page({
 
   /**
@@ -130,8 +131,8 @@ Page({
         // 使用的消费积分
         ExchangeId: app.globalData.Guserid,
         ExchangePoints: this.data.exchangepoints,
-        SysAddDate: new Date().getTime(),
-        AddDate: db.serverDate(),
+        SysAddDate: db.serverDate(),
+        AddDate: Time.getCurrentTime(),
         PointsStatus: "checked",
         From:"创企服"
       },
@@ -218,7 +219,7 @@ Page({
       tradebalance: tradepoints,
     })
     this.setData({
-      balanceupdatetime: db.serverDate(),
+      balanceupdatetime: Time.getCurrentTime(),
     })
     utils._balanceupdate(this.data.promotebalance, this.data.tradebalance, this.data.balanceupdatetime)
   },
@@ -305,8 +306,8 @@ Page({
           RemainPoints: this.data.transferpoints,
           PacketNumber: this.data.packetnumber,
           RemainPacket:this.data.packetnumber,
-          SysAddDate: new Date().getTime(),
-          AddDate: db.serverDate(),
+          SysAddDate: db.serverDate(),
+          AddDate: Time.getCurrentTime(),
           PointsStatus: "checked",
           From:"创企服"
         },

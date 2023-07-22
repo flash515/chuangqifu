@@ -46,7 +46,7 @@ Page({
         //查询一年有效用户
         var direct1yearfliter = [];
         for (var i = 0; i < this.data.directvaliduser.length; i++) {
-          if (this.data.directvaliduser[i].SysAddDate > (new Date().getTime() - 365 * 86400000)) {
+          if (this.data.directvaliduser[i].AddDate > (new Date().getTime() - 365 * 86400000)) {
             direct1yearfliter.push(this.data.directvaliduser[i]);
           }
         }
@@ -72,7 +72,7 @@ Page({
         // 筛选30天内有效间接注册人数
         var indirect30fliter = [];
         for (var i = 0; i < this.data.indirectvaliduser.length; i++) {
-          if (res.data[i].SysAddDate > (new Date().getTime() - 30 * 86400000)) {
+          if (res.data[i].AddDate > (new Date().getTime() - 30 * 86400000)) {
             indirect30fliter.push(this.data.indirectvaliduser[i]);
           }
         }

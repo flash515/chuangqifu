@@ -1,6 +1,7 @@
 const app = getApp()
 var utils = require("../../utils/utils")
 const wxpay = require("../../utils/WxPay")
+const Time= require("../../utils/getDates");
 Page({
   /**
    * 页面的初始数据
@@ -268,7 +269,7 @@ Page({
           avatarUrl: this.data.avatarurl,
           nickName: this.data.nickname,
           Comment: this.data.comment,
-          PublishDate: db.serverDate(),
+          PublishDate: Time.getCurrentTime(),
           Status: "unchecked",
           From: "创企服"
         },
@@ -427,8 +428,8 @@ Page({
         InviterPoints: this.data.inviterpoints,
         IndirectInviterId: this.data.creatorindirectinviterid,
         IndirectInviterPoints: this.data.indirectinviterpoints,
-        SysAddDate: new Date().getTime(),
-        AddDate: db.serverDate(),
+        SysAddDate: db.serverDate(),
+        AddDate: Time.getCurrentTime(),
         PointsStatus: "checked",
         From: "创企服"
       },
@@ -451,7 +452,7 @@ Page({
         ProductId: this.data.infoid,
         ProductName: "资讯赞赏",
         TotalFee: this.data.totalfee,
-        AddDate: db.serverDate(),
+        AddDate: Time.getCurrentTime(),
         PaymentStatus: "checked",
         UserId: app.globalData.Guserid,
         From: "创企服"

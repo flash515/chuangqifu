@@ -1,5 +1,6 @@
 const app = getApp()
 const utils = require("../utils/utils");
+const Time= require("../utils/getDates");
 function bvBuy(e) {
   if (e.currentTarget.dataset.startdate == "" || e.currentTarget.dataset.startdate == undefined) {
     // 未选定日期时弹窗
@@ -43,8 +44,8 @@ async function _orderadd(){
         DLStartDate: this.data.discountstartdate,
         DLEndDate: this.data.discountenddate,
         TotalFee: this.data.discounttotalfee,
-        SysAddDate: new Date().getTime(),
-        AddDate:db.serverDate(),
+        SysAddDate: db.serverDate(),
+        AddDate:Time.getCurrentTime(),
         PaymentStatus: "unchecked",
         OrderStatus: "unchecked",
         Available: false,
@@ -77,7 +78,7 @@ async function _paymentadd() {
         ProductId: this.data.discountid,
         ProductName: this.data.discountname,
         TotalFee: this.data.discounttotalfee,
-        AddDate: db.serverDate(),
+        AddDate: Time.getCurrentTime(),
         PaymentStatus: "unchecked",
         Database: "DISCOUNTORDER",
         From:"创企服"
@@ -211,7 +212,7 @@ async function _userupdate() {
       ['TradeInfo.DiscountLevel']: this.data.orderlevel,
       ['TradeInfo.DLStartDate']: this.data.orderstartdate,
       ['TradeInfo.DLEndDate']: this.data.orderenddate,
-      ['TradeInfo.DLUpdateTime']: db.serverDate(),
+      ['TradeInfo.DLUpdateTime']: Time.getCurrentTime(),
     },
     success: res => {
       console.log("用户信息更新成功")

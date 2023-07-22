@@ -1,5 +1,6 @@
 const app = getApp();
 var utils = require("../../utils/utils");
+const Time= require("../../utils/getDates");
 Page({
 
   /**
@@ -414,7 +415,7 @@ bvDeleteTempMedia(e) {
           LinkShow: that.data.linkshow,
           avatarUrl: that.data.avatarurl,
           nickName: that.data.nickname,
-          PublishDate: db.serverDate(),
+          PublishDate: Time.getCurrentTime(),
           InfoStatus: this.data.infostatus,
         },
         success: res => {
@@ -491,7 +492,7 @@ bvDeleteTempMedia(e) {
           LinkShow: that.data.linkshow,
           avatarUrl: that.data.avatarurl,
           nickName: that.data.nickname,
-          PublishDate: db.serverDate(),
+          PublishDate: Time.getCurrentTime(),
           InfoType: "Media",
           InfoStatus: that.data.infostatus,
           From:"创企服"

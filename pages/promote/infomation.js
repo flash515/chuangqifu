@@ -1,5 +1,6 @@
 const app = getApp();
 var utils = require("../../utils/utils")
+const Time= require("../../utils/getDates");
 Page({
   /**
    * 页面的初始数据
@@ -149,7 +150,7 @@ Page({
           avatarUrl: this.data.avatarurl,
           nickName: this.data.nickname,
           Comment: this.data.comment,
-          PublishDate: db.serverDate(),
+          PublishDate: Time.getCurrentTime(),
           Status: "unchecked",
           From:"创企服"
         },

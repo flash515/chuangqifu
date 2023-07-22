@@ -1,5 +1,6 @@
 const app = getApp();
 const utils = require("../../utils/utils")
+const Time= require("../../utils/getDates");
 Page({
 
   /**
@@ -297,7 +298,7 @@ _balanceupdate: async function () {
               BookingContent: "上门当面收款服务",
               BookingStatus: "unchecked",
               UserId:app.globalData.Guserid,
-              AddDate: db.serverDate(),
+              AddDate: Time.getCurrentTime(),
               From:"创企服"
             },
             success: res => {

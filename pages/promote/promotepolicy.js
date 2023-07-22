@@ -1,5 +1,6 @@
 const app = getApp();
 const utils = require("../../utils/utils")
+const Time= require("../../utils/getDates");
 Page({
 
   /**
@@ -96,8 +97,8 @@ Page({
           PLName: this.data.ordername,
           PLStartDate: this.data.orderstartdate,
           TotalFee: this.data.orderfee,
-          AddDate: db.serverDate(),
-          SysAddDate: new Date().getTime(),
+          AddDate: Time.getCurrentTime(),
+          SysAddDate: db.serverDate(),
           PaymentStatus: "unchecked",
           OrderStatus: "unchecked",
           From:"创企服"
@@ -130,7 +131,7 @@ Page({
           ProductId: this.data.orderlevel,
           ProductName: this.data.ordername,
           TotalFee: this.data.orderfee,
-          AddDate: db.serverDate(),
+          AddDate: Time.getCurrentTime(),
           OrderId: this.data.orderid,
           PaymentStatus: "unchecked",
           Database: "PROMOTEORDER",
@@ -284,7 +285,7 @@ Page({
     this.setData({
       image: app.globalData.Gimagearray,
       // startdate: str.getFullYear() + "-" + (str.getMonth() + 1) + "-" + str.getDate()
-      startdate:db.serverDate(),
+      startdate:Time.getCurrentTime(),
     })
     console.log(this.data.startdate)
 

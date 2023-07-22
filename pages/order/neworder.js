@@ -1,5 +1,6 @@
 const app = getApp()
 var utils = require("../../utils/utils")
+const Time= require("../../utils/getDates");
 Page({
 
   data: {
@@ -282,8 +283,8 @@ Page({
           ConsumePoints: this.data.consumepoints,
           TotalFee: this.data.totalfee,
 
-          SysAddDate: new Date().getTime(),
-          AddDate: db.serverDate(),
+          SysAddDate: db.serverDate(),
+          AddDate: Time.getCurrentTime(),
           PaymentStatus: "unchecked",
           OrderStatus: "unchecked",
           From:"创企服"
@@ -315,8 +316,8 @@ Page({
           UserId: app.globalData.Guserid,
           Count: this.data.count,
           TotalFee: this.data.totalfee,
-          SysAddDate: new Date().getTime(),
-          AddDate: db.serverDate(),
+          SysAddDate: db.serverDate(),
+          AddDate: Time.getCurrentTime(),
           PaymentStatus: "unchecked",
           From:"创企服"
         },
@@ -359,8 +360,8 @@ Page({
           // 本人消耗的积分
           ConsumeId: app.globalData.Guserid,
           ConsumePoints: this.data.consumepoints,
-          SysAddDate: new Date().getTime(),
-          AddDate: db.serverDate(),
+          SysAddDate: db.serverDate(),
+          AddDate: Time.getCurrentTime(),
           PaymentStatus: "unchecked",
           PointsStatus: "unchecked",
           From:"创企服"

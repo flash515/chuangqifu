@@ -19,15 +19,15 @@ function compareDate(d1, d2) {
   return ((new Date(d1.replace(/-/g, "\/"))) > (new Date(d2.replace(/-/g, "\/"))));
 }
 
-//当前时间获取
-function getCurrentTime(){
-  const date = new Date()
+//当前本地时间获取
+function getCurrentTime() {
+  var date = new Date()
   var year = date.getFullYear();
   var mouths = (date.getMonth() + 1) < 10 ? ("0" + (date.getMonth() + 1)) : (date.getMonth() + 1);
   var day = date.getDate() < 10 ? ("0" + date.getDate()) : date.getDate();
-  var hours = date.getHours();
-  var minutes = date.getMinutes();//当前分
-  var second = date.getSeconds()
+  var hours = date.getHours() < 10 ? ("0" + date.getHours()) : date.getHours(); //当前时
+  var minutes = date.getMinutes() < 10 ? ("0" + date.getMinutes()) : date.getMinutes(); //当前分
+  var second = date.getSeconds() < 10 ? ("0" + date.getSeconds()) : date.getSeconds(); //当前秒
   var currenttime = year + "-" + mouths + "-" + day + "\t" + hours + ":" + minutes + ":" + second;
   return currenttime
 }

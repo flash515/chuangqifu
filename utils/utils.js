@@ -1,5 +1,6 @@
 // 新建页面埋点
 const app = getApp()
+const Time= require("../utils/getDates");
 // 新用户信息初始化字段
 var newuserinfo = {
   nickName: "",
@@ -94,7 +95,7 @@ async function _NewMember(userphone, phoneremark) {
       data: {
         ["UserInfo.UserPhone"]: userphone,
         ["UserInfo.PhoneRemark"]: phoneremark,
-        ["TradeInfo.MemberTime"]: db.serverDate(),
+        ["TradeInfo.MemberTime"]: Time.getCurrentTime(),
       },
       success: res => {
         resolve(res)
@@ -121,8 +122,8 @@ async function _RegistPointsAdd() { // 通过云函数获取用户本人的小�
         // 间接推荐人
         IndirectInviterId: app.globalData.Gindirectinviterid,
         IndirectInviterPoints: 10,
-        SysAddDate: new Date().getTime(),
-        AddDate: db.serverDate(),
+        SysAddDate: db.serverDate(),
+        AddDate: Time.getCurrentTime(),
         PointsStatus: "checked",
         From: "创企服"
       },
@@ -300,8 +301,8 @@ async function _newuser(params, remark) {
     const db = app.globalData.c1.database()
     db.collection("USER").add({
       data: {
-        SysAddDate: new Date().getTime(),
-        AddDate: db.serverDate(),
+        SysAddDate: db.serverDate(),
+        AddDate: Time.getCurrentTime(),
         UserId: app.globalData.Guserid,
         Params: params,
         SystemInfo: app.globalData.Gsysteminfo,
@@ -331,8 +332,8 @@ async function _newuserpoints() {
           ProductName: "直接推广新用户积分",
           InviterId: app.globalData.Ginviterid,
           InviterPoints: 5,
-          SysAddDate: new Date().getTime(),
-          AddDate: db.serverDate(),
+          SysAddDate: db.serverDate(),
+          AddDate: Time.getCurrentTime(),
           PointsStatus: "checked",
           From: "创企服"
         },

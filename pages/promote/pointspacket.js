@@ -1,5 +1,6 @@
 var utils = require("../../utils/utils");
 const app = getApp()
+const Time= require("../../utils/getDates");
 Page({
 
   /**
@@ -145,8 +146,8 @@ Page({
         PacketId: this.data.transferpacketid,
         DoneeId: app.globalData.Guserid,
         DoneePoints: this.data.doneepoints,
-        SysAddDate: new Date().getTime(),
-        AddDate: db.serverDate(),
+        SysAddDate: db.serverDate(),
+        AddDate: Time.getCurrentTime(),
         PointsStatus: "checked",
         From:"创企服"
       },

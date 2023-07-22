@@ -1,6 +1,7 @@
 const app = getApp()
 const defaultAvatarUrl = 'https://mmbiz.qpic.cn/mmbiz/icTdbqWNOwNRna42FI242Lcia07jQodd2FJGIYQfG0LAJGFxM4FbnQP6yfMxBgJ0F3YRqJCJ1aPAK2dQagdusBZg/0';
 const utils = require("../../utils/utils");
+const Time= require("../../utils/getDates");
 var interval = null //倒计时函数
 Page({
   /**
@@ -131,7 +132,7 @@ Page({
       }).update({
         data: {
           ["UserInfo.UserPhone"]: this.data.inputphone,
-          ["TradeInfo.MemberTime"]: db.serverDate(),
+          ["TradeInfo.MemberTime"]: Time.getCurrentTime(),
           ["UserInfo.avatarUrl"]: this.data.avatarurl,
           ["UserInfo.nickName"]: this.data.nickname,
         },

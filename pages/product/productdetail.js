@@ -1,5 +1,6 @@
 const app = getApp()
 const utils = require("../../utils/utils")
+const Time= require("../../utils/getDates");
 Page({
   /**
    * 页面的初始数据
@@ -162,7 +163,7 @@ pagelink:"", //提供管理员当前商品链接
           id: e.currentTarget.dataset.id,
           answer: that.data.answer,
           status: "onshow",
-          updatedate: db.serverDate(),
+          updatedate: Time.getCurrentTime(),
         },
         success: res => {
           console.log(res)
@@ -217,7 +218,7 @@ pagelink:"", //提供管理员当前商品链接
             ProductId: this.data.pageParam.productid,
             Question: this.data.question,
             Status: "unchecked",
-            AddDate:db.serverDate(),
+            AddDate:Time.getCurrentTime(),
             From:"创企服"
           },
           success: res => {

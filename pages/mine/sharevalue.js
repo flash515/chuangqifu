@@ -52,7 +52,7 @@ Page({
         }
         var fliter = []
         for (var i = 0; i < temparray.length; i++) {
-          if (temparray[i].SysAddDate > (new Date().getTime() - 30 * 86400000)) {
+          if (temparray[i].AddDate > (new Date().getTime() - 30 * 86400000)) {
             fliter.push(temparray[i]);
           }
         }
@@ -105,7 +105,7 @@ Page({
         // 间接30天订单
         var fliter = []
         for (var i = 0; i < temparray.length; i++) {
-          if (temparray[i].SysAddDate > (new Date().getTime() - 30 * 86400000)) {
+          if (temparray[i].AddDate > (new Date().getTime() - 30 * 86400000)) {
             fliter.push(temparray[i]);
           }
         }

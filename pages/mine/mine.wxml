@@ -126,7 +126,6 @@
     <l-list title="资讯分享管理" icon="setting" url="../manage/mediamanage" />
     <l-list title="供求简讯管理" icon="setting" url="../manage/infomanage" />
     <l-list title="评论管理" icon="setting" url="../manage/commentmanage" />
-    <l-list title="税筹项目管理" icon="setting" url="../manage/scheme" />
     <l-list title="商品类别管理" icon="setting" url="../manage/sortedit" />
     <l-list title="商品管理" icon="setting" url="../manage/productview" />
     <l-list title="管理员订阅消息管理" icon="notification" bind:lintap="bvSubMessage" />

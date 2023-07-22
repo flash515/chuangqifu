@@ -1,5 +1,6 @@
 const app = getApp()
 var utils = require("../../utils/utils")
+const Time= require("../../utils/getDates");
 Page({
 
   /**
@@ -142,7 +143,7 @@ Page({
           avatarUrl: this.data.avatarurl,
           nickName: this.data.nickname,
           CreatorPhone:app.globalData.Guserdata.UserInfo.UserPhone,
-          PublishDate: db.serverDate(),
+          PublishDate: Time.getCurrentTime(),
           InfoStatus: "unchecked",
         },
         success: res => {
@@ -189,7 +190,7 @@ Page({
           CreatorPhone: app.globalData.Guserdata.UserInfo.UserPhone,
           avatarUrl: this.data.avatarurl,
           nickName: this.data.nickname,
-          PublishDate: db.serverDate(),
+          PublishDate: Time.getCurrentTime(),
           InfoStatus: "unchecked",
           From:"创企服"
         },
