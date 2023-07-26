@@ -1,6 +1,8 @@
 .bgimage {
   width: 750rpx;
   height: 600rpx;
+  border-radius: 5px;
+  box-shadow: 0 0 5px #5f687e;
   position: absolute;
   z-index: -1;
   background-color: aquamarine;
