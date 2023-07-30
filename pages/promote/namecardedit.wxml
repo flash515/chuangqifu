@@ -1,5 +1,6 @@
 <!-- 背景层 -->
 <image class="bgimage" src="{{tempbg}}" mode="scaleToFill" />
+
 <!-- 名片层 -->
 <view class="uplayout">
   <view class="namecard">
@@ -22,6 +23,7 @@
     </view>
   </view>
 </view>
+
 <view wx:if="{{tempimages}}" wx:for="{{tempimages}}" wx:key="key">
   <image style="display: block;width: 100%;" src="{{item}}" mode="scaleToFill" />
 </view>

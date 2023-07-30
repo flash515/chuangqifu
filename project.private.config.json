@@ -15,6 +15,13 @@
           "query": "",
           "launchMode": "default",
           "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/promote/namecard",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }

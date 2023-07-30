@@ -1,7 +1,10 @@
+
 .bgimage {
   width: 750rpx;
   height: 600rpx;
   position: absolute;
+  border-radius: 5px;
+  box-shadow: 0 0 5px #5f687e;
   z-index: -1;
   background-color: aquamarine;
 }
@@ -13,7 +16,6 @@
   z-index: 1;
   top: 0rpx;
   left: 0rpx;
-  margin: 0rpx;
 }
 
 .namecard {
@@ -49,7 +51,7 @@
 
 .companylogo {
   width : 180rpx;
-  height : 180rpx; 
+  height: 180rpx;
 }
 
 .username {

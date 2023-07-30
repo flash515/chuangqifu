@@ -2,6 +2,7 @@
 <l-mask show="{{loginshow}}" center="true">
   <loginmask bind:myevent="onLogin"></loginmask>
 </l-mask>
+
 <!-- 背景层 -->
 <image class="bgimage" src="{{cardinfo.CardBg}}" mode="scaleToFill" />
 <!-- 名片层 -->
@@ -26,6 +27,8 @@
     </view>
   </view>
 </view>
+
+
 <view wx:if="{{cardinfo.CardImages}}" wx:for="{{cardinfo.CardImages}}" wx:key="key">
   <image style="display: block;width: 100%;" src="{{item}}" mode="scaleToFill" />
 </view>
@@ -36,8 +39,8 @@
   </view>
   <text>\n</text>
   <view wx:if="{{linkshow}}">
-          <l-button type="warning" size="large" shape="semicircle" bind:lintap="bvLink" data-link="{{link}}">创企服商品推荐</l-button>
-        </view>
+    <l-button type="warning" size="large" shape="semicircle" bind:lintap="bvLink" data-link="{{link}}">创企服商品推荐</l-button>
+  </view>
   <text>\n</text>
 
   <view wx:if="{{tempinviterid}}" style="display:flex; flex-direction:row; justify-content:space-between;">
