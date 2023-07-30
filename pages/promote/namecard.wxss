@@ -36,7 +36,7 @@
 
 .companyname {
   width: 690rpx;
-  font-size: 55rpx;
+  font-size: 50rpx;
   font-weight: bold;
   color: rgb(0, 0, 0);
   text-align: center;
@@ -48,7 +48,7 @@
 }
 
 .username {
-  font-size: 45rpx;
+  font-size: 40rpx;
   font-weight: bold;
   color: rgb(0, 0, 0);
 }
