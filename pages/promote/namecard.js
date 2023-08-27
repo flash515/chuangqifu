@@ -127,7 +127,7 @@ Page({
       if (options.userid) {
         // 如果是通过分享链接进入
         this.data.params = options
-        this.data.remark = "创企服用户分享名片进入"
+        this.data.remark = "创企服用户分享名片链接进入"
         this.data.creatorid = options.creatorid
         this.setData({
           // 页面根据tempinviterid的值设置了显隐渲染，所以需要用setData赋值
@@ -143,14 +143,17 @@ Page({
         this.data.params = scene
         this.data.tempinviterid = scene.split('&')[0]
         this.data.creatorid = scene.split('&')[1]
-        this.data.remark = "创企服用户分享小程序码进入"
-        // 该功能仅管理员使用，默认使用管理员unionid做推荐人
+        this.data.remark = "创企服用户分享名片小程序码进入"
+        // 该功能仅管理员使用，默认使用管理员unionid做推荐人 
         if (this.data.tempinviterid == "") {
           this.data.tempinviterid = "oo7kw5rohI15ogf6TCX_SGAxYUao"
+          this.data.remark = "通过管理员名片小程序码进入"
         }
       }
       // 通过分享进入，执行用户登录操作，展示分享人的名片信息
       await utils.UserLogon(this.data.tempinviterid, this.data.params, this.data.remark)
+    // 通过用户分享名片小程序码则进行查询，通过管理员分享小程序码则跳过  
+      if(this.data.creatorid !="" && this.data.creatorid != undefined){
       // 本地函数查询名片信息
       const db = app.globalData.c1.database()
       db.collection('NAMECARD').where({
@@ -228,6 +231,11 @@ Page({
           }
         }
       })
+    }else{
+        this.setData({
+            cardinfo: this.data.sample
+          })
+    }
     } else {
       if (options.creatorid) {
         // 通过编辑之后返回打开
