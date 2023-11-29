@@ -129,7 +129,12 @@
   background-color: #f3f3f3;
 
 }
-
+.checkbox {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-left: 25rpx;
+  }
 /* .box{
   position: absolute;
   left: 0;

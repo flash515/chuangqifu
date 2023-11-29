@@ -148,6 +148,12 @@
         </view>
       </l-image-picker>
     </l-tabpanel>
+
+    <l-tabpanel tab="名片设置" key="five" slot="five">
+        <l-checkbox-group bind:linchange="bvLinkShow">
+      <l-checkbox placement="right" key="1" l-class="checkbox" checked="{{linkshow}}">显示商品推荐链接</l-checkbox>
+    </l-checkbox-group>
+    </l-tabpanel>
   </l-tabs>
   <text>\n</text>
 

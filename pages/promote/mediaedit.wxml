@@ -73,7 +73,7 @@
       <l-checkbox placement="right" key="1" l-class="checkbox" checked="{{infotitleshow}}">显示标题</l-checkbox>
     </l-checkbox-group>
     <l-checkbox-group bind:linchange="bvLinkShow">
-      <l-checkbox placement="right" key="1" l-class="checkbox" checked="{{linkshow}}">显示商品推荐</l-checkbox>
+      <l-checkbox placement="right" key="1" l-class="checkbox" checked="{{linkshow}}">显示商品推荐链接</l-checkbox>
     </l-checkbox-group>
     <l-checkbox-group bind:linchange="bvPrivate">
       <l-checkbox placement="right" key="1" l-class="checkbox" checked="{{private}}">非公开发布(只能通过资讯分享链接打开)</l-checkbox>
