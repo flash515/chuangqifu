@@ -10,15 +10,14 @@
     <l-input label="商品编号：" type="text" label-layout="left" label-width="270" placeholder="{{productid}}" disabled="{{true}}" />
     <l-input label="商品名称：" type="text" label-layout="left" label-width="270" placeholder="{{productname}}" disabled="{{true}}" />
     <l-input label="办理费用：" type="text" label-layout="left" label-width="270" placeholder="{{orderprice}}" disabled="{{true}}" />
-    <view class="flex-row">
-      <view>
-        <l-input label="办理数量：" label-layout="left" label-width="270" disabled="{{true}}" />
-      </view>
-      <view>
-        <l-counter count="1" min="1" bind:lintap="bvCount" disabled="{{submitted}}" />
-      </view>
-      <view class="line"></view>
-    </view>
+    <view style="display:flex; flex-direction:row; justify-content:flex-start;align-items:center">
+          <label class="labal">办理数量：</label>
+          <view style="padding-left: 115rpx;">
+            <l-counter count="1" min="1" bind:lintap="bvCount" disabled="{{submitted}}"/>
+          </view>
+        </view>
+        <view class="line"></view>
+
     <view>
       <l-input label="订单总费用（元）：" placeholder="{{temptotalfee}}" type="number" label-layout="left" label-width="270" disabled="{{true}}" />
     </view>
@@ -28,15 +27,13 @@
     <view>
       <l-input label="本次可用积分：" placeholder="{{maxpoints}}" label-layout="left" label-width="270" disabled="{{true}}" />
     </view>
-    <view class="flex-row">
-      <view>
-        <l-input label="本次使用积分：" label-layout="left" label-width="270" disabled="{{true}}" />
-      </view>
-      <view>
-        <l-counter round-float="true" count="{{consumepoints}}" min="0" step="10" max="{{maxpoints}}" bind:lintap="bvConsumePoints" disabled="{{submitted}}" />
-      </view>
-      <view class="line"></view>
-    </view>
+    <view style="display:flex; flex-direction:row; justify-content:flex-start;align-items:center">
+          <label class="labal">本次使用积分：</label>
+          <view style="padding-left: 65rpx;">
+            <l-counter round-float="true" count="{{consumepoints}}" min="0" step="10" max="{{maxpoints}}" bind:lintap="bvConsumePoints" disabled="{{submitted}}" />
+          </view>
+        </view>
+        <view class="line"></view>
     <view>
       <l-input label="实际支付费用（元）：" placeholder="{{totalfee}}" type="number" label-layout="left" label-width="270" disabled="{{true}}" />
     </view>

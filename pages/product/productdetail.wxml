@@ -86,11 +86,12 @@
       <text>\t\n</text>
       <!-- 附件资料 -->
       <label class="title1">附件资料：</label>
-      <view wx:if="{{product.AttachmentFile != undefined && product.AttachmentFile != ''}}">
-        <view wx:for="{{product.AttachmentFile}}" wx:for-item="value" wx:for-index="key" wx:key="key">
-          <l-button data-link="{{value}}" bind:lintap="bvCopyDownLink" plain="{{true}}">{{key}}</l-button>
+      <view wx:for="{{product.AttachmentFile}}" wx:for-item="item" wx:key="key">
+            <view wx:for="{{item}}" wx:for-item="value" wx:for-index="key1" wx:key="key">
+          <l-button data-link="{{value}}" bind:lintap="bvDownLoad" plain="{{true}}">{{key1}}</l-button>
+            </view>
         </view>
-      </view>
+
     </view>
 
     <view wx:if="{{QAShow}}">

@@ -20,6 +20,7 @@ unit-color="#3963bc"
 size="50" value="{{balance}}"></l-price></view>
 </l-card>
 <view class="mainframe">
+    <text style="display:flex; justify-content:space-between;font-size: 28rpx;color: #3683d6;">系统将定期清理已过期的未付款订单纪录，请及时付款！</text>
 <l-tabs bind:linchange="changeTabs">
   <l-tabpanel tab="付款记录" key="one" slot="one">
     <l-button class="mainbtn" data-name="PAYMENT" bind:lintap="bvRefresh" width="600" shape="semicircle" plain="{{true}}">刷新</l-button>

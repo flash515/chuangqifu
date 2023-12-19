@@ -18,6 +18,13 @@
   background-color: #f3f3f3;
 
 }
+.labal {
+    height: 80rpx;
+    line-height: 80rpx;
+    font-size: 28rpx;
+    color: #9a9a9a;
+    margin-left: 25rpx;
+  }
 .flex-row{
   display: flex;
   align-items: center;

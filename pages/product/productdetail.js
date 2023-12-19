@@ -119,30 +119,31 @@ pagelink:"", //提供管理员当前商品链接
       urls: imgList // 需要预览的图片http链接列表
     })
   },
-  //复制下载链接
-  bvCopyDownLink(e) {
-    var url = e.currentTarget.dataset.link; //获取data-link中的值
-    // var url=this.data.url;
-    wx.setClipboardData({
-      data: url,
-      success: function (res) {
-        wx.hideToast();
-        // self.setData({copyTip:true}),
-        wx.showModal({
-          title: '提示',
-          content: '该文件下载链接已复制到剪贴板，请打开手机浏览器，在手机浏览器地址栏中粘贴下载链接并下载、保存文件',
-          success: function (res) {
-            if (res.confirm) {
-              console.log('确定')
-            } else if (res.cancel) {
-              console.log('取消')
-            }
-          }
-        })
 
-      }
-    })
-  },
+  //   下载文件
+bvDownLoad(e){
+    wx.showLoading({
+        title: '下载中',
+      });
+      let fileId=e.currentTarget.dataset.link
+      console.log("下载文件：",fileId);
+      app.globalData.c1.downloadFile({
+        fileID: fileId,
+        success: (result) => {
+          console.log("下载成功",result.tempFilePath);
+        },
+        fail: (res) => {
+          console.log("下载失败：",res);
+          wx.showToast({
+            title: res.errMsg,
+            icon:'error'
+          });
+        },
+        complete: (res) => {
+          wx.hideLoading();
+        },
+      })
+},
   bvReply:async function(e) {
     console.log(e.currentTarget.dataset.id)
     

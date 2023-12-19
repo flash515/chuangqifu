@@ -8,6 +8,7 @@
   <text>会员订单记录</text>
 </view>
 <view class="mainframe">
+    <text style="display:flex; justify-content:space-between;font-size: 28rpx;color: #3683d6;">系统将定期清理已过期的未付款订单纪录，请及时付款！</text>
   <view wx:if="{{loginbtnshow}}" style="display:flex; justify-content:center;">
     <l-button size="large" shape="semicircle" plain="{{true}}" bind:lintap="bvLoginShow">请登录后浏览</l-button>
   </view>

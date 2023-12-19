@@ -5,7 +5,11 @@
     "compileHotReLoad": true,
     "urlCheck": false
   },
+<<<<<<< Updated upstream
   "libVersion": "3.2.3",
+=======
+  "libVersion": "3.2.5",
+>>>>>>> Stashed changes
   "condition": {
     "miniprogram": {
       "list": [
