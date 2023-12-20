@@ -79,6 +79,30 @@
         <view class="text">医疗器械证</view>
       </navigator>
     </l-grid-item>
+    <l-grid-item key='nine' slot='nine' l-grid-item-class="grid-item">
+      <navigator id="危化许可证" bindtap="handlerClick" url="../product/productview?category2=危化经营许可证">
+        <l-icon name='order' />
+        <view class="text">危化许可证</view>
+      </navigator>
+    </l-grid-item>
+    <l-grid-item key='ten' slot='ten' l-grid-item-class="grid-item">
+      <navigator id="税务检测" bindtap="handlerClick" url="../product/productview?category2=税务风险检测">
+        <l-icon name='order' />
+        <view class="text">税务检测</view>
+      </navigator>
+    </l-grid-item>
+    <l-grid-item key='eleven' slot='eleven' l-grid-item-class="grid-item">
+      <navigator id="信用修复" bindtap="handlerClick" url="../product/productview?category2=企业信用修复">
+        <l-icon name='order' />
+        <view class="text">信用修复</view>
+      </navigator>
+    </l-grid-item>
+    <l-grid-item key='twelve' slot='twelve' l-grid-item-class="grid-item">
+      <navigator id="资产评估" bindtap="handlerClick" url="../product/productview?category2=资产价格评估">
+        <l-icon name='order' />
+        <view class="text">资产评估</view>
+      </navigator>
+    </l-grid-item>
   </l-grid>
   <navigator url="../promote/pricepolicy">
         <image id="价格优惠" bindtap="handlerClick" style="width: 100%; height: 50px; border-radius: 5px;" src="https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/setting/image/%E4%BC%98%E6%83%A0.jpg?sign=be948b5a0330971708b8ced20a85fda2&t=1686391985"></image>

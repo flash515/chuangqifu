@@ -119,9 +119,8 @@ pagelink:"", //提供管理员当前商品链接
       urls: imgList // 需要预览的图片http链接列表
     })
   },
-
   //   下载文件
-bvDownLoad(e){
+  bvDownLoad(e){
     wx.showLoading({
         title: '下载中',
       });
@@ -131,19 +130,25 @@ bvDownLoad(e){
         fileID: fileId,
         success: (result) => {
           console.log("下载成功",result.tempFilePath);
+          utils._SuccessToast("下载成功")
+          const filePath = result.tempFilePath
+          wx.openDocument({
+            filePath: filePath,
+            success: function (res) {
+              console.log('打开文档成功')
+            }
+          })
         },
         fail: (res) => {
           console.log("下载失败：",res);
-          wx.showToast({
-            title: res.errMsg,
-            icon:'error'
-          });
+          utils._ErrorToast("下载失败")
         },
         complete: (res) => {
           wx.hideLoading();
         },
       })
 },
+
   bvReply:async function(e) {
     console.log(e.currentTarget.dataset.id)
     
@@ -412,6 +417,17 @@ bvDownLoad(e){
       },
     }
   },
-
+    /**
+   * 分享到朋友圈
+   * 前提是必须定义了：﻿onShareAppMessage，传参是在query中定义
+   * 这个方法中分享的地址就是当前页面地址，所以不需要指定path
+   */
+  onShareTimeline: function (res) {
+    return {
+      title: '优品推荐：',
+      query: 'userid=' + app.globalData.Guserid + '&productid=' + this.data.pageParam.productid,
+      imageUrl: '', //封面，留空自动抓取500*400生成图片
+    }
+  }
 
 })
