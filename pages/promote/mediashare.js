@@ -795,6 +795,19 @@ Page({
         }
       },
     }
-  }
+  },
+  /**
+ * 分享到朋友圈
+ * 前提是必须定义了：﻿onShareAppMessage，传参是在query中定义
+ * 这个方法中分享的地址就是当前页面地址，所以不需要指定path
+ */
+onShareTimeline: function (res) {
+  console.log(this.data.infocover)
+return {
+  title: this.data.infotitle,
+  query: 'userid=' + app.globalData.Guserid + '&infoid=' + this.data.infoid,
+  imageUrl: this.data.infocover, //封面
+}
+}
 
 })
