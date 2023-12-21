@@ -423,10 +423,11 @@ pagelink:"", //提供管理员当前商品链接
    * 这个方法中分享的地址就是当前页面地址，所以不需要指定path
    */
   onShareTimeline: function (res) {
+      console.log(this.data.swiperData[0])
     return {
       title: this.data.product.ProductName,
       query: 'userid=' + app.globalData.Guserid + '&productid=' + this.data.pageParam.productid,
-      imageUrl: '', //封面，留空自动抓取500*400生成图片
+      imageUrl: this.data.swiperData[0], //封面
     }
   }
 
