@@ -424,7 +424,7 @@ pagelink:"", //提供管理员当前商品链接
    */
   onShareTimeline: function (res) {
     return {
-      title: '优品推荐：',
+      title: this.data.product.ProductName,
       query: 'userid=' + app.globalData.Guserid + '&productid=' + this.data.pageParam.productid,
       imageUrl: '', //封面，留空自动抓取500*400生成图片
     }
