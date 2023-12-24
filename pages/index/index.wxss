@@ -1,11 +1,21 @@
-.icon{
-    width: 80rpx; 
-    height: 80rpx; 
-    border-style: solid;
-    border-width: 1px;
-    border-color: #9a9a9a;
-    border-radius:  10px;
+.icon {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 80rpx;
+  height: 80rpx;
+  line-height: 35rpx;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #9a9a9a;
+  border-radius: 10px;
+  font-size: 35rpx;
+  color: goldenrod;
+  font-weight: bold;
+  font-family: "Microsoft YaHei", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
 }
-.grid-item{
+
+.grid-item {
   padding: 15rpx !important;
 }

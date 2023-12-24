@@ -1,7 +1,7 @@
 <wxs src="../../utils/sub.wxs" module="tools" />
 <!-- 登录层 -->
-<l-mask show="{{loginshow}}" center="true" >
-<loginmask bind:myevent="onLogin"></loginmask>
+<l-mask show="{{loginshow}}" center="true">
+  <loginmask bind:myevent="onLogin"></loginmask>
 </l-mask>
 <!-- 轮播头图 -->
 <Swiper class="swiper" image="{{image}}"></Swiper>
@@ -32,149 +32,128 @@
   <l-list title="代理代办服务" icon="notification" right-desc="更多" tag-position="right" url="../product/allproduct" />
   <l-grid row-num="4">
     <l-grid-item key='one' slot='one' l-grid-item-class="grid-item">
-      <navigator id="地址挂靠" bindtap="handlerClick" url="../product/productview?category2=地址挂靠">
-        <image class="icon" src="https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/setting/image/%E5%9C%B0%E5%9D%80%E6%8C%82%E9%9D%A0icon.png?sign=745ea7c37318af9de624b4895f50cd10&t=1703314434"></image>
+      <navigator id="地址挂靠" bindtap="handlerClick" url="../product/productview?category2=地址挂靠" style="display:flex; flex-direction:column;justify-content:center;align-items:center;">
+        <view class="icon">地址挂靠</view>
         <view class="text">地址挂靠</view>
       </navigator>
     </l-grid-item>
     <l-grid-item key='two' slot='two' l-grid-item-class="grid-item">
-      <navigator id="工商注册" bindtap="handlerClick" url="../product/productview?category2=工商注册">
-        <image class="icon" src="https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/setting/image/%E5%B7%A5%E5%95%86%E6%B3%A8%E5%86%8Cicon.png?sign=b5b0babe514f86978cd60466db5759d7&t=1703314461"></image>
+      <navigator id="工商注册" bindtap="handlerClick" url="../product/productview?category2=工商注册" style="display:flex; flex-direction:column;justify-content:center;align-items:center;">
+        <view class="icon">工商注册</view>
         <view class="text">工商注册</view>
       </navigator>
     </l-grid-item>
     <l-grid-item key='three' slot='three' l-grid-item-class="grid-item">
-      <navigator id="记账报税" bindtap="handlerClick" url="../product/productview?category2=记账报税">
-        <image class="icon" src="https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/setting/image/%E8%AE%B0%E8%B4%A6%E6%8A%A5%E7%A8%8Eicon.png?sign=4cf64f148ac6a35960959be99dc641a7&t=1703314498"></image>
+      <navigator id="记账报税" bindtap="handlerClick" url="../product/productview?category2=记账报税" style="display:flex; flex-direction:column;justify-content:center;align-items:center;">
+        <view class="icon">记账报税</view>
         <view class="text">记账报税</view>
       </navigator>
     </l-grid-item>
     <l-grid-item key='four' slot='four' l-grid-item-class="grid-item">
-      <navigator id="个体户托管" bindtap="handlerClick" url="../product/productview?category2=个体户托管">
-        <image class="icon" src="https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/setting/image/%E4%B8%AA%E4%BD%93%E6%89%98%E7%AE%A1icon.png?sign=8553bb4ee8e01b77a42736c5d1be71cd&t=1703314556"></image>
+      <navigator id="个体户托管" bindtap="handlerClick" url="../product/productview?category2=个体户托管" style="display:flex; flex-direction:column;justify-content:center;align-items:center;">
+        <view class="icon">个体托管</view>
         <view class="text">个体户托管</view>
       </navigator>
     </l-grid-item>
     <l-grid-item key='five' slot='five' l-grid-item-class="grid-item">
-      <navigator id="公司托管" bindtap="handlerClick" url="../product/productview?category2=公司托管">
-        <image class="icon" src="https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/setting/image/%E5%85%AC%E5%8F%B8%E6%89%98%E7%AE%A1icon.png?sign=c2df79e3f8cfbde5db17d98d8fccd1dd&t=1703314643"></image>
+      <navigator id="公司托管" bindtap="handlerClick" url="../product/productview?category2=公司托管" style="display:flex; flex-direction:column;justify-content:center;align-items:center;">
+        <view class="icon">公司托管</view>
         <view class="text">公司托管</view>
       </navigator>
     </l-grid-item>
     <l-grid-item key='six' slot='six' l-grid-item-class="grid-item">
-      <navigator id="食品经营证" bindtap="handlerClick" url="../product/productview?category2=食品经营许可证">
-        <image class="icon" src="https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/setting/image/%E9%A3%9F%E5%93%81%E7%BB%8F%E8%90%A5icon.png?sign=40fcffabc47201d24bddce0a20528f71&t=1703314667"></image>
+      <navigator id="食品经营证" bindtap="handlerClick" url="../product/productview?category2=食品经营许可证" style="display:flex; flex-direction:column;justify-content:center;align-items:center;">
+        <view class="icon">食品经营</view>
         <view class="text">食品经营证</view>
       </navigator>
     </l-grid-item>
     <l-grid-item key='seven' slot='seven' l-grid-item-class="grid-item">
-      <navigator id="道路运输证" bindtap="handlerClick" url="../product/productview?category2=道路运输许可证">
-        <image class="icon" src="https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/setting/image/%E9%81%93%E8%B7%AF%E8%BF%90%E8%BE%93icon.png?sign=2a474982fa0026fa1edce2bb911c1b7f&t=1703314701"></image>
+      <navigator id="道路运输证" bindtap="handlerClick" url="../product/productview?category2=道路运输许可证" style="display:flex; flex-direction:column;justify-content:center;align-items:center;">
+        <view class="icon">道路运输</view>
         <view class="text">道路运输证</view>
       </navigator>
     </l-grid-item>
     <l-grid-item key='eight' slot='eight' l-grid-item-class="grid-item">
-      <navigator id="医疗器械证" bindtap="handlerClick" url="../product/productview?category2=医疗器械许可证">
-        <image class="icon" src="https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/setting/image/%E5%8C%BB%E7%96%97%E5%99%A8%E6%A2%B0icon.png?sign=d5c1da06ec43ec019865855642afcbea&t=1703315044"></image>
+      <navigator id="医疗器械证" bindtap="handlerClick" url="../product/productview?category2=医疗器械许可证" style="display:flex; flex-direction:column;justify-content:center;align-items:center;">
+        <view class="icon">医疗器械</view>
         <view class="text">医疗器械证</view>
       </navigator>
     </l-grid-item>
     <l-grid-item key='nine' slot='nine' l-grid-item-class="grid-item">
-      <navigator id="危化许可证" bindtap="handlerClick" url="../product/productview?category2=危化经营许可证">
-        <image class="icon" src="https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/setting/image/%E5%8D%B1%E5%8C%96%E7%BB%8F%E8%90%A5icon.png?sign=d48e395d8eb3759ee0e6a581a6c17b4e&t=1703315066"></image>
+      <navigator id="危化许可证" bindtap="handlerClick" url="../product/productview?category2=危化经营许可证" style="display:flex; flex-direction:column;justify-content:center;align-items:center;">
+        <view class="icon">危化经营</view>
         <view class="text">危化许可证</view>
       </navigator>
     </l-grid-item>
     <l-grid-item key='ten' slot='ten' l-grid-item-class="grid-item">
-      <navigator id="税务检测" bindtap="handlerClick" url="../product/productview?category2=税务风险检测">
-        <image class="icon" src="https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/setting/image/%E7%A8%8E%E5%8A%A1%E6%A3%80%E6%B5%8Bicon.png?sign=745a491bc779a70d696243b09ab3404b&t=1703315100"></image>
+      <navigator id="税务检测" bindtap="handlerClick" url="../product/productview?category2=税务风险检测" style="display:flex; flex-direction:column;justify-content:center;align-items:center;">
+        <view class="icon">税务检测</view>
         <view class="text">税务检测</view>
       </navigator>
     </l-grid-item>
     <l-grid-item key='eleven' slot='eleven' l-grid-item-class="grid-item">
-      <navigator id="信用修复" bindtap="handlerClick" url="../product/productview?category2=企业信用修复">
-        <image class="icon" src="https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/setting/image/%E4%BF%A1%E7%94%A8%E4%BF%AE%E5%A4%8Dicon.png?sign=b191e47181e84bbe79c2898f2b80e5aa&t=1703315118"></image>
+      <navigator id="信用修复" bindtap="handlerClick" url="../product/productview?category2=企业信用修复" style="display:flex; flex-direction:column;justify-content:center;align-items:center;">
+        <view class="icon">信用修复</view>
         <view class="text">信用修复</view>
       </navigator>
     </l-grid-item>
     <l-grid-item key='twelve' slot='twelve' l-grid-item-class="grid-item">
-      <navigator id="资产评估" bindtap="handlerClick" url="../product/productview?category2=资产价格评估">
-        <image class="icon" src="https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/setting/image/%E8%B5%84%E4%BA%A7%E8%AF%84%E4%BC%B0icon.png?sign=a411fffa7da42f3545206df6cb12d8e3&t=1703315137"></image>
+      <navigator id="资产评估" bindtap="handlerClick" url="../product/productview?category2=资产价格评估" style="display:flex; flex-direction:column;justify-content:center;align-items:center;">
+        <view class="icon">资产评估</view>
         <view class="text">资产评估</view>
       </navigator>
     </l-grid-item>
   </l-grid>
   <navigator url="../promote/pricepolicy">
-        <image id="价格优惠" bindtap="handlerClick" style="width: 100%; height: 50px; border-radius: 5px;" src="https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/setting/image/%E4%BC%98%E6%83%A0.jpg?sign=be948b5a0330971708b8ced20a85fda2&t=1686391985"></image>
-      </navigator>
+    <image id="价格优惠" bindtap="handlerClick" style="width: 100%; height: 50px; border-radius: 5px;" src="https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/setting/image/%E4%BC%98%E6%83%A0.jpg?sign=be948b5a0330971708b8ced20a85fda2&t=1686391985"></image>
+  </navigator>
   <l-list title="辅助工具" icon="notification" />
   <l-grid>
     <l-grid-item key='one' slot='one' l-grid-item-class="grid-item">
-      <navigator id="快捷会议室" bindtap="handlerClick" url='../tools/meetingroom/meetingroom'>
-        <image class="icon" src="https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/setting/image/%E5%BF%AB%E6%8D%B7%E4%BC%9A%E8%AE%AEicon.png?sign=2bb413be86c409f143167305657d72b0&t=1703315191"></image>
+      <navigator id="快捷会议室" bindtap="handlerClick" url='../tools/meetingroom/meetingroom' style="display:flex; flex-direction:column;justify-content:center;align-items:center;">
+        <view class="icon">快捷会议</view>
         <view class="text">快捷会议室</view>
       </navigator>
     </l-grid-item>
 
     <l-grid-item key='two' slot='two' l-grid-item-class="grid-item">
-      <navigator id="供求信息" bindtap="handlerClick" url='../promote/infomation'>
-        <image class="icon" src="https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/setting/image/%E4%BE%9B%E6%B1%82%E4%BF%A1%E6%81%AFicon.png?sign=4602a3cff8df36322398b05d72cec353&t=1703315221"></image>
+      <navigator id="供求信息" bindtap="handlerClick" url='../promote/infomation' style="display:flex; flex-direction:column;justify-content:center;align-items:center;">
+        <view class="icon">供求信息</view>
         <view class="text">供求信息</view>
       </navigator>
     </l-grid-item>
 
     <l-grid-item key='three' slot='three' l-grid-item-class="grid-item">
-      <navigator id="资讯分享" bindtap="handlerClick" url='../promote/mediashare'>
-        <image class="icon" src="https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/setting/image/%E8%B5%84%E8%AE%AF%E5%88%86%E4%BA%ABicon.png?sign=7a7f91ac71ad58da6c57975815ee6d97&t=1703315242"></image>
+      <navigator id="资讯分享" bindtap="handlerClick" url='../promote/mediashare' style="display:flex; flex-direction:column;justify-content:center;align-items:center;">
+        <view class="icon">资讯分享</view>
         <view class="text">资讯分享</view>
       </navigator>
     </l-grid-item>
 
     <l-grid-item key='four' slot='four' l-grid-item-class="grid-item">
-      <navigator id="数智名片" bindtap="handlerClick" url='../promote/namecard'>
-        <image class="icon" src="https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/setting/image/%E6%95%B0%E6%99%BA%E5%90%8D%E7%89%87icon.png?sign=c2a3881d3460cf801c1792c2196bf673&t=1703315256"></image>
+      <navigator id="数智名片" bindtap="handlerClick" url='../promote/namecard' style="display:flex; flex-direction:column;justify-content:center;align-items:center;">
+        <view class="icon">数智名片</view>
         <view class="text">数智名片</view>
       </navigator>
     </l-grid-item>
 
     <l-grid-item key='five' slot='five' l-grid-item-class="grid-item">
-      <navigator id="企业广场" bindtap="handlerClick" url='../promote/companysquare'>
-        <image class="icon" src="https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/setting/image/%E4%BC%81%E4%B8%9A%E5%B9%BF%E5%9C%BAicon.png?sign=73e9456c5982cbafaff5cc0eef5faebe&t=1703315277"></image>
+      <navigator id="企业广场" bindtap="handlerClick" url='../promote/companysquare' style="display:flex; flex-direction:column;justify-content:center;align-items:center;">
+        <view class="icon">企业广场</view>
         <view class="text">企业广场</view>
       </navigator>
     </l-grid-item>
 
     <l-grid-item key='six' slot='six' l-grid-item-class="grid-item">
-      <navigator id="小程序码" bindtap="handlerClick" url='../promote/minicode'>
-        <image class="icon" src="https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/setting/image/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E7%A0%81icon.png?sign=19f3a803b64bbe1d0c49a3463c494860&t=1703315293"></image>
+      <navigator id="小程序码" bindtap="handlerClick" url='../promote/minicode' style="display:flex; flex-direction:column;justify-content:center;align-items:center;">
+        <view class="icon">小程序码</view>
         <view class="text">小程序码</view>
       </navigator>
     </l-grid-item>
-<!-- 
-    <l-grid-item key='seven' slot='seven' l-grid-item-class="grid-item">
-      <navigator id="小程序码" bindtap="handlerClick" url='../promote/minicode'>
-        <l-icon name='order' />
-        <view class="text">小程序码</view>
-      </navigator>
-    </l-grid-item>
-
-    <l-grid-item key='eight' slot='eight' l-grid-item-class="grid-item">
-      <navigator id="推广海报" bindtap="handlerClick" url='../promote/poster'>
-        <l-icon name='order' />
-        <view class="text">推广海报</view>
-      </navigator>
-    </l-grid-item>
-
-    <l-grid-item key='nine' slot='nine' l-grid-item-class="grid-item">
-      <navigator id="幸运抽奖" bindtap="handlerClick" url='../promote/luckydraw'>
-        <l-icon name='order' />
-        <view class="text">幸运抽奖</view>
-      </navigator>
-    </l-grid-item> -->
   </l-grid>
   <navigator id="推广奖励" bindtap="handlerClick" url="../promote/promotepolicy">
-        <image style="width: 100%; height: 50px; border-radius:5px;" src="https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/setting/image/%E6%8E%A8%E5%B9%BF%E5%A5%96%E5%8A%B1.jpg?sign=0a14bda7c9a2dba2df98723f033a8ec6&t=1686392006"></image>
-      </navigator>
+    <image style="width: 100%; height: 50px; border-radius:5px;" src="https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/setting/image/%E6%8E%A8%E5%B9%BF%E5%A5%96%E5%8A%B1.jpg?sign=0a14bda7c9a2dba2df98723f033a8ec6&t=1686392006"></image>
+  </navigator>
   <l-list title="精选服务" icon="notification" />
   <l-grid row-num="2">
     <l-grid-item key='one' slot='one' l-grid-item-class="grid-item">
