@@ -1,4 +1,11 @@
-
+.icon{
+    width: 80rpx; 
+    height: 80rpx; 
+    border-style: solid;
+    border-width: 1px;
+    border-color: #9a9a9a;
+    border-radius:  10px;
+}
 .grid-item{
   padding: 15rpx !important;
 }
