@@ -7,6 +7,8 @@ Page({
    * 页面的初始数据
    */
   data: {
+    imgUrl1:"https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/setting/image/%E4%BC%9A%E5%91%98%E8%B5%84%E6%A0%BC.jpg?sign=c7a2dde86acd57e7848b5853cb767390&t=1703511616",
+    imgUrl2:"https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/setting/image/%E4%BC%9A%E5%91%98%E6%9D%83%E7%9B%8A.jpg?sign=7b4dfc688d6db01339daebb95264a676&t=1703514749",
     eventid:"",
     adddate: "",
     startdate: "",
@@ -34,6 +36,13 @@ Page({
     btn3hidden: true,
     // 轮播参数
     image: [],
+  },
+  previewImage: function(e) {
+    let currentUrl=e.currentTarget.dataset.src;
+  wx.previewImage({
+  current: currentUrl, // 当前显示图片的链接，不填则默认为 urls 的第一张
+  urls: [currentUrl] // 需要预览的图片链接列表
+  })
   },
   bvStartDate1(e) {
     this.setData({

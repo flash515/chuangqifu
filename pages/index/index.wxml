@@ -82,7 +82,7 @@
     <l-grid-item key='nine' slot='nine' l-grid-item-class="grid-item">
       <navigator id="危化许可证" bindtap="handlerClick" url="../product/productview?category2=危化经营许可证" style="display:flex; flex-direction:column;justify-content:center;align-items:center;">
         <view class="icon">危化经营</view>
-        <view class="text">危化许可证</view>
+        <view class="text">危化经营证</view>
       </navigator>
     </l-grid-item>
     <l-grid-item key='ten' slot='ten' l-grid-item-class="grid-item">
