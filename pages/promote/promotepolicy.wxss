@@ -4,6 +4,10 @@
   font-size:32rpx;
   color:#333;
 }
+.image
+{
+width: 100%;
+}
 .maincontent
 {
   padding: 10rpx;
