@@ -22,7 +22,7 @@
     <view wx:if="{{item.TradeInfo.DLEndDate}}">优惠终止日期：{{item.TradeInfo.DLEndDate}}</view>
     <view wx:if="{{item.TradeInfo.PromoteLevel!='normal'}}">会员推广等级：{{item.TradeInfo.PromoteLevel}}</view>
     <view wx:if="{{item.TradeInfo.PromoteLevel!='normal'}}">推广更新时间：{{item.TradeInfo.PLUpdateTime}}</view>
-    <view wx:if="{{item.Params}}">首登参数：{{tools.ObjToStr(item.Params)}}</view>
+    <view wx:if="{{item.Params}}" style="word-break:break-all;">首登参数：{{tools.ObjToStr(item.Params)}}</view>
     <view wx:if="{{item.Remark}}">用户备注：{{item.Remark}}</view>
     <view wx:if="{{item.UserInfo.InviterAvatar && item.UserInfo.InviterNickName!='小税宝'}}">推荐人头像：<image class="avatar" src="{{item.UserInfo.InviterAvatar}}"></image></view>
     <view wx:if="{{item.UserInfo.InviterNickName}}">推荐人昵称：{{item.UserInfo.InviterNickName}}</view>
